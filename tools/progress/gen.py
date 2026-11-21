@@ -300,9 +300,9 @@ def classify_title_import(title, shipped, binary, mod, f, pcflag):
 
 
 def title_rows(title, t):
-    shipped = {b.lower() for b in t["binaries"]}
+    shipped = {b.rsplit("/", 1)[-1].lower() for b in t["binaries"]}
     out = []
-    for binary in sorted(t["binaries"], key=lambda b: (not b.lower().endswith(".exe"), b.lower())):
+    for binary in sorted(t["binaries"], key=lambda b: (not b.lower().endswith(".exe"), "/" in b, b.lower())):
         for m in t["binaries"][binary]:
             rows = [(f, *classify_title_import(title, shipped, binary, m["module"], f, pf)) for f, pf in zip(m["functions"], m["pc"])]
             out.append((binary, m, rows))
@@ -351,6 +351,9 @@ def library_map(summary, libs):
         counts[title] = {}
         w(f"## {title} imports" + (f" ({tc['build']})" if tc.get("build") else ""))
         w("")
+        if tc.get("summary"):
+            w(tc["summary"])
+            w("")
         if tc.get("run_evidence"):
             w("Every static import of the EXE and its statically loaded DLLs resolved at load: the process booted and presented frames in the 2026-11-21 runs. Delay imports resolve only when first called.")
         else:
@@ -378,6 +381,38 @@ def library_map(summary, libs):
             w("")
         w(f"{title} import totals ({len(t['binaries'])} binaries): " + ", ".join(f"{s} {counts[title][s]}" for s in XORDER if s in counts[title]) + ".")
         w("")
+        users = {}
+        for o, ot in ti.items():
+            if o != title:
+                for mods in ot["binaries"].values():
+                    for m in mods:
+                        for f in m["functions"]:
+                            users.setdefault((m["module"].lower(), f), set()).add(o)
+        gaps = [(b, m["module"], f, s) for b, m, rows in title_rows(title, t) for f, s, _ in rows if s not in COVERED]
+        if gaps:
+            w(f"<details><summary><b>{title}: imports not covered</b> ({len(gaps)}; status not in implemented / forwarded / hooked / pc / title)</summary>")
+            w("")
+            w("| Binary | Module | Function | Status | Also imported by |")
+            w("|---|---|---|---|---|")
+            for b, mod, f, s in sorted(gaps, key=lambda g: (XORDER.index(g[3]), g[1].lower(), g[2].lower())):
+                w(f"| {b} | {mod} | `{f}` | {s} | {', '.join(sorted(users.get((mod.lower(), f), ()))) or 'only ' + title} |")
+            w("")
+            w("</details>")
+            w("")
+        if len(ti) > 1:
+            mine = {lib.lower() for lib, v in libs.items() if title in v["versions"]}
+            parts = []
+            for o in ti:
+                if o == title:
+                    continue
+                theirs = {lib.lower() for lib, v in libs.items() if o in v["versions"]}
+                extra = sum(1 for lib, v in libs.items() if title in v["versions"] and o in v["versions"]
+                            for r in v["rows"] if title in r[3] and o not in r[3])
+                same = ti[o]["os_build"] == t["os_build"]
+                parts.append(f"vs {o} (OS {ti[o]['os_build']}{', same build' if same else ''}): {len(mine - theirs)} DLLs only here, "
+                             f"{len(theirs - mine)} DLLs only there, {extra} exports only here in shared DLLs")
+            w(f"{title} console OS {t['os_build']}, {len(mine)} export-bearing DLLs; " + "; ".join(parts) + ".")
+            w("")
     tnames = list(ti)
     w("## Xbox Series system libraries (EmbeddedXvd, union of all analysed titles)")
     w("")

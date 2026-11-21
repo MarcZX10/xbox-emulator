@@ -2,6 +2,85 @@
 
 Console and title libraries found while mapping the Xbox Series system surface. Every dump stays read-only.
 
+## 2026-11-21 — Terraria (Unity IL2CPP, Xbox One GameCore) dump added
+
+- Package `505GAMESS.P.A.84240166-5fcf-4ee1-b892-f5ff6a6094e1` 4.4.14.1081 (505 Games, TitleId `1738CA2A`, StoreId `BTNPS60N3114`).
+- Runtime: Unity 2021.3.16f1 (`4016570cf34f`) GameCore player. The EXE embeds the PDB name `GameCoreXboxOnePlayerNoDevelopment_Master` from build folder `GameCoreXboxOne_VS2019_220604`. Scripting is IL2CPP, not XNA/FNA/.NET: no PE has a CLR header, the C# is AOT-compiled into `Data/Native/GameAssembly.dll` (49 MB), and `Data/Native/Data/Metadata/global-metadata.dat` sits beside it. Audio is FMOD (GameCoreXboxOne build, XAudio2 output, XMA codec).
+- `MicrosoftGame.Config` (`configVersion="1"`) records no GDK version. It declares `TargetDeviceFamily="XboxOne"`. This is an **Xbox One** GameCore build that runs on Series hardware in Xbox One mode. `appxmanifest.xml` lists `Microsoft.GameOs` 10.0.18362.0. GDK edition **inferred** (not stated): June 2022, from the Unity build folder suffix `220604`, XCurl 2206.4.0.0, PartyWin 1.7.2206, PartyXboxLive 1.2.2207 and PlayFabMultiplayerGDK 1.4.2210.
+- `Mount` modules: Terraria.exe (25,889,280 bytes), XCurl.dll, baselib.dll (Unity baselib), and the MSVC 14.28 CRT (concrt140, msvcp140, msvcp140_1, msvcp140_2, msvcp140_codecvt_ids, vccorlib140, vcruntime140, vcruntime140_1). `Mount/Data/Native`: GameAssembly.dll plus a second MSVC CRT set at 14.29 (adds msvcp140_atomic_wait). `Mount/Data/Plugins` (`nativePlugins.txt`): PartyWin.dll, PartyXboxLive.dll, PlayFabMultiplayerGDK.dll, TerrariaNative.dll and a second XCurl.dll. Unity data is `Data/data.unity3d`.
+- Imports: Terraria.exe has 424 imports from 64 modules. All 26 binaries together have 3,496 import rows (1,106 distinct module+function pairs from 83 modules).
+- `tools/progress/sync.py` now takes an optional per-title `binary_dirs`, so all three folders are scanned. Binaries outside `Mount` are keyed by relative path, e.g. `Data/Native/GameAssembly.dll`.
+- XGameRuntime is not in any import table. Terraria.exe loads `xgameruntime.dll` by name and resolves `QueryApiImpl`, the statically linked GDK pattern.
+- Classification (sync.py/gen.py method): 3,476 / 3,496 covered (99.43%). Counts: pc 2,513, title 877, hooked 74, forwarded 7, implemented 5, stub 4, missing 16. Static analysis only; the title has not been run.
+- Console OS (EmbeddedXvd System32): build 10.0.22000.4429, 262 DLLs. It is **byte-identical** to the XDefiant dump (same DLL set, 0 files differ). So there are no new console DLLs or exports beyond what XDefiant added. Against Fortnite (10.0.19041.3948) it shows the same delta already logged below: 18 new export-bearing DLLs and 534 new exports in shared DLLs. The console library map stays at 250 libraries / 23,356 exports.
+
+### Missing or unhandled imports (all in Terraria.exe)
+
+| module | functions | status | notes |
+|---|---|---|---|
+| `d3d12_x.dll` | D3D12XboxCreateDevice, D3D12SerializeRootSignature, D3D12XboxSetProcessDebugFlags, D3DMapEsramMemory | missing | Xbox One D3D12.X driver; the emulator only provides `d3d12_xs.dll`. `D3DMapEsramMemory` has no Series equivalent (ESRAM). Only Terraria imports it. |
+| `xg_x.dll` | XGCreateTextureComputer, XGCreateTexture2DComputer, XGComputeOptimalTileMode | missing | Xbox One XG tiling library; emulator has `xg_xs.dll` (XGCreateTextureComputer stub) only. Only Terraria imports it. |
+| `XFrontPanelDisplay.dll` | XFrontPanelIsSupported, XFrontPanelGetScreenDimensions, XFrontPanelPresentBuffer, XFrontPanelGetLightStates, XFrontPanelSetLightStates, XFrontPanelGetButtonStates | missing | Devkit front-panel display (Unity `GXDKFrontPanelDisplay`). Present in the console OS image (`System32\xfrontpaneldisplay.dll`) but not on PC, and the emulator has no stand-in; the static import fails until one is provided. Only Terraria imports it. |
+| `AcpHal.dll` | AcpHalReleaseShapeContexts, ApuIsVirtualAddressValid, ApuMapVirtualAddress | missing | also imported by XDefiant |
+| `AcpHal.dll` | AcpHalCreate, AcpHalAllocateShapeContexts, ApuFree | stub | shared with Fortnite and XDefiant |
+| `xmem.dll` | XMemGetWorkingSetStatistics | stub | shared with Fortnite and XDefiant |
+
+Runtime caveats from the emulator source:
+- The `crates/compat/xcurl` crate is not counted. Its Cargo.toml points at `src/lib.rs`, which does not exist yet; only `sys.rs` is there. XCurl imports stay `title` because the title ships XCurl.dll.
+- compat-common's XUser/XStore layer (`gdk_user.rs`) installs only when the host EXE has Fortnite's build timestamp, so Terraria gets no local user.
+- The gamepad hook (`gamepad.rs`) patches only the host EXE's `GameInputCreate` import slot. `TerrariaNative.dll` imports `GameInput.dll` #1 itself and would not see the virtual pad.
+- The network guard patches ws2_32/winhttp exports in place, so it covers PartyWin's and GameAssembly's direct socket and WinHTTP use (the 74 `hooked` rows).
+
+### Modules imported by Terraria but not by Fortnite or XDefiant
+
+| module | functions |
+|---|---|
+| `api-ms-win-core-file-l2-1-2.dll` | CopyFileW |
+| `api-ms-win-core-kernel32-legacy-l1-1-0.dll` | GetComputerNameW |
+| `api-ms-win-core-processthreads-l1-1-3.dll` | SetThreadDescription |
+| `baselib.dll` | ?Baselib_DynamicLibrary_Close@il2cpp_baselib@@YAXUBaselib_DynamicLibrary_Handle@1@@Z, ?Baselib_DynamicLibrary_FromNativeHandle@il2cpp_baselib@@YA?AUBaselib_DynamicLibrary_Handle@1@_KIPEAUBaselib_ErrorState@1@@Z, ?Baselib_DynamicLibrary_GetFunction@il2cpp_baselib@@YAPEAXUBaselib_DynamicLibrary_Handle ... (11 total) |
+| `d3d12_x.dll` | D3D12SerializeRootSignature, D3D12XboxCreateDevice, D3D12XboxSetProcessDebugFlags, D3DMapEsramMemory |
+| `ext-ms-win-rtcore-ntuser-cursor-l1-1-0.dll` | LoadCursorW |
+| `sspicli.dll` | AcceptSecurityContext, AcquireCredentialsHandleW, DecryptMessage, DeleteSecurityContext, EncryptMessage, FreeContextBuffer, FreeCredentialsHandle, InitializeSecurityContextW, QueryContextAttributesW |
+| `xfrontpaneldisplay.dll` | XFrontPanelGetButtonStates, XFrontPanelGetLightStates, XFrontPanelGetScreenDimensions, XFrontPanelIsSupported, XFrontPanelPresentBuffer, XFrontPanelSetLightStates |
+| `xg_x.dll` | XGComputeOptimalTileMode, XGCreateTexture2DComputer, XGCreateTextureComputer |
+
+### Shared modules: functions Terraria uses that Fortnite and XDefiant do not
+
+| module | new functions |
+|---|---|
+| `advapi32.dll` | CryptAcquireContextW, RegOpenKeyExW |
+| `api-ms-win-core-com-l1-1-0.dll` | CoCreateFreeThreadedMarshaler, CoGetApartmentType, IIDFromString |
+| `api-ms-win-core-file-l1-1-0.dll` | GetDiskFreeSpaceExW |
+| `api-ms-win-core-heap-l2-1-0.dll` | LocalAlloc, LocalFree |
+| `api-ms-win-core-interlocked-l1-1-0.dll` | InterlockedFlushSList |
+| `api-ms-win-core-io-l1-1-0.dll` | CreateIoCompletionPort, GetQueuedCompletionStatus |
+| `api-ms-win-core-processenvironment-l1-1-0.dll` | GetEnvironmentVariableA |
+| `api-ms-win-core-processthreads-l1-1-0.dll` | TerminateThread |
+| `api-ms-win-core-psapi-l1-1-0.dll` | K32GetProcessMemoryInfo |
+| `api-ms-win-core-synch-l1-1-0.dll` | CreateWaitableTimerExW, SetWaitableTimer |
+| `api-ms-win-core-synch-l1-2-0.dll` | WaitOnAddress, WakeByAddressAll, WakeByAddressSingle |
+| `api-ms-win-core-synch-l1-2-1.dll` | CreateWaitableTimerW |
+| `api-ms-win-crt-convert-l1-1-0.dll` | _ecvt_s, _i64toa_s, _i64tow_s, _ui64toa_s, _ui64tow_s, _wcstod_l |
+| `api-ms-win-crt-filesystem-l1-1-0.dll` | _wstat64 |
+| `api-ms-win-crt-heap-l1-1-0.dll` | _expand, _msize |
+| `api-ms-win-crt-locale-l1-1-0.dll` | _free_locale |
+| `api-ms-win-crt-math-l1-1-0.dll` | _fpclass, copysign, fmax, fmaxf, fminf, hypot, log2, lrintf, nearbyintf |
+| `api-ms-win-crt-stdio-l1-1-0.dll` | __stdio_common_vsprintf_p, _dup, _dup2 |
+| `api-ms-win-crt-string-l1-1-0.dll` | _isctype_l, _wcsicmp, isprint, strcat_s, towlower, wcstok |
+| `api-ms-win-crt-time-l1-1-0.dll` | _mkgmtime64 |
+| `bcrypt.dll` | BCryptCreateHash, BCryptDestroyHash, BCryptFinishHash, BCryptGetProperty, BCryptHashData, BCryptOpenAlgorithmProvider |
+| `crypt32.dll` | CertAddEncodedCertificateToStore, CertAddStoreToCollection, CertCreateSelfSignCertificate, CertGetCertificateChain, CertVerifyCertificateChainPolicy, CertVerifyTimeValidity, CryptEncodeObjectEx, CryptHashCertificate2 |
+| `ext-ms-win-rtcore-ntuser-message-l1-1-0.dll` | PostQuitMessage, SendMessageW |
+| `ext-ms-win-rtcore-ntuser-window-l1-1-0.dll` | RegisterClassExW, SetWindowLongPtrW |
+| `iphlpapi.dll` | GetAdaptersAddresses, GetIfEntry, GetNetworkParams |
+| `kernel32.dll` | CancelIoEx, CopyFile2, CopyFileExW, CreateMutexW, FreeEnvironmentStringsW, GetComputerNameW, GetCurrentDirectoryW, GetEnvironmentStringsW, GetLogicalDrives, GetModuleFileNameA, GetOverlappedResultEx, GetThreadContext, GlobalAlloc, GlobalFree, K32GetProcessImageFileNameW, ReleaseMutex, ReplaceFileW,  ... (18 total) |
+| `mfreadwrite.dll` | MFCreateSourceReaderFromURL |
+| `msvcp140.dll` | ??0_Init_locks@std@@QEAA@XZ, ??1_Init_locks@std@@QEAA@XZ, ?_Rethrow_future_exception@std@@YAXVexception_ptr@1@@Z, ?_Throw_future_error@std@@YAXAEBVerror_code@1@@Z, ?_XGetLastError@std@@YAXXZ, ?__ExceptionPtrAssign@@YAXPEAXPEBX@Z, ?__ExceptionPtrCopyException@@YAXPEAXPEBX1@Z, ?__ExceptionPtrToBool@@Y ... (34 total) |
+| `ole32.dll` | CoInitializeEx, StringFromGUID2 |
+| `ws2_32.dll` | FreeAddrInfoExW, GetAddrInfoExOverlappedResult, GetAddrInfoExW, WSAGetOverlappedResult, WSAPoll, WSARecv, WSARecvFrom, WSASend, WSASendTo, WSASocketW, gethostbyaddr |
+| `xcurl.dll` | curl_multi_wait |
+
 ## 2026-11-21 — XDefiant (Snowdrop) dump added
 
 - Title: `Rogue_scarlett_rtx.exe` (97,231,360 bytes), 661 imports from 71 modules (Fortnite: 684 imports from 68 modules).

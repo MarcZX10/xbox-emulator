@@ -1584,7 +1584,7 @@
 <text x="543.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">missing</text>
 <rect x="606" y="982" width="10" height="10" fill="#8cc1ba"/>
 <text x="620.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">lighter = imported by an analysed title</text>
-<g><title>ucrtbase.dll: 2484/2484 covered; Fortnite imports 290, XDefiant imports 277</title>
+<g><title>ucrtbase.dll: 2484/2484 covered; Fortnite imports 290, Terraria imports 270, XDefiant imports 277</title>
 <rect x="1.00" y="999.00" width="294.37" height="6.17" fill="#8cc1ba"/>
 <rect x="1.00" y="1005.17" width="294.37" height="6.17" fill="#8cc1ba"/>
 <rect x="1.00" y="1011.35" width="294.37" height="6.17" fill="#8cc1ba"/>
@@ -1592,9 +1592,9 @@
 <rect x="1.00" y="1023.69" width="294.37" height="6.17" fill="#8cc1ba"/>
 <rect x="1.00" y="1029.86" width="294.37" height="6.17" fill="#8cc1ba"/>
 <rect x="1.00" y="1036.04" width="294.37" height="6.17" fill="#8cc1ba"/>
-<rect x="1.00" y="1042.21" width="128.79" height="6.17" fill="#8cc1ba"/>
-<rect x="129.79" y="1042.21" width="165.58" height="6.17" fill="#2f8f83"/>
-<rect x="1.00" y="1048.38" width="294.37" height="6.17" fill="#2f8f83"/>
+<rect x="1.00" y="1042.21" width="294.37" height="6.17" fill="#8cc1ba"/>
+<rect x="1.00" y="1048.38" width="12.27" height="6.17" fill="#8cc1ba"/>
+<rect x="13.27" y="1048.38" width="282.10" height="6.17" fill="#2f8f83"/>
 <rect x="1.00" y="1054.55" width="294.37" height="6.17" fill="#2f8f83"/>
 <rect x="1.00" y="1060.73" width="294.37" height="6.17" fill="#2f8f83"/>
 <rect x="1.00" y="1066.90" width="294.37" height="6.17" fill="#2f8f83"/>
@@ -1692,7 +1692,7 @@
 <rect x="0.00" y="998.00" width="296.37" height="322.97" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="5.00" y="1014.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">ucrtbase</text>
 </g>
-<g><title>ntdll.dll: 2466/2471 covered; Fortnite imports 4, XDefiant imports 4</title>
+<g><title>ntdll.dll: 2466/2471 covered; Fortnite imports 4, Terraria imports 3, XDefiant imports 4</title>
 <rect x="1.00" y="1321.97" width="24.53" height="6.14" fill="#8cc1ba"/>
 <rect x="25.53" y="1321.97" width="269.84" height="6.14" fill="#2f8f83"/>
 <rect x="1.00" y="1328.11" width="294.37" height="6.14" fill="#2f8f83"/>
@@ -1802,12 +1802,12 @@
 <rect x="0.00" y="1320.97" width="296.37" height="321.28" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="5.00" y="1336.97" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">ntdll</text>
 </g>
-<g><title>KernelBase.dll: 1964/1967 covered; Fortnite imports 122, XDefiant imports 132</title>
+<g><title>KernelBase.dll: 1964/1967 covered; Fortnite imports 122, Terraria imports 112, XDefiant imports 132</title>
 <rect x="1.00" y="1643.25" width="294.37" height="6.19" fill="#8cc1ba"/>
 <rect x="1.00" y="1649.44" width="294.37" height="6.19" fill="#8cc1ba"/>
 <rect x="1.00" y="1655.63" width="294.37" height="6.19" fill="#8cc1ba"/>
-<rect x="1.00" y="1661.82" width="79.73" height="6.19" fill="#8cc1ba"/>
-<rect x="80.73" y="1661.82" width="214.64" height="6.19" fill="#2f8f83"/>
+<rect x="1.00" y="1661.82" width="165.58" height="6.19" fill="#8cc1ba"/>
+<rect x="166.58" y="1661.82" width="128.79" height="6.19" fill="#2f8f83"/>
 <rect x="1.00" y="1668.01" width="294.37" height="6.19" fill="#2f8f83"/>
 <rect x="1.00" y="1674.20" width="294.37" height="6.19" fill="#2f8f83"/>
 <rect x="1.00" y="1680.38" width="294.37" height="6.19" fill="#2f8f83"/>
@@ -1889,7 +1889,7 @@
 <rect x="0.00" y="1642.25" width="296.37" height="255.75" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="5.00" y="1658.25" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">KernelBase</text>
 </g>
-<g><title>msvcp_win.dll: 1492/1492 covered; Fortnite imports 39, XDefiant imports 1</title>
+<g><title>msvcp_win.dll: 1492/1492 covered; Fortnite imports 39, Terraria imports 1, XDefiant imports 1</title>
 <rect x="297.37" y="999.00" width="239.83" height="6.06" fill="#8cc1ba"/>
 <rect x="537.20" y="999.00" width="12.30" height="6.06" fill="#2f8f83"/>
 <rect x="297.37" y="1005.06" width="252.13" height="6.06" fill="#2f8f83"/>
@@ -2042,15 +2042,15 @@
 <rect x="550.50" y="998.00" width="226.54" height="226.23" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="555.50" y="1014.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">msvcrt</text>
 </g>
-<g><title>kernel32.dll: 1298/1309 covered; Fortnite imports 148, XDefiant imports 170</title>
+<g><title>kernel32.dll: 1298/1309 covered; Fortnite imports 148, Terraria imports 199, XDefiant imports 170</title>
 <rect x="778.04" y="999.00" width="220.96" height="6.06" fill="#8cc1ba"/>
 <rect x="778.04" y="1005.06" width="220.96" height="6.06" fill="#8cc1ba"/>
 <rect x="778.04" y="1011.12" width="220.96" height="6.06" fill="#8cc1ba"/>
 <rect x="778.04" y="1017.18" width="220.96" height="6.06" fill="#8cc1ba"/>
 <rect x="778.04" y="1023.24" width="220.96" height="6.06" fill="#8cc1ba"/>
 <rect x="778.04" y="1029.30" width="220.96" height="6.06" fill="#8cc1ba"/>
-<rect x="778.04" y="1035.36" width="30.69" height="6.06" fill="#8cc1ba"/>
-<rect x="808.73" y="1035.36" width="190.27" height="6.06" fill="#2f8f83"/>
+<rect x="778.04" y="1035.36" width="141.17" height="6.06" fill="#8cc1ba"/>
+<rect x="919.21" y="1035.36" width="79.79" height="6.06" fill="#2f8f83"/>
 <rect x="778.04" y="1041.42" width="220.96" height="6.06" fill="#2f8f83"/>
 <rect x="778.04" y="1047.48" width="220.96" height="6.06" fill="#2f8f83"/>
 <rect x="778.04" y="1053.54" width="220.96" height="6.06" fill="#2f8f83"/>
@@ -2121,9 +2121,9 @@
 <rect x="777.04" y="998.00" width="222.96" height="226.23" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="782.04" y="1014.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">kernel32</text>
 </g>
-<g><title>advapi32.dll: 642/648 covered; XDefiant imports 10</title>
-<rect x="297.37" y="1225.23" width="59.53" height="6.29" fill="#8cc1ba"/>
-<rect x="356.90" y="1225.23" width="89.29" height="6.29" fill="#2f8f83"/>
+<g><title>advapi32.dll: 642/648 covered; Terraria imports 7, XDefiant imports 10</title>
+<rect x="297.37" y="1225.23" width="71.43" height="6.29" fill="#8cc1ba"/>
+<rect x="368.80" y="1225.23" width="77.38" height="6.29" fill="#2f8f83"/>
 <rect x="297.37" y="1231.52" width="148.81" height="6.29" fill="#2f8f83"/>
 <rect x="297.37" y="1237.81" width="148.81" height="6.29" fill="#2f8f83"/>
 <rect x="297.37" y="1244.11" width="148.81" height="6.29" fill="#2f8f83"/>
@@ -2178,10 +2178,10 @@
 <rect x="296.37" y="1224.23" width="150.81" height="165.57" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="301.37" y="1240.23" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">advapi32</text>
 </g>
-<g><title>combase.dll: 461/600 covered; Fortnite imports 8, XDefiant imports 29</title>
+<g><title>combase.dll: 461/600 covered; Fortnite imports 8, Terraria imports 32, XDefiant imports 29</title>
 <rect x="297.37" y="1390.80" width="148.81" height="6.30" fill="#8cc1ba"/>
-<rect x="297.37" y="1397.10" width="23.81" height="6.30" fill="#8cc1ba"/>
-<rect x="321.18" y="1397.10" width="125.00" height="6.30" fill="#2f8f83"/>
+<rect x="297.37" y="1397.10" width="41.67" height="6.30" fill="#8cc1ba"/>
+<rect x="339.04" y="1397.10" width="107.15" height="6.30" fill="#2f8f83"/>
 <rect x="297.37" y="1403.41" width="148.81" height="6.30" fill="#2f8f83"/>
 <rect x="297.37" y="1409.71" width="148.81" height="6.30" fill="#2f8f83"/>
 <rect x="297.37" y="1416.02" width="148.81" height="6.30" fill="#2f8f83"/>
@@ -2281,7 +2281,7 @@
 <rect x="296.37" y="1543.10" width="150.81" height="142.32" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="301.37" y="1559.10" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">rpcrt4</text>
 </g>
-<g><title>oleaut32.dll: 425/429 covered; XDefiant imports 2</title>
+<g><title>oleaut32.dll: 425/429 covered; Terraria imports 2, XDefiant imports 2</title>
 <rect x="297.37" y="1686.42" width="11.91" height="5.98" fill="#8cc1ba"/>
 <rect x="309.27" y="1686.42" width="136.91" height="5.98" fill="#2f8f83"/>
 <rect x="297.37" y="1692.40" width="148.81" height="5.98" fill="#2f8f83"/>
@@ -2321,9 +2321,9 @@
 <rect x="296.37" y="1685.42" width="150.81" height="109.61" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="301.37" y="1701.42" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">oleaut32</text>
 </g>
-<g><title>ole32.dll: 395/403 covered; Fortnite imports 5, XDefiant imports 10</title>
-<rect x="297.37" y="1796.03" width="83.34" height="5.94" fill="#8cc1ba"/>
-<rect x="380.71" y="1796.03" width="65.48" height="5.94" fill="#2f8f83"/>
+<g><title>ole32.dll: 395/403 covered; Fortnite imports 5, Terraria imports 14, XDefiant imports 10</title>
+<rect x="297.37" y="1796.03" width="95.24" height="5.94" fill="#8cc1ba"/>
+<rect x="392.61" y="1796.03" width="53.57" height="5.94" fill="#2f8f83"/>
 <rect x="297.37" y="1801.97" width="148.81" height="5.94" fill="#2f8f83"/>
 <rect x="297.37" y="1807.91" width="148.81" height="5.94" fill="#2f8f83"/>
 <rect x="297.37" y="1813.85" width="148.81" height="5.94" fill="#2f8f83"/>
@@ -2479,9 +2479,9 @@
 <rect x="677.00" y="1224.23" width="109.52" height="110.83" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="682.00" y="1240.23" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">dnsapi</text>
 </g>
-<g><title>crypt32.dll: 295/307 covered; Fortnite imports 4, XDefiant imports 8</title>
-<rect x="787.52" y="1225.23" width="46.55" height="6.05" fill="#8cc1ba"/>
-<rect x="834.07" y="1225.23" width="58.19" height="6.05" fill="#2f8f83"/>
+<g><title>crypt32.dll: 295/307 covered; Fortnite imports 4, Terraria imports 16, XDefiant imports 8</title>
+<rect x="787.52" y="1225.23" width="93.10" height="6.05" fill="#8cc1ba"/>
+<rect x="880.62" y="1225.23" width="11.64" height="6.05" fill="#2f8f83"/>
 <rect x="787.52" y="1231.28" width="104.74" height="6.05" fill="#2f8f83"/>
 <rect x="787.52" y="1237.32" width="104.74" height="6.05" fill="#2f8f83"/>
 <rect x="787.52" y="1243.37" width="104.74" height="6.05" fill="#2f8f83"/>
@@ -2520,9 +2520,9 @@
 <rect x="786.52" y="1224.23" width="106.74" height="110.83" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="791.52" y="1240.23" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">crypt32</text>
 </g>
-<g><title>IPHLPAPI.DLL: 307/307 covered; Fortnite imports 2</title>
-<rect x="894.26" y="1225.23" width="11.64" height="6.05" fill="#8cc1ba"/>
-<rect x="905.90" y="1225.23" width="93.10" height="6.05" fill="#2f8f83"/>
+<g><title>IPHLPAPI.DLL: 307/307 covered; Fortnite imports 2, Terraria imports 3</title>
+<rect x="894.26" y="1225.23" width="29.09" height="6.05" fill="#8cc1ba"/>
+<rect x="923.36" y="1225.23" width="75.64" height="6.05" fill="#2f8f83"/>
 <rect x="894.26" y="1231.28" width="104.74" height="6.05" fill="#2f8f83"/>
 <rect x="894.26" y="1237.32" width="104.74" height="6.05" fill="#2f8f83"/>
 <rect x="894.26" y="1243.37" width="104.74" height="6.05" fill="#2f8f83"/>
@@ -2560,9 +2560,9 @@
 <rect x="893.26" y="1224.23" width="106.74" height="110.83" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="898.26" y="1240.23" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">IPHLPAPI</text>
 </g>
-<g><title>kernel32legacy.dll: 0/303 covered; Fortnite imports 2, XDefiant imports 5</title>
-<rect x="448.18" y="1336.06" width="29.78" height="5.90" fill="#afb3b9"/>
-<rect x="477.96" y="1336.06" width="89.34" height="5.90" fill="#6e7681"/>
+<g><title>kernel32legacy.dll: 0/303 covered; Fortnite imports 2, Terraria imports 4, XDefiant imports 5</title>
+<rect x="448.18" y="1336.06" width="35.73" height="5.90" fill="#afb3b9"/>
+<rect x="483.92" y="1336.06" width="83.38" height="5.90" fill="#6e7681"/>
 <rect x="448.18" y="1341.96" width="119.12" height="5.90" fill="#6e7681"/>
 <rect x="448.18" y="1347.86" width="119.12" height="5.90" fill="#6e7681"/>
 <rect x="448.18" y="1353.76" width="119.12" height="5.90" fill="#6e7681"/>
@@ -2809,7 +2809,7 @@
 <rect x="447.18" y="1536.42" width="89.95" height="101.10" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="452.18" y="1552.42" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">sechost</text>
 </g>
-<g><title>advapi32legacy.dll: 0/207 covered; Fortnite imports 1, XDefiant imports 1</title>
+<g><title>advapi32legacy.dll: 0/207 covered; Fortnite imports 1, Terraria imports 1, XDefiant imports 1</title>
 <rect x="448.18" y="1638.53" width="5.86" height="6.19" fill="#afb3b9"/>
 <rect x="454.05" y="1638.53" width="82.08" height="6.19" fill="#6e7681"/>
 <rect x="448.18" y="1644.72" width="87.95" height="6.19" fill="#6e7681"/>
@@ -2873,14 +2873,13 @@
 <rect x="447.18" y="1726.21" width="89.95" height="87.82" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="452.18" y="1742.21" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">SHCore</text>
 </g>
-<g><title>ws2_32.dll: 196/196 covered; Fortnite imports 40, XDefiant imports 36</title>
-<rect x="448.18" y="1815.03" width="23.45" height="5.85" fill="#ccb0fa"/>
-<rect x="471.64" y="1815.03" width="41.04" height="5.85" fill="#a371f7"/>
+<g><title>ws2_32.dll: 196/196 covered; Fortnite imports 40, Terraria imports 50, XDefiant imports 36</title>
+<rect x="448.18" y="1815.03" width="35.18" height="5.85" fill="#ccb0fa"/>
+<rect x="483.36" y="1815.03" width="29.32" height="5.85" fill="#a371f7"/>
 <rect x="512.68" y="1815.03" width="23.45" height="5.85" fill="#8cc1ba"/>
 <rect x="448.18" y="1820.89" width="87.95" height="5.85" fill="#8cc1ba"/>
 <rect x="448.18" y="1826.74" width="87.95" height="5.85" fill="#8cc1ba"/>
-<rect x="448.18" y="1832.60" width="35.18" height="5.85" fill="#8cc1ba"/>
-<rect x="483.36" y="1832.60" width="52.77" height="5.85" fill="#2f8f83"/>
+<rect x="448.18" y="1832.60" width="87.95" height="5.85" fill="#8cc1ba"/>
 <rect x="448.18" y="1838.45" width="87.95" height="5.85" fill="#2f8f83"/>
 <rect x="448.18" y="1844.31" width="87.95" height="5.85" fill="#2f8f83"/>
 <rect x="448.18" y="1850.16" width="87.95" height="5.85" fill="#2f8f83"/>
@@ -3043,7 +3042,7 @@
 <rect x="853.80" y="1431.46" width="73.87" height="74.59" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="858.80" y="1447.46" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">lsaadt</text>
 </g>
-<g><title>mfplat.dll: 15/140 covered; Fortnite imports 16</title>
+<g><title>mfplat.dll: 15/140 covered; Fortnite imports 16, Terraria imports 7</title>
 <rect x="928.68" y="1432.46" width="70.32" height="6.05" fill="#91bffd"/>
 <rect x="928.68" y="1438.51" width="17.58" height="6.05" fill="#91bffd"/>
 <rect x="946.26" y="1438.51" width="5.86" height="6.05" fill="#e6c685"/>
@@ -3175,8 +3174,9 @@
 <rect x="537.13" y="1722.41" width="70.89" height="62.52" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="542.13" y="1738.41" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">WindowsCo</text>
 </g>
-<g><title>sspicli.dll: 107/107 covered; not imported by an analysed title</title>
-<rect x="538.13" y="1785.93" width="68.89" height="6.24" fill="#2f8f83"/>
+<g><title>sspicli.dll: 107/107 covered; Terraria imports 9</title>
+<rect x="538.13" y="1785.93" width="51.66" height="6.24" fill="#8cc1ba"/>
+<rect x="589.80" y="1785.93" width="17.22" height="6.24" fill="#2f8f83"/>
 <rect x="538.13" y="1792.17" width="68.89" height="6.24" fill="#2f8f83"/>
 <rect x="538.13" y="1798.41" width="68.89" height="6.24" fill="#2f8f83"/>
 <rect x="538.13" y="1804.65" width="68.89" height="6.24" fill="#2f8f83"/>
@@ -3328,10 +3328,9 @@
 <rect x="608.02" y="1741.50" width="54.66" height="52.17" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="613.02" y="1757.50" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">bcd</text>
 </g>
-<g><title>minuserx.dll: 0/74 covered; Fortnite imports 9, XDefiant imports 10</title>
+<g><title>minuserx.dll: 0/74 covered; Fortnite imports 9, Terraria imports 12, XDefiant imports 10</title>
 <rect x="609.02" y="1794.67" width="52.66" height="5.57" fill="#afb3b9"/>
-<rect x="609.02" y="1800.24" width="23.41" height="5.57" fill="#afb3b9"/>
-<rect x="632.42" y="1800.24" width="29.26" height="5.57" fill="#6e7681"/>
+<rect x="609.02" y="1800.24" width="52.66" height="5.57" fill="#afb3b9"/>
 <rect x="609.02" y="1805.82" width="52.66" height="5.57" fill="#6e7681"/>
 <rect x="609.02" y="1811.39" width="52.66" height="5.57" fill="#6e7681"/>
 <rect x="609.02" y="1816.97" width="52.66" height="5.57" fill="#6e7681"/>
@@ -3350,7 +3349,7 @@
 <rect x="608.02" y="1793.67" width="54.66" height="52.17" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="613.02" y="1809.67" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">minuse</text>
 </g>
-<g><title>winhttp.dll: 74/74 covered; Fortnite imports 23, XDefiant imports 21</title>
+<g><title>winhttp.dll: 74/74 covered; Fortnite imports 23, Terraria imports 22, XDefiant imports 21</title>
 <rect x="609.02" y="1846.83" width="52.66" height="5.57" fill="#ccb0fa"/>
 <rect x="609.02" y="1852.41" width="11.70" height="5.57" fill="#ccb0fa"/>
 <rect x="620.72" y="1852.41" width="40.96" height="5.57" fill="#8cc1ba"/>
@@ -3546,9 +3545,9 @@
 <rect x="714.71" y="1559.18" width="52.03" height="44.44" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="719.71" y="1575.18" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">xtfbas</text>
 </g>
-<g><title>bcrypt.dll: 58/58 covered; Fortnite imports 2, XDefiant imports 1</title>
-<rect x="767.74" y="1560.18" width="10.73" height="6.06" fill="#8cc1ba"/>
-<rect x="778.47" y="1560.18" width="37.56" height="6.06" fill="#2f8f83"/>
+<g><title>bcrypt.dll: 58/58 covered; Fortnite imports 2, Terraria imports 8, XDefiant imports 1</title>
+<rect x="767.74" y="1560.18" width="42.93" height="6.06" fill="#8cc1ba"/>
+<rect x="810.67" y="1560.18" width="5.37" height="6.06" fill="#2f8f83"/>
 <rect x="767.74" y="1566.24" width="48.29" height="6.06" fill="#2f8f83"/>
 <rect x="767.74" y="1572.30" width="48.29" height="6.06" fill="#2f8f83"/>
 <rect x="767.74" y="1578.36" width="48.29" height="6.06" fill="#2f8f83"/>
@@ -3585,8 +3584,9 @@
 <rect x="817.03" y="1559.18" width="47.69" height="44.44" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="822.03" y="1575.18" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">d3d12</text>
 </g>
-<g><title>d3d12_x.dll: 0/54 covered; not imported by an analysed title</title>
-<rect x="865.73" y="1560.18" width="44.83" height="6.06" fill="#6e7681"/>
+<g><title>d3d12_x.dll: 0/54 covered; Terraria imports 4</title>
+<rect x="865.73" y="1560.18" width="22.41" height="6.06" fill="#afb3b9"/>
+<rect x="888.14" y="1560.18" width="22.41" height="6.06" fill="#6e7681"/>
 <rect x="865.73" y="1566.24" width="44.83" height="6.06" fill="#6e7681"/>
 <rect x="865.73" y="1572.30" width="44.83" height="6.06" fill="#6e7681"/>
 <rect x="865.73" y="1578.36" width="44.83" height="6.06" fill="#6e7681"/>
@@ -3889,7 +3889,7 @@
 <rect x="742.66" y="1603.61" width="39.76" height="34.89" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="747.66" y="1619.61" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">tdh</text>
 </g>
-<g><title>xmem.dll: 8/36 covered; Fortnite imports 10, XDefiant imports 4</title>
+<g><title>xmem.dll: 8/36 covered; Fortnite imports 10, Terraria imports 5, XDefiant imports 4</title>
 <rect x="783.42" y="1604.61" width="37.76" height="5.48" fill="#8cca97"/>
 <rect x="783.42" y="1610.10" width="5.39" height="5.48" fill="#8cca97"/>
 <rect x="788.81" y="1610.10" width="10.79" height="5.48" fill="#e6c685"/>
@@ -4289,8 +4289,9 @@
 <rect x="806.56" y="1673.69" width="29.15" height="29.08" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="811.56" y="1689.69" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">GDK</text>
 </g>
-<g><title>xg_x.dll: 0/21 covered; not imported by an analysed title</title>
-<rect x="836.71" y="1674.69" width="25.82" height="5.42" fill="#6e7681"/>
+<g><title>xg_x.dll: 0/21 covered; Terraria imports 3</title>
+<rect x="836.71" y="1674.69" width="15.49" height="5.42" fill="#afb3b9"/>
+<rect x="852.21" y="1674.69" width="10.33" height="5.42" fill="#6e7681"/>
 <rect x="836.71" y="1680.11" width="25.82" height="5.42" fill="#6e7681"/>
 <rect x="836.71" y="1685.53" width="25.82" height="5.42" fill="#6e7681"/>
 <rect x="836.71" y="1690.94" width="25.82" height="5.42" fill="#6e7681"/>
@@ -4756,7 +4757,7 @@
 <rect x="920.00" y="1753.18" width="21.46" height="19.75" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="925.00" y="1769.18" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">bi</text>
 </g>
-<g><title>AcpHal.dll: 3/10 covered; Fortnite imports 6, XDefiant imports 9</title>
+<g><title>AcpHal.dll: 3/10 covered; Fortnite imports 6, Terraria imports 7, XDefiant imports 9</title>
 <rect x="942.46" y="1754.18" width="13.13" height="5.92" fill="#8cca97"/>
 <rect x="955.60" y="1754.18" width="4.38" height="5.92" fill="#e6c685"/>
 <rect x="942.46" y="1760.10" width="8.76" height="5.92" fill="#e6c685"/>
@@ -4842,9 +4843,9 @@
 <rect x="877.07" y="1790.80" width="16.18" height="19.06" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="882.07" y="1806.80" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">x</text>
 </g>
-<g><title>xfrontpaneldisplay.dll: 0/8 covered; not imported by an analysed title</title>
-<rect x="878.07" y="1810.85" width="14.18" height="5.69" fill="#6e7681"/>
-<rect x="878.07" y="1816.54" width="14.18" height="5.69" fill="#6e7681"/>
+<g><title>xfrontpaneldisplay.dll: 0/8 covered; Terraria imports 6</title>
+<rect x="878.07" y="1810.85" width="14.18" height="5.69" fill="#afb3b9"/>
+<rect x="878.07" y="1816.54" width="14.18" height="5.69" fill="#afb3b9"/>
 <rect x="878.07" y="1822.23" width="9.45" height="5.69" fill="#6e7681"/>
 <line x1="878.07" y1="1816.54" x2="892.24" y2="1816.54" stroke="#0d1117" stroke-width="0.5"/>
 <line x1="878.07" y1="1822.23" x2="892.24" y2="1822.23" stroke="#0d1117" stroke-width="0.5"/>
@@ -4885,9 +4886,8 @@
 <line x1="878.07" y1="1892.11" x2="892.24" y2="1892.11" stroke="#0d1117" stroke-width="0.5"/>
 <rect x="877.07" y="1881.32" width="16.18" height="16.68" fill="none" stroke="#0d1117" stroke-width="2"/>
 </g>
-<g><title>mfreadwrite.dll: 7/7 covered; Fortnite imports 2</title>
-<rect x="894.24" y="1791.80" width="10.53" height="4.39" fill="#8cc1ba"/>
-<rect x="904.77" y="1791.80" width="5.26" height="4.39" fill="#2f8f83"/>
+<g><title>mfreadwrite.dll: 7/7 covered; Fortnite imports 2, Terraria imports 2</title>
+<rect x="894.24" y="1791.80" width="15.79" height="4.39" fill="#8cc1ba"/>
 <rect x="894.24" y="1796.18" width="15.79" height="4.39" fill="#2f8f83"/>
 <rect x="894.24" y="1800.57" width="5.26" height="4.39" fill="#2f8f83"/>
 <line x1="894.24" y1="1796.18" x2="910.04" y2="1796.18" stroke="#0d1117" stroke-width="0.5"/>
@@ -5081,7 +5081,7 @@
 <line x1="988.70" y1="1826.09" x2="999.00" y2="1826.09" stroke="#0d1117" stroke-width="0.5"/>
 <rect x="987.70" y="1819.83" width="12.30" height="12.53" fill="none" stroke="#0d1117" stroke-width="2"/>
 </g>
-<g><title>minappmodelx.dll: 0/4 covered; Fortnite imports 4, XDefiant imports 4</title>
+<g><title>minappmodelx.dll: 0/4 covered; Fortnite imports 4, Terraria imports 4, XDefiant imports 4</title>
 <rect x="924.10" y="1833.35" width="9.74" height="5.56" fill="#afb3b9"/>
 <rect x="924.10" y="1838.92" width="9.74" height="5.56" fill="#afb3b9"/>
 <line x1="924.10" y1="1838.92" x2="933.84" y2="1838.92" stroke="#0d1117" stroke-width="0.5"/>

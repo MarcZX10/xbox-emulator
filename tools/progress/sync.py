@@ -125,13 +125,17 @@ for t in cfg["titles_analysed"]:
         skipped.append(t["name"])
         continue
     bins = {}
-    for name in sorted(os.listdir(bdir), key=str.lower):
-        p = os.path.join(bdir, name)
-        if os.path.isfile(p) and name.lower().endswith((".exe", ".dll")):
-            mods = imports(p)
-            for m in mods:
-                m["pc"] = [pc_has(m["module"], f) for f in m["functions"]]
-            bins[name] = mods
+    for sub in t.get("binary_dirs", [""]):
+        d = os.path.join(bdir, *filter(None, sub.split("/")))
+        if not os.path.isdir(d):
+            continue
+        for name in sorted(os.listdir(d), key=str.lower):
+            p = os.path.join(d, name)
+            if os.path.isfile(p) and name.lower().endswith((".exe", ".dll")):
+                mods = imports(p)
+                for m in mods:
+                    m["pc"] = [pc_has(m["module"], f) for f in m["functions"]]
+                bins[f"{sub}/{name}" if sub else name] = mods
     xvd = os.path.join(a.tombox, *t["xvd"].split("/"))
     os_build = version(os.path.join(xvd, "System32", "ntdll.dll"))
     titles[t["name"]] = {"exe": t["exe"], "binaries": bins, "os_build": os_build}

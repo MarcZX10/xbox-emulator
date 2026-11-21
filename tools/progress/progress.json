@@ -34,6 +34,11 @@
      "run_evidence": true, "unverified_binaries": ["GameChat2.dll"], "unverified_modules": ["GameChat2.dll", "CONCRT140.dll"]},
     {"name": "XDefiant", "exe": "Rogue_scarlett_rtx.exe", "exe_size": 97231360,
      "binaries": "input/xdefiant/Mount", "xvd": "input/xdefiant/EmbeddedXvd/Windows",
+     "run_evidence": false, "unverified_binaries": [], "unverified_modules": []},
+    {"name": "Terraria", "build": "4.4.14.1081", "exe": "Terraria.exe", "exe_size": 25889280,
+     "binaries": "input/terraria/Mount", "binary_dirs": ["", "Data/Native", "Data/Plugins"],
+     "xvd": "input/terraria/EmbeddedXvd/Windows",
+     "summary": "Unity 2021.3.16f1 GameCore **Xbox One** player (`TargetDeviceFamily=\"XboxOne\"`, PDB `GameCoreXboxOnePlayerNoDevelopment_Master`), IL2CPP scripting backend (no CLR header; C# compiled to `Data/Native/GameAssembly.dll` + `global-metadata.dat`), FMOD audio over XAudio2, Unity `baselib.dll`. Scanned: `Mount` (Terraria.exe, XCurl, baselib, MSVC 14.28 CRT), `Mount/Data/Native` (GameAssembly + MSVC 14.29 CRT), `Mount/Data/Plugins` (PartyWin, PartyXboxLive, PlayFabMultiplayerGDK, TerrariaNative, XCurl). Imports `d3d12_x.dll` / `xg_x.dll` (the Xbox One driver variants), not the `_xs` ones the emulator provides. XGameRuntime is loaded by name (`xgameruntime.dll` + `QueryApiImpl`), so its services are not in the import table.",
      "run_evidence": false, "unverified_binaries": [], "unverified_modules": []}
   ],
   "verified_milestones": [
