@@ -17,3 +17,10 @@ node_modules/
 *.key
 keys/
 secrets/
+
+*.rar
+*.7z
+*.msixvc
+games/
+emulator/
+
