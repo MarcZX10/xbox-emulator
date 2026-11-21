@@ -6,6 +6,8 @@ The runtime reimplements the console's platform layer (Xbox-flavoured Direct3D 1
 
 Uses legally obtained, already-decrypted dumps. The runtime does no key extraction or package decryption.
 
+**Source code:** [`source/`](source/) holds the emulator's Rust workspace (`source/crates`, `source/tools`, `Cargo.toml`). It contains no game files, binaries or build output.
+
 ## Status
 
 [![system functions](docs/img/badge-imports.svg)](docs/img/progress.svg)
