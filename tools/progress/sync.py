@@ -156,7 +156,7 @@ for t in cfg["titles_analysed"]:
             lib["versions"][t["name"]] = version(p)
             for n, o, fwd in ex:
                 k = n or f"#{o}"
-                row = lib["exports"].setdefault(k, [0 if pc is None else (1 if n and n in pc[0] else 2 if not n else 0), fwd, []])
+                row = lib["exports"].setdefault(k, [0 if pc is None else (1 if n in pc[0] else 0) if n else (2 if k in pc[1] else 0), fwd, []])
                 row[2].append(t["name"])
 
 out = {}
