@@ -1,45 +1,29 @@
 # Status — 2026-11-21
 
-Target: Fortnite XSX `2.0.1461.7919` (the build TomBox is pinned to).
+Current title: Fortnite XSX `2.0.1461.7919`.
 
-## Toolchain
-
-| Piece | State |
-|---|---|
-| Repo cloned to `D:\TomBox` | done |
-| Baseline `cargo build --release` | passes (29 s warm) |
-| Static-CRT compat DLLs (`d3d12_xs`, `xmem`, `xcrdapi`, `acphal`, `dxcompiler_xs`, `mfplat`) | built, 6/6 |
-| `mdbg.exe` tracer | built (229 KB) |
-| Launch wrapper `D:\TomBox\run_fortnite.ps1` | written |
-
-## Dump
+## Local runtime
 
 | Piece | State |
 |---|---|
-| Decrypted archive.org ZIP (27.4 GB) | downloading |
-| Extract to `input\extracted\Mount` | pending |
-| Real `xg_xs.dll` staged into game dir | pending |
-| Our six compat DLLs staged into game dir | pending |
-| `subst G: input\extracted\Mount` | pending |
+| TomBox built (`D:\TomBox`, master `7e8064f`) | done |
+| Static-CRT compat DLLs (6) | done |
+| `mdbg.exe` tracer | done |
+| Dump extracted (`input\extracted`, pristine, never modified) | done |
+| Run overlay `D:\TomBox\run\Mount` (junctions + hardlinks to the dump, TomBox DLLs only in the overlay) mounted as `G:` | done |
+| PC DirectStorage 1.3.0 (`dstorage.dll`, `dstoragecore.dll`, Microsoft-signed, NuGet) staged in overlay | done |
+| `mfplat_sys.dll` (copy of system `mfplat.dll`, target of TomBox's mfplat forwarder) staged in overlay | done |
 
-## Host environment
+## Boot progress
 
-| Piece | State |
-|---|---|
-| Rust 1.100 (MSVC) | installed |
-| Windows SDK + DXC | present |
-| Microsoft Gaming Services (`xgameruntime.dll`) | **not installed** — needed |
-
-## Upstream state (reported, not reproduced locally)
-
-Fortnite boots, logs in to a private server, reaches the lobby. Not playable:
-3D character material wrong, bloom artifacts along the top of the screen, no
-audio, mouse-only input, no controller, no gameplay.
+| Run | Reached | Ended by |
+|---|---|---|
+| 1 | GDK runtime services, xmem allocator (60 log lines, 4.4 s) | access violation: DirectStorage factory missing, null source buffer |
+| 2 | DirectStorage working, engine init (14,440 log lines, 11.5 s) | fatal error: Media Foundation init failed (`mfplat_sys.dll` missing) |
+| 3 | running | — |
 
 ## Next
 
-1. Install Microsoft Gaming Services.
-2. `run_fortnite.ps1 -Extract` when ZIP finishes.
-3. `run_fortnite.ps1 -Run` — capture baseline log as the reference for every
-   change going forward.
-4. First real contribution candidate: keyboard input.
+1. Get past Media Foundation init.
+2. First window + first presented frame on this machine.
+3. Lobby.

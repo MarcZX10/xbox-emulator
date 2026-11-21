@@ -4,27 +4,21 @@ Standing walls and what would knock them down.
 
 ---
 
-## 🟨 Fortnite dump
+## ✅ Fortnite dump — resolved
 
-**State:** waiting on decrypted ZIP download.
+Downloaded, byte-verified, extracted, kept pristine behind a run overlay.
 
-**Why:** TomBox needs an already-decrypted filesystem (`Mount/...` tree). The
-archive.org ZIP is live (27.4 GB, HTTP 200) and matches the build TomBox is
-pinned to (`2.0.1461.7919`).
+## ✅ DirectStorage — resolved
 
-**What would unblock it:** download completes.
+PC DirectStorage 1.3.0 staged in the overlay.
 
----
+## ✅ `xgameruntime.dll` — resolved
 
-## 🟨 Microsoft Gaming Services
+Present on this machine (loaded at startup); Gaming Services install not needed.
 
-**State:** not installed on dev machine.
+## 🟨 Media Foundation init
 
-**Why:** TomBox needs `xgameruntime.dll` from MS Gaming Services for platform
-service calls at startup.
-
-**What would unblock it:** install from Store
-(`ms-windows-store://pdp/?productid=9MWPM2CQNLHN`). 30 s, no reboot.
+**State:** fix staged (`mfplat_sys.dll`), run 3 in progress.
 
 ---
 

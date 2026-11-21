@@ -4,6 +4,34 @@ Reverse chronological. Each entry: what was done, evidence, blockers, next actio
 
 ---
 
+## 2026-11-21 — first boots on this machine
+
+**Done**
+- Decrypted archive.org ZIP downloaded (27,385,950,541 bytes, exact match to
+  the server's content-length) and extracted in 1.3 min.
+- Dump kept pristine. TomBox DLLs no longer go into the game folder: a run
+  overlay at `D:\TomBox\run\Mount` mirrors the dump with junctions and
+  hardlinks; only `Binaries\XSX` in the overlay gets the runtime DLLs. `G:` is
+  `subst`ed to the overlay.
+- Run 1: process started, GDK runtime services and the xmem allocator came up,
+  then access violation at `EXE+0xa45d63`. Last compat-log lines:
+  `[xcrdapi] DStorageGetFactory [real dstorage.dll not available -> E_NOTIMPL]`.
+  TomBox forwards Xbox file streaming to PC DirectStorage; the machine had none,
+  so the title's I/O source buffer was null (`[r12+0x18] = 0`).
+- Fix: Microsoft.Direct3D.DirectStorage 1.3.0 from NuGet, x64 DLLs
+  (Authenticode: Microsoft Corporation) staged in the overlay.
+- Run 2: `DStorageGetFactory forwarded (PC IID) -> hr=0`. Engine init ran 11.5 s
+  / 14,440 log lines, then `MFCreateDXGIDeviceManager failed: 0x80004005` and a
+  fatal error. Cause: TomBox's mfplat forwarder loads the real Media Foundation
+  from `mfplat_sys.dll` next to itself; it was not staged.
+- Fix: system `mfplat.dll` copied into the overlay as `mfplat_sys.dll`.
+
+**Correction**
+- An earlier note blamed a `prot=0x1->0x1` allocation. That call is
+  reserve-only (`win_type=0x102000`), so NOACCESS is correct. Not a bug.
+
+---
+
 ## 2026-11-21 — TomBox staged, Fortnite dump downloading
 
 **Done**
