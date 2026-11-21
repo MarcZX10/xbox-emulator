@@ -36,7 +36,7 @@ ds_write_b64 14 14
 exp 104323 104323
 flat_load_dword 1 1
 flat_load_dwordx2 3 3
-flat_load_dwordx4 14 14
+flat_load_dwordx3 14 14
 image_atomic_add 1 1
 image_atomic_umax 1 1
 image_gather4_lz 45 45
@@ -245,6 +245,7 @@ v_not_b32 10 10
 v_or3_b32 2677 2677
 v_or_b32 32231 32231
 v_perm_b32 2 2
+v_permlanex16_b32 2 2
 v_pk_fma_f16 1 1
 v_pk_max_f16 2 2
 v_pk_min_f16 2 2
@@ -269,4 +270,3 @@ v_trunc_f32 49714 49714
 v_writelane_b32 5603 5603
 v_xad_u32 2954 2954
 v_xor_b32 251 251
-vop3<0x378> 2 2

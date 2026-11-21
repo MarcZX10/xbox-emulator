@@ -456,9 +456,11 @@
  "bootshsvc.dll": {
   "file": "crates/compat/bootshsvc/src/lib.rs",
   "functions": {
+   "ServiceMain": "forwarded",
    "SvchostPushServiceGlobals": "implemented"
   },
   "notes": {
+   "ServiceMain": "runs the console's own bootshsvc.dll ServiceMain (TOMBOX_BOOTSHSVC_CONSOLE, bootshsvc_console.dll beside this DLL, or the newest title EmbeddedXvd dump) with every OS import routed to console-sandbox: emulated registry persisted under the emulator data dir (console\\\\registry.txt), emulated hostname (ComputerName/ActiveComputerName/Tcpip Hostname), console C: drive under console\\\\fs, in-process service host (RegisterServiceCtrlHandlerExW/SetServiceStatus/stop-callback/SCM queries), emulated service-process environment and priority; startup.bsc sethostname/copy verified on 19041, 22000 and 22621 builds; the PC registry, hostname, files and SCM are never touched; the script 'start' command cannot launch a second console process in-process (ERROR_NOT_SUPPORTED when the image exists in the sandbox, ERROR_FILE_NOT_FOUND otherwise)",
    "SvchostPushServiceGlobals": "console 0x1020: stores the svchost global data pointer in the module global (console 0x75e0) that the service main reads; no other effect"
   }
  },
@@ -470,11 +472,13 @@
    "XDspConnectWithMaximumStreamLimit": "implemented",
    "XDspDeactivate": "implemented",
    "XDspDisconnect": "implemented",
-   "XDspSubmitCommand": "implemented"
+   "XDspSubmitCommand": "implemented",
+   "XDspSubmitCommandWithEnvelope": "implemented"
   },
   "notes": {
    "XDspActivate": "type 1 convolution (XDefiant) on host; types 2 and 3 return E_NOTIMPL, no title uses them",
-   "XDspConnectWithMaximumStreamLimit": "console 0x2bc0: E_INVALIDARG for mem/size/activations, streams > 0x100 or priority > 2, then E_POINTER for a null out; XDspConnect is this call with 0x100 streams, priority 2 (console 0x2b90); limits kept per client, the CPU convolution has no hardware stream queue to apply them to"
+   "XDspConnectWithMaximumStreamLimit": "console 0x2bc0: E_INVALIDARG for mem/size/activations, streams > 0x100 or priority > 2, then E_POINTER for a null out; XDspConnect is this call with 0x100 streams, priority 2 (console 0x2b90); limits kept per client, the CPU convolution has no hardware stream queue to apply them to",
+   "XDspSubmitCommandWithEnvelope": "console 0x3200 -> 0x2524 (shared with XDspSubmitCommand 0x31e0, envelope NULL): for convolution streams the envelope is taken at the first command of every 8 (counter +0x150 & 7), must lie in the XDspConnect memory (APU translation 0x1888 fails -> E_INVALIDARG), the stereo-IR flag 0x8 adds the right-IR gains at roundup4(partitions); later commands of the group reuse the snapshot, a NULL envelope at a group start disables it. The hardware DSP microcode that applies it is not in the dump; per the GDK docs the values are per-block gains applied during convolution, so each IR partition k is scaled by gain[k]"
   }
  },
  "d3d12_x.dll": {
@@ -548,7 +552,7 @@
    "D3D12XboxCreateDevice": "Xbox One params (0x28 bytes) checked for null, then handed to the emulator's d3d12_xs.dll (Scarlett vtable wrapper, PC slots 0-43 only verified for Xbox One); host D3D12CreateDevice if d3d12_xs is absent",
    "D3D12XboxGetProcessDebugFlags": "returns the stored flags",
    "D3D12XboxSetProcessDebugFlags": "stores flags & 0x81f00001 like the console runtime",
-   "D3D12XboxUnloadDriverModule": "void like the console; console FreeLibrary()s its xgs user-mode driver only when one is loaded, this runtime never loads one",
+   "D3D12XboxUnloadDriverModule": "console 0x16b0: if the driver module is loaded, FreeLibrary it and zero the driver state; devices here are created by the d3d12_xs runtime, which owns that state, so this runs its D3D12XboxUnloadDriverModule when d3d12_xs.dll is loaded",
    "D3DAllocateGraphicsMemory": "returns E_NOTIMPL exactly like the console d3d12_x.dll (body is mov eax,0x80004001)",
    "D3DConfigureVirtualMemory": "console rules: flags & ~5 -> E_INVALIDARG, >0x21 page-table pages -> debug string + E_INVALIDARG; outputs cleared, XMem config {pages<<22, flag 4 ? 0 : 0xa00000}, returns HRESULT_FROM_NT(STATUS_SUCCESS)",
    "D3DFlushEntireCpuCache": "full fence + FlushProcessWriteBuffers: PC CPU-visible heaps are coherent, so draining every core's store buffer is the visible effect of the console cache flush",
@@ -566,7 +570,7 @@
   "functions": {
    "D3D12ZeroMemoryX": "implemented",
    "GetFrameBufferPreserveMemorySizeBytes": "implemented",
-   "PixGetPixieEntryPoints": "missing",
+   "PixGetPixieEntryPoints": "implemented",
    "D3D10CreateBlob": "forwarded",
    "D3D12ConfigureVirtualMemoryX": "implemented",
    "D3D12CreateDevice": "forwarded",
@@ -575,9 +579,9 @@
    "D3D12GetDebugInterface": "forwarded",
    "D3D12SerializeRootSignature": "forwarded",
    "D3D12SerializeVersionedRootSignature": "forwarded",
-   "D3D12UploadCustomMicrocodeX": "missing",
+   "D3D12UploadCustomMicrocodeX": "implemented",
    "D3D12XboxCreateDevice": "implemented",
-   "D3D12XboxEnableMemoryProfiling": "missing",
+   "D3D12XboxEnableMemoryProfiling": "implemented",
    "D3D12XboxGetProcessDebugFlags": "implemented",
    "D3D12XboxSetProcessDebugFlags": "implemented",
    "D3D12XboxUnloadDriverModule": "implemented",
@@ -623,7 +627,7 @@
   "notes": {
    "D3D12ZeroMemoryX": "console validation (16-byte aligned ranges, scratch >= 64 KiB command / 256 B fence); flags bit 0 or CPU VAs >= 1 TiB zeroed by CPU, GPU VAs zeroed by a copy-queue fill on the owning resource's device, DMA packets written to the caller's command scratch",
    "GetFrameBufferPreserveMemorySizeBytes": "returns the size recorded by D3D12ConfigureVirtualMemoryX",
-   "PixGetPixieEntryPoints": "console hands out ~32 PIX counter callbacks that are IOCTLs (0x7900c1xx) into the Xbox graphics kernel driver; no counter backend in the emulator yet",
+   "PixGetPixieEntryPoints": "src/kmd10.rs: console table (E_POINTER on null, caller size dword copied, min(size,0x100) bytes; 19041 build 0xf0 / 29 entries) of the console's XgsKmd10 IOCTL wrappers with their arg checks, NtDirectGraphicsCall path and driver-absent failure codes",
    "D3D10CreateBlob": "host d3dcompiler_47.dll D3DCreateBlob (console calls the xgs12 UMDCreateBlob, same ID3DBlob object)",
    "D3D12ConfigureVirtualMemoryX": "console flag/page-table checks, XMem graphics configuration registered",
    "D3D12CreateDevice": "host d3d12.dll",
@@ -632,10 +636,10 @@
    "D3D12GetDebugInterface": "host d3d12.dll; same ID3D12Debug IID",
    "D3D12SerializeRootSignature": "host d3d12.dll",
    "D3D12SerializeVersionedRootSignature": "host d3d12.dll",
-   "D3D12UploadCustomMicrocodeX": "console validates 7 pointer/size arguments then uploads CP microcode through IOCTL 0x7900c223; no GPU microcode engine to load it into on PC",
+   "D3D12UploadCustomMicrocodeX": "src/kmd10.rs: console E_INVALIDARG on any zero arg, 0x38-byte packet to IOCTL 0x7900c223 (direct call or cached XgsKmd10 handle), any failure E_FAIL",
    "D3D12XboxCreateDevice": "host D3D12 device wrapped in the Scarlett vtable layer",
-   "D3D12XboxEnableMemoryProfiling": "console IOCTL 0x7900c1cc to the graphics kernel driver with three arguments; kernel-side profiler not modelled",
-   "D3D12XboxUnloadDriverModule": "void; no xgs12 user-mode driver is loaded by this runtime",
+   "D3D12XboxEnableMemoryProfiling": "src/kmd10.rs: console opens XgsKmd10 with handshake (open HRESULT on failure), then IOCTL 0x7900c1cc with the three u64 args, HRESULT_FROM_WIN32 on failure",
+   "D3D12XboxUnloadDriverModule": "console 0x1710: if the driver module is loaded, FreeLibrary it and zero the driver state; here FreeLibrary on the xgs12 driver module this runtime loaded (driver_state OWNED) and clear it, nothing when none is loaded",
    "D3DFlushEntireCpuCache": "full fence + FlushProcessWriteBuffers: PC CPU-visible heaps are coherent, so draining every core's store buffer is the visible effect of the console cache flush",
    "DXGIXGetFrameStatistics": "console returns DXGI_ERROR_UNSUPPORTED (0x887a0004) unconditionally",
    "DXGIXPresentArray": "console returns DXGI_ERROR_UNSUPPORTED (0x887a0004) unconditionally",
@@ -684,7 +688,7 @@
    "SCDxil_ConvertDxbcToDxil": "forwarded"
   },
   "notes": {
-   "SCDxil_ConvertDxbcToDxil": "forwarded to the console's own dxbc2dxil_xs.dll (TOMBOX_DXBC2DXIL_CONSOLE, dxbc2dxil_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump); (src, size, out, out_size, {alloc, free, ctx}) -> 0, a DXBC already holding a valid DXIL part is copied as is; without the console DLL returns the console failure value 1"
+   "SCDxil_ConvertDxbcToDxil": "forwarded to the console's own dxbc2dxil_xs.dll (TOMBOX_DXBC2DXIL_CONSOLE, dxbc2dxil_xs_console.dll beside this DLL, or the title EmbeddedXvd dump with the newest console OS build); (src, size, out, out_size, {alloc, free, ctx}) -> 0, a DXBC already holding a valid DXIL part is copied as is; without the console DLL returns the console failure value 1"
   }
  },
  "dxcompiler_x.dll": {
@@ -845,12 +849,16 @@
   "functions": {
    "AddData": "implemented",
    "AddStreamingApiObject": "implemented",
-   "SaveDeveloperBlobInfo": "implemented"
+   "InitializeHix": "forwarded",
+   "SaveDeveloperBlobInfo": "implemented",
+   "TerminateHix": "forwarded"
   },
   "notes": {
    "AddData": "22621 build: ids from a global counter starting at 1; keyed calls memoised by the 8-byte key value (console FNV-1a unordered_map); the dump sink is only installed by WriteHangDump",
    "AddStreamingApiObject": "appends a 0x2dc-byte copy to the streaming API object vector, returns 0",
-   "SaveDeveloperBlobInfo": "E_FAIL when KMD region 1 is not mapped; the emulator never maps it (InitializeHix is not emulated), so it always returns E_FAIL on the host; with a mapped region it fills up to 64 (ptr,size) slots at +0x1858/+0x1a58, count at +0x1850, 1 when full"
+   "InitializeHix": "console hix_xs.dll from the newest title dump (TOMBOX_HIX_XS_CONSOLE, hix_xs_console.dll beside this DLL) with its CreateFileW/DeviceIoControl/CloseHandle/NtDirectGraphicsCall bound to the in-process XgsKmd10 emulation (region 0 data 0x490000 bytes, region 1 mailbox 0x1b58, map 0x7900c1b0, handshake 0x7900c190, arm 0x7900c1a3, doorbell 0x7900c19c acked synchronously as a GPU with no halted waves) and its d:/t: file APIs mapped under TOMBOX_SCRATCH_DIR or %LOCALAPPDATA%\\TomBox\\scratch\\<title>; console xmem preloaded with XMemSetAllocationHooks when no xmem.dll is loaded; E_FAIL without a console image; maps both regions, zeroes the blob count, arms the KMD",
+   "SaveDeveloperBlobInfo": "E_FAIL until the XgsKmd10 mailbox (region 1) is mapped; once InitializeHix maps it through the in-process KMD, fills up to 64 (ptr,size) slots at +0x1858/+0x1a58, count at +0x1850, 1 when full",
+   "TerminateHix": "console hix_xs.dll from the newest title dump (TOMBOX_HIX_XS_CONSOLE, hix_xs_console.dll beside this DLL) with its CreateFileW/DeviceIoControl/CloseHandle/NtDirectGraphicsCall bound to the in-process XgsKmd10 emulation (region 0 data 0x490000 bytes, region 1 mailbox 0x1b58, map 0x7900c1b0, handshake 0x7900c190, arm 0x7900c1a3, doorbell 0x7900c19c acked synchronously as a GPU with no halted waves) and its d:/t: file APIs mapped under TOMBOX_SCRATCH_DIR or %LOCALAPPDATA%\\TomBox\\scratch\\<title>; console xmem preloaded with XMemSetAllocationHooks when no xmem.dll is loaded; E_FAIL without a console image; unhalt (cmd 0x29) then disarm (cmd 0x17) through the mailbox"
   }
  },
  "kernel32.dll": {
@@ -1570,6 +1578,17 @@
    "MFDllGetClassObject": "console exports it at the DllGetClassObject address (0x15c0); forwarded to PC mfh264enc.dll DllGetClassObject"
   }
  },
+ "mfhevcdec.dll": {
+  "file": "crates/compat/mfhevcdec/src/lib.rs",
+  "functions": {
+   "DllGetActivationFactory": "implemented",
+   "DllRegisterServer": "implemented",
+   "DllUnregisterServer": "implemented",
+   "DllCanUnloadNow": "implemented",
+   "DllGetClassObject": "implemented"
+  },
+  "notes": {}
+ },
  "mflnmhelp.dll": {
   "file": "crates/compat/mflnmhelp/src/lib.rs",
   "functions": {
@@ -1760,6 +1779,61 @@
    "UnregisterClassA": "PE forwarder to user32.UnregisterClassA; same Win32 signature, windows are real PC user32 windows",
    "UnregisterClassW": "PE forwarder to user32.UnregisterClassW; same Win32 signature, windows are real PC user32 windows",
    "WaitMessage": "console body: SetLastError(E_NOTIMPL 0x80004001), returns 0; reproduced exactly (not forwarded: PC user32 implements it)"
+  }
+ },
+ "msave64xgs.dll": {
+  "file": "crates/compat/msave64xgs/src/lib.rs",
+  "functions": {
+   "#6934": "implemented",
+   "#6935": "implemented",
+   "#6936": "implemented",
+   "#6937": "implemented",
+   "#6938": "implemented",
+   "#6939": "implemented",
+   "#6940": "implemented",
+   "#6941": "implemented",
+   "#6942": "implemented",
+   "#6943": "implemented",
+   "#6944": "implemented",
+   "#6945": "implemented",
+   "#6946": "implemented",
+   "#6947": "implemented",
+   "#6948": "implemented",
+   "#6949": "implemented",
+   "#6950": "implemented",
+   "#6952": "implemented",
+   "#6953": "implemented",
+   "#6954": "implemented",
+   "#6955": "implemented",
+   "#6956": "implemented",
+   "#6957": "implemented",
+   "#6958": "implemented"
+  },
+  "notes": {
+   "#6934": "console msave64xgs 22621 (ordinal only): encoder package 0x22, b[0x10] required",
+   "#6935": "console msave64xgs 22621 (ordinal only): encoder package 0x17, as #6950 (b[8] required)",
+   "#6936": "console msave64xgs 22621 (ordinal only): encoder package 0x16, pointers only",
+   "#6937": "console msave64xgs 22621 (ordinal only): encoder package 0x15, pointers only",
+   "#6938": "console msave64xgs 22621 (ordinal only): encoder package 0x14, pointers only",
+   "#6939": "console msave64xgs 22621 (ordinal only): encoder package 0x13, pointers only",
+   "#6940": "console msave64xgs 22621 (ordinal only): encoder package 0x12, as #6950 (b[8] required)",
+   "#6941": "console msave64xgs 22621 (ordinal only): encoder package 0x11: pointers then closed flag E_UNEXPECTED (19041 E_FAIL)",
+   "#6942": "console msave64xgs 22621 (ordinal only): encoder package 0x10: pointers then closed flag E_UNEXPECTED (19041 E_FAIL)",
+   "#6943": "console msave64xgs 22621 (ordinal only): encoder package 0xf: b[0x10] required, then closed flag E_UNEXPECTED (19041 E_FAIL)",
+   "#6944": "console msave64xgs 22621 (ordinal only): encoder package 0xe: closed flag checked before the pointers, E_UNEXPECTED (19041 E_FAIL)",
+   "#6945": "console msave64xgs 22621 (ordinal only): encode, package 0xd: E_INVALIDARG null encoder/a/b/a[0x10], E_FAIL not initialised, closed E_UNEXPECTED (19041 E_FAIL); input kinds 2 and 5 become the resources (max 5, else E_INVALIDARG), a kind 6 input gives the queue Wait and extra Signal fences; params block 0x50 {0x64, package, 5 ptrs, 5 sizes} through ExecuteExtensionCommand",
+   "#6946": "console msave64xgs 22621 (ordinal only): encoder package 0xc, as #6950 with a[0x10] required",
+   "#6947": "console msave64xgs 22621 (ordinal only): encoder package 0xb, as #6950 (b[8] required)",
+   "#6948": "console msave64xgs 22621 (ordinal only): encoder package 0xa, as #6950 (b[8] required)",
+   "#6949": "console msave64xgs 22621 (ordinal only): encoder package 9, as #6950 (b[8] required)",
+   "#6950": "console msave64xgs 22621 (ordinal only): encoder package 8: E_INVALIDARG null encoder, E_FAIL not initialised, E_POINTER null a/b/b[8] (19041 E_FAIL)",
+   "#6952": "console msave64xgs 22621 (ordinal only): encoder destroy (factory, holder{encoder@8}, b): E_INVALIDARG null factory, E_FAIL not initialised, E_POINTER null holder/b/encoder (19041 E_INVALIDARG); package 6 {handle, b}, waits for the fence and records the 0x23 follow-up (closed, not submitted, as on console); deletes the encoder; returns reply status",
+   "#6953": "console msave64xgs 22621 (ordinal only): encoder create (factory, a, holder): E_INVALIDARG null factory, E_FAIL not initialised, E_POINTER null a/holder/a[0x10] (19041 E_FAIL); holder u32@4=0, [8]=0; package 5 returns the driver handle at package+0x20; 0x48-byte encoder with a critical section; handle 0 = E_INVALIDARG after package 6 destroy",
+   "#6954": "console msave64xgs 22621 (ordinal only): factory package 4 {a,b}: as #6956, b[8] required",
+   "#6955": "console msave64xgs 22621 (ordinal only): factory package 3 {a,b}: as #6956, b[0x10] required",
+   "#6956": "console msave64xgs 22621 (ordinal only): factory package 2 {a,b}: E_INVALIDARG null factory, E_FAIL not initialised, E_POINTER null a/b (19041 E_FAIL); returns transport hr or reply status",
+   "#6957": "console msave64xgs 22621 (ordinal only): destroy (holder{obj@8}, out): E_INVALIDARG on null holder/out/obj; out u32@4 = 0; calls the object's deleting destructor (factory: deletes its transport, releasing every D3D12 object and the event)",
+   "#6958": "console msave64xgs 22621 (ordinal only): factory create (desc{u32 kind@8, device@0x10}, args, out, reply): E_INVALIDARG on any null or null device; out[8]=0, out[0x10]=0x30017; kind must be 3; builds the AVE transport on the device (3 VIDEO_ENCODE allocators, console device slot 73 encode list, VIDEO_ENCODE queue, ID3D12VideoDevice2 slot 12 extension command a218961c-091f-494e-9188-65e2187e69c0, fence, event); sends package 1 and needs reply[8]==0x30017 (else E_INVALIDARG, 19041 E_FAIL); transport failure = E_OUTOFMEMORY"
   }
  },
  "netprofmsvc_c.dll": {
@@ -2265,7 +2339,7 @@
    "?IsHelp@ParseArgs@@QEAA_NXZ": "implemented",
    "?Parse@ParseArgs@@QEAA?AW4ParseResult@1@IPEAPEBG_N@Z": "implemented",
    "?Post@RestContext@@AEAAKV?$basic_string@GU?$char_traits@G@std@@V?$allocator@G@2@@std@@0PEBGPEBDAEAV23@@Z": "implemented",
-   "?PostSshPublicKey@RestContext@@QEAAKV?$basic_string@GU?$char_traits@G@std@@V?$allocator@G@2@@std@@0AEAV23@1AEA_N1@Z": "missing",
+   "?PostSshPublicKey@RestContext@@QEAAKV?$basic_string@GU?$char_traits@G@std@@V?$allocator@G@2@@std@@0AEAV23@1AEA_N1@Z": "implemented",
    "?PrintHelpDetailed@ParseArgs@@QEAA_NI@Z": "implemented",
    "?PrintHelpMenu@ParseArgs@@QEAAXXZ": "implemented",
    "?PrintHelpSummary@ParseArgs@@QEAAXXZ": "implemented",
@@ -2296,7 +2370,7 @@
    "?IsHelp@ParseArgs@@QEAA_NXZ": "console 0x2c70: byte +0xc3",
    "?Parse@ParseArgs@@QEAA?AW4ParseResult@1@IPEAPEBG_N@Z": "console 0x2070: NULL argv 3, argc < 2 2, then flags 6/4/5; resets counts, symbols resized to argc, \"/?\" and \"help\" set +0xc3 when allowed, prefix match with ':'/'=' separator and min-match length via _wcsnicmp, unmatched -> default (empty-name) command or error symbol + 1, symbols compacted",
    "?Post@RestContext@@AEAAKV?$basic_string@GU?$char_traits@G@std@@V?$allocator@G@2@@std@@0PEBGPEBDAEAV23@@Z": "console 0x45b0: not initialized -> 0xfd6; empty CSRF token -> GetOSVersion(copies) first, its error returned; HTTPS POST with optional basic credentials, headers CRLF X-CSRF-Token: <token> CRLF Content-Type: application/json (length -1), narrow body strlen as optional/total length, one retry with SECURITY_FLAG_IGNORE_ALL on ERROR_WINHTTP_SECURE_FAILURE, no status check, body read in 0x800-byte chunks and converted from UTF-8 (failure 0x1132)",
-   "?PostSshPublicKey@RestContext@@QEAAKV?$basic_string@GU?$char_traits@G@std@@V?$allocator@G@2@@std@@0AEAV23@1AEA_N1@Z": "console 0x4da0 activates Windows.Data.Json.JsonObject through wdbase's own WinRT factory cache (0x6510 with InitOnce 0x6d40 and table 0x9098, helpers 0x67d8/0x68d8), builds AuthorizeSSHUser/SSHPublicKey, Posts to /ext/ssh/users and parses SSHUserAuthorized/ErrorCode/ErrorMessage; that factory cache is not ported, so the exact failure point (reported as an access violation before the Post) is not reproduced",
+   "?PostSshPublicKey@RestContext@@QEAAKV?$basic_string@GU?$char_traits@G@std@@V?$allocator@G@2@@std@@0AEAV23@1AEA_N1@Z": "console 0x4da0: clears the 7th argument (response/ErrorMessage out) and *authorized (6th), then WindowsCreateStringReference(L\"Windows.Data.Json.JsonObject\") and wdbase's own WRL module factory lookup 0x6510 (InitOnceExecuteOnce callback 0x6d40 stores module vtable 0x9098 at .data 0xd6e0 and sets 0xd6e8; slots +0x28/+0x30 = 0x6f40/0x6f60 return 0xb098/0xb0a0, so the creator range 0xb098+8..0xb0a0 is empty: empty or embedded-NUL id -> RoOriginateErrorW(E_INVALIDARG, 18, L\"activatibleClassId\"), every other id -> RoOriginateError + CLASS_E_CLASSNOTAVAILABLE, factory NULL, RoGetActivationFactory never called); ActivateInstance skipped, JsonObject stays NULL; both 0x68d8 setters (AuthorizeSSHUser = 4th arg, SSHPublicKey = 5th arg) fail inside 0x66d8 (JsonValue statics via the same lookup; 0x67d8 is the JsonObject-statics twin) without touching the object and their results are ignored; the IJsonValue QueryInterface at 0x4f38 then dereferences the NULL JsonObject, raised here as STATUS_ACCESS_VIOLATION (read, address 0, re-raised if continued, like re-executing the faulting load); by-value user/password are not destroyed; the Post to /ext/ssh/users and the SSHUserAuthorized/ErrorCode/ErrorMessage parsing after it are unreachable on the console and not ported as live code",
    "?PrintHelpDetailed@ParseArgs@@QEAA_NI@Z": "console 0x26a0: index >= count -> false; detailed help, usage line with alias or name, aligned sub-option list, wprintf to stdout",
    "?PrintHelpMenu@ParseArgs@@QEAAXXZ": "console 0x2540: \"Available %s commands:\" and aligned type-1 entries with short help",
    "?PrintHelpSummary@ParseArgs@@QEAAXXZ": "console 0x2390: tool name, description, Build line, topic header lines and aligned type-3 topics (minimum width 9)",
@@ -2357,31 +2431,31 @@
    "WldpQueryPolicySettingEnabledInternal": "implemented",
    "WldpCheckSecurityWatermarkState": "missing",
    "WldpSendSmartAppControlBlockToast": "missing",
-   "WldpTraceLoggingWDACBlockDialogShown": "missing",
-   "WldpChangeVulnerableDriverBlocklistState": "missing",
+   "WldpTraceLoggingWDACBlockDialogShown": "implemented",
+   "WldpChangeVulnerableDriverBlocklistState": "implemented",
    "WldpCheckRetailConfiguration": "implemented",
-   "WldpDisableDeveloperMode": "missing",
-   "WldpEnableDeveloperMode": "missing",
+   "WldpDisableDeveloperMode": "implemented",
+   "WldpEnableDeveloperMode": "implemented",
    "WldpIsProductionConfigurationInProc": "missing",
    "WldpIsVulnerableDriverBlocklistDisabled": "implemented",
    "WldpIsVulnerableDriverBlocklistEligibleToDisable": "implemented",
    "WldpSetDynamicCodeTrust2": "implemented",
-   "WldpResetSecurityWatermarkState": "missing"
+   "WldpResetSecurityWatermarkState": "implemented"
   },
   "notes": {
    "WldpQueryPolicySettingEnabledInternal": "console body: NULL out -> 0xD000000D; *out = 0; index 0-5 and 1000 select a setting name from the console .rdata table (VerifiedAndReputableUI, DisableMshtmlUmci, ShellSmartscreenSuppressed, BrowserSmartscreenSuppressed, WcosOOBELogCollection, LegacyWhqlFlighting; 1000 VerifiedAndReputablePerfMode) and tail-call WldpQueryPolicySettingEnabled2, here the PC wldp export of that name loaded from System32 by full path; other indexes 0xD000000D (negative ids read before the console table, rejected here)",
-   "WldpCheckSecurityWatermarkState": "console body reads, re-validates and can delete the manufacturing watermark files %SystemDrive%\\DPP\\WatermarkHSTITestComplete.bin / WatermarkSBTestComplete.bin and HSTI/Secure Boot results on the host system drive; not reproduced (host system files)",
-   "WldpSendSmartAppControlBlockToast": "console body builds a Windows.Data.Xml.Dom toast (toasthelper.cpp) and posts a Smart App Control notification through the WinRT toast notifier; there is no console notification surface in the emulator and posting it would show a host toast",
-   "WldpTraceLoggingWDACBlockDialogShown": "console body writes a TraceLogging event on wldp's own provider (registered in the console DllMain, handle at .data 0x40270) with the process image name; the provider GUID and event metadata blob have not been extracted, so the event cannot be emitted byte-identically",
-   "WldpChangeVulnerableDriverBlocklistState": "when eligible the console body writes HKLM\\System\\CurrentControlSet\\Control\\CI\\Config VulnerableDriverBlocklistEnable with RegSetKeyValueW, a host security setting; not reproduced",
+   "WldpCheckSecurityWatermarkState": "Fortnite console RVA 0x14ab0. The emulator side it needs exists (security store: emulated %SystemDrive%\\DPP watermark files, manufacturing-mode flag, Non-Production Errors.txt path; DMCfgUtils.dll SyncGetDeviceUniqueID used for the hashes at 0x1443c is not shipped in the console image, so the console path is LoadLibraryExW failure -> 1 with all-zero hashes). Still unported, so not exported: the HSTI verification tree (0x15b1c -> 0x16a7c KdDebuggerEnabled override, 0x16b60 NtQuerySystemInformation 0xA6, 0x15bd0 result-blob parser), the Secure Boot tree (0x12714: GetVersionExW, 0x11ed4, NtQuerySystemInformation 0x91 and 0x8F, three 0x123c0 policy-table checks over .data 0x25020, 0x1586c), FVEAPI FveGetSecureBootBindingState/FveQuery (0x14130), the ZwFilterBootOption test-boot-option scan (0x14258, tables 0x1f450/0x1f160), and the Non-Production Errors.txt writer (0x146b8/0x1479c/0x148c8). The console HSTI, Secure Boot and FVE state those trees read is not yet modelled in the store.",
+   "WldpSendSmartAppControlBlockToast": "Trackmania console RVA 0x1c010. A wil feature-staging check (feature 0x259f533, state at .data 0x41230, 0x1c0bc) picks one of two toasthelper.cpp builders, 0x1b80c or 0x1b9f4. Each loads a fixed toast XML template (0x31a50 / 0x31d10) into Windows.Data.Xml.Dom.XmlDocument, fills text and action nodes by XPath with wldp.dll.mui strings (ids 2000/3000/4000 or IDS_TOASTTITLE_BLOCK/IDS_TOASTBODY_BLOCK) formatted by FormatMessageW over the two arguments (0x1ae3c, 0x1b1a0, 0x1a018), then shows it with a ToastNotifier for Windows.Defender.SecurityCenter (0x1ac64). That ~700-line XML/resource/format tree, the feature-staging state and the en-US mui string table are not ported yet. The emulator log line with the console text and identical HRESULTs cannot be produced, and a log line returning S_OK would be fake success.",
+   "WldpTraceLoggingWDACBlockDialogShown": "console RVA 0x7570 (Trackmania 10.0.22621.1852): args (PCWSTR FileName, DWORD hResult, GUID* DialogGuid, PCWSTR UserActionsTaken), no return value; FileName and the QueryFullProcessImageNameW image of the current process go through the console 0x739c rewrite (case-insensitive \"\\Users\\<name>\" prefix -> \"%USERPROFILE%\", ntdll RtlFindUnicodeSubstring), a failed rewrite drops the event, a failed image query uses L\"\"; written only when provider LevelPlus1 > 5 and keyword 0x400000000000 matches (port of the tlg enable callback 0x2a40 and keyword test 0x26a2c) on the provider at console .data 0x40238 (not 0x40270, which is the State provider used by ordinal 30): Microsoft.Windows.Security.CodeIntegrity.Activity {28dcc28b-3e31-527b-efd6-b4cc4d73d157}, registered with EventRegister + EventSetInformation(EventProviderSetTraits) like console 0x24980; EventWriteTransfer channel 11, level 5, opcode 0, keyword 0x400000000000 with the provider and event metadata blobs extracted byte-for-byte from the console image (data\\*.bin, re-checked against the dump by the test); fields PartA_PrivTags u64 0x2000000, FileName, CurrentProcess, hResult, DialogGuid, UserActionsTaken (NULL strings -> L\"\")",
+   "WldpChangeVulnerableDriverBlocklistState": "console RVA 0x19360: calls WldpIsVulnerableDriverBlocklistEligibleToDisable (ordinal 32); not eligible -> 0x80070032, nothing written; eligible -> stores the DWORD arg as the emulated console value HKLM\\System\\CurrentControlSet\\Control\\CI\\Config VulnerableDriverBlocklistEnable (console RegSetKeyValueW REG_DWORD) in the emulator security store (%LOCALAPPDATA%\\XboxEmulator\\wldp\\state.txt, TOMBOX_GDK_ROOT override), S_OK, store write error -> HRESULT_FROM_WIN32; then the console VulnerableDriverBlocklistStateChanged TraceLogging event (State, ElligibleToDisable, Succeeded, PartA_PrivTags 0x1000000; level 5, keyword 0x800000000000) on Microsoft.Windows.Security.CodeIntegrity.State {a3064fc9-4d22-54c9-0003-1f90594554d3}, metadata extracted from the console image; host registry never touched",
    "WldpCheckRetailConfiguration": "console body: *arg2 = 1, *arg4 = 0, *arg3 = 0, return S_OK; arg1 unused",
-   "WldpDisableDeveloperMode": "console body deletes HKLM\\SYSTEM\\CurrentControlSet\\Control\\CI\\Developer\\DeveloperUnlock (state-separated persisted registry when enabled) after the CI policy gate; a host security setting, not reproduced",
-   "WldpEnableDeveloperMode": "console body creates HKLM\\SYSTEM\\CurrentControlSet\\Control\\CI\\Developer\\DeveloperUnlock with an SDDL ACL after the CI policy gate; a host security setting, not reproduced",
-   "WldpIsProductionConfigurationInProc": "console body reads %SystemRoot%\\System32\\CodeIntegrity\\Data watermark files, hashes HSTI/Security test results, queries the MDM device id through DMCfgUtils.dll SyncGetDeviceUniqueID and can raise a desktop warning (WinSta0\\Default, Segoe UI Light); that helper tree is not ported",
-   "WldpIsVulnerableDriverBlocklistDisabled": "console body: RegGetValueW(HKLM, System\\CurrentControlSet\\Control\\CI\\Config, VulnerableDriverBlocklistEnable, RRF_RT_REG_DWORD) read-only; success -> *out = (value != 1), else *out = 0 and HRESULT_FROM_WIN32",
+   "WldpDisableDeveloperMode": "console RVA 0x25b10: gate = console 0x26818 (WldpQueryWindowsLockdownMode on the emulated CI policy options: & 0x24000000 -> 2 else bit 31; or state separation) from the emulator security store, retail options 0x24000000 -> gate on; gate off -> S_OK no-op; gate on -> deletes the emulated HKLM\\SYSTEM\\CurrentControlSet\\Control\\CI\\Developer\\DeveloperUnlock key; as on the console (RegDeleteKeyExW LSTATUS is positive) a missing key or write error still returns S_OK; host registry never touched",
+   "WldpEnableDeveloperMode": "console RVA 0x25bf0: same CI gate as ordinal 23 (gate off -> S_OK no-op); converts the console SDDL (O:BAG:BAD:(A;CIID;KA;;;SY)(A;CIID;KA;;;BA)(A;CIID;KR;;;WD)(A;CIID;KR;;;RC)(A;;KR;;;AC)(A;;KR;;;S-1-15-3-1024-...)) with ConvertStringSecurityDescriptorToSecurityDescriptorW (failure -> HRESULT_FROM_WIN32(GetLastError())), then creates the emulated DeveloperUnlock key carrying that SDDL in the emulator security store (an existing key is opened unchanged, like RegCreateKeyExW), S_OK, store write error -> HRESULT_FROM_WIN32; host registry never touched",
+   "WldpIsProductionConfigurationInProc": "Trackmania console RVA 0x14f10. Its first helper, 0x7c08, decodes an obfuscated in-image table (0x343a2, multi-round hash on a 0x1290-byte frame) that selects which checks apply. The body then reads %SystemRoot%\\System32\\CodeIntegrity\\Data\\WatermarkHSTITestComplete.bin and WatermarkSecurityTestComplete.bin, hashes the HSTI and Security results (0x13f70, 0x14210), compares and rewrites them (0x147c8), can raise a WinSta0\\Default desktop warning, and writes a State-provider TraceLogging event (metadata 0x35e9b, provider .data 0x40270). The helper tree is about 12,000 disassembly lines and is not ported. The store paths and the tlg provider infrastructure are ready for it, but a partial port would fake the retail result.",
+   "WldpIsVulnerableDriverBlocklistDisabled": "console RVA 0x19400: RegGetValueW(HKLM, System\\CurrentControlSet\\Control\\CI\\Config, VulnerableDriverBlocklistEnable, RRF_RT_REG_DWORD) read against the emulated console value in the emulator security store (shared with ordinal 19); present -> *out = (value != 1), S_OK; absent (retail default: the console image carries no such value) -> *out = 0, 0x80070002",
    "WldpIsVulnerableDriverBlocklistEligibleToDisable": "console body: NtQuerySystemInformation(0xA5, 16 bytes) flag 2 -> not eligible; otherwise eligible when the CI policy query (class 0xA4, 32 bytes: 0x24000000 -> 2, else bit 31) fails or reports 0; read-only, S_OK",
    "WldpSetDynamicCodeTrust2": "console body: NtSetSystemInformation(0xC7, {file handle, 0, 0}, 0x18), failure status | 0x10000000, else S_OK; byte-identical to the PC WldpSetDynamicCodeTrust body",
-   "WldpResetSecurityWatermarkState": "Fortnite console only (its ordinal 19 collides with the newer WldpChangeVulnerableDriverBlocklistState, renumbered here); console body deletes the manufacturing watermark files under %SystemDrive%\\DPP and System32\\CodeIntegrity\\Data on the host; not reproduced"
+   "WldpResetSecurityWatermarkState": "Fortnite console only (RVA 0x14e80; its ordinal 19 collides with the newer WldpChangeVulnerableDriverBlocklistState, renumbered here); console body: delete %SystemDrive%\\DPP\\WatermarkHSTITestComplete.bin (negative HRESULT returned at once), then WatermarkSBTestComplete.bin; file-not-found counts as success (console 0x14364), any other DeleteFileW error -> HRESULT_FROM_WIN32 (e.g. missing DPP directory 0x80070003); %SystemDrive% is the emulated console drive in the emulator security store (wldp\\SystemDrive), never the host drive"
   }
  },
  "xapu.dll": {
@@ -2524,19 +2598,19 @@
  "xbtp.dll": {
   "file": "crates/compat/xbtp/src/lib.rs",
   "functions": {
-   "??0XbtpClientAdapter@@QEAA@XZ": "missing",
-   "??0XbtpSession@@QEAA@XZ": "missing",
-   "??1NpConnection@@UEAA@XZ": "missing",
-   "??1TcpConnection@@UEAA@XZ": "missing",
-   "??1XbtpClientAdapter@@UEAA@XZ": "missing",
+   "??0XbtpClientAdapter@@QEAA@XZ": "implemented",
+   "??0XbtpSession@@QEAA@XZ": "implemented",
+   "??1NpConnection@@UEAA@XZ": "implemented",
+   "??1TcpConnection@@UEAA@XZ": "implemented",
+   "??1XbtpClientAdapter@@UEAA@XZ": "implemented",
    "??1XbtpConnectionDispatcher@@QEAA@XZ": "missing",
-   "??1XbtpExtensionRegistry@@QEAA@XZ": "missing",
-   "?AddExtension@XbtpExtensionRegistry@@QEAAJV?$shared_ptr@UExtensionDefinition@@@std@@@Z": "missing",
+   "??1XbtpExtensionRegistry@@QEAA@XZ": "implemented",
+   "?AddExtension@XbtpExtensionRegistry@@QEAAJV?$shared_ptr@UExtensionDefinition@@@std@@@Z": "implemented",
    "?AddPipeEndpoint@XbtpConnectionDispatcher@@QEAAJPEBG@Z": "missing",
-   "?BeginSession@XbtpClientAdapter@@QEAAJAEBU_GUID@@@Z": "missing",
-   "?BeginSession@XbtpClientAdapter@@QEAAJAEBU_GUID@@K@Z": "missing",
-   "?Connect@XbtpClientAdapter@@QEAAJK@Z": "missing",
-   "?Connect@XbtpClientAdapter@@QEAAJXZ": "missing",
+   "?BeginSession@XbtpClientAdapter@@QEAAJAEBU_GUID@@@Z": "implemented",
+   "?BeginSession@XbtpClientAdapter@@QEAAJAEBU_GUID@@K@Z": "implemented",
+   "?Connect@XbtpClientAdapter@@QEAAJK@Z": "implemented",
+   "?Connect@XbtpClientAdapter@@QEAAJXZ": "implemented",
    "?DeserializeCloseSessionMessage@@YAJAEAUXBTP_MESSAGE_HEADER@@KPEADAEAUXBTP_CLOSE_SESSION_MESSAGE@@@Z": "implemented",
    "?DeserializeConnectRequest@@YAJKPEADPEAUXBTP_CONNECT_REQUEST@@@Z": "implemented",
    "?DeserializeConnectResponse@@YAJKPEADPEAUXBTP_CONNECT_RESPONSE@@@Z": "implemented",
@@ -2548,20 +2622,20 @@
    "?DeserializeFixedConnectResponse@@YAJKPEADPEAUXBTP_CONNECT_RESPONSE@@@Z": "implemented",
    "?DeserializeFixedCreateSessionResponse@@YAJKPEADPEAUXBTP_CREATE_SESSION_RESPONSE_MESSAGE@@@Z": "implemented",
    "?DeserializeFixedExtensionMessage@@YAJAEBUXBTP_MESSAGE_HEADER@@KPEADAEAUXBTP_BEGIN_MESSAGE@@@Z": "implemented",
-   "?Initialize@XbtpClientAdapter@@QEAAJV?$shared_ptr@VXbtpConnection@@@std@@@Z": "missing",
+   "?Initialize@XbtpClientAdapter@@QEAAJV?$shared_ptr@VXbtpConnection@@@std@@@Z": "implemented",
    "?Initialize@XbtpConnectionDispatcher@@QEAAJV?$shared_ptr@VXbtpExtensionRegistry@@@std@@V?$shared_ptr@VXbtpConnection@@@3@1@Z": "missing",
-   "?Initialize@XbtpExtensionRegistry@@QEAAJXZ": "missing",
-   "?Initialize@XbtpSession@@QEAAJAEBU_GUID@@V?$shared_ptr@VXbtpClientAdapter@@@std@@V?$shared_ptr@VXbtpChannel@@@4@@Z": "missing",
-   "?InitializeClient@NpConnection@@SAJPEBGPEAPEAV1@@Z": "missing",
-   "?InitializeClient@NpConnection@@SAJPEBGPEAV?$shared_ptr@VNpConnection@@@std@@@Z": "missing",
-   "?InitializeClient@TcpConnection@@SAJPEBGKPEAPEAV1@@Z": "missing",
-   "?InitializeClient@TcpConnection@@SAJPEBGKPEAV?$shared_ptr@VTcpConnection@@@std@@@Z": "missing",
-   "?InitializeServer@NpConnection@@SAJPEBGPEAPEAV1@@Z": "missing",
-   "?InitializeServer@NpConnection@@SAJPEBGPEAV?$shared_ptr@VNpConnection@@@std@@@Z": "missing",
-   "?InitializeServer@TcpConnection@@SAJKPEAPEAV1@@Z": "missing",
-   "?InitializeServer@TcpConnection@@SAJKPEAV?$shared_ptr@VTcpConnection@@@std@@@Z": "missing",
+   "?Initialize@XbtpExtensionRegistry@@QEAAJXZ": "implemented",
+   "?Initialize@XbtpSession@@QEAAJAEBU_GUID@@V?$shared_ptr@VXbtpClientAdapter@@@std@@V?$shared_ptr@VXbtpChannel@@@4@@Z": "implemented",
+   "?InitializeClient@NpConnection@@SAJPEBGPEAPEAV1@@Z": "implemented",
+   "?InitializeClient@NpConnection@@SAJPEBGPEAV?$shared_ptr@VNpConnection@@@std@@@Z": "implemented",
+   "?InitializeClient@TcpConnection@@SAJPEBGKPEAPEAV1@@Z": "implemented",
+   "?InitializeClient@TcpConnection@@SAJPEBGKPEAV?$shared_ptr@VTcpConnection@@@std@@@Z": "implemented",
+   "?InitializeServer@NpConnection@@SAJPEBGPEAPEAV1@@Z": "implemented",
+   "?InitializeServer@NpConnection@@SAJPEBGPEAV?$shared_ptr@VNpConnection@@@std@@@Z": "implemented",
+   "?InitializeServer@TcpConnection@@SAJKPEAPEAV1@@Z": "implemented",
+   "?InitializeServer@TcpConnection@@SAJKPEAV?$shared_ptr@VTcpConnection@@@std@@@Z": "implemented",
    "?InternalLog@@YAXGPEBDPEAD@Z": "implemented",
-   "?IsExtensionValid@XbtpExtensionRegistry@@QEAA_NAEBU_GUID@@@Z": "missing",
+   "?IsExtensionValid@XbtpExtensionRegistry@@QEAA_NAEBU_GUID@@@Z": "implemented",
    "?KdDbgPrint@@YAXPEBD0ZZ": "forwarded",
    "?KdDbgPrintV@@YAXPEBD0PEAD@Z": "forwarded",
    "?LogError@@YAXPEBDZZ": "implemented",
@@ -2570,23 +2644,23 @@
    "?LogInfoV@@YAXPEBDPEAD@Z": "implemented",
    "?LogWarning@@YAXPEBDZZ": "implemented",
    "?LogWarningV@@YAXPEBDPEAD@Z": "implemented",
-   "?LookupExtension@XbtpExtensionRegistry@@QEAA_NAEBU_GUID@@PEAV?$shared_ptr@UExtensionDefinition@@@std@@PEAW4ExtensionLoadFailureReason@1@@Z": "missing",
-   "?ReceiveBeginMessage@XbtpSession@@QEAAJKPEAHPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "missing",
-   "?ReceiveBeginMessage@XbtpSession@@QEAAJPEAHPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "missing",
-   "?ReceiveEndMessage@XbtpSession@@QEAAJHPEAW4XBTP_STATUS_CODE@@PEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "missing",
-   "?ReceiveEndMessage@XbtpSession@@QEAAJKHPEAW4XBTP_STATUS_CODE@@PEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "missing",
-   "?ReceiveMessage@XbtpSession@@QEAAJKHPEAFPEAW4XBTP_STATUS_CODE@@PEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "missing",
-   "?ReceiveMoreMessage@XbtpSession@@QEAAJHPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "missing",
-   "?ReceiveMoreMessage@XbtpSession@@QEAAJKHPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "missing",
-   "?ReceiveOnewayMessage@XbtpSession@@QEAAJKPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "missing",
-   "?ReceiveOnewayMessage@XbtpSession@@QEAAJPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "missing",
-   "?RegisterExtension@XbtpExtensionRegistry@@QEAAJAEBU_GUID@@PEBG@Z": "missing",
+   "?LookupExtension@XbtpExtensionRegistry@@QEAA_NAEBU_GUID@@PEAV?$shared_ptr@UExtensionDefinition@@@std@@PEAW4ExtensionLoadFailureReason@1@@Z": "implemented",
+   "?ReceiveBeginMessage@XbtpSession@@QEAAJKPEAHPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "implemented",
+   "?ReceiveBeginMessage@XbtpSession@@QEAAJPEAHPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "implemented",
+   "?ReceiveEndMessage@XbtpSession@@QEAAJHPEAW4XBTP_STATUS_CODE@@PEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "implemented",
+   "?ReceiveEndMessage@XbtpSession@@QEAAJKHPEAW4XBTP_STATUS_CODE@@PEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "implemented",
+   "?ReceiveMessage@XbtpSession@@QEAAJKHPEAFPEAW4XBTP_STATUS_CODE@@PEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "implemented",
+   "?ReceiveMoreMessage@XbtpSession@@QEAAJHPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "implemented",
+   "?ReceiveMoreMessage@XbtpSession@@QEAAJKHPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "implemented",
+   "?ReceiveOnewayMessage@XbtpSession@@QEAAJKPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "implemented",
+   "?ReceiveOnewayMessage@XbtpSession@@QEAAJPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "implemented",
+   "?RegisterExtension@XbtpExtensionRegistry@@QEAAJAEBU_GUID@@PEBG@Z": "implemented",
    "?Run@XbtpConnectionDispatcher@@QEAAJXZ": "missing",
-   "?SendBeginMessage@XbtpSession@@QEAAJKAEBUXBTP_MESSAGE_BODY@@PEAH@Z": "missing",
-   "?SendEndMessage@XbtpSession@@QEAAJHW4XBTP_STATUS_CODE@@AEBUXBTP_MESSAGE_BODY@@@Z": "missing",
-   "?SendMoreMessage@XbtpSession@@QEAAJHAEBUXBTP_MESSAGE_BODY@@@Z": "missing",
-   "?SendMoreMessage@XbtpSession@@QEAAJHAEBUXBTP_MESSAGE_BODY@@P6AXKKKPEAX@Z1@Z": "missing",
-   "?SendOnewayMessage@XbtpSession@@QEAAJKAEBUXBTP_MESSAGE_BODY@@@Z": "missing",
+   "?SendBeginMessage@XbtpSession@@QEAAJKAEBUXBTP_MESSAGE_BODY@@PEAH@Z": "implemented",
+   "?SendEndMessage@XbtpSession@@QEAAJHW4XBTP_STATUS_CODE@@AEBUXBTP_MESSAGE_BODY@@@Z": "implemented",
+   "?SendMoreMessage@XbtpSession@@QEAAJHAEBUXBTP_MESSAGE_BODY@@@Z": "implemented",
+   "?SendMoreMessage@XbtpSession@@QEAAJHAEBUXBTP_MESSAGE_BODY@@P6AXKKKPEAX@Z1@Z": "implemented",
+   "?SendOnewayMessage@XbtpSession@@QEAAJKAEBUXBTP_MESSAGE_BODY@@@Z": "implemented",
    "?SerializeCloseSession@@YAJFAEBU_GUID@@KPEAKPEAD@Z": "implemented",
    "?SerializeConnectRequest@@YAJFFPEAUUTF8Text@@KPEAKPEAD@Z": "implemented",
    "?SerializeConnectResponse@@YAJW4XBTP_STATUS_CODE@@PEAUUTF8Text@@KPEAKPEAD@Z": "implemented",
@@ -2659,6 +2733,17 @@
    "XbtpStartDispatcherEx": "missing"
   },
   "notes": {
+   "??0XbtpClientAdapter@@QEAA@XZ": "zeroes state/channel/connection, quiet byte cleared; GUID left as console",
+   "??0XbtpSession@@QEAA@XZ": "vtbl (deleting dtor only), channel/adapter shared_ptrs nulled",
+   "??1NpConnection@@UEAA@XZ": "releases pipe handle, events and path BSTR",
+   "??1TcpConnection@@UEAA@XZ": "closes listen socket and socket event, frees server name",
+   "??1XbtpClientAdapter@@UEAA@XZ": "close session if in session, disconnect, release connection and channel",
+   "??1XbtpExtensionRegistry@@QEAA@XZ": "frees impl; dictionary releases definitions; second call is a no-op",
+   "?AddExtension@XbtpExtensionRegistry@@QEAAJV?$shared_ptr@UExtensionDefinition@@@std@@@Z": "by-value shared_ptr taken and released; null -> E_INVALIDARG; same id twice -> 0x80071392",
+   "?BeginSession@XbtpClientAdapter@@QEAAJAEBU_GUID@@@Z": "BeginSession(ext, 30000)",
+   "?BeginSession@XbtpClientAdapter@@QEAAJAEBU_GUID@@K@Z": "negotiate (CreateSessionRequest, response, location), -6 redirect via OpenRedirect + Connect + renegotiate; other status -> 0x8C1101xx",
+   "?Connect@XbtpClientAdapter@@QEAAJK@Z": "connect channel if disconnected, ConnectRequest XbtpClientAgent/221000/GameCore, fixed response + agent; status!=0 -> 0x83760002",
+   "?Connect@XbtpClientAdapter@@QEAAJXZ": "Connect(30000)",
    "?DeserializeCloseSessionMessage@@YAJAEAUXBTP_MESSAGE_HEADER@@KPEADAEAUXBTP_CLOSE_SESSION_MESSAGE@@@Z": "encoding.cpp: msglen check, header copy, ReadGuid",
    "?DeserializeConnectRequest@@YAJKPEADPEAUXBTP_CONNECT_REQUEST@@@Z": "fixed part + agent text in place, NUL at [len-1]",
    "?DeserializeConnectResponse@@YAJKPEADPEAUXBTP_CONNECT_RESPONSE@@@Z": "fixed part + agent text in place, NUL at [len-1]",
@@ -2670,7 +2755,19 @@
    "?DeserializeFixedConnectResponse@@YAJKPEADPEAUXBTP_CONNECT_RESPONSE@@@Z": "8-byte fixed part",
    "?DeserializeFixedCreateSessionResponse@@YAJKPEADPEAUXBTP_CREATE_SESSION_RESPONSE_MESSAGE@@@Z": "0x20-byte fixed part",
    "?DeserializeFixedExtensionMessage@@YAJAEBUXBTP_MESSAGE_HEADER@@KPEADAEAUXBTP_BEGIN_MESSAGE@@@Z": "0x20-byte body prefix after header",
+   "?Initialize@XbtpClientAdapter@@QEAAJV?$shared_ptr@VXbtpConnection@@@std@@@Z": "null connection -> E_INVALIDARG; by-value shared_ptr always released",
+   "?Initialize@XbtpExtensionRegistry@@QEAAJXZ": "out of memory -> E_OUTOFMEMORY with m_impl null; overwrites m_impl like the console; does not read the registry hive",
+   "?Initialize@XbtpSession@@QEAAJAEBU_GUID@@V?$shared_ptr@VXbtpClientAdapter@@@std@@V?$shared_ptr@VXbtpChannel@@@4@@Z": "null channel -> E_INVALIDARG; copies GUID, adapter and channel; by-value args always released",
+   "?InitializeClient@NpConnection@@SAJPEBGPEAPEAV1@@Z": "raw pointer variant of named-pipe client open",
+   "?InitializeClient@NpConnection@@SAJPEBGPEAV?$shared_ptr@VNpConnection@@@std@@@Z": "shared_ptr variant; wraps only on success",
+   "?InitializeClient@TcpConnection@@SAJPEBGKPEAPEAV1@@Z": "raw pointer variant; resolves host on connect",
+   "?InitializeClient@TcpConnection@@SAJPEBGKPEAV?$shared_ptr@VTcpConnection@@@std@@@Z": "shared_ptr variant; always wraps",
+   "?InitializeServer@NpConnection@@SAJPEBGPEAPEAV1@@Z": "overlapped pipe server instance",
+   "?InitializeServer@NpConnection@@SAJPEBGPEAV?$shared_ptr@VNpConnection@@@std@@@Z": "shared_ptr variant; always wraps",
+   "?InitializeServer@TcpConnection@@SAJKPEAPEAV1@@Z": "dual-stack listen socket; returns S_OK like the console",
+   "?InitializeServer@TcpConnection@@SAJKPEAV?$shared_ptr@VTcpConnection@@@std@@@Z": "shared_ptr variant; always wraps",
    "?InternalLog@@YAXGPEBDPEAD@Z": "XtfLogMessage(level,&ctx,0,0,0,fmt,va,0x11) via lazily loaded XtfBaseServices.dll",
+   "?IsExtensionValid@XbtpExtensionRegistry@@QEAA_NAEBU_GUID@@@Z": "loaded definitions first, then registered DLLs",
    "?KdDbgPrint@@YAXPEBD0ZZ": "asm variadic thunk -> KdDbgPrintV -> ntdll vDbgPrintExWithPrefix",
    "?KdDbgPrintV@@YAXPEBD0PEAD@Z": "ntdll vDbgPrintExWithPrefix(prefix,0,0,fmt,va)",
    "?LogError@@YAXPEBDZZ": "asm variadic thunk, gate XtfLogGetMainLevel>=1, level 2",
@@ -2679,6 +2776,22 @@
    "?LogInfoV@@YAXPEBDPEAD@Z": "gate >=4, level 4",
    "?LogWarning@@YAXPEBDZZ": "asm variadic thunk, gate >=3, level 3",
    "?LogWarningV@@YAXPEBDPEAD@Z": "gate >=3, level 3",
+   "?LookupExtension@XbtpExtensionRegistry@@QEAA_NAEBU_GUID@@PEAV?$shared_ptr@UExtensionDefinition@@@std@@PEAW4ExtensionLoadFailureReason@1@@Z": "null out/reason -> false; lazy load: LoadLibrary (exe dir, then given path), ordinal-4 ServerEntryPoint, router; reasons 0/1/2/3",
+   "?ReceiveBeginMessage@XbtpSession@@QEAAJKPEAHPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "type 2 receive, outputs exchange id",
+   "?ReceiveBeginMessage@XbtpSession@@QEAAJPEAHPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "ReceiveBeginMessage(30000, ...)",
+   "?ReceiveEndMessage@XbtpSession@@QEAAJHPEAW4XBTP_STATUS_CODE@@PEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "ReceiveEndMessage(30000, ...)",
+   "?ReceiveEndMessage@XbtpSession@@QEAAJKHPEAW4XBTP_STATUS_CODE@@PEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "status=-7 first, type 4, exchange check 0x8C110306, status=op",
+   "?ReceiveMessage@XbtpSession@@QEAAJKHPEAFPEAW4XBTP_STATUS_CODE@@PEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "any type, exchange check (body reset on mismatch), outputs type and status",
+   "?ReceiveMoreMessage@XbtpSession@@QEAAJHPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "ReceiveMoreMessage(30000, ...)",
+   "?ReceiveMoreMessage@XbtpSession@@QEAAJKHPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "type 3 receive + exchange check 0x8C110306",
+   "?ReceiveOnewayMessage@XbtpSession@@QEAAJKPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "type 1 receive; close/disconnect -> 0x8C110405 and session torn down",
+   "?ReceiveOnewayMessage@XbtpSession@@QEAAJPEAV?$shared_ptr@UXBTP_MESSAGE_BODY@@@std@@@Z": "ReceiveOnewayMessage(30000, ...)",
+   "?RegisterExtension@XbtpExtensionRegistry@@QEAAJAEBU_GUID@@PEBG@Z": "null path or already-registered DLL -> E_INVALIDARG; expands %ENV% in the path; console log text kept",
+   "?SendBeginMessage@XbtpSession@@QEAAJKAEBUXBTP_MESSAGE_BODY@@PEAH@Z": "exchange id from channel (client +1, server -1), type 2",
+   "?SendEndMessage@XbtpSession@@QEAAJHW4XBTP_STATUS_CODE@@AEBUXBTP_MESSAGE_BODY@@@Z": "type 4 with status in operation slot",
+   "?SendMoreMessage@XbtpSession@@QEAAJHAEBUXBTP_MESSAGE_BODY@@@Z": "SendMoreMessage(exch, body, nullptr, nullptr)",
+   "?SendMoreMessage@XbtpSession@@QEAAJHAEBUXBTP_MESSAGE_BODY@@P6AXKKKPEAX@Z1@Z": "type 3; callback invoked after the send completes",
+   "?SendOnewayMessage@XbtpSession@@QEAAJKAEBUXBTP_MESSAGE_BODY@@@Z": "type 1, exchange 0",
    "?SerializeCloseSession@@YAJFAEBU_GUID@@KPEAKPEAD@Z": "0x18 bytes, type 0xFFFC",
    "?SerializeConnectRequest@@YAJFFPEAUUTF8Text@@KPEAKPEAD@Z": "sig,ver,len,text; size len+8",
    "?SerializeConnectResponse@@YAJW4XBTP_STATUS_CODE@@PEAUUTF8Text@@KPEAKPEAD@Z": "status,len,text; size len+8",
@@ -2864,7 +2977,7 @@
   },
   "notes": {
    "DStorageGetFactory": "xcrd: own console-layout IDStorageFactoryX/FileX/QueueX/StatusArrayX objects, CPU file/zlib backend",
-   "DStorageGetMappedControlPage": "xcrd: S_OK with NULL page: the CPU DirectStorage backend maps no hardware control page (console maps one after factory init)",
+   "DStorageGetMappedControlPage": "xcrd: returns the emulated driver's 4 KB control page mapped by DStorageGetFactory init (IOCTL 0x7800013c), NULL before init, as on console",
    "XCloudQueryFeatureBits": "xcrd: QueryXvdInformation([XUC:]\\ANYXVC, class 0x12)",
    "XCrdCreateXVD": "xcrd: XVD miniport request 0x7800020, console validation/payload layout",
    "XCrdOpenAdapter": "xcrd: probes \\.\\Scsi0-63: with XVD miniport query 0x7800000c, MSFT_XVD signature check",
@@ -3008,7 +3121,7 @@
    "XDXRCreateDevice": "forwarded"
   },
   "notes": {
-   "XDXRCreateDevice": "forwarded to the console's own xdxr.dll (TOMBOX_XDXR_CONSOLE, xdxr_console.dll beside this DLL, or the newest title EmbeddedXvd dump) with the emulator xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL; without the console DLL returns the console failure value NULL"
+   "XDXRCreateDevice": "forwarded to the console's own xdxr.dll (TOMBOX_XDXR_CONSOLE, xdxr_console.dll beside this DLL, or the title EmbeddedXvd dump with the newest console OS build) with the emulator xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL (init builds its BVH root signatures and pipelines on the given console ID3D12Device); without the console DLL returns the console failure value NULL"
   }
  },
  "xdxr_d.dll": {
@@ -3017,7 +3130,7 @@
    "XDXRCreateDevice": "forwarded"
   },
   "notes": {
-   "XDXRCreateDevice": "forwarded to the console's own xdxr_d.dll (TOMBOX_XDXR_D_CONSOLE, xdxr_d_console.dll beside this DLL, or the newest title EmbeddedXvd dump) with the emulator xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL; without the console DLL returns the console failure value NULL"
+   "XDXRCreateDevice": "forwarded to the console's own xdxr_d.dll (TOMBOX_XDXR_D_CONSOLE, xdxr_d_console.dll beside this DLL, or the title EmbeddedXvd dump with the newest console OS build) with the emulator xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL (init builds its BVH root signatures and pipelines on the given console ID3D12Device); without the console DLL returns the console failure value NULL"
   }
  },
  "xdxr_i.dll": {
@@ -3026,7 +3139,7 @@
    "XDXRCreateDevice": "forwarded"
   },
   "notes": {
-   "XDXRCreateDevice": "forwarded to the console's own xdxr_i.dll (TOMBOX_XDXR_I_CONSOLE, xdxr_i_console.dll beside this DLL, or the newest title EmbeddedXvd dump) with the emulator xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL; without the console DLL returns the console failure value NULL"
+   "XDXRCreateDevice": "forwarded to the console's own xdxr_i.dll (TOMBOX_XDXR_I_CONSOLE, xdxr_i_console.dll beside this DLL, or the title EmbeddedXvd dump with the newest console OS build) with the emulator xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL (init builds its BVH root signatures and pipelines on the given console ID3D12Device); without the console DLL returns the console failure value NULL"
   }
  },
  "xfp_gc.dll": {
@@ -3114,9 +3227,9 @@
    "XGCreateTextureComputer": "XG_RESOURCE_DESC (D3D12 desc, layout 0/2/0x100+mode)",
    "XGCreateTextureComputerFromDescriptor": "console 0x4520 validation/type->dimension exact; T# width/height/depth/last_level/tile_index/data_format decoded into the crate layout model",
    "XGCreateTextureComputerWithPitch": "pitch argument logged, computed pitch used",
-   "XGDecodeDCC": "console arg+setup checks exact (E_INVALIDARG); software DCC codec 0x168c0-0x1f1a4 (42 fns, ~25 KB) not ported -> E_NOTIMPL",
+   "XGDecodeDCC": "console arg+setup checks exact (E_INVALIDARG); software DCC codec 0x168c0-0x1f1a4 (42 fns, ~25 KB) not ported -> E_NOTIMPL; codec is GCN-specific and differs from the xg_xs (RDNA2) codec, so the xg_xs port cannot be shared",
    "XGEnableExclusiveLocking": "critical section like the console",
-   "XGEncodeDCC": "console arg+setup checks exact (E_INVALIDARG); software DCC codec 0x168c0-0x1f1a4 (42 fns, ~25 KB) not ported -> E_NOTIMPL",
+   "XGEncodeDCC": "console arg+setup checks exact (E_INVALIDARG); software DCC codec 0x168c0-0x1f1a4 (42 fns, ~25 KB) not ported -> E_NOTIMPL; codec is GCN-specific and differs from the xg_xs (RDNA2) codec, so the xg_xs port cannot be shared",
    "XGSetHardwareVersion": "revision flag = version >= 2 (signed), feeds depth/stencil validation",
    "XGValidateDepthStencilTileMode": "console compatibility table for both hardware revisions (oracle-verified)",
    "XGValidateJpegFile": "console marker parser: baseline 8-bit 3-component, 4:2:0 -> NV12, 4:2:2 -> YUY2, 8192 limit, APP byte count (oracle-verified)"
