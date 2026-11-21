@@ -23,17 +23,22 @@ Uses legally obtained, already-decrypted dumps. The runtime does no key extracti
 
 ## Milestones
 
+Counted live by `tools/progress/gen.py`; full table with evidence in [docs/MILESTONES.md](docs/MILESTONES.md).
+
 | Milestone | State |
 |---|---|
-| Console executable loads and runs natively | done |
-| Graphics device, pipelines and presentation | done |
-| First frame from the real game | done |
-| Main menu / lobby reached | done |
-| 3D scene correct | in progress |
-| Input | partial (mouse) |
-| Audio | not started |
-| Gameplay | not started |
-| A second title | shaders examined, not run |
+| All imported system functions covered (671/671) | done |
+| Full title shader sweep translated (105,506/105,506) | done |
+| All Direct3D 12.x methods covered | in progress (map) |
+| All RDNA2 instructions verified | in progress (map) |
+| All shader stages (Mesh, Amplification) | in progress (map) |
+| All Xbox console libraries covered | in progress (map) |
+| Fortnite boots, first frames, login, hotfix, mode select, BR lobby | done (7 run milestones) |
+| 3D scene correct | not reached |
+| Keyboard / controller input | not reached |
+| Audio | not reached |
+| Gameplay | not reached |
+| A second title running | not reached |
 
 ## Tested titles
 

@@ -675,6 +675,15 @@
    "ExtensionApiVersion": "returns the console EXT_API_VERSION {10, 0, 6, 0}"
   }
  },
+ "dxbc2dxil_xs.dll": {
+  "file": "crates/compat/dxbc2dxil_xs/src/lib.rs",
+  "functions": {
+   "SCDxil_ConvertDxbcToDxil": "forwarded"
+  },
+  "notes": {
+   "SCDxil_ConvertDxbcToDxil": "forwarded to the console's own dxbc2dxil_xs.dll (TOMBOX_DXBC2DXIL_CONSOLE, dxbc2dxil_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump); (src, size, out, out_size, {alloc, free, ctx}) -> 0, a DXBC already holding a valid DXIL part is copied as is; without the console DLL returns the console failure value 1"
+  }
+ },
  "dxcompiler_x.dll": {
   "file": "crates/compat/dxcompiler_x/src/lib.rs",
   "functions": {
@@ -802,6 +811,8 @@
  "GCXAudioExt.dll": {
   "file": "crates/compat/gcxaudioext/src/lib.rs",
   "functions": {
+   "CreateXAudioAcpState": "implemented",
+   "DestroyXAudioAcpState": "implemented",
    "DllMain": "implemented",
    "GetAudioEndpointIdFromDeviceInterfaceId": "implemented",
    "GetXAudioDefaultProcessorForCurrentPlatform": "implemented",
@@ -812,6 +823,8 @@
    "XAudioHeapFree": "implemented"
   },
   "notes": {
+   "CreateXAudioAcpState": "console 0x11150: *out = NULL, 0x3c0-byte state from the XAudio heap (XMemAlloc attributes 0x04810000), ctor 0xf0d0 (two free-list pools at +0 and +0x1c8: 16 inline 0x18-byte nodes, element 0x40 / 0x80, limit 0x8000; debug configuration +0x390..+0x3a8 zeroed), flag stored at +0x3b9; a non-NULL configuration runs init 0x103a0: shape-context allocator 0x11f50 (caller's context table adopted per type, shadow arrays ApuAlloc(count*{0x20,0xa0,0x20,0x10,0x40,0x20}, 0x100, heap 1), XMA side arrays count*4 heap 2 zeroed, per-context owner bytes 0x04 | 0x02 when flag is 0), AcpHalCreate, IAcpHal::Connect(0x400, 0x20), SubmitCommand(2, 0, 0xffffffff, {0x80}, 0); on failure the state is destroyed; AcpHal.dll resolved at run time so the title's AcpHal instance is used",
+   "DestroyXAudioAcpState": "console 0x112d0 -> 0xf310: when initialized IAcpHal::Disconnect, then up to 999 PopMessage polls with Sleep(1) until the 0x80 DISCONNECTED message, Release, shape-context allocator deleted; the last allocator (console refcount 0x26628) runs 0x13f20: AcpHalReleaseShapeContexts if this DLL allocated them, ApuFree of the shadow and XMA side arrays, owner bytes and the global context table cleared",
    "DllMain": "console 0xecb0: DisableThreadLibraryCalls on process attach, returns TRUE",
    "GetAudioEndpointIdFromDeviceInterfaceId": "console 0x11330: CoCreateInstance(MMDeviceEnumerator, CLSCTX_ALL), EnumAudioEndpoints(eRender, DEVICE_STATEMASK_ALL), for each device its device interface id compared with CompareStringOrdinal (ignore case), the match's IMMDevice::GetId returned; S_OK with NULL when nothing matches, the first failing HRESULT otherwise; the console reads the interface id through a console-only device interface (67c5fc9c-29e1-4154-8307-84ed8edb5a21 slot 12), on the host it is the SWD\\MMDEVAPI render interface path from CM_Get_Device_Interface_ListW (a host endpoint with no render interface cannot match and is skipped)",
    "GetXAudioDefaultProcessorForCurrentPlatform": "console 0xecf0: returns 0x20 (XAUDIO2_PROCESSOR Processor6)",
@@ -1598,6 +1611,42 @@
    "SvchostPushServiceGlobalsEx": "console 0x6fc0: stores the svchost global data pointer in the module global (console 0x6e760) that the service main reads; no other effect"
   }
  },
+ "newbe.dll": {
+  "file": "crates/compat/newbe/src/lib.rs",
+  "functions": {
+   "NB_CreatePixDwarfApi": "forwarded",
+   "NB_CompileShader": "forwarded",
+   "NB_CompilePipeline": "forwarded",
+   "NB_CreateOptimizer": "forwarded",
+   "NB_GetShaderStats": "forwarded"
+  },
+  "notes": {
+   "NB_CreatePixDwarfApi": "forwarded to the console's own newbe.dll (TOMBOX_NEWBE_CONSOLE, newbe_console.dll beside this DLL, or the newest title EmbeddedXvd dump); without it returns the console failure value E_FAIL 0x80004005",
+   "NB_CompileShader": "forwarded to the console's own newbe.dll (TOMBOX_NEWBE_CONSOLE, newbe_console.dll beside this DLL, or the newest title EmbeddedXvd dump); without it returns the console failure value E_FAIL 0x80004005",
+   "NB_CompilePipeline": "forwarded to the console's own newbe.dll (TOMBOX_NEWBE_CONSOLE, newbe_console.dll beside this DLL, or the newest title EmbeddedXvd dump); without it returns the console failure value E_FAIL 0x80004005",
+   "NB_CreateOptimizer": "forwarded to the console's own newbe.dll (TOMBOX_NEWBE_CONSOLE, newbe_console.dll beside this DLL, or the newest title EmbeddedXvd dump); without it returns the console failure value E_FAIL 0x80004005",
+   "NB_GetShaderStats": "forwarded to the console's own newbe.dll (TOMBOX_NEWBE_CONSOLE, newbe_console.dll beside this DLL, or the newest title EmbeddedXvd dump); without it returns the console failure value E_FAIL 0x80004005"
+  }
+ },
+ "newbe_xs.dll": {
+  "file": "crates/compat/newbe_xs/src/lib.rs",
+  "functions": {
+   "NB_CreatePixDwarfApi": "forwarded",
+   "NB_CompileShader": "forwarded",
+   "NB_CompilePipeline": "forwarded",
+   "NB_CreateOptimizer": "forwarded",
+   "NB_GetShaderStats": "forwarded",
+   "NB_GetRegPressure": "forwarded"
+  },
+  "notes": {
+   "NB_CreatePixDwarfApi": "forwarded to the console's own newbe_xs.dll (TOMBOX_NEWBE_XS_CONSOLE, newbe_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump); without it returns the console failure value E_FAIL 0x80004005",
+   "NB_CompileShader": "forwarded to the console's own newbe_xs.dll (TOMBOX_NEWBE_XS_CONSOLE, newbe_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump); without it returns the console failure value E_FAIL 0x80004005",
+   "NB_CompilePipeline": "forwarded to the console's own newbe_xs.dll (TOMBOX_NEWBE_XS_CONSOLE, newbe_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump); without it returns the console failure value E_FAIL 0x80004005",
+   "NB_CreateOptimizer": "forwarded to the console's own newbe_xs.dll (TOMBOX_NEWBE_XS_CONSOLE, newbe_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump); without it returns the console failure value E_FAIL 0x80004005",
+   "NB_GetShaderStats": "forwarded to the console's own newbe_xs.dll (TOMBOX_NEWBE_XS_CONSOLE, newbe_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump); without it returns the console failure value E_FAIL 0x80004005",
+   "NB_GetRegPressure": "forwarded to the console's own newbe_xs.dll (TOMBOX_NEWBE_XS_CONSOLE, newbe_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump); without it returns the console failure value E_FAIL 0x80004005"
+  }
+ },
  "ntdll.dll": {
   "file": "crates/compat/ntdll/src/lib.rs",
   "functions": {
@@ -1867,20 +1916,20 @@
   "functions": {
    "SCDxil_DxcCreateInstance": "forwarded",
    "SCDxil_GetDriverShaderCode": "implemented",
-   "SCDxil_GetExternalILInterface": "missing",
+   "SCDxil_GetExternalILInterface": "forwarded",
    "SCDxil_GetOriginalShader": "implemented",
    "SCDxil_IsDxilShader": "implemented",
    "SCDxil_IsStageSupportedByNewBE": "implemented",
-   "SCDxil_SCSimpleCompileShader": "missing"
+   "SCDxil_SCSimpleCompileShader": "forwarded"
   },
   "notes": {
    "SCDxil_DxcCreateInstance": "console calls its embedded DxcCreateInstance2(NULL malloc); mapped to the emulator dxcompiler_xs DxcCreateInstance2 (host DXC or native IDxcUtils)",
    "SCDxil_GetDriverShaderCode": "console DXBC container validation (v1, contiguous in-order parts, size <= 2 GiB) then the DXIL part data; 0 on success, 3 otherwise",
-   "SCDxil_GetExternalILInterface": "fills a table of entry points into the console AMD shader-compiler IL builder; the emulator has no DXIL-to-RDNA2 compiler behind it",
+   "SCDxil_GetExternalILInterface": "console scdxil.dll from the title dump (newbe.dll preloaded); fills its 3 IL-builder entry points into out and returns out; no console module -> NULL",
    "SCDxil_GetOriginalShader": "console DXIL program-header check, XDAT part 7 (original) then its part 11 (replacement) lookup, {pointer, size} result; an invalid part 11 (console throws) returns {NULL, 0}",
    "SCDxil_IsDxilShader": "console DxilProgramHeader/bitcode-range checks against the given size",
    "SCDxil_IsStageSupportedByNewBE": "console stage table: mode bits 27-28 of +0xc (1 or 3 = all 25 stages, 0/2 = none), stage = bits 21-25 of +0x18",
-   "SCDxil_SCSimpleCompileShader": "full DXIL to RDNA2 ISA compiler (console AMD SC back end); the emulator executes the title's DXIL on the PC driver and has no such compiler"
+   "SCDxil_SCSimpleCompileShader": "console scdxil.dll DXIL to Durango GCN back end (newbe.dll); console returns 0 ok, 4 unsupported stage, 1 on exception; no console module -> 1"
   }
  },
  "secur32.dll": {
@@ -1982,6 +2031,19 @@
    "httpReadFile": "InternetReadFile or WinHttpReadData by the same engine choice"
   }
  },
+ "TimeBrokerServer.dll": {
+  "file": "crates/compat/timebrokerserver/src/lib.rs",
+  "functions": {
+   "ServiceMain": "forwarded",
+   "SvchostPushServiceGlobals": "implemented",
+   "SvchostPushServiceGlobalsEx": "forwarded"
+  },
+  "notes": {
+   "ServiceMain": "timebrokerserver_sys.ServiceMain; reached through the globals adapter below on 19041/22000 consoles",
+   "SvchostPushServiceGlobals": "console 19041/22000 0x13940 stores a legacy SVCHOST_GLOBAL_DATA (RegisterStopCallback at +0xc0); the PC service needs the Ex block, so the adapter builds it as PC svchost does (version 1 at +0, legacy block at +8, so legacy +0xc0 lands at Ex +0xc8), sets Ex +0xd0 to a stop-callback registrar that calls legacy +0xc0 with the same six arguments, Ex +0xd8 to the unregister (NULL -> ERROR_INVALID_PARAMETER, else non-blocking UnregisterWaitEx, 0), then calls the PC SvchostPushServiceGlobalsEx",
+   "SvchostPushServiceGlobalsEx": "timebrokerserver_sys.SvchostPushServiceGlobalsEx (console 22621 name, same Ex block as PC)"
+  }
+ },
  "ttdrecordcpu.dll": {
   "file": "crates/compat/ttdrecordcpu/src/lib.rs",
   "functions": {
@@ -2065,6 +2127,8 @@
    "XerDumpNotifyComplete": "implemented",
    "XerDumpNotifyStart": "implemented",
    "XerEncryptDump": "implemented",
+   "XerEnumerateReportFiles": "implemented",
+   "XerEnumerateReportMetadata": "implemented",
    "XerGetMachineId": "implemented",
    "XerGetMachineStorePath": "implemented",
    "XerGetMaxProcessHoldMilliseconds": "implemented",
@@ -2084,10 +2148,12 @@
    "XerDumpNotifyComplete": "releases the local crash store mount and transport",
    "XerDumpNotifyStart": "creates the local GameOS-crash0 store (Temp, ReportQueue, ReportArchive), WerXvdCreated marker, transport state 3",
    "XerEncryptDump": "true only for dump kind 3, as console",
+   "XerEnumerateReportFiles": "WER callback set by DllMain (.data 0x12870 = 0x84E0): one-shot, AppHangB1 + host flag 2 returns the host-supplied hang file via StringCchPrintf, else S_FALSE; later calls 0x80070012",
+   "XerEnumerateReportMetadata": "WER callback set by DllMain (.data 0x12860 = 0x83C0): one-shot SRAOSVersion = title OS version %lu.%lu.%lu.%lu; missing value 0x80070002; later calls 0x80070012",
    "XerGetMachineId": "GUID from cpuid leaf 0x4000000A exactly as console",
    "XerGetMachineStorePath": "local store path in a 0x208-byte buffer",
    "XerGetMaxProcessHoldMilliseconds": "30000",
-   "XerProcessHeapDumpRequest": "E_ABORT unless a heap dump was requested (console flag is never set)",
+   "XerProcessHeapDumpRequest": "E_ABORT unless the game-host response flag bit 0 is set (set_host_response), then transport event 1",
    "XerShouldWerManageRootDirectory": "false",
    "XerTpCompleteUpload": "console body is a bare ret",
    "XerTpUpload": "transport event 0 logged locally, returns E_NOTIMPL like the console; nothing uploaded",
@@ -2154,22 +2220,90 @@
  "xbsc_xs.dll": {
   "file": "crates/compat/xbsc_xs/src/lib.rs",
   "functions": {
+   "SCCompileMultiShadersXbox": "forwarded",
+   "SCDumpHwShader": "forwarded",
+   "SCDumpHwShaderData": "forwarded",
+   "SCDumpMergedHwShader": "forwarded",
+   "SCDumpMergedHwShaderData": "forwarded",
+   "SCDumpRawShader": "forwarded",
+   "SC_ConvertRootSignatureToSCInputs": "forwarded",
+   "SC_OutputHandle_GetShaderObject": "forwarded",
+   "SC_SCDX12TableDesc_Destroy": "forwarded",
+   "XBSC_AssembleShader": "implemented",
+   "XBSC_CompileRootSignature": "forwarded",
    "XBSC_CompressBuffer": "implemented",
+   "XBSC_CreatePixDwarfApi": "forwarded",
    "XBSC_DecompressBuffer": "implemented",
+   "XBSC_DeserializePipelineCompileInput": "forwarded",
+   "XBSC_DeserializePipelineCompileOutput": "forwarded",
+   "XBSC_DeserializeSrcPipeline": "forwarded",
    "XBSC_DestroyResult": "implemented",
+   "XBSC_DisassembleHwPipeline": "forwarded",
+   "XBSC_DisassembleHwPipelineWithCallback": "forwarded",
+   "XBSC_DisassembleRawShader": "forwarded",
+   "XBSC_DumpProgramShaderStats": "forwarded",
+   "XBSC_DumpShaderStats": "forwarded",
+   "XBSC_GetAssembledShader": "implemented",
+   "XBSC_GetCompiledRootSignature": "implemented",
    "XBSC_GetCompressedBuffer": "implemented",
    "XBSC_GetDecompressedBuffer": "implemented",
+   "XBSC_GetDeserializedPipelineCompileOutput": "implemented",
+   "XBSC_GetDeserializedSrcPipeline": "implemented",
+   "XBSC_GetDisassembly": "implemented",
    "XBSC_GetErrorMessage": "implemented",
-   "XBSC_GetResultCode": "implemented"
+   "XBSC_GetPipelineCompileOutput": "implemented",
+   "XBSC_GetRegPressure": "forwarded",
+   "XBSC_GetResultCode": "implemented",
+   "XBSC_GetSerializedPipelineCompileOutput": "implemented",
+   "XBSC_GetSerializedSrcPipeline": "implemented",
+   "XBSC_GetShaderStats": "forwarded",
+   "XBSC_PipelineCompile": "forwarded",
+   "XBSC_SerializePipelineCompileInput": "forwarded",
+   "XBSC_SerializePipelineCompileOutput": "forwarded",
+   "XBSC_SerializeSrcPipeline": "forwarded"
   },
   "notes": {
+   "SCCompileMultiShadersXbox": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0; on the console this thunk delay-loads sc_dll_xs.dll, which no console image ships, so the console raises the delay-load exception 0xC026FF00 exactly as here",
+   "SCDumpHwShader": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0; on the console this thunk delay-loads sc_dll_xs.dll, which no console image ships, so the console raises the delay-load exception 0xC026FF00 exactly as here",
+   "SCDumpHwShaderData": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0; on the console this thunk delay-loads sc_dll_xs.dll, which no console image ships, so the console raises the delay-load exception 0xC026FF00 exactly as here",
+   "SCDumpMergedHwShader": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0; on the console this thunk delay-loads sc_dll_xs.dll, which no console image ships, so the console raises the delay-load exception 0xC026FF00 exactly as here",
+   "SCDumpMergedHwShaderData": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0; on the console this thunk delay-loads sc_dll_xs.dll, which no console image ships, so the console raises the delay-load exception 0xC026FF00 exactly as here",
+   "SCDumpRawShader": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0; on the console this thunk delay-loads sc_dll_xs.dll, which no console image ships, so the console raises the delay-load exception 0xC026FF00 exactly as here",
+   "SC_ConvertRootSignatureToSCInputs": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0; on the console this thunk delay-loads sc_dll_xs.dll, which no console image ships, so the console raises the delay-load exception 0xC026FF00 exactly as here",
+   "SC_OutputHandle_GetShaderObject": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0; on the console this thunk delay-loads sc_dll_xs.dll, which no console image ships, so the console raises the delay-load exception 0xC026FF00 exactly as here",
+   "SC_SCDX12TableDesc_Destroy": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0; on the console this thunk delay-loads sc_dll_xs.dll, which no console image ships, so the console raises the delay-load exception 0xC026FF00 exactly as here",
+   "XBSC_AssembleShader": "native: resolves the allocator (null on failure), null for a null option pointer, else an error handle \"Assembly is not supported with xbox console dlls\" (the console lambda c130 always throws it)",
+   "XBSC_CompileRootSignature": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0",
    "XBSC_CompressBuffer": "XBCH container (magic 0x48434258, version 3, u64 zlib size, u64 original size, zlib stream at +0x18) via zlib level -1; result handle tag 0xA; caller allocator {alloc(ctx,n), free(ctx,p), ctx}; error handles carry the console strings",
+   "XBSC_CreatePixDwarfApi": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x1",
    "XBSC_DecompressBuffer": "console header checks in order: null, <0x20 bytes, magic, version <2, truncated, version 2 stored copy, version 3 inflate with exact-size check, other versions rejected; result handle tag 0xB",
-   "XBSC_DestroyResult": "frees payload and handle through the allocator that created them, releases allocator references; null accepted",
+   "XBSC_DeserializePipelineCompileInput": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0",
+   "XBSC_DeserializePipelineCompileOutput": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0",
+   "XBSC_DeserializeSrcPipeline": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0",
+   "XBSC_DestroyResult": "frees payload and handle through the allocator that created them, releases allocator references; null accepted; handles made by the console module (non-zero vtable) are destroyed by the console XBSC_DestroyResult",
+   "XBSC_DisassembleHwPipeline": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0",
+   "XBSC_DisassembleHwPipelineWithCallback": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0",
+   "XBSC_DisassembleRawShader": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0",
+   "XBSC_DumpProgramShaderStats": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0",
+   "XBSC_DumpShaderStats": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0",
+   "XBSC_GetAssembledShader": "native: 1 for null, the handle code when non-zero, 0 without writing for tag != 0xF or null out, else [h+0x28] and 0 (console b390)",
+   "XBSC_GetCompiledRootSignature": "native: (out, h); 1 for null h or tag != 7, else copies h+0x20, h+0x28, u32 h+0x30 into out and 0 (console a950)",
    "XBSC_GetCompressedBuffer": "returns 1 for null outputs, null handle or tag != 0xA, else data +0x28 and size +0x30 and 0",
    "XBSC_GetDecompressedBuffer": "returns 1 for null outputs, null handle or tag != 0xB, else data and size and 0",
-   "XBSC_GetErrorMessage": "error handle message pointer (null when its allocation failed, like vtable slot 0x9250); \"unknown error\" for null and non-error handles",
-   "XBSC_GetResultCode": "handle +8: 0 success, 1 error; 1 for null"
+   "XBSC_GetDeserializedPipelineCompileOutput": "native: 1 for null out/handle, tag != 9 or null object, else [h+0x28] and 0 (console ad70)",
+   "XBSC_GetDeserializedSrcPipeline": "native: 1 for null out/handle, tag != 0xD or null object, else [h+0x28] and 0 (console abd0)",
+   "XBSC_GetDisassembly": "native: 1 for null, the handle code when non-zero, 0 untouched for tag != 0xE, else the std::string at h+0x20 (SSO by capacity h+0x38) and its length h+0x30 (console b280)",
+   "XBSC_GetErrorMessage": "error handle message pointer (null when its allocation failed, like vtable slot 0x9250); \"unknown error\" for null and non-error handles; console-made handles ask the console XBSC_GetErrorMessage",
+   "XBSC_GetPipelineCompileOutput": "native: [h+0x28] for tag 6, else null (console a6d0)",
+   "XBSC_GetRegPressure": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x1",
+   "XBSC_GetResultCode": "handle +8: 0 success, 1 error; 1 for null",
+   "XBSC_GetSerializedPipelineCompileOutput": "native: 1 for null outputs/handle, tag != 8 or null blob, else blob and its size u32 [blob+8] + 0x10 (console ac90)",
+   "XBSC_GetSerializedSrcPipeline": "native: 1 for null outputs/handle, tag != 0xC or null blob, else blob and its size u32 [blob+8] + 0x10 (console aaf0)",
+   "XBSC_GetShaderStats": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x1",
+   "XBSC_PipelineCompile": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0",
+   "XBSC_SerializePipelineCompileInput": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0",
+   "XBSC_SerializePipelineCompileOutput": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0",
+   "XBSC_SerializeSrcPipeline": "forwarded to the console's own xbsc_xs.dll (TOMBOX_XBSC_XS_CONSOLE, xbsc_xs_console.dll beside this DLL, or the newest title EmbeddedXvd dump, with its newbe_xs.dll and dxbc2dxil_xs.dll preloaded from the same folder); without it returns the console failure value 0x0"
   }
  },
  "xbthunk.dll": {
@@ -2178,17 +2312,25 @@
    "XbCreatePartitionHeap": "implemented",
    "XbGetPartitionHandleAndId": "implemented",
    "XbGetPartitionHeap": "implemented",
+   "XbRegisterXMemCallback": "implemented",
+   "XbRegisterXMemOperationCallback": "implemented",
    "XbReportUnknownNtAvmError": "implemented",
+   "XbSetCallHeapFreeCallbackForRealloc": "implemented",
    "XbSetWinHttpHooks": "implemented",
+   "__RedirectionInformation__": "implemented",
    "__ShouldApplyRedirectionToFunction__": "implemented",
    "__ShouldApplyRedirection__": "implemented"
   },
   "notes": {
-   "XbCreatePartitionHeap": "console 0x2ab0/0x17ac: partition 0-2 else ERROR_INVALID_PARAMETER, unopened partition ERROR_PARTITION_NOT_FOUND (0x10d8); RtlCreateHeap(flags | 0x102, reserve = commit = size) with the console's version-3 segment-heap parameters (memory type mask 1 << type, | 8 for type 4, partition handle for type >= 2); ERROR_BAD_ARGUMENTS when the heap cannot be created",
+   "XbCreatePartitionHeap": "console 0x2ab0/0x17ac: partition 0-2 else ERROR_INVALID_PARAMETER, unopened partition ERROR_PARTITION_NOT_FOUND (0x10d8); RtlCreateHeap(flags 0x100 | 0x102, reserve and commit dropped as the console does when it builds the parameters) with the console's version-3 segment-heap parameters (memory type mask 1 << type, | 8 for type 4, partition handle for type >= 2); ERROR_BAD_ARGUMENTS when the heap cannot be created; console memory types 1-3 have no host segment-heap type, so on a stand-in partition they fall back to type 0 (cacheable)",
    "XbGetPartitionHandleAndId": "console 0x2ec0: DuplicateHandle of the partition handle (same access) and its id; partitions opened as the emulator xmem does (\\KernelObjects\\MemoryPartition0, \\GLOBAL??\\MemoryPartitionXboxTitle, \\GLOBAL??\\MemoryPartitionXboxTools), title partition stood in by the process",
    "XbGetPartitionHeap": "console 0x2fa0/0x18d4: one heap per partition created once (RtlRunOnce) with memory type 2/0/2 for partitions 0/1/2",
+   "XbRegisterXMemCallback": "console 0x36c0: stores the XMem notification callback; the redirected heap and virtual-memory thunks call it with (op, 5-qword record): 1 alloc {heap, flags, size, result, 0}, 2 realloc {heap, flags, size, result, old}, 3 free {heap, flags, ptr, 0, 0}, 4 VirtualFree {addr, size, type}, 5 VirtualAlloc {result, size, type | protect << 32}",
+   "XbRegisterXMemOperationCallback": "console 0x36d0: stores the operation callback; the file, event, semaphore and VirtualAlloc(Ex) thunks call it as (1, &&allowed) and fail without SetLastError when it clears allowed (NULL, or INVALID_HANDLE_VALUE for files)",
    "XbReportUnknownNtAvmError": "console 0x1e00: the console writes a TraceLogging event (status, two pointers, size, extra, the process image name); the emulator writes the same fields to the compat log",
+   "XbSetCallHeapFreeCallbackForRealloc": "console 0x3af0: stores the flag; when set and an XMem callback is registered, HeapReAlloc/RtlReAllocateHeap report a free of the old block before reallocating",
    "XbSetWinHttpHooks": "console 0x3b00: copies the 7-pointer hook table; also handed to the emulator xmem.dll (XMemSetWinHttpHooks, which the console forwards here) so its WinHttp hooks see it",
+   "__RedirectionInformation__": "console 0x5bb0: {1, 74, table of (module, function, thunk)} with the console's 74 rows and their 48 thunks ported (redirect.rs): GetProcessHeap = partition-1 heap, HeapCreate/RtlCreateHeap on the system partition with type 2 and the console flags and heap name, CreateThread created suspended then given the JobObjectXboxSystem affinity, CreateFileMapping with the console protection-to-access table and d:\\ (TOMBOX_XBTHUNK_TITLE_ROOT) rule for writable file mappings, CoGetMalloc static IMalloc on the partition-1 heap, CoCreateGuid = UuidCreateSequential, WinHttp hooks, call counters; the console's WPP/TraceLogging events are not emitted",
    "__ShouldApplyRedirectionToFunction__": "console 0x42a0: index < 0x4a, never for xmem.dll, per-function module override (pgort140.dll, dbghelp.dll), else the console flag byte tested with 2 (ucrtbase.dll, d3dcompiler_47/dxcompiler/hix/mwdbgsrv/newbe/scdxil/sc_dll/webio), 1 (paths under C:\\) or 2",
    "__ShouldApplyRedirection__": "console 0x43f0: returns TRUE"
   }
@@ -2672,6 +2814,33 @@
    "XCrdXBlobCreate": "xcrd2: XVD 0x78000054/ac/30/110/e4/e8/ec/b4, unmount, UAB+XAS pure",
    "XCrdXBlobDelete": "xcrd2: XVD 0x78000054/ac/30/110/e4/e8/ec/b4, unmount, UAB+XAS pure",
    "XCrdXpfOp": "xcrd2: XVD 0x78000054/ac/30/110/e4/e8/ec/b4, unmount, UAB+XAS pure"
+  }
+ },
+ "xdxr.dll": {
+  "file": "crates/compat/xdxr/src/lib.rs",
+  "functions": {
+   "XDXRCreateDevice": "forwarded"
+  },
+  "notes": {
+   "XDXRCreateDevice": "forwarded to the console's own xdxr.dll (TOMBOX_XDXR_CONSOLE, xdxr_console.dll beside this DLL, or the newest title EmbeddedXvd dump) with the emulator xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL; without the console DLL returns the console failure value NULL"
+  }
+ },
+ "xdxr_d.dll": {
+  "file": "crates/compat/xdxr_d/src/lib.rs",
+  "functions": {
+   "XDXRCreateDevice": "forwarded"
+  },
+  "notes": {
+   "XDXRCreateDevice": "forwarded to the console's own xdxr_d.dll (TOMBOX_XDXR_D_CONSOLE, xdxr_d_console.dll beside this DLL, or the newest title EmbeddedXvd dump) with the emulator xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL; without the console DLL returns the console failure value NULL"
+  }
+ },
+ "xdxr_i.dll": {
+  "file": "crates/compat/xdxr_i/src/lib.rs",
+  "functions": {
+   "XDXRCreateDevice": "forwarded"
+  },
+  "notes": {
+   "XDXRCreateDevice": "forwarded to the console's own xdxr_i.dll (TOMBOX_XDXR_I_CONSOLE, xdxr_i_console.dll beside this DLL, or the newest title EmbeddedXvd dump) with the emulator xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL; without the console DLL returns the console failure value NULL"
   }
  },
  "xfp_gc.dll": {
@@ -3160,14 +3329,14 @@
    "XpalSetInformation": "implemented"
   },
   "notes": {
-   "XGetConsoleMode": "hypervisor leaf 0x4000000D ecx>>16 from the emulated console identity (0x64 Anaconda default, device_type / xpal_console_mode)",
+   "XGetConsoleMode": "hypervisor leaf 0x4000000D ecx>>16 = console mode (the profile a kit masquerades as, GDK XSystemGetDeviceType remarks); same value space as system type per xgs12/xmem compares; default = system type",
    "XGetGenerationType": "9 when leaf 0x4000000D cx >= 0x60, else 8, as the console DLL",
-   "XGetHostOsInformation": "console byte packing of leaf 0x4000000D eax/ebx/edx ported exactly; host OS version from xpal_host_os or the title OS build",
+   "XGetHostOsInformation": "console byte packing of leaf 0x4000000D eax/ebx/edx ported exactly; version from the title's EmbeddedXvd ntdll (or xpal_host_os); byte meaning inferred, no GameOS caller exists",
    "XGetIsScarlettGeneration": "generation type == 9",
    "XGetServerType": "leaf 0x4000000D edx>>16 only when factory setting 0 is on, else 0",
-   "XGetSystemType": "leaf 0x4000000D cx, identity ConsoleMode values (0x60 Lockhart, 0x64 Anaconda, 0x68 devkit)",
-   "XGetVmType": "leaf 0x40000007 cl; title VM type 3 (inferred from XbtpLinkc ByVm(0,3) in the GameOS dump)",
-   "XIsCapabilityEnabled": "128-bit leaf 0x40000007 bitmap, signed index > 0x7f false, bt modulo-64 semantics kept",
+   "XGetSystemType": "leaf 0x4000000D cx = hardware type; value space proven by WerXboxGc memory table (0x10 One, 0x50 One X, 0x58 One X devkit, 0x60 Lockhart, 0x64/0x68 Anaconda/devkit) and xgs12 >=0x40 checks; default 0x64 from the emulated identity",
+   "XGetVmType": "leaf 0x40000007 cl; title VM type 3 inferred (XbtpLinkc probes VMs 2 and 3; no GameOS caller of XGetVmType exists to prove it)",
+   "XIsCapabilityEnabled": "128-bit leaf 0x40000007 bitmap, signed index > 0x7f false, bt modulo-64 kept; retail all-off: cap 0x7f appends \"-devkit\" in xgameruntime, caps 0/0x21/0x24 gate the dev tool xcrdutil",
    "XIsCapabilityEnabledByVm": "VM 2 -> leaf 0x40000008, VM 3 -> leaf 0x40000009, else own leaf 0x40000007",
    "XIsFactorySettingEnabled": "leaf 0x4000000E bits 0..2; setting 0 falls back to capability 0x36",
    "XpalBackgroundActivityRequest": "XVmCtrl IOCTL 0x150180 on the emulated host: refcounted requests, release without request fails",
@@ -3188,7 +3357,7 @@
    "XpalIsCapabilityEnabledByVm": "same entry as XIsCapabilityEnabledByVm",
    "XpalIsExternalDevkit": "DllMain rule on the Xb#1 hypervisor: leaf 0x40000007 edx bit 31",
    "XpalIsFactorySettingEnabled": "same entry as XIsFactorySettingEnabled",
-   "XpalIsFeatureEnabled": "both console feature tables ported: ids 0..10 (OS 22000 DLL) and 0..15 (OS 22621 DLL), chosen by the title OS build",
+   "XpalIsFeatureEnabled": "both console feature tables ported: ids 0..10 (OS 22000 DLL) and 0..15 (OS 22621 DLL), chosen by the title's OS build read from its own EmbeddedXvd (compat_common::title_os)",
    "XpalIsHyperV": "console DLL returns FALSE unconditionally",
    "XpalIsInForcedCs": "XVmCtrl IOCTL 0x1501C8 DWORD result",
    "XpalIsInternalDevkit": "DllMain rule on the Xb#1 hypervisor: leaf 0x40000007 eax bit 3",
@@ -3196,22 +3365,22 @@
    "XpalIsRebootRequested": "XVmCtrl IOCTL 0x1501E0 byte result from the emulated host",
    "XpalIsSilentBootMode": "XVmCtrl IOCTL 0x150194 DWORD result from the emulated host",
    "XpalIsTransitioningToConnectedStandby": "XVmCtrl IOCTL 0x15018C, set while the emulated host enters connected standby",
-   "XpalNotifyForcedCsHeartbeat": "XVmCtrl IOCTL 0x1501CC: records heartbeat value and time; returns the DeviceIoControl BOOL",
+   "XpalNotifyForcedCsHeartbeat": "XVmCtrl IOCTL 0x1501CC: records heartbeat value and time on the host; returns the DeviceIoControl BOOL; no title-partition reader in any dump",
    "XpalQueryPowerToggleSource": "XVmCtrl IOCTL 0x150184 DWORD: last toggle source",
    "XpalQueryTitleVmInfo": "XVmCtrl IOCTL 0x150114 0x214-byte reply repacked into the console 0x210 layout: id, running, flag bits 0/5, AUMID, package full name of the emulated title",
-   "XpalRefreshPowerChimeMode": "XVmCtrl IOCTL 0x1501BC: reloads chime mode from xpal_power_chime; returns the DeviceIoControl BOOL",
+   "XpalRefreshPowerChimeMode": "XVmCtrl IOCTL 0x1501BC: host reloads chime mode from xpal_power_chime; returns the DeviceIoControl BOOL; the chime is played by the host, no title-partition reader in any dump",
    "XpalReportUem": "XVmCtrl IOCTL 0x150188: three DWORDs appended to the host UEM log and the compat log",
    "XpalSetSystemTime": "XVmCtrl IOCTL 0x150148: sets the emulated host clock offset from a FILETIME; the PC clock is never changed",
    "XpalSetWakeupTimer": "XVmCtrl IOCTL 0x150288: arms (non-zero, seconds) or clears the emulated host wake timer; on expiry a connected-standby host returns to On",
    "XpalWaitForTitleVmTermination": "XVmCtrl IOCTL 0x150118 with the console {len, ptr, timeout, name} buffer: waits on title VM termination, timeout and unknown-name failures",
    "XpalGetConfiguration": "\\Device\\XConfig IOCTL 0x22600E NTSTATUS; persistent store data_root\\xpal\\xconfig.bin; not found / buffer too small statuses",
    "XpalGetConsoleCertificate": "base of the emulated 0xC00-byte XpalSectionData, NULL when the section is absent",
-   "XpalGetConsoleIdCch": "console format %02x x16 dotted from section +0x1F..+0x10 then word +0x20; zero fallback string when no section",
-   "XpalGetConsoleSerialNumberCch": "12 chars from section +0x230; \"000000000000\" fallback",
+   "XpalGetConsoleIdCch": "console swprintf_s through UCRT __stdio_common_vswprintf_s with the console format and legacy-wide option 4: small/NULL buffer goes to the CRT invalid-parameter handler (fast-fail 0xC0000409 by default, FALSE if a handler returns); zero fallback when no section",
+   "XpalGetConsoleSerialNumberCch": "console L\"%c\"x12 of section +0x230..+0x23B through the same UCRT call and fast-fail path; \"000000000000\" fallback",
    "XpalGetFactorySettings": "section +0x400, NULL when the section is absent",
-   "XpalRequestCrashDump": "type >= 9 or flags >= 8 -> STATUS_INVALID_PARAMETER as the console; XVmCtrl IOCTL 0x150284 writes a real minidump (flags 1/2/4 -> full memory / handles / thread info)",
+   "XpalRequestCrashDump": "type >= 9 or flags >= 8 -> STATUS_INVALID_PARAMETER as the console; args 3/4 are the CorrelationGuid (xtfdiaginfo DebugActionHandler) kept with the dump; IOCTL 0x150284 writes a real minidump, flags 4 mini (always set by xtfdiaginfo), 2 heap, 1 triage",
    "XpalSetConfiguration": "\\Device\\XConfig IOCTL 0x22A011 NTSTATUS, persisted to the store",
-   "XpalSetInformation": "class != 0 -> STATUS_INVALID_PARAMETER as the console; class 0 data goes to XVmCtrl IOCTL 0x15013C host state"
+   "XpalSetInformation": "class != 0 -> STATUS_INVALID_PARAMETER as the console; class 0 data goes to XVmCtrl IOCTL 0x15013C host state; no title-partition reader exists (only XVmCtrl clients in all 4 dumps: xpal, xgameruntime, GameInput, xtfdiaginfo; none issues a read-back IOCTL)"
   }
  },
  "xtfbaseservices.dll": {
@@ -3341,6 +3510,17 @@
    "XtfLogSetMainLevelAndFile": "console xtfbaseservices.dll RVA-for-RVA reimplementation"
   }
  },
+ "xtfeventserver.dll": {
+  "file": "crates/compat/xtfeventserver/src/lib.rs",
+  "functions": {
+   "#4": "missing",
+   "GetEventSourceMap": "implemented"
+  },
+  "notes": {
+   "#4": "XtfExtensionEntryPoint: checks the event-server extension GUID (E_UNEXPECTED otherwise), XbtpCreateExtensionMetadata, then AddFunction for RegisterForEventsHandler and its unregister twin; those handlers run a real-time ETW consumer (StartTraceW/EnableTraceEx2/OpenTraceW/ProcessTrace on a worker thread) and stream events back with XbtpCreateMessage/XbtpCreateJsonObject. Not ported yet: the two ETW handler bodies are not reimplemented",
+   "GetEventSourceMap": "returns the function-local static std::map (MSVC _Tree layout: head node 0x80 bytes, left/parent/right = head, color 1, isnil 1, size 0), freed at exit like the console's atexit destructor"
+  }
+ },
  "xtfpix.dll": {
   "file": "crates/compat/xtfpix/src/lib.rs",
   "functions": {
@@ -3355,15 +3535,15 @@
    "XtfPixRequestVideoClip": "missing"
   },
   "notes": {
-   "#1": "XtfCreatePixServer: builds the 0x788-byte PixServer XBTP extension object; needs XbtpCreateExtensionMetadata, which crates/compat/xbtp lists as missing, and the PixServer COM object is not ported",
-   "XtfCreatePixClient": "new PixClient(0x6c0) opens an XBTP session to the console (default address when it matches the built-in one) and runs DoVersionHandshake; needs XbtpOpenSession2 and XbtpCreateMessage, which crates/compat/xbtp lists as missing",
-   "XtfCreatePixClientQuiet": "XtfCreatePixClient with the trace callback silenced; same XbtpOpenSession2/XbtpCreateMessage dependency",
-   "#4": "XbtpServerEntryPoint: checks the PIX extension GUID (E_UNEXPECTED otherwise) and the metadata IID (E_INVALIDARG otherwise), then XtfCreatePixServer and QueryInterface; blocked on #1",
-   "XtfPixClearRunningProcessList": "SplitConsoleAddress on XBTP_PORT_TITLE, then a JSON request through XbtpOpenSession2/XbtpCreateMessage (missing in crates/compat/xbtp)",
-   "XtfPixEnableGameDvr": "SplitConsoleAddress on XBTP_PORT_SYSTEM, JSON request over an XBTP session; XbtpOpenSession2/XbtpCreateMessage missing in crates/compat/xbtp",
+   "#1": "XtfCreatePixServer: builds the 0x788-byte PixServer XBTP extension object and registers its request handlers through XbtpCreateExtensionMetadata (now implemented in crates/compat/xbtp); the PixServer COM object and its handler bodies are not ported yet, and xtfpix.dll also imports XbtpOpenSession2, which crates/compat/xbtp still lists as missing",
+   "XtfCreatePixClient": "new PixClient(0x6c0) opens an XBTP session to the console (default address when it matches the built-in one) and runs DoVersionHandshake; needs XbtpOpenSession2, which crates/compat/xbtp still lists as missing",
+   "XtfCreatePixClientQuiet": "XtfCreatePixClient with the trace callback silenced; same XbtpOpenSession2 dependency",
+   "#4": "XbtpServerEntryPoint: checks the PIX extension GUID (E_UNEXPECTED otherwise) and the metadata IID (E_INVALIDARG otherwise), then XtfCreatePixServer and QueryInterface; blocked on #1 (PixServer object not ported)",
+   "XtfPixClearRunningProcessList": "SplitConsoleAddress on XBTP_PORT_TITLE, then a JSON request through XbtpOpenSession2 (missing in crates/compat/xbtp)",
+   "XtfPixEnableGameDvr": "SplitConsoleAddress on XBTP_PORT_SYSTEM, JSON request over an XBTP session; XbtpOpenSession2 missing in crates/compat/xbtp",
    "XtfPixPCLogPerformanceResult": "console body is xor eax,eax; ret: returns S_OK",
-   "XtfPixPCLogTelemetryEvent": "GetRawAddress, builds a JSON telemetry body and sends it over an XBTP session; XbtpOpenSession2/XbtpCreateMessage missing in crates/compat/xbtp",
-   "XtfPixRequestVideoClip": "validates address/pStartTickOut/pEndTickOut/pFilePath, then a JSON request over an XBTP session on XBTP_PORT_SYSTEM; XbtpOpenSession2/XbtpCreateMessage missing in crates/compat/xbtp"
+   "XtfPixPCLogTelemetryEvent": "GetRawAddress, builds a JSON telemetry body and sends it over an XBTP session; XbtpOpenSession2 missing in crates/compat/xbtp",
+   "XtfPixRequestVideoClip": "validates address/pStartTickOut/pEndTickOut/pFilePath, then a JSON request over an XBTP session on XBTP_PORT_SYSTEM; XbtpOpenSession2 missing in crates/compat/xbtp"
   }
  }
 }
