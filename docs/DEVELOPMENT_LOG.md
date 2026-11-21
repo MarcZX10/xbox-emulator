@@ -26,6 +26,18 @@ Reverse chronological. Each entry: what was done, evidence, blockers, next actio
   from `mfplat_sys.dll` next to itself; it was not staged.
 - Fix: system `mfplat.dll` copied into the overlay as `mfplat_sys.dll`.
 
+- Run 3: Media Foundation forwarded. **First frames on this machine: 2,400+
+  PresentX frames at 3840x2160.** Ended by mdbg's default 70 s limit, not a
+  crash. Online subsystem errors (`connection_failure`, hotfix enumeration) are
+  the network guard working as intended.
+- The title creates its own 3840x2160 window, which spanned both monitors
+  until the first present resized it. Runtime change in `d3d12_xs`
+  (`present::start_window_clamp`): from device creation, a watcher fits the
+  title window to the primary monitor (16:9) whenever it extends past it.
+- Host window title renamed to "Xbox Emulator"; project renamed Xbox Emulator
+  (repo `omonkeyz/xbox-emulator`).
+- `MDBG_LIMIT=86400` in the launcher so runs last until the window is closed.
+
 **Correction**
 - An earlier note blamed a `prot=0x1->0x1` allocation. That call is
   reserve-only (`win_type=0x102000`), so NOACCESS is correct. Not a bug.

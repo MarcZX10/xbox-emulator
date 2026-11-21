@@ -20,10 +20,11 @@ Current title: Fortnite XSX `2.0.1461.7919`.
 |---|---|---|
 | 1 | GDK runtime services, xmem allocator (60 log lines, 4.4 s) | access violation: DirectStorage factory missing, null source buffer |
 | 2 | DirectStorage working, engine init (14,440 log lines, 11.5 s) | fatal error: Media Foundation init failed (`mfplat_sys.dll` missing) |
-| 3 | running | — |
+| 3 | **2,400+ frames presented at 3840x2160** on this machine; online calls fail as expected (network guard, offline) | mdbg's default 70 s run limit |
+| 4 | running, no time limit; title window clamped to the primary monitor | — |
 
 ## Next
 
-1. Get past Media Foundation init.
-2. First window + first presented frame on this machine.
-3. Lobby.
+1. Confirm the window stays on one monitor and what screen the game reaches offline.
+2. Lobby.
+3. Input (keyboard), then controller.

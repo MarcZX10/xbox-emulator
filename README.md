@@ -1,8 +1,8 @@
-# xbox-pc-port
+# Xbox Emulator
 
-**A continuation of [drycheetah84/TomBox](https://github.com/drycheetah84/TomBox) — running the Xbox Series X|S library on PC.**
+**Running the Xbox Series X|S library on PC. A continuation of [drycheetah84/TomBox](https://github.com/drycheetah84/TomBox).**
 
-TomBox reimplements the console's platform layer (Xbox-flavoured Direct3D 12, precompiled RDNA2 shaders, unified-memory textures, system libraries) so dumped, already-decrypted Xbox Series X|S builds run as normal Windows processes. It is not tied to any single title. This repo tracks our continuation — new titles brought up, platform calls extended, shader stages unlocked.
+The runtime reimplements the console's platform layer (Xbox-flavoured Direct3D 12, precompiled RDNA2 shaders, unified-memory textures, system libraries) so dumped, already-decrypted Xbox Series X|S builds run as normal Windows processes. It is not tied to any single title. This repo tracks our continuation — new titles brought up, platform calls extended, shader stages unlocked.
 
 Uses legally obtained, already-decrypted dumps. The runtime does no key extraction or package decryption.
 
