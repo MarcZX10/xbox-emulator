@@ -417,7 +417,7 @@ def library_map(summary, libs):
     w("")
     w("## Scope: Xbox console libraries only")
     w("")
-    w("The map counts only what the console provides and a PC does not. A console export is console-related when this PC's `C:\\Windows\\System32` has no DLL of the same name, or has one that does not export that name (for an export by ordinal only: that ordinal). A console DLL that is a modified PC DLL (kernel32, advapi32, mfplat, wldp, ...) therefore counts only for the exports the PC DLL lacks; console DLLs whose every export exists in the PC DLL of the same name (ntdll, msvcrt, ucrtbase, combase, xgameruntime, GameInput, ...) are left out. Title imports are counted the same way: imports that a PC System32 DLL or PC API set provides, and imports from DLLs shipped with the title, are excluded from both done and total. Absence from System32 is the only test, so a few non-Xbox components that happen not to ship with desktop Windows (symsrv, ConIoSrv, KernelTraceControl, the Media Foundation H.264/HEVC decoder DLLs) are counted.")
+    w("The map counts only what the console provides and a PC does not. A console export is console-related when this PC's `C:\\Windows\\System32` has no DLL of the same name, or has one that does not export that name (for an export by ordinal only: that ordinal). A console DLL that is a modified PC DLL (kernel32, advapi32, mfplat, wldp, ...) therefore counts only for the exports the PC DLL lacks; console DLLs whose every export exists in the PC DLL of the same name (ntdll, msvcrt, ucrtbase, combase, xgameruntime, GameInput, ...) are left out. Title imports are counted the same way: imports that a PC System32 DLL or PC API set provides, and imports from DLLs shipped with the title, are excluded from both done and total. Absence from System32 is the only test, so a few non-Xbox components that happen not to ship with desktop Windows (symsrv, ConIoSrv, KernelTraceControl, the Media Foundation H.264/HEVC decoder DLLs) are counted. Four console host DLLs have no same-named PC DLL but a differently named PC twin (minuserx -> user32, kernel32legacy -> kernel32 / kernelbase, advapi32legacy -> advapi32, minappmodelx -> twinapi.appcore / kernel.appcore); they stay counted in full, and only their title-imported exports that the twin exports by name are marked `pc` (or `hooked`), so the denominator does not change.")
     w("")
     w("## Statuses")
     w("")
@@ -425,6 +425,8 @@ def library_map(summary, libs):
     w("|---|---|")
     w("| implemented | the emulator provides its own implementation |")
     w("| forwarded | an emulator DLL exports it and forwards to a PC system component (D3D12, Media Foundation, DirectStorage) |")
+    w("| hooked | PC-twin row (below) that the emulator's OS host also hooks |")
+    w("| pc | console host DLL with no same-named PC DLL (minuserx, kernel32legacy, advapi32legacy, minappmodelx): a title imports the export and its PC twin exports the same name; not implemented by the emulator |")
     w("| stub | the emulator exports it but returns a fixed result (E_NOTIMPL / S_OK / inert object) |")
     w("| unverified | imported by a binary or module that was never observed loading |")
     w("| missing | no emulator export, and no PC System32 export of that name |")
@@ -493,7 +495,7 @@ def library_map(summary, libs):
                             users.setdefault((m["module"].lower(), f), set()).add(o)
         gaps = [(b, m["module"], f, s) for b, m, rows in title_rows(title, t) for f, s, _ in rows if s not in COVERED]
         if gaps:
-            w(f"<details><summary><b>{title}: imports not covered</b> ({len(gaps)}; status not implemented or forwarded)</summary>")
+            w(f"<details><summary><b>{title}: imports not covered</b> ({len(gaps)}; status not implemented / forwarded / hooked / pc / title)</summary>")
             w("")
             w("| Binary | Module | Function | Status | Also imported by |")
             w("|---|---|---|---|---|")
