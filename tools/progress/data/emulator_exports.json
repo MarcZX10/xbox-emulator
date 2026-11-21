@@ -1741,7 +1741,7 @@
    "LoadCursorA": "PE forwarder to user32.LoadCursorA; same Win32 signature, windows are real PC user32 windows",
    "LoadCursorW": "PE forwarder to user32.LoadCursorW; same Win32 signature, windows are real PC user32 windows",
    "MinUserXP_GetHooks": "console api.cpp: SRW-locked global hooks object; first call CoIncrementMTAUsage + CoInitializeSecurity + CoCreateInstance({7fa7a8fd-a259-4a79-bb7e-094c18cd0723}, IID {338203c7-6c86-49c4-b53e-4ca4999056ce}); REGDB_E_CLASSNOTREG = no hooks; attaches the callback object; returns an AddRef-ed pointer or NULL",
-   "MinUserXP_SetHooks": "console api.cpp: replaces the global hooks (AddRef new, Release old) and attaches the callback object ({4e4bde9e-b970-41e7-bc12-aea6c6ee6dd5}: deliver message, refresh cursor) through hooks slot 3",
+   "MinUserXP_SetHooks": "console api.cpp: replaces the global hooks (AddRef new, Release old) and attaches the callback object through hooks slot 3 with its +0x30 interface; object layout as the console WRL class: +0 IUnknown/IInspectable (GetIids = IInspectable, IWeakReferenceSource, callback; GetRuntimeClassName/GetTrustLevel E_NOTIMPL via RoOriginateError), +8 IAgileObject/IMarshal forwarding to an owned free-threaded marshaler (E_OUTOFMEMORY without one), +0x28 IWeakReferenceSource (WRL weak reference, strong count moved into it), +0x30 {4e4bde9e-b970-41e7-bc12-aea6c6ee6dd5} Deliver/RefreshCursor; Deliver follows the console queue.cpp enqueue (dead window E_INVALIDARG, NULL hwnd = calling thread, WM_MOUSEMOVE replaces a pending queued WM_MOUSEMOVE, sync-only messages queued) on top of the user32 queue through a WH_GETMESSAGE rewrite",
    "MoveWindow": "PE forwarder to user32.MoveWindow; same Win32 signature, windows are real PC user32 windows",
    "PeekMessageA": "PE forwarder to user32.PeekMessageW; console PeekMessageA is a jmp to (or alias of) PeekMessageW with no ANSI conversion",
    "PeekMessageW": "PE forwarder to user32.PeekMessageW; same Win32 signature, windows are real PC user32 windows",
@@ -1949,7 +1949,7 @@
  "pixlivemerge.dll": {
   "file": "crates/compat/pixlivemerge/src/lib.rs",
   "functions": {
-   "CreateLiveMerger": "missing",
+   "CreateLiveMerger": "implemented",
    "FindPdbInfo": "implemented",
    "GetVbiRecordsSearched": "implemented",
    "ParsePdbInfo": "implemented",
@@ -1958,7 +1958,7 @@
    "SetImageFileNameCacheUsage": "implemented"
   },
   "notes": {
-   "CreateLiveMerger": "WRL LiveMergerImpl (live ETW merge with NT path translation); not ported",
+   "CreateLiveMerger": "WRL LiveMergerImpl {6f141e8f}: caller-fed EVENT_RECORDs; ImageLoad v2/v3 -> ImageId+DbgID_RSDS via VBI/own-memory/file PE debug dir with \\SystemRoot\\, \\Device\\, \\GLOBAL??\\ path forms; first FileIo -> volume map (ntpath.rs); callback ref consumed",
    "FindPdbInfo": "case-insensitive suffix match over an MSVC vector of 0x58-byte records; -1 when absent",
    "GetVbiRecordsSearched": "returns the VBI-loaded flag",
    "ParsePdbInfo": "name@{GUID}?age pdb entries, MSVC std::wstring/std::string(0x30C) records, sorted by name length; E_FAIL on a malformed entry",
@@ -3214,7 +3214,7 @@
    "XGValidateJpegFile": "implemented"
   },
   "notes": {
-   "XGComputeBufferLayout": "byte-sized single plane, 4-byte alignment",
+   "XGComputeBufferLayout": "console 0x10a0: bind/misc/tile-pool validation, size + 4 or 64KB alignment, mips 1, tail flag; oracle-tested",
    "XGComputeOptimalDepthStencilTileModes": "console rules: MSAA 2/4 -> 1, 8 -> 2, TC-compatible -> 7, HTILE -> 4, stencil formats refuse compressed modes (oracle-verified)",
    "XGComputeOptimalTileMode": "GCN selection (buffer 31, 1D 8, 2D 13/14, +3 for 64KB swizzle, 3D 13/14, depth path), verified against console xg_x for 100k+ inputs",
    "XGComputeTexture1DLayout": "GCN layout model",
@@ -3567,7 +3567,7 @@
   "notes": {
    "XhitInitialize": "stores the log callback, maps KMD regions 0/1 via \\\\.\\XgsKmd IOCTL 0x7900C1B0, arms 0x7900C1A3; KMD absent on the host so nothing maps, returns 0 like the console",
    "XhitPerformHangAnalysis": "t:\\gpuhang-<SYSTEMTIME>.xhit with the Xhit/0x161200 header; E_FAIL when the file cannot be created or the KMD hang snapshot is unavailable",
-   "XhitPerformHangSummary": "banner, fence-deadlock report from the caller context (bit 13, +0x318); E_UNEXPECTED because no KMD hang snapshot exists on the host",
+   "XhitPerformHangSummary": "Fortnite 19041 build: banner, KMD mailbox cmd 0xe with the 0x58-byte ctx (rva 2728), fence-deadlock table (bit 13), +0x318 fence table, waits for ack, copies the register snapshot (<=0x70c8), SQ capture cmd 0xd (rva 13dd8 minus its 13cf8 bucket classifier), register decode (rva 3ea0 minus its 6bec block dump), re-posts cmd 0xe, returns 0; the emulated driver installs regions and doorbell via xhit_s::kmd::install. Host deviation: E_UNEXPECTED when no KMD regions exist (console faults on null regions)",
    "XhitTerminate": "clears the active object, returns 0"
   }
  },
@@ -3843,6 +3843,19 @@
    "XtfPixPCLogPerformanceResult": "console body is xor eax,eax; ret: returns S_OK",
    "XtfPixPCLogTelemetryEvent": "GetRawAddress, builds a JSON telemetry body and sends it over an XBTP session; XbtpOpenSession2 missing in crates/compat/xbtp",
    "XtfPixRequestVideoClip": "validates address/pStartTickOut/pEndTickOut/pFilePath, then a JSON request over an XBTP session on XBTP_PORT_SYSTEM; XbtpOpenSession2 missing in crates/compat/xbtp"
+  }
+ },
+ "XVMAudioService.dll": {
+  "file": "crates/compat/xvmaudioservice/src/lib.rs",
+  "functions": {
+   "DllCanUnloadNow": "implemented",
+   "DllGetActivationFactory": "implemented",
+   "DllGetClassObject": "missing"
+  },
+  "notes": {
+   "DllCanUnloadNow": "console 0x8680 -> WRL Module::Terminate 0x84b4: S_OK when the module object count is 0 (cached class factories released), S_FALSE otherwise; this port never creates module objects (DllGetClassObject is missing), so the count stays 0",
+   "DllGetActivationFactory": "console 0x86d0: *out = NULL; empty HSTRING or one with an embedded NUL -> RoOriginateErrorW(E_INVALIDARG, \"activatibleClassId\"), E_INVALIDARG; the module's activation-factory table (0x1a170..0x1a170) is empty, so every other id -> RoOriginateError(CLASS_E_CLASSNOTAVAILABLE 0x80040111)",
+   "DllGetClassObject": "console 0x88b0 serves 4 WRL classes (148ec3bf-349c-4eac-b373-9fd57cb46d88 creator 0x6e40, e782ced1-3b5d-43aa-a45d-82852b57d84c 0x6f70, 7f34f6c9-bed0-456d-9772-0d5b524a9d69 0x70a0, b988be16-d129-46fc-8c5a-c3ceff592137 0x8a40) whose objects drive \\.\\VirtualAudioBus IOCTLs, the acpi_hal Logan device, \\Device\\xvcmgmt, WNF state and the XboxSystem job object through private interfaces; those classes are not ported yet, and a factory that cannot build them would be fake success"
   }
  }
 }

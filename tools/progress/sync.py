@@ -108,7 +108,12 @@ for line in src.split("\n"):
     m = re.match(r"pub fn (\w+)\(", line)
     if m:
         cur = {"lookup": "VINTRP"}.get(m.group(1), m.group(1).upper())
-    for n in re.findall(r'=> "([a-z0-9_]+)"', line):
+    e = re.search(r"Enc::(\w+) =>", line)
+    if e:
+        cur = {"Vinterp": "VINTRP"}.get(e.group(1), e.group(1).upper())
+    if line.lstrip().startswith("//"):
+        continue
+    for n in re.findall(r'"([a-z][a-z0-9_]*)"', line):
         if n in seen:
             continue
         seen.add(n)

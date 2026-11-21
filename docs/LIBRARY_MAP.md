@@ -26,12 +26,12 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 |---|---|---|---|
 | system_functions | 671 | 671 | 100.0 |
 | d3d12x_methods | 188 | 200 | 94.0 |
-| rdna2_instructions | 547 | 548 | 99.82 |
+| rdna2_instructions | 573 | 709 | 80.82 |
 | shaders_translated | 105506 | 105506 | 100.0 |
 | shader_stages | 6 | 8 | 75.0 |
 | milestones | 9 | 18 | 50.0 |
 | titles_examined | 5 | - | - |
-| console_exports | 2069 | 2141 | 96.64 |
+| console_exports | 2072 | 2141 | 96.78 |
 | shader_compile_lobby_frame | 139 | 139 | 100.0 |
 | shader_compile_fixtures | 25 | 25 | 100.0 |
 | shader_compile_full_sweep | not published | 105506 | - |
@@ -40,8 +40,8 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 | title_imports_XDefiant | 29 | 29 | 100.0 |
 | title_imports_Terraria | 25 | 25 | 100.0 |
 | title_imports_Trackmania | 18 | 18 | 100.0 |
-| console_exports_targeted | 2069 | 2123 | 97.46 |
-| console_exports_not_targeted | not published | 18 | - |
+| console_exports_targeted | 2072 | 2126 | 97.46 |
+| console_exports_not_targeted | not published | 15 | - |
 
 Shader compile: all 139 shaders of the lobby frame compile with DXC (TomBox `docs/DEVELOPMENT_LOG.md:894`); 25/25 fixtures compile (`:672`). The full-library compile sweep (`:706`) has no published final count, so no compile badge is shown.
 
@@ -452,7 +452,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | ntdll.dll | System32 | yes | 4 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | ole32.dll | System32/forwarders | yes | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | pixevt.dll | System32 | no | 16 | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite None; XDefiant None; Terraria None; Trackmania None |
-| pixlivemerge.dll | System32 | no | 7 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | Fortnite 1.0.10080.7; XDefiant 1.0.11184.20; Terraria 1.0.11184.20; Trackmania 1.0.11448.12 |
+| pixlivemerge.dll | System32 | no | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 1.0.10080.7; XDefiant 1.0.11184.20; Terraria 1.0.11184.20; Trackmania 1.0.11448.12 |
 | pixrt.dll | System32 | no | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | pixrt10.dll | System32 | no | 3 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | RemoteWinRT.dll | System32 | no | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -497,15 +497,14 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | xtffileio.dll | System32 | no | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xtfpix.dll | System32 | no | 9 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xtfremoterun.dll | System32 | no | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| XVMAudioService.dll | System32 | no | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| XVMAudioService.dll | System32 | no | 3 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 
 ### Not targeted (no analysed title references them)
 
-The console-library total above (2141 exports in 109 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 99 libraries (2123 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 10 below (18 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (2064 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 99 targeted libraries alone: 2069/2123.
+The console-library total above (2141 exports in 109 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 100 libraries (2126 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 9 below (15 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (2064 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 100 targeted libraries alone: 2072/2126.
 
 | Library | Folder | Same-named PC DLL | Console-only exports | Present in |
 |---|---|---|---|---|
-| XVMAudioService.dll | System32 | no | 3 | Fortnite, XDefiant, Terraria, Trackmania |
 | FWPUCLNT.DLL | System32 | yes | 2 | Fortnite, XDefiant, Terraria, Trackmania |
 | xtfconsolecontrol.dll | System32 | no | 2 | Fortnite, XDefiant, Terraria, Trackmania |
 | xtfdebugmonitor.dll | System32 | no | 2 | Fortnite, XDefiant, Terraria, Trackmania |
@@ -2645,17 +2644,17 @@ No PC DLL is named minuserx.dll; it is emulated by its compat crate, so no row i
 
 </details>
 
-<details><summary><b>pixlivemerge.dll</b>: 7 console-only exports, 6 covered</summary>
+<details><summary><b>pixlivemerge.dll</b>: 7 console-only exports, 7 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
+| `CreateLiveMerger` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `FindPdbInfo` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `GetVbiRecordsSearched` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `ParsePdbInfo` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `PdbInfoFromVBI` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `ResetVbiRecordsSearched` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `SetImageFileNameCacheUsage` | implemented |  | XDefiant, Terraria, Trackmania |
-| `CreateLiveMerger` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 
 </details>
 
@@ -3847,12 +3846,12 @@ No PC DLL is named minuserx.dll; it is emulated by its compat crate, so no row i
 
 </details>
 
-<details><summary><b>XVMAudioService.dll</b>: 3 console-only exports, 0 covered</summary>
+<details><summary><b>XVMAudioService.dll</b>: 3 console-only exports, 2 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
-| `DllCanUnloadNow` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DllGetActivationFactory` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `DllCanUnloadNow` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `DllGetActivationFactory` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `DllGetClassObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 
 </details>
