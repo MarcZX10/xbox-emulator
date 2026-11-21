@@ -1,0 +1,143 @@
+{
+ "d3d12_x.dll": {
+  "file": "crates/compat/d3d12_x/src/lib.rs",
+  "functions": {
+   "D3DUploadCustomMicrocode": "stub",
+   "PixGetPixieEntryPoints": "stub",
+   "D3D10CreateBlob": "forwarded",
+   "D3D12CreateDevice": "forwarded",
+   "D3D12CreateRootSignatureDeserializer": "forwarded",
+   "D3D12CreateVersionedRootSignatureDeserializer": "forwarded",
+   "D3D12GetDebugInterface": "forwarded",
+   "D3D12SerializeRootSignature": "forwarded",
+   "D3D12SerializeVersionedRootSignature": "forwarded",
+   "D3D12XboxCreateDevice": "forwarded",
+   "D3D12XboxGetProcessDebugFlags": "implemented",
+   "D3D12XboxSetProcessDebugFlags": "implemented",
+   "D3D12XboxUnloadDriverModule": "stub",
+   "D3DAllocateGraphicsMemory": "stub",
+   "D3DConfigureVirtualMemory": "stub",
+   "D3DFlushEntireCpuCache": "stub",
+   "D3DFreeGraphicsMemory": "stub",
+   "D3DMapEsramMemory": "implemented",
+   "DXGIXGetFrameStatistics": "stub",
+   "DXGIXPresentArray": "stub",
+   "DXGIXSetFrameNotification": "stub",
+   "DXGIXSetVLineNotification": "stub",
+   "IID_ID3D12CommandAllocator": "implemented",
+   "IID_ID3D12CommandList": "implemented",
+   "IID_ID3D12CommandQueue": "implemented",
+   "IID_ID3D12Debug": "implemented",
+   "IID_ID3D12DescriptorHeap": "implemented",
+   "IID_ID3D12Device": "implemented",
+   "IID_ID3D12DeviceChild": "implemented",
+   "IID_ID3D12Fence": "implemented",
+   "IID_ID3D12GraphicsCommandList": "implemented",
+   "IID_ID3D12Heap": "implemented",
+   "IID_ID3D12Object": "implemented",
+   "IID_ID3D12Pageable": "implemented",
+   "IID_ID3D12PipelineState": "implemented",
+   "IID_ID3D12Resource": "implemented",
+   "IID_ID3D12RootSignature": "implemented",
+   "IID_ID3D12RootSignatureDeserializer": "implemented",
+   "IID_ID3D12XboxDmaCommandList": "implemented",
+   "IID_IDXGIAdapter": "implemented",
+   "IID_IDXGIAdapter1": "implemented",
+   "IID_IDXGIAdapter2": "implemented",
+   "IID_IDXGIDevice": "implemented",
+   "IID_IDXGIDevice1": "implemented",
+   "IID_IDXGIDevice2": "implemented",
+   "IID_IDXGIDeviceSubObject": "implemented",
+   "IID_IDXGIFactory": "implemented",
+   "IID_IDXGIFactory1": "implemented",
+   "IID_IDXGIFactory2": "implemented",
+   "IID_IDXGIObject": "implemented",
+   "IID_IDXGISwapChain": "implemented",
+   "IID_IDXGISwapChain1": "implemented",
+   "IID_IGraphicsUnknown": "implemented",
+   "InternalDriverCallX": "stub"
+  },
+  "notes": {
+   "D3D10CreateBlob": "host d3dcompiler_47.dll D3DCreateBlob",
+   "D3D12CreateDevice": "host d3d12.dll",
+   "D3D12CreateRootSignatureDeserializer": "host d3d12.dll",
+   "D3D12CreateVersionedRootSignatureDeserializer": "host d3d12.dll",
+   "D3D12GetDebugInterface": "host d3d12.dll",
+   "D3D12SerializeRootSignature": "host d3d12.dll",
+   "D3D12SerializeVersionedRootSignature": "host d3d12.dll",
+   "D3D12XboxCreateDevice": "Xbox One params (0x28 bytes) checked for null, then handed to the emulator's d3d12_xs.dll (Scarlett vtable wrapper, PC slots 0-43 only verified for Xbox One); host D3D12CreateDevice if d3d12_xs is absent",
+   "D3D12XboxGetProcessDebugFlags": "returns the stored flags",
+   "D3D12XboxSetProcessDebugFlags": "stores flags & 0x81f00001 like the console runtime",
+   "D3D12XboxUnloadDriverModule": "S_OK; no xgs12 user-mode driver on PC",
+   "D3DFlushEntireCpuCache": "no-op",
+   "D3DMapEsramMemory": "flags 1/3 only (else E_FAIL, as console); commits numPages x 64 KiB of ordinary memory at the caller VA; page list validated against 512 ESRAM pages"
+  }
+ },
+ "dxcompiler_x.dll": {
+  "file": "crates/compat/dxcompiler_x/src/lib.rs",
+  "functions": {
+   "DxcCreateInstance": "stub",
+   "DxcCreateInstance2": "stub"
+  },
+  "notes": {
+   "DxcCreateInstance": "forwards to dxcompiler.dll on the search path; E_NOTIMPL when none (stock Windows has none)",
+   "DxcCreateInstance2": "as DxcCreateInstance"
+  }
+ },
+ "xfrontpaneldisplay.dll": {
+  "file": "crates/compat/xfrontpaneldisplay/src/lib.rs",
+  "functions": {
+   "XFrontPanelGetButtonStates": "stub",
+   "XFrontPanelGetLightStates": "stub",
+   "XFrontPanelGetScreenDimensions": "implemented",
+   "XFrontPanelGetScreenPixelFormat": "stub",
+   "XFrontPanelIsSupported": "implemented",
+   "XFrontPanelPresentBuffer": "stub",
+   "XFrontPanelSetDisplayName": "stub",
+   "XFrontPanelSetLightStates": "stub"
+  },
+  "notes": {
+   "XFrontPanelGetButtonStates": "none pressed",
+   "XFrontPanelGetLightStates": "all off",
+   "XFrontPanelGetScreenDimensions": "64 x 256, E_INVALIDARG on null (matches console)",
+   "XFrontPanelGetScreenPixelFormat": "writes 0",
+   "XFrontPanelIsSupported": "false, as on a retail console",
+   "XFrontPanelPresentBuffer": "accepted, no-op",
+   "XFrontPanelSetDisplayName": "accepted, no-op",
+   "XFrontPanelSetLightStates": "accepted, no-op"
+  }
+ },
+ "xg_x.dll": {
+  "file": "crates/compat/xg_x/src/lib.rs",
+  "functions": {
+   "XGComputeBufferLayout": "stub",
+   "XGComputeOptimalDepthStencilTileModes": "stub",
+   "XGComputeOptimalTileMode": "stub",
+   "XGComputeTexture1DLayout": "stub",
+   "XGComputeTexture2DLayout": "stub",
+   "XGComputeTexture3DLayout": "stub",
+   "XGComputeTileShape": "stub",
+   "XGCreateTexture1DComputer": "stub",
+   "XGCreateTexture2DComputer": "stub",
+   "XGCreateTexture3DComputer": "stub",
+   "XGCreateTextureComputer": "stub",
+   "XGCreateTextureComputerFromDescriptor": "stub",
+   "XGCreateTextureComputerWithPitch": "stub",
+   "XGDecodeDCC": "stub",
+   "XGEnableExclusiveLocking": "stub",
+   "XGEncodeDCC": "stub",
+   "XGEnterExclusiveLock": "stub",
+   "XGLeaveExclusiveLock": "stub",
+   "XGSetHardwareVersion": "stub",
+   "XGValidateDepthStencilTileMode": "stub",
+   "XGValidateJpegFile": "stub"
+  },
+  "notes": {
+   "XGComputeOptimalDepthStencilTileModes": "writes LINEAR_GENERAL to both outputs",
+   "XGComputeOptimalTileMode": "always XG_TILE_MODE_LINEAR_GENERAL (0x1f, the console's answer for buffers)",
+   "XGComputeTexture2DLayout": "E_NOTIMPL",
+   "XGCreateTexture2DComputer": "E_NOTIMPL, output cleared",
+   "XGCreateTextureComputer": "E_NOTIMPL, output cleared"
+  }
+ }
+}

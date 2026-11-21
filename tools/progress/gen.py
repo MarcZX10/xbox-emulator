@@ -6,6 +6,10 @@ root = os.path.normpath(os.path.join(here, "..", ".."))
 dat = os.path.join(here, "data")
 img = os.path.join(root, "docs", "img")
 cfg = json.load(open(os.path.join(here, "progress.json"), encoding="utf-8"))
+if os.path.isfile(os.path.join(dat, "emulator_exports.json")):
+    for _dll, _v in json.load(open(os.path.join(dat, "emulator_exports.json"), encoding="utf-8")).items():
+        cfg["emulator"][_dll] = {"file": _v["file"], "notes": _v["notes"],
+                                 "functions": {f: s for f, s in _v["functions"].items() if s != "missing"}}
 GREEN, AMBER, GREY, BG = "#2ea043", "#d29922", "#6e7681", "#0d1117"
 COL = {"done": GREEN, "partial": AMBER, "none": GREY}
 XCOL = {"implemented": "#2ea043", "forwarded": "#388bfd", "hooked": "#a371f7", "pc": "#2f8f83",
@@ -281,7 +285,7 @@ def classify_title_import(title, shipped, binary, mod, f, pcflag):
         return "unverified", f"{binary} is delay-loaded by the EXE and never appears in run logs"
     if low in emu:
         st = emu[low]["functions"].get(f, "missing")
-        note = cfg["notes"].get(f, "") if st != "missing" else f"not exported by the emulator's {mod}"
+        note = (emu[low].get("notes", {}).get(f) or cfg["notes"].get(f, "")) if st != "missing" else f"not exported by the emulator's {mod}"
         return st, f"[{emu[low]['file']}]({TOMBOX}{emu[low]['file']})" + (f" ({note})" if note else "")
     if low in {m.lower() for m in tc.get("unverified_modules", [])}:
         return "unverified", "delay-loaded; no load seen in run logs"
@@ -344,6 +348,8 @@ def library_map(summary, libs):
     w("Shader compile: all 139 shaders of the lobby frame compile with DXC (TomBox `docs/DEVELOPMENT_LOG.md:894`); 25/25 fixtures compile (`:672`). The full-library compile sweep (`:706`) has no published final count, so no compile badge is shown.")
     w("")
     w("Direct3D 12.x: 160 / 128 are the table sizes the wrappers allocate (`d3d12_xs/src/device_wrap.rs`, `cmdlist_wrap.rs`), not documented interface sizes. Device: done = forwarded PC slots 0-43 plus intercepted Xbox slots 44, 48, 52 (SetDebugFlags_X, documented no-op), 55, 56/57 and 66/67 (graphics/compute PSO serialize/deserialize, emulator TBPS format only), 60-62, 73, 78-81, 87 (OpenExistingHeapFromAddress via ID3D12Device3); partial = logging S_OK stubs in 45-90, including 74 (RegisterPagePoolX, bookkeeping only). CommandList: done = 0-26, 32-52 (PC methods shifted by 4), 59, 67, 68, 83; 27-31 are Xbox-inserted stubs and 53-127 log-and-ignore probes, counted as not done.")
+    w("")
+    w("Direct3D 12.x on Xbox One (Terraria, Trackmania; `crates/compat/d3d12_x`): the console `d3d12_x.dll` is a 48 KB loader (export table identical in both dumps, 54 exports, ordinals 1-54) that loads a user-mode driver flavour (`xgs12.dll`, `xgs12_d.dll`, `xgs12_i.dll`) and calls its `UMDCreateDevice12`; Scarlett's `d3d12_xs.dll` loads `xgs12_10*.dll` instead. The COM vtables live in those drivers, not in `d3d12_x.dll`. Both drivers ship with RTTI stripped; vtables found statically (constructor `lea` of an `.rdata` table of code pointers) number 109 in `xgs12.dll` and 67 in `xgs12_10.dll`, and the only one tied to an interface IID by its QueryInterface is ID3D12CommandQueue: 34 slots on Xbox One, 35 on Scarlett. No static ID3D12Device or ID3D12GraphicsCommandList table exists in either driver (the device and command-list tables are built at run time), so the Xbox One layout of the Xbox-specific slots (Device 44+, CommandList 27-31 and 53+) is unverified. The interface IIDs are unchanged (`IID_ID3D12Device` 189819f1-..., the PC GUID), the `D3D12XboxCreateDevice` parameter block is 0x28 bytes and NULL is rejected with E_INVALIDARG. The emulator therefore forwards Xbox One device creation to `d3d12_xs.dll` (Scarlett wrapper): PC slots 0-43 behave as on PC; any Xbox-only slot a title calls goes to the Scarlett slot of the same index, which may be a different method. `D3DMapEsramMemory(Flags, VA, NumPages, PageList)` (signature from the console stub, 0x18-byte driver packet) accepts flags 1 and 3 only and is mapped onto ordinary committed memory of NumPages x 64 KiB at the caller's VA.")
     w("")
     counts = {}
     for title, t in ti.items():

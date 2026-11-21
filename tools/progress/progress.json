@@ -83,7 +83,9 @@
       "XMemSetWin32HeapName": "implemented", "XMemSetWinHttpHooks": "stub"}},
     "acphal.dll": {"file": "crates/compat/acphal/src/lib.rs", "functions": {
       "ApuCreateHeap": "implemented", "ApuAlloc": "implemented", "ApuHeapGetState": "implemented",
-      "ApuFree": "stub", "AcpHalCreate": "stub", "AcpHalAllocateShapeContexts": "stub"}},
+      "ApuFree": "stub", "AcpHalCreate": "stub", "AcpHalAllocateShapeContexts": "stub",
+      "ApuMapVirtualAddress": "implemented", "ApuIsVirtualAddressValid": "implemented",
+      "AcpHalReleaseShapeContexts": "implemented"}},
     "xcrdapi.dll": {"file": "crates/compat/xcrdapi/src/lib.rs", "functions": {"DStorageGetFactory": "forwarded"}},
     "dxcompiler_xs.dll": {"file": "crates/compat/dxcompiler_xs/src/lib.rs", "functions": {"DxcCreateInstance": "stub"}},
     "xg_xs.dll": {"file": "crates/compat/xg_xs/src/lib.rs", "functions": {"XGCreateTextureComputer": "stub"}},

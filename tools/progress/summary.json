@@ -46,14 +46,14 @@
  },
  "extra": {
   "console_exports": {
-   "done": 20960,
+   "done": 21007,
    "total": 23489,
-   "pct": 89.23
+   "pct": 89.43
   },
   "xbox_only_exports": {
-   "done": 91,
+   "done": 138,
    "total": 1824,
-   "pct": 4.99
+   "pct": 7.57
   },
   "shader_compile_lobby_frame": {
    "done": 139,
@@ -81,19 +81,19 @@
    "pct": 84.63
   },
   "title_imports_XDefiant": {
-   "done": 1594,
+   "done": 1597,
    "total": 1612,
-   "pct": 98.88
+   "pct": 99.07
   },
   "title_imports_Terraria": {
-   "done": 3476,
+   "done": 3485,
    "total": 3496,
-   "pct": 99.43
+   "pct": 99.69
   },
   "title_imports_Trackmania": {
-   "done": 1568,
+   "done": 1573,
    "total": 1579,
-   "pct": 99.3
+   "pct": 99.62
   }
  },
  "title_import_status": {
@@ -107,9 +107,9 @@
    "unverified": 233
   },
   "XDefiant": {
-   "implemented": 10,
+   "implemented": 13,
    "stub": 3,
-   "missing": 15,
+   "missing": 12,
    "title": 342,
    "pc": 1216,
    "hooked": 25,
@@ -118,19 +118,18 @@
   "Terraria": {
    "pc": 2513,
    "title": 877,
-   "forwarded": 7,
+   "forwarded": 9,
    "hooked": 74,
-   "implemented": 5,
-   "stub": 4,
-   "missing": 16
+   "implemented": 12,
+   "stub": 11
   },
   "Trackmania": {
    "title": 241,
    "pc": 1284,
    "hooked": 36,
-   "missing": 10,
-   "implemented": 7,
-   "stub": 1
+   "forwarded": 4,
+   "implemented": 8,
+   "stub": 6
   }
  },
  "console_os_builds": {

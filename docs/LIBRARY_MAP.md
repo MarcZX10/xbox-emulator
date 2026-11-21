@@ -28,20 +28,22 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 | shader_stages | 6 | 8 | 75.0 |
 | milestones | 14 | 19 | 73.68 |
 | titles_examined | 5 | - | - |
-| console_exports | 20960 | 23489 | 89.23 |
-| xbox_only_exports | 91 | 1824 | 4.99 |
+| console_exports | 21007 | 23489 | 89.43 |
+| xbox_only_exports | 138 | 1824 | 7.57 |
 | shader_compile_lobby_frame | 139 | 139 | 100.0 |
 | shader_compile_fixtures | 25 | 25 | 100.0 |
 | shader_compile_full_sweep | not published | 105506 | - |
 | milestones_verified_this_machine | 7 | 12 | 58.33 |
 | title_imports_Fortnite | 1332 | 1574 | 84.63 |
-| title_imports_XDefiant | 1594 | 1612 | 98.88 |
-| title_imports_Terraria | 3476 | 3496 | 99.43 |
-| title_imports_Trackmania | 1568 | 1579 | 99.3 |
+| title_imports_XDefiant | 1597 | 1612 | 99.07 |
+| title_imports_Terraria | 3485 | 3496 | 99.69 |
+| title_imports_Trackmania | 1573 | 1579 | 99.62 |
 
 Shader compile: all 139 shaders of the lobby frame compile with DXC (TomBox `docs/DEVELOPMENT_LOG.md:894`); 25/25 fixtures compile (`:672`). The full-library compile sweep (`:706`) has no published final count, so no compile badge is shown.
 
 Direct3D 12.x: 160 / 128 are the table sizes the wrappers allocate (`d3d12_xs/src/device_wrap.rs`, `cmdlist_wrap.rs`), not documented interface sizes. Device: done = forwarded PC slots 0-43 plus intercepted Xbox slots 44, 48, 52 (SetDebugFlags_X, documented no-op), 55, 56/57 and 66/67 (graphics/compute PSO serialize/deserialize, emulator TBPS format only), 60-62, 73, 78-81, 87 (OpenExistingHeapFromAddress via ID3D12Device3); partial = logging S_OK stubs in 45-90, including 74 (RegisterPagePoolX, bookkeeping only). CommandList: done = 0-26, 32-52 (PC methods shifted by 4), 59, 67, 68, 83; 27-31 are Xbox-inserted stubs and 53-127 log-and-ignore probes, counted as not done.
+
+Direct3D 12.x on Xbox One (Terraria, Trackmania; `crates/compat/d3d12_x`): the console `d3d12_x.dll` is a 48 KB loader (export table identical in both dumps, 54 exports, ordinals 1-54) that loads a user-mode driver flavour (`xgs12.dll`, `xgs12_d.dll`, `xgs12_i.dll`) and calls its `UMDCreateDevice12`; Scarlett's `d3d12_xs.dll` loads `xgs12_10*.dll` instead. The COM vtables live in those drivers, not in `d3d12_x.dll`. Both drivers ship with RTTI stripped; vtables found statically (constructor `lea` of an `.rdata` table of code pointers) number 109 in `xgs12.dll` and 67 in `xgs12_10.dll`, and the only one tied to an interface IID by its QueryInterface is ID3D12CommandQueue: 34 slots on Xbox One, 35 on Scarlett. No static ID3D12Device or ID3D12GraphicsCommandList table exists in either driver (the device and command-list tables are built at run time), so the Xbox One layout of the Xbox-specific slots (Device 44+, CommandList 27-31 and 53+) is unverified. The interface IIDs are unchanged (`IID_ID3D12Device` 189819f1-..., the PC GUID), the `D3D12XboxCreateDevice` parameter block is 0x28 bytes and NULL is rejected with E_INVALIDARG. The emulator therefore forwards Xbox One device creation to `d3d12_xs.dll` (Scarlett wrapper): PC slots 0-43 behave as on PC; any Xbox-only slot a title calls goes to the Scarlett slot of the same index, which may be a different method. `D3DMapEsramMemory(Flags, VA, NumPages, PageList)` (signature from the console stub, 0x18-byte driver packet) accepts flags 1 and 3 only and is mapped onto ordinary committed memory of NumPages x 64 KiB at the caller's VA.
 
 ## Fortnite imports (2.0.1461.7919)
 
@@ -2893,18 +2895,18 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 ### XDefiant: Rogue_scarlett_rtx.exe
 
-<details><summary><b>AcpHal.dll</b>: 9 functions; implemented 2, stub 3, missing 4</summary>
+<details><summary><b>AcpHal.dll</b>: 9 functions; implemented 5, stub 3, missing 1</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
 | `ApuAlloc` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 | `ApuFree` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (no-op free (bump allocator)) |
-| `ApuMapVirtualAddress` | missing | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (not exported by the emulator's AcpHal.dll) |
+| `ApuMapVirtualAddress` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 | `AcpHalCreate` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (returns an inert IAcpHal (no SHAPE DSP)) |
 | `AcpHalAllocateShapeContexts` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (inert) |
-| `AcpHalReleaseShapeContexts` | missing | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (not exported by the emulator's AcpHal.dll) |
+| `AcpHalReleaseShapeContexts` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 | `ApuMapApuAddress` | missing | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (not exported by the emulator's AcpHal.dll) |
-| `ApuIsVirtualAddressValid` | missing | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (not exported by the emulator's AcpHal.dll) |
+| `ApuIsVirtualAddressValid` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 | `ApuCreateHeap` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 
 </details>
@@ -5869,19 +5871,16 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 </details>
 
-XDefiant import totals (11 binaries): implemented 10, forwarded 1, hooked 25, pc 1216, title 342, stub 3, missing 15.
+XDefiant import totals (11 binaries): implemented 13, forwarded 1, hooked 25, pc 1216, title 342, stub 3, missing 12.
 
-<details><summary><b>XDefiant: imports not covered</b> (18; status not in implemented / forwarded / hooked / pc / title)</summary>
+<details><summary><b>XDefiant: imports not covered</b> (15; status not in implemented / forwarded / hooked / pc / title)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
 | Rogue_scarlett_rtx.exe | AcpHal.dll | `AcpHalAllocateShapeContexts` | stub | Fortnite, Terraria |
 | Rogue_scarlett_rtx.exe | AcpHal.dll | `AcpHalCreate` | stub | Fortnite, Terraria |
 | Rogue_scarlett_rtx.exe | AcpHal.dll | `ApuFree` | stub | Fortnite, Terraria |
-| Rogue_scarlett_rtx.exe | AcpHal.dll | `AcpHalReleaseShapeContexts` | missing | Terraria |
-| Rogue_scarlett_rtx.exe | AcpHal.dll | `ApuIsVirtualAddressValid` | missing | Terraria |
 | Rogue_scarlett_rtx.exe | AcpHal.dll | `ApuMapApuAddress` | missing | only XDefiant |
-| Rogue_scarlett_rtx.exe | AcpHal.dll | `ApuMapVirtualAddress` | missing | Terraria |
 | Rogue_scarlett_rtx.exe | chad.dll | `XDspActivate` | missing | only XDefiant |
 | Rogue_scarlett_rtx.exe | chad.dll | `XDspConnect` | missing | only XDefiant |
 | Rogue_scarlett_rtx.exe | chad.dll | `XDspDeactivate` | missing | only XDefiant |
@@ -6032,16 +6031,16 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 </details>
 
-<details><summary><b>AcpHal.dll</b>: 7 functions; implemented 1, stub 3, missing 3</summary>
+<details><summary><b>AcpHal.dll</b>: 7 functions; implemented 4, stub 3</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
 | `ApuAlloc` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 | `ApuFree` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (no-op free (bump allocator)) |
-| `ApuMapVirtualAddress` | missing | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (not exported by the emulator's AcpHal.dll) |
-| `ApuIsVirtualAddressValid` | missing | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (not exported by the emulator's AcpHal.dll) |
+| `ApuMapVirtualAddress` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
+| `ApuIsVirtualAddressValid` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 | `AcpHalCreate` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (returns an inert IAcpHal (no SHAPE DSP)) |
-| `AcpHalReleaseShapeContexts` | missing | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (not exported by the emulator's AcpHal.dll) |
+| `AcpHalReleaseShapeContexts` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 | `AcpHalAllocateShapeContexts` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (inert) |
 
 </details>
@@ -6066,26 +6065,26 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 </details>
 
-<details><summary><b>XFrontPanelDisplay.dll</b>: 6 functions; missing 6</summary>
+<details><summary><b>XFrontPanelDisplay.dll</b>: 6 functions; implemented 2, stub 4</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `XFrontPanelGetScreenDimensions` | missing | no emulator export, no PC export named XFrontPanelGetScreenDimensions in XFrontPanelDisplay.dll |
-| `XFrontPanelPresentBuffer` | missing | no emulator export, no PC export named XFrontPanelPresentBuffer in XFrontPanelDisplay.dll |
-| `XFrontPanelGetLightStates` | missing | no emulator export, no PC export named XFrontPanelGetLightStates in XFrontPanelDisplay.dll |
-| `XFrontPanelSetLightStates` | missing | no emulator export, no PC export named XFrontPanelSetLightStates in XFrontPanelDisplay.dll |
-| `XFrontPanelGetButtonStates` | missing | no emulator export, no PC export named XFrontPanelGetButtonStates in XFrontPanelDisplay.dll |
-| `XFrontPanelIsSupported` | missing | no emulator export, no PC export named XFrontPanelIsSupported in XFrontPanelDisplay.dll |
+| `XFrontPanelGetScreenDimensions` | implemented | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (64 x 256, E_INVALIDARG on null (matches console)) |
+| `XFrontPanelPresentBuffer` | stub | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (accepted, no-op) |
+| `XFrontPanelGetLightStates` | stub | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (all off) |
+| `XFrontPanelSetLightStates` | stub | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (accepted, no-op) |
+| `XFrontPanelGetButtonStates` | stub | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (none pressed) |
+| `XFrontPanelIsSupported` | implemented | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (false, as on a retail console) |
 
 </details>
 
-<details><summary><b>xg_x.dll</b>: 3 functions; missing 3</summary>
+<details><summary><b>xg_x.dll</b>: 3 functions; stub 3</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `XGCreateTextureComputer` | missing | no emulator export, no PC export named XGCreateTextureComputer in xg_x.dll |
-| `XGComputeOptimalTileMode` | missing | no emulator export, no PC export named XGComputeOptimalTileMode in xg_x.dll |
-| `XGCreateTexture2DComputer` | missing | no emulator export, no PC export named XGCreateTexture2DComputer in xg_x.dll |
+| `XGCreateTextureComputer` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (E_NOTIMPL, output cleared) |
+| `XGComputeOptimalTileMode` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (always XG_TILE_MODE_LINEAR_GENERAL (0x1f, the console's answer for buffers)) |
+| `XGCreateTexture2DComputer` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (E_NOTIMPL, output cleared) |
 
 </details>
 
@@ -6473,14 +6472,14 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 </details>
 
-<details><summary><b>d3d12_x.dll</b>: 4 functions; missing 4</summary>
+<details><summary><b>d3d12_x.dll</b>: 4 functions; implemented 2, forwarded 2</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `D3DMapEsramMemory` | missing | no emulator export, no PC export named D3DMapEsramMemory in d3d12_x.dll |
-| `D3D12XboxSetProcessDebugFlags` | missing | no emulator export, no PC export named D3D12XboxSetProcessDebugFlags in d3d12_x.dll |
-| `D3D12XboxCreateDevice` | missing | no emulator export, no PC export named D3D12XboxCreateDevice in d3d12_x.dll |
-| `D3D12SerializeRootSignature` | missing | no emulator export, no PC export named D3D12SerializeRootSignature in d3d12_x.dll |
+| `D3DMapEsramMemory` | implemented | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (flags 1/3 only (else E_FAIL, as console); commits numPages x 64 KiB of ordinary memory at the caller VA; page list validated against 512 ESRAM pages) |
+| `D3D12XboxSetProcessDebugFlags` | implemented | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (stores flags & 0x81f00001 like the console runtime) |
+| `D3D12XboxCreateDevice` | forwarded | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (Xbox One params (0x28 bytes) checked for null, then handed to the emulator's d3d12_xs.dll (Scarlett vtable wrapper, PC slots 0-43 only verified for Xbox One); host D3D12CreateDevice if d3d12_xs is absent) |
+| `D3D12SerializeRootSignature` | forwarded | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (host d3d12.dll) |
 
 </details>
 
@@ -12427,32 +12426,23 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 </details>
 
-Terraria import totals (26 binaries): implemented 5, forwarded 7, hooked 74, pc 2513, title 877, stub 4, missing 16.
+Terraria import totals (26 binaries): implemented 12, forwarded 9, hooked 74, pc 2513, title 877, stub 11.
 
-<details><summary><b>Terraria: imports not covered</b> (20; status not in implemented / forwarded / hooked / pc / title)</summary>
+<details><summary><b>Terraria: imports not covered</b> (11; status not in implemented / forwarded / hooked / pc / title)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
 | Terraria.exe | AcpHal.dll | `AcpHalAllocateShapeContexts` | stub | Fortnite, XDefiant |
 | Terraria.exe | AcpHal.dll | `AcpHalCreate` | stub | Fortnite, XDefiant |
 | Terraria.exe | AcpHal.dll | `ApuFree` | stub | Fortnite, XDefiant |
+| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelGetButtonStates` | stub | only Terraria |
+| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelGetLightStates` | stub | only Terraria |
+| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelPresentBuffer` | stub | only Terraria |
+| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelSetLightStates` | stub | only Terraria |
+| Terraria.exe | xg_x.dll | `XGComputeOptimalTileMode` | stub | Trackmania |
+| Terraria.exe | xg_x.dll | `XGCreateTexture2DComputer` | stub | only Terraria |
+| Terraria.exe | xg_x.dll | `XGCreateTextureComputer` | stub | Trackmania |
 | Terraria.exe | xmem.dll | `XMemFreePhysicalPages` | stub | Fortnite, Trackmania |
-| Terraria.exe | AcpHal.dll | `AcpHalReleaseShapeContexts` | missing | XDefiant |
-| Terraria.exe | AcpHal.dll | `ApuIsVirtualAddressValid` | missing | XDefiant |
-| Terraria.exe | AcpHal.dll | `ApuMapVirtualAddress` | missing | XDefiant |
-| Terraria.exe | d3d12_x.dll | `D3D12SerializeRootSignature` | missing | Trackmania |
-| Terraria.exe | d3d12_x.dll | `D3D12XboxCreateDevice` | missing | Trackmania |
-| Terraria.exe | d3d12_x.dll | `D3D12XboxSetProcessDebugFlags` | missing | only Terraria |
-| Terraria.exe | d3d12_x.dll | `D3DMapEsramMemory` | missing | Trackmania |
-| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelGetButtonStates` | missing | only Terraria |
-| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelGetLightStates` | missing | only Terraria |
-| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelGetScreenDimensions` | missing | only Terraria |
-| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelIsSupported` | missing | only Terraria |
-| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelPresentBuffer` | missing | only Terraria |
-| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelSetLightStates` | missing | only Terraria |
-| Terraria.exe | xg_x.dll | `XGComputeOptimalTileMode` | missing | Trackmania |
-| Terraria.exe | xg_x.dll | `XGCreateTexture2DComputer` | missing | only Terraria |
-| Terraria.exe | xg_x.dll | `XGCreateTextureComputer` | missing | Trackmania |
 
 </details>
 
@@ -12934,15 +12924,15 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 </details>
 
-<details><summary><b>d3d12_x.dll</b>: 5 functions; missing 5</summary>
+<details><summary><b>d3d12_x.dll</b>: 5 functions; implemented 1, forwarded 4</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `D3D12SerializeRootSignature` | missing | no emulator export, no PC export named D3D12SerializeRootSignature in d3d12_x.dll |
-| `D3D12SerializeVersionedRootSignature` | missing | no emulator export, no PC export named D3D12SerializeVersionedRootSignature in d3d12_x.dll |
-| `D3DMapEsramMemory` | missing | no emulator export, no PC export named D3DMapEsramMemory in d3d12_x.dll |
-| `D3D12XboxCreateDevice` | missing | no emulator export, no PC export named D3D12XboxCreateDevice in d3d12_x.dll |
-| `D3D12GetDebugInterface` | missing | no emulator export, no PC export named D3D12GetDebugInterface in d3d12_x.dll |
+| `D3D12SerializeRootSignature` | forwarded | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (host d3d12.dll) |
+| `D3D12SerializeVersionedRootSignature` | forwarded | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (host d3d12.dll) |
+| `D3DMapEsramMemory` | implemented | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (flags 1/3 only (else E_FAIL, as console); commits numPages x 64 KiB of ordinary memory at the caller VA; page list validated against 512 ESRAM pages) |
+| `D3D12XboxCreateDevice` | forwarded | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (Xbox One params (0x28 bytes) checked for null, then handed to the emulator's d3d12_xs.dll (Scarlett vtable wrapper, PC slots 0-43 only verified for Xbox One); host D3D12CreateDevice if d3d12_xs is absent) |
+| `D3D12GetDebugInterface` | forwarded | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (host d3d12.dll) |
 
 </details>
 
@@ -13429,22 +13419,22 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 </details>
 
-<details><summary><b>xg_x.dll</b>: 4 functions; missing 4</summary>
+<details><summary><b>xg_x.dll</b>: 4 functions; stub 4</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `XGComputeOptimalDepthStencilTileModes` | missing | no emulator export, no PC export named XGComputeOptimalDepthStencilTileModes in xg_x.dll |
-| `XGComputeOptimalTileMode` | missing | no emulator export, no PC export named XGComputeOptimalTileMode in xg_x.dll |
-| `XGComputeTexture2DLayout` | missing | no emulator export, no PC export named XGComputeTexture2DLayout in xg_x.dll |
-| `XGCreateTextureComputer` | missing | no emulator export, no PC export named XGCreateTextureComputer in xg_x.dll |
+| `XGComputeOptimalDepthStencilTileModes` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (writes LINEAR_GENERAL to both outputs) |
+| `XGComputeOptimalTileMode` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (always XG_TILE_MODE_LINEAR_GENERAL (0x1f, the console's answer for buffers)) |
+| `XGComputeTexture2DLayout` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (E_NOTIMPL) |
+| `XGCreateTextureComputer` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (E_NOTIMPL, output cleared) |
 
 </details>
 
-<details><summary><b>dxcompiler_x.dll</b>: 1 functions; missing 1</summary>
+<details><summary><b>dxcompiler_x.dll</b>: 1 functions; stub 1</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `DxcCreateInstance` | missing | no emulator export, no PC export named DxcCreateInstance in dxcompiler_x.dll |
+| `DxcCreateInstance` | stub | [crates/compat/dxcompiler_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/dxcompiler_x/src/lib.rs) (forwards to dxcompiler.dll on the search path; E_NOTIMPL when none (stock Windows has none)) |
 
 </details>
 
@@ -15667,23 +15657,18 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 </details>
 
-Trackmania import totals (7 binaries): implemented 7, hooked 36, pc 1284, title 241, stub 1, missing 10.
+Trackmania import totals (7 binaries): implemented 8, forwarded 4, hooked 36, pc 1284, title 241, stub 6.
 
-<details><summary><b>Trackmania: imports not covered</b> (11; status not in implemented / forwarded / hooked / pc / title)</summary>
+<details><summary><b>Trackmania: imports not covered</b> (6; status not in implemented / forwarded / hooked / pc / title)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
+| GbxGame.exe | dxcompiler_x.dll | `DxcCreateInstance` | stub | only Trackmania |
+| GbxGame.exe | xg_x.dll | `XGComputeOptimalDepthStencilTileModes` | stub | only Trackmania |
+| GbxGame.exe | xg_x.dll | `XGComputeOptimalTileMode` | stub | Terraria |
+| GbxGame.exe | xg_x.dll | `XGComputeTexture2DLayout` | stub | only Trackmania |
+| GbxGame.exe | xg_x.dll | `XGCreateTextureComputer` | stub | Terraria |
 | GbxGame.exe | xmem.dll | `XMemFreePhysicalPages` | stub | Fortnite, Terraria |
-| GbxGame.exe | d3d12_x.dll | `D3D12GetDebugInterface` | missing | only Trackmania |
-| GbxGame.exe | d3d12_x.dll | `D3D12SerializeRootSignature` | missing | Terraria |
-| GbxGame.exe | d3d12_x.dll | `D3D12SerializeVersionedRootSignature` | missing | only Trackmania |
-| GbxGame.exe | d3d12_x.dll | `D3D12XboxCreateDevice` | missing | Terraria |
-| GbxGame.exe | d3d12_x.dll | `D3DMapEsramMemory` | missing | Terraria |
-| GbxGame.exe | dxcompiler_x.dll | `DxcCreateInstance` | missing | only Trackmania |
-| GbxGame.exe | xg_x.dll | `XGComputeOptimalDepthStencilTileModes` | missing | only Trackmania |
-| GbxGame.exe | xg_x.dll | `XGComputeOptimalTileMode` | missing | Terraria |
-| GbxGame.exe | xg_x.dll | `XGComputeTexture2DLayout` | missing | only Trackmania |
-| GbxGame.exe | xg_x.dll | `XGCreateTextureComputer` | missing | Terraria |
 
 </details>
 
@@ -15695,7 +15680,7 @@ Every export of every DLL in each title's EmbeddedXvd `Windows\System32` and `Sy
 
 | Library | Folder | PC DLL | Exports | implemented | forwarded | hooked | pc | title | stub | unverified | missing | Fortnite imports | XDefiant imports | Terraria imports | Trackmania imports | Versions |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| AcpHal.dll | System32 | no | 10 | 3 | 0 | 0 | 0 | 0 | 3 | 0 | 4 | 6 | 9 | 7 | 0 | Fortnite None; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| AcpHal.dll | System32 | no | 10 | 6 | 0 | 0 | 0 | 0 | 3 | 0 | 1 | 6 | 9 | 7 | 0 | Fortnite None; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | advapi32.dll | System32/forwarders | yes | 655 | 0 | 0 | 0 | 642 | 0 | 0 | 0 | 13 | 0 | 10 | 7 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | advapi32legacy.dll | System32 | no | 207 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 207 | 1 | 1 | 1 | 1 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | aepic.dll | System32 | yes | 22 | 0 | 0 | 0 | 12 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -15729,7 +15714,7 @@ Every export of every DLL in each title's EmbeddedXvd `Windows\System32` and `Sy
 | cryptui.dll | System32/forwarders | yes | 10 | 0 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | csrsrv.dll | System32 | yes | 32 | 0 | 0 | 0 | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | CSystemEventsBrokerClient.dll | System32 | yes | 6 | 0 | 0 | 0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| d3d12_x.dll | System32 | no | 54 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 54 | 0 | 0 | 4 | 5 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| d3d12_x.dll | System32 | no | 54 | 34 | 8 | 0 | 0 | 0 | 12 | 0 | 0 | 0 | 0 | 4 | 5 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | d3d12_xs.dll | System32 | no | 55 | 5 | 3 | 0 | 0 | 0 | 2 | 0 | 45 | 6 | 3 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | d3dcompiler_47.dll | System32 | yes | 29 | 0 | 0 | 0 | 29 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 9.31.960.18248; XDefiant 9.31.960.18248; Terraria 9.31.960.18248; Trackmania 9.31.960.18248 |
 | dab.dll | System32 | yes | 7 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -15755,7 +15740,7 @@ Every export of every DLL in each title's EmbeddedXvd `Windows\System32` and `Sy
 | dssenh.dll | System32 | yes | 27 | 0 | 0 | 0 | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | dwmapi.dll | System32/forwarders | yes | 42 | 0 | 0 | 0 | 20 | 0 | 0 | 22 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | dxbc2dxil_xs.dll | System32 | no | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | Fortnite 2020.11015.12200.10000; XDefiant 2206.2209.12105.11142; Terraria 2206.2209.12105.11142; Trackmania 2210.2210.12006.15549 |
-| dxcompiler_x.dll | System32 | no | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 1 | Fortnite 2020.11015.12200.10000; XDefiant 2206.2209.12105.11142; Terraria 2206.2209.12105.11142; Trackmania 2210.2210.12006.15549 |
+| dxcompiler_x.dll | System32 | no | 2 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 1 | Fortnite 2020.11015.12200.10000; XDefiant 2206.2209.12105.11142; Terraria 2206.2209.12105.11142; Trackmania 2210.2210.12006.15549 |
 | dxcompiler_xs.dll | System32 | no | 4 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 3 | 1 | 0 | 0 | 0 | Fortnite 2020.11015.12200.10000; XDefiant 2206.2209.12105.11142; Terraria 2206.2209.12105.11142; Trackmania 2210.2210.12006.15549 |
 | dxcore.dll | System32/forwarders | yes | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | EtwRundown.dll | System32 | yes | 2 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -15924,8 +15909,8 @@ Every export of every DLL in each title's EmbeddedXvd `Windows\System32` and `Sy
 | xdxr_d.dll | System32 | no | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | XDefiant None; Terraria None; Trackmania None |
 | xdxr_i.dll | System32 | no | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | XDefiant None; Terraria None; Trackmania None |
 | xfp_gc.dll | System32 | no | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| xfrontpaneldisplay.dll | System32 | no | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 6 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| xg_x.dll | System32 | no | 21 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 21 | 0 | 0 | 3 | 4 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| xfrontpaneldisplay.dll | System32 | no | 8 | 2 | 0 | 0 | 0 | 0 | 6 | 0 | 0 | 0 | 0 | 6 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| xg_x.dll | System32 | no | 21 | 0 | 0 | 0 | 0 | 0 | 21 | 0 | 0 | 0 | 0 | 3 | 4 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xg_xs.dll | System32 | no | 23 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 22 | 1 | 1 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xgameruntime.dll | System32 | yes | 6 | 0 | 0 | 0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xgs12.dll | System32 | no | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 17 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -16096,7 +16081,7 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 | Function | Present in | Status |
 |---|---|---|
-| `D3D12XboxUnloadDriverModule` | XDefiant, Terraria, Trackmania | missing |
+| `D3D12XboxUnloadDriverModule` | XDefiant, Terraria, Trackmania | stub |
 
 </details>
 
@@ -17163,20 +17148,20 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 ### Xbox-only and emulator-provided libraries, per function
 
-<details><summary><b>AcpHal.dll</b>: 10 exports, 3 covered</summary>
+<details><summary><b>AcpHal.dll</b>: 10 exports, 6 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
+| `AcpHalReleaseShapeContexts` | implemented | Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `ApuAlloc` | implemented | Fortnite, Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `ApuCreateHeap` | implemented | Fortnite, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `ApuHeapGetState` | implemented | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
+| `ApuIsVirtualAddressValid` | implemented | Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+| `ApuMapVirtualAddress` | implemented | Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `AcpHalAllocateShapeContexts` | stub | Fortnite, Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `AcpHalCreate` | stub | Fortnite, Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `ApuFree` | stub | Fortnite, Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `AcpHalReleaseShapeContexts` | missing | Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `ApuIsVirtualAddressValid` | missing | Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `ApuMapApuAddress` | missing | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `ApuMapVirtualAddress` | missing | Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 
 </details>
 
@@ -17476,64 +17461,64 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 </details>
 
-<details><summary><b>d3d12_x.dll</b>: 54 exports, 0 covered</summary>
+<details><summary><b>d3d12_x.dll</b>: 54 exports, 42 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
-| `D3D10CreateBlob` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12CreateDevice` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12CreateRootSignatureDeserializer` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12CreateVersionedRootSignatureDeserializer` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12GetDebugInterface` | missing | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12SerializeRootSignature` | missing | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12SerializeVersionedRootSignature` | missing | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12XboxCreateDevice` | missing | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12XboxGetProcessDebugFlags` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12XboxSetProcessDebugFlags` | missing | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12XboxUnloadDriverModule` | missing |  | XDefiant, Terraria, Trackmania |
-| `D3DAllocateGraphicsMemory` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3DConfigureVirtualMemory` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3DFlushEntireCpuCache` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3DFreeGraphicsMemory` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3DMapEsramMemory` | missing | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3DUploadCustomMicrocode` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DXGIXGetFrameStatistics` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DXGIXPresentArray` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DXGIXSetFrameNotification` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DXGIXSetVLineNotification` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12CommandAllocator` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12CommandList` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12CommandQueue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12Debug` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12DescriptorHeap` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12Device` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12DeviceChild` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12Fence` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12GraphicsCommandList` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12Heap` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12Object` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12Pageable` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12PipelineState` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12Resource` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12RootSignature` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12RootSignatureDeserializer` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_ID3D12XboxDmaCommandList` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IDXGIAdapter` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IDXGIAdapter1` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IDXGIAdapter2` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IDXGIDevice` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IDXGIDevice1` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IDXGIDevice2` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IDXGIDeviceSubObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IDXGIFactory` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IDXGIFactory1` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IDXGIFactory2` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IDXGIObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IDXGISwapChain` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IDXGISwapChain1` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IID_IGraphicsUnknown` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `InternalDriverCallX` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PixGetPixieEntryPoints` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12XboxGetProcessDebugFlags` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12XboxSetProcessDebugFlags` | implemented | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3DMapEsramMemory` | implemented | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12CommandAllocator` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12CommandList` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12CommandQueue` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12Debug` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12DescriptorHeap` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12Device` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12DeviceChild` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12Fence` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12GraphicsCommandList` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12Heap` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12Object` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12Pageable` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12PipelineState` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12Resource` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12RootSignature` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12RootSignatureDeserializer` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_ID3D12XboxDmaCommandList` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IDXGIAdapter` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IDXGIAdapter1` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IDXGIAdapter2` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IDXGIDevice` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IDXGIDevice1` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IDXGIDevice2` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IDXGIDeviceSubObject` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IDXGIFactory` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IDXGIFactory1` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IDXGIFactory2` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IDXGIObject` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IDXGISwapChain` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IDXGISwapChain1` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `IID_IGraphicsUnknown` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D10CreateBlob` | forwarded |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12CreateDevice` | forwarded |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12CreateRootSignatureDeserializer` | forwarded |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12CreateVersionedRootSignatureDeserializer` | forwarded |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12GetDebugInterface` | forwarded | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12SerializeRootSignature` | forwarded | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12SerializeVersionedRootSignature` | forwarded | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12XboxCreateDevice` | forwarded | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12XboxUnloadDriverModule` | stub |  | XDefiant, Terraria, Trackmania |
+| `D3DAllocateGraphicsMemory` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3DConfigureVirtualMemory` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3DFlushEntireCpuCache` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3DFreeGraphicsMemory` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3DUploadCustomMicrocode` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `DXGIXGetFrameStatistics` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `DXGIXPresentArray` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `DXGIXSetFrameNotification` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `DXGIXSetVLineNotification` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `InternalDriverCallX` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `PixGetPixieEntryPoints` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
 
 </details>
 
@@ -17611,8 +17596,8 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
-| `DxcCreateInstance` | missing | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `DxcCreateInstance2` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `DxcCreateInstance` | stub | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `DxcCreateInstance2` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
 
 </details>
 
@@ -19131,18 +19116,18 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 </details>
 
-<details><summary><b>xfrontpaneldisplay.dll</b>: 8 exports, 0 covered</summary>
+<details><summary><b>xfrontpaneldisplay.dll</b>: 8 exports, 2 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
-| `XFrontPanelGetButtonStates` | missing | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `XFrontPanelGetLightStates` | missing | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `XFrontPanelGetScreenDimensions` | missing | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `XFrontPanelGetScreenPixelFormat` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XFrontPanelIsSupported` | missing | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `XFrontPanelPresentBuffer` | missing | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `XFrontPanelSetDisplayName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XFrontPanelSetLightStates` | missing | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
+| `XFrontPanelGetScreenDimensions` | implemented | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
+| `XFrontPanelIsSupported` | implemented | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
+| `XFrontPanelGetButtonStates` | stub | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
+| `XFrontPanelGetLightStates` | stub | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
+| `XFrontPanelGetScreenPixelFormat` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XFrontPanelPresentBuffer` | stub | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
+| `XFrontPanelSetDisplayName` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XFrontPanelSetLightStates` | stub | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
 
 </details>
 
@@ -19150,27 +19135,27 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
-| `XGComputeBufferLayout` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGComputeOptimalDepthStencilTileModes` | missing | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGComputeOptimalTileMode` | missing | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGComputeTexture1DLayout` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGComputeTexture2DLayout` | missing | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGComputeTexture3DLayout` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGComputeTileShape` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGCreateTexture1DComputer` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGCreateTexture2DComputer` | missing | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGCreateTexture3DComputer` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGCreateTextureComputer` | missing | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGCreateTextureComputerFromDescriptor` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGCreateTextureComputerWithPitch` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGDecodeDCC` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGEnableExclusiveLocking` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGEncodeDCC` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGEnterExclusiveLock` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGLeaveExclusiveLock` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGSetHardwareVersion` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGValidateDepthStencilTileMode` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGValidateJpegFile` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGComputeBufferLayout` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGComputeOptimalDepthStencilTileModes` | stub | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGComputeOptimalTileMode` | stub | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGComputeTexture1DLayout` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGComputeTexture2DLayout` | stub | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGComputeTexture3DLayout` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGComputeTileShape` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGCreateTexture1DComputer` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGCreateTexture2DComputer` | stub | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGCreateTexture3DComputer` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGCreateTextureComputer` | stub | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGCreateTextureComputerFromDescriptor` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGCreateTextureComputerWithPitch` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGDecodeDCC` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGEnableExclusiveLocking` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGEncodeDCC` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGEnterExclusiveLock` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGLeaveExclusiveLock` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGSetHardwareVersion` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGValidateDepthStencilTileMode` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGValidateJpegFile` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
 
 </details>
 

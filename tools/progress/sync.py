@@ -166,6 +166,26 @@ for key, lib in console.items():
 json.dump(out, open(os.path.join(data, "console_exports.json"), "w", encoding="utf-8"), separators=(",", ":"))
 json.dump(titles, open(os.path.join(data, "title_imports.json"), "w", encoding="utf-8"), indent=1)
 
+emu, cdir = {}, os.path.join(a.tombox, "crates", "compat")
+for crate in sorted(os.listdir(cdir), key=str.lower):
+    table = os.path.join(cdir, crate, "exports.txt")
+    if not os.path.isfile(table):
+        continue
+    lib = re.search(r'\[lib\][^\[]*?name\s*=\s*"([^"]+)"', open(os.path.join(cdir, crate, "Cargo.toml"), encoding="utf-8").read())
+    dll = (lib.group(1) if lib else crate) + ".dll"
+    dll = next((n for n in out if n.lower() == dll.lower()), dll)
+    funcs, notes = {}, {}
+    for line in open(table, encoding="utf-8"):
+        body, _, note = line.strip().partition(" | ")
+        f = body.split()
+        if len(f) < 3:
+            continue
+        funcs[f[1]] = f[2]
+        if note:
+            notes[f[1]] = note.strip()
+    emu[dll] = {"file": f"crates/compat/{crate}/src/lib.rs", "functions": funcs, "notes": notes}
+json.dump(emu, open(os.path.join(data, "emulator_exports.json"), "w", encoding="utf-8"), indent=1)
+
 ords = {}
 for dll in ("XAudio2_9.dll", "GameInput.dll"):
     p = os.path.join(a.pc, dll)
@@ -175,4 +195,5 @@ json.dump(ords, open(os.path.join(data, "pc_ordinals.json"), "w", encoding="utf-
 
 print("titles", list(titles), "skipped", skipped, "console libraries", len(out),
       "console exports", sum(len(v["exports"]) for v in out.values()),
-      "os builds", {k: v["os_build"] for k, v in titles.items()})
+      "os builds", {k: v["os_build"] for k, v in titles.items()},
+      "emulator export tables", {k: len(v["functions"]) for k, v in emu.items()})
