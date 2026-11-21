@@ -56,9 +56,16 @@ Last update: 2026-11-21 (run 33: backdrop diag, 45 FPS lobby).
 
 ## Terraria (Xbox One, `d3d12_x`)
 
-### 🟥 Exits 1 s after start
-- **Reached:** the GDK runtime services are created, and the Xbox One D3D12 device is created through `d3d12_x` → `d3d12_xs`.
-- **Missing:** `IDXGIDevice` on the D3D12 device. The `QueryInterface {54ec77fa-1377-44e6-8c32-88fd5f44c84c}` call returns E_NOINTERFACE. The game uses it to reach the adapter, factory and swap chain, so it throws and exits.
+### 🟨 Runs 60 s without crashing, no frame presented yet
+- **Fixed:**
+  - `IDXGIDevice1` on the D3D12 device (QI, GetParent → the host adapter, private data, GPU thread priority, frame latency).
+  - Xbox One queue descs (type 0x10 DMA → COPY, priority 1 → HIGH).
+  - Descriptor heap type 4 → CBV_SRV_UAV. This fixed the AV at `EXE+0x7cbd32`.
+  - DMA command allocators and lists (type 16).
+  - `xg_x` is now the real GCN XG model. Tile modes, depth/stencil validation and texture layouts are byte-identical to the console `xg_x.dll` on about 1700 random cases. Before this, texture sizes came out as 0.
+- **Missing:**
+  - After `XGCreateTexture2DComputer` (2048x2048 fmt 65 mode 13), the log has no `PresentX`.
+  - The cause is unknown. It may be a fence or frame-event wait, or the upload path for Xbox One placed textures (`upload.rs` uses `xg_xs`, which Terraria does not load).
 - **Dump:** complete. All 19 layout file groups are present.
 
 ---
@@ -71,8 +78,19 @@ Last update: 2026-11-21 (run 33: backdrop diag, 45 FPS lobby).
   - The device type now reports Series X for Xbox One titles, which fixed the crash at `GbxGame+0x800950`.
   - The `twinapi.appcore` AV at teardown and the null TaskQueue error are gone.
 - **Missing:**
-  - Xbox One (GCN/Durango) shader translation: 42 lines of `shader_xlat FAIL … magic=[…]`, because Xbox One shader containers differ from Series ones.
-  - A valid command list: `Close FAILED 0x80070057` → device removed → AV at `GbxGame+0x894c3b`.
+  - Xbox One (GCN/Durango) shader translation: 42 lines of `shader_xlat FAIL … magic=[…]`.
+    - The container is DXBC with these chunks: `SFI0 ISG1 OSG1 PSV0 RTS0 STAT [ILDN] HASH DXIL`.
+    - The `DXIL` part holds `XDAT` with a zlib stream. That stream inflates to a Durango blob, not `FSSM`.
+    - Blob header:
+      - `u64 size-8`, `u64 hash`, `u32 hash2`, `u32`.
+      - `5,3,6`.
+      - `u64 code_start = 0x240`.
+      - `u64 code_end`.
+    - The bytes in `[0x240, code_end)` are GCN (CI / gfx7) ISA ending in `s_endpgm` (0xBF810000).
+    - Not started: a GCN decoder module in `tombox-xshader`. GCN encodings differ from RDNA2: SMRD instead of SMEM, VOP3 prefix 0x34, and different MUBUF/MIMG opcodes.
+  - A valid command list: `Close FAILED 0x80070057` → device removed (`CreateCommittedResource 0x887a0005`) → AV at `GbxGame+0x894c3b`.
+    - `TOMBOX_D3D12_DEBUG=1` cannot name the failing command: `D3D12GetDebugInterface` returns 0x887a002d because `d3d12SDKLayers.dll` is not on this PC (it is not in System32 and not in `third_party`).
+    - Next: get the layers from the Agility SDK package, or log the commands recorded into the failing list.
 - **Dump:** complete. All 53 layout file groups are present, including `Packs\*.pak`.
 
 ---
