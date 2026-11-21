@@ -7,14 +7,14 @@
    "pct": 99.7
   },
   "d3d12x_methods": {
-   "done": 135,
+   "done": 141,
    "total": 200,
-   "pct": 67.5
+   "pct": 70.5
   },
   "rdna2_instructions": {
-   "done": 272,
-   "total": 494,
-   "pct": 55.06
+   "done": 506,
+   "total": 530,
+   "pct": 95.47
   },
   "shaders_translated": {
    "done": 105506,
@@ -46,9 +46,9 @@
  },
  "extra": {
   "console_exports": {
-   "done": 223,
-   "total": 1901,
-   "pct": 11.73
+   "done": 482,
+   "total": 2141,
+   "pct": 22.51
   },
   "shader_compile_lobby_frame": {
    "done": 139,
@@ -81,19 +81,19 @@
    "pct": 62.07
   },
   "title_imports_Terraria": {
-   "done": 21,
+   "done": 24,
    "total": 25,
-   "pct": 84.0
+   "pct": 96.0
   },
   "title_imports_Trackmania": {
-   "done": 12,
+   "done": 17,
    "total": 18,
-   "pct": 66.67
+   "pct": 94.44
   },
   "console_exports_targeted": {
-   "done": 223,
-   "total": 1041,
-   "pct": 21.42
+   "done": 482,
+   "total": 1281,
+   "pct": 37.63
   },
   "console_exports_not_targeted": {
    "done": null,
@@ -105,14 +105,14 @@
  "all_including_pc": {
   "note": "previous definition, kept for history: every export of every console OS DLL and every title import, PC-provided ones included",
   "console_exports": {
-   "done": 21092,
-   "total": 23489,
-   "pct": 89.8
+   "done": 21351,
+   "total": 23729,
+   "pct": 89.98
   },
   "xbox_only_exports": {
-   "done": 219,
-   "total": 1824,
-   "pct": 12.01
+   "done": 478,
+   "total": 2064,
+   "pct": 23.16
   },
   "title_import_status": {
    "Fortnite": {
@@ -136,16 +136,16 @@
     "title": 877,
     "forwarded": 9,
     "hooked": 74,
-    "implemented": 19,
-    "stub": 4
+    "implemented": 22,
+    "stub": 1
    },
    "Trackmania": {
     "title": 241,
     "pc": 1284,
     "hooked": 36,
-    "forwarded": 4,
-    "implemented": 8,
-    "stub": 6
+    "forwarded": 5,
+    "implemented": 12,
+    "stub": 1
    }
   },
   "title_imports_Fortnite": {
@@ -159,14 +159,14 @@
    "pct": 99.32
   },
   "title_imports_Terraria": {
-   "done": 3492,
+   "done": 3495,
    "total": 3496,
-   "pct": 99.89
+   "pct": 99.97
   },
   "title_imports_Trackmania": {
-   "done": 1573,
+   "done": 1578,
    "total": 1579,
-   "pct": 99.62
+   "pct": 99.94
   }
  },
  "title_import_status": {
@@ -181,14 +181,14 @@
    "forwarded": 1
   },
   "Terraria": {
-   "implemented": 19,
-   "stub": 4,
+   "implemented": 22,
+   "stub": 1,
    "forwarded": 2
   },
   "Trackmania": {
-   "forwarded": 4,
-   "implemented": 8,
-   "stub": 6
+   "forwarded": 5,
+   "implemented": 12,
+   "stub": 1
   }
  },
  "console_os_builds": {

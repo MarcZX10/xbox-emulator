@@ -12,10 +12,11 @@ Last update: 2026-11-21 (run 33: backdrop diag, 45 FPS lobby).
 - Matchmaking and ready-up land in private lobbies and private or custom matches, hosted by the in-process backend and the Party relay. Public queues are never used.
 - Party, Meet and session work targets private sessions between local or LAN clients.
 - Applied so far: a PlayFab matchmaking ticket resolves at once into a private match with the local tickets in its queue, and does not wait for strangers.
-- Not done yet:
-  - Nadeo Meet (Trackmania) is not implemented.
-  - The PlayFab Party relay and PubSub, which LAN play between clients needs, are not emulated.
-  - Each client process has its own backend, so LAN clients cannot yet see each other's lobbies. That needs a shared LAN backend or relay.
+- **Scope change (user, 2026-11-21): single player only for now.** Multiplayer work is stopped:
+  - The shared LAN backend (`online/lan.rs`) is built and tested, including a two-process loopback test. It is off by default (`lan=off`) and not being extended.
+  - The PlayFab Party relay and PubSub are not emulated and are not being worked on.
+  - Nadeo Meet (Trackmania) is not implemented and is not being worked on. Meet calls are logged as unhandled and get a Nadeo 404.
+- Single-player online answers, all in-process: Xbox Live achievements, peoplehub and userpresence (`online/xbl_title.rs`), RTA, PlayFab login/QoS/profile/events, Ubi sessions, Nadeo Core and Nadeo Live services. Every request that is not answered is logged as `[online] unhandled [<title>] ...` in that title's `tombox_compat.log`.
 
 ## Fortnite (Xbox Series X|S)
 
@@ -43,7 +44,13 @@ Last update: 2026-11-21 (run 33: backdrop diag, 45 FPS lobby).
   - **Run 40:** 145 HITCHHUNTER GPU hitches, 70-1,250 ms each, about 2 per second through the lobby. Many are on frames of only 30-50 draws.
   - **Run 35 was worse:** up to 10.5 s on frames of 39-52 draws.
   - **Likely cause:** that much GPU time on so few draws means the timed interval includes idle or wait time (cross-queue fence waits, late submits) or a timestamp problem.
-  - **Next:** run with `TOMBOX_GPUPROF=1`. It reports summed per-draw GPU ms next to the wall span; a large gap between them confirms waits.
+  - **Run 42 (gpuprof live) confirms waits:**
+    - **Normal windows:** summed GPU 6.2-8.9 ms/frame against a wall span 0.7-1.0 ms/frame larger.
+    - **Window 2:** the only one that overlaps hitches (f744-f784). It lasted 1540 ms for 16 frames, but GPU timestamps cover only 374 ms of that, and only 129 ms of it is GPU work. No single in-list interval was over 100 ms. So the GPU sat idle with nothing submitted.
+    - **47 "Hitch in GPU", 20.6 s total.** 12 of them (6.7 s) line up with shader-translation waits ("caller thread blocked N ms") plus driver CreateGraphicsPipelineState time in the same frame. UE agrees: STAT_PSOGraphicsFindOrCreateTime appears 14 times (7.9 s).
+    - **The rest have no emulator log line.** The worst are f689 (2.86 s) and f692 (2.61 s): IO and prewarm are idle and d3d12_xs logs only perf. The UE scopes there are TaskGraphThreadNP STAT_ParallelChainTranslate (2.79 s, the RHI recording into our command-list wrappers), PoolThread MipCalc (2.2 s) and GameThread FAudioCommandFence_Wait (2.37 s).
+    - **Open:** a CPU-side stall inside a wrapped call or a process-wide stall. Candidates are a synchronous GPU wait while holding a lock (vmem_x D3D12ZeroMemoryX waits on its fence with `GPU` held) or the upload pump (max 60 ms per present). It needs per-call slow-call timing on the command-list and queue wrappers.
+  - **Fixed:** gpuprof labelled every row 0. `shader_xlat::ORIGIN` is only filled when rtcap or hot_reload is on. There is now a hash-only map that is always filled (`note_origin_hash` / `origin_hash`), and gpuprof uses it.
 - **Anaconda (XSX_Anaconda profile) black scene, offline checks:**
   - 62 shaders appear only in Anaconda runs (37-39). All translate and compile.
   - No PSO failures (pso_fail=0, untranslatable=0).
@@ -66,6 +73,8 @@ Last update: 2026-11-21 (run 33: backdrop diag, 45 FPS lobby).
   - The XMA2 decoder (crate `xma`, ported from FFmpeg wmaprodec) is within 1 LSB of ffmpeg. Hardware mode keeps frame 0, so output is 512 × frames.
   - The Opus decoder (crate `opusdec`, ported from libopus) is within 1 LSB in all modes.
   - AcpHal, SHAPE, xapu and chad run on the CPU.
+  - xapu is asynchronous, like the console. The console's `XApuEnqueueCommand` only copies the command into a shared submit ring (xapu.dll sub_37b0). `XApuGetResultCount` reads a completion ring the device fills. Our version now queues each command to a host worker pool (cores minus one, at most 8). Per-stream order is kept, results commit in submission order, and the result event fires on commit. `TOMBOX_XAPU_SYNC=1` decodes on the calling thread instead. Async and sync produce identical results and PCM (test `async_results_commit_in_submission_order`).
+  - Fortnite "enables with input but no output" are resolved. With the recorder race fixed, a fresh harness recording shows 0 of 60104 enables (it was 109, then 362). All of them were recorder artifacts, not a real end of stream and not a SHAPE bug.
   - Record/replay: `TOMBOX_AUDIO_RECORD=1` writes `%LOCALAPPDATA%\TomBox\audio-rec\*.tbrec`, or the folder in `TOMBOX_AUDIO_RECORD_DIR`. `target-audio\release\audio-replay.exe <file>` writes WAVs plus a stall report.
 - **Decoder cost (release build, one stream):**
   - XMA2: 8-15 us per 512-sample frame, 945x real time. It was 299x before this round of optimisation.
@@ -78,10 +87,11 @@ Last update: 2026-11-21 (run 33: backdrop diag, 45 FPS lobby).
   - XMA loops are packet-granular, not sample-granular.
   - xapu codecs 1/3 and chad kinds 2/3 return E_NOTIMPL, because no title issues them.
   - SHAPE command types outside the known set return E_NOTIMPL.
+  - XMA output ring fills to c-1 blocks and never clears d1 bit31. On the console it fills all c blocks and clears OutputBufferValid when full: Fortnite 0x1406f2fce takes the cold path at 0x14262da2a, reading r==w with bit31 clear as a full ring. It is left as is because how the hardware sets bit31 again after a drain is unknown. No title on disk fills the ring (Fortnite asks for at most 8 of 31 blocks and drains every pass; Wwise pulls one block at a time). XmaState::service and pull_frame should change together once a title or a console trace shows the re-validate rule.
   - Some xapu result fields are guessed: +0x1C, +0x1E, +0x22.
 - **Recording caveats:**
   - EQ/FILTVOL arrays are not captured.
-  - A title write that lands while a SHAPE op is running can be missed.
+  - Fixed: a title write that landed while a SHAPE op was running could be absorbed into the shadow and missed. The engine's `wr`/`set_bits` now log what they write during recording, and the shadow takes only those bits.
   - Recording costs about 8 us per op. The Fortnite harness takes 1.5-2.1 s with recording, against 0.6 s without.
   - Fixed: the XDefiant replay mismatch. The packet cache was not cleared when APU memory was freed. Same-build record and replay now match for all three titles.
 
@@ -212,8 +222,9 @@ elease`, the log shows one install and every interface is emulated.
   - Online: `[online] unhandled POST /MultiplayerServer/ListPartyQosServers` (PlayFab Party QoS, `40467.playfabapi.com`). The run also fell back to the Fortnite service module, because Terraria had no title module.
     - Now on disk (`online/playfab`, not yet tried in a run): a Terraria/PlayFab module picked by `Terraria.exe`, and `*.playfabapi.com` is routed for every title.
     - It covers every PlayFab route found in `PartyWin.dll`, `PartyXboxLive.dll` and `PlayFabMultiplayerGDK.dll`: LoginWithXbox, ListPartyQosServers, GetCognitiveServicesToken, Party/RequestParty, Event/WriteEvents and WriteTelemetryEvents, Profile/GetTitlePlayersFromXboxLiveIDs, and all 20 Lobby/Match routes. It also covers the common Client/Authentication/Profile calls.
-    - A UDP QoS responder on 127.0.0.1:3075 answers the 0xFFFF probe.
-    - Missing: the Party relay. RequestParty gives out 127.0.0.1:30000, but the relay's DTLS protocol is not emulated, so CreateNewNetwork/ConnectToNetwork will fail after the REST calls.
+    - A UDP QoS responder on 127.0.0.1:3075 answers the 0xFFFF probe. The 7:14 run logged bind error 10048 on 3075, most likely because a unit test held the port at the same time. Unit tests now use port 0 (`TOMBOX_PLAYFAB_QOS_PORT`, cfg `playfab_qos_port`), and the responder retries the bind on the next QoS call.
+    - Single-player world load: the 7:14 run made only the ListPartyQosServers call and then crashed in rendering (AV at `Terraria.exe+0x7e7048`). That crash is not an online gap.
+    - Paused (multiplayer, out of scope): the Party relay. RequestParty gives out 127.0.0.1:30000, but the relay's DTLS protocol is not emulated, so CreateNewNetwork/ConnectToNetwork will fail after the REST calls.
     - Missing: PlayFab PubSub (SignalR websocket). Lobby and matchmaking changes are not pushed, and a title that waits for a push will stall.
     - Unknown: which of the ~295 Unity-SDK PlayFab calls in `global-metadata.dat` Terraria actually makes. Anything not implemented is logged as `[playfab]` unhandled.
 - **Dump:** complete. All 19 layout file groups are present.
@@ -244,11 +255,26 @@ elease`, the log shows one install and every interface is emulated.
   - D3D12 debug layer: `d3d12SDKLayers.dll` (Agility 1.620.2) cannot be enabled.
     - `SetSDKVersion` needs Developer Mode.
     - `CreateDeviceFactory(620)` works, and the device is created through it, but the factory reports the SDK layers as not installed.
+- **11-21 GDK run (run_xone, overlay `run-xone-gdk`, all DLLs from `target-gdk\release`):** 115-129 fps (the d3d12_xs frame clock currently follows the host's 144 Hz; `TOMBOX_FRAME_HZ=console` restores the console interval). It crashed at 42.7 s with an AV write at 0x8 in `GbxGame+0x153017d`. The call came from libHttpClient's HCCleanupAsync termination callback `+0x1542270`, running on a thread spawned by our `XTaskQueueTerminate`.
+  - Cause (GDK layer, `gdk/rt.rs`), two bugs:
+    - Our XAsync passed the provider a stack `XAsyncProviderData`. libHttpClient keeps that pointer and reads `[data+0x18]` (the context) later.
+    - `XTaskQueueTerminate(wait=false)` fired the callback at once on a new thread. It should run after the pending items, through the work port and then the completion port; on manual queues it should run during dispatch.
+  - Fix on disk: a persistent ProviderData in each async state, and the termination is delivered through `submit_marker` on the work and completion ports. Test: `tests/gdk_rt_terminate.rs`. Not re-run in game: in-game QA is paused until the progress map reaches 100%.
 - **Dump:** complete. All 53 layout file groups are present, including `Packs\*.pak`.
 - **Online (in-process, `online/trackmania`), not yet tried in a run:**
   - Done: Ubi session through the XDefiant module; Nadeo token exchange, refresh and nadeoservices; `/api/routes`; all 115 Core routes, stateful.
-  - Missing: Live services (`live-services.trackmania.nadeo.live`) and Meet (`meet.trackmania.nadeo.club`) routes. These are logged as unhandled; the first run will list what the game calls.
-  - Missing: real campaign, seasons and Track of the Day data. The game gets empty lists until the build's own map files are fed in.
+  - Done (`online/trackmania/live.rs`): Live services (`live-services.trackmania.nadeo.live`), with the NadeoLiveServices token check. Covered:
+    - official campaigns (v1 and v2), Track of the Day months, cup of the week, weekly grands and shorts, map campaign info, and maniapubs;
+    - map info, get-multiple, uploaded maps, and favourites (add, remove, list);
+    - leaderboards: player records, position for a score, top, surround, medals, campaign ranking and top, and trophies. These are computed from the Core map records, so a solo personal best shows up at once;
+    - clubs, stored locally: create, edit, delete, mine, search, members, join, pin, tag, activities, news, folders, and club campaigns.
+  - Not handled, logged as unhandled: club rooms, competitions, map review, player-server accounts and club leaderboards. These are multiplayer features.
+  - Meet (`meet.trackmania.nadeo.club`): not implemented. Multiplayer is out of scope.
+  - Missing: real official campaign, Track of the Day and weekly data. Lists come from cfg `trackmania_live_data` or `<data_root>\trackmania\live.json`; without that file they are empty, and the log says so.
+    - Campaign maps also need Core map entries. A `"maps"` array in the same file (`{mapUid, name, authorScore, goldScore, silverScore, bronzeScore, file}`, with `file` relative to the JSON) registers each map in Core at startup, along with its file under `storageObjects`. Then `/maps/?mapUidList=`, the downloads and the Live map info resolve.
+    - Where the official map files are has not been found yet. A plain-text search of `Trackmania.Title.Pack.Gbx`, `Titles.pak` and `Stadium.pak` turned up nothing, but those packs are compressed or encrypted.
+  - Meet's main-menu polls (for example the current cup of the day) get a logged Nadeo 404 where the real service may answer 204. The first Trackmania run that reaches online will show whether that matters.
+  - The 6:27 run reached no online calls; it stopped before the online stage.
 
 ## XDefiant rendering and startup (parked 2026-11-21)
 - **Current state:** runs about 140 s at 60 fps. All graphics PSOs build, and command lists close cleanly after the aliasing-barrier fixes (`xone_barrier.rs`, `placed::is_committed_placement`). The presented frame is still all black. Captures at frames 1800 and 6900 show only compute dispatches and one ExecuteIndirect draw into a 960x540 target, and every target reads zero.
@@ -266,7 +292,13 @@ elease`, the log shows one install and every interface is emulated.
   - `d3d12_xs` logged no failing call, so the failing method is an unlogged forwarder.
   - Run log: the ISA agent's scratchpad `xdrun19`.
 
+- **First blocking wait:** not found yet. The 11-21 GDK pass did not run XDefiant, because in-game QA is paused until the progress map reaches 100%.
+
 ## XDefiant online gaps
+- The 6:58 run used stale DLLs. It logged `xdefiant-stub ... (generic empty answer)`, a string that no longer exists in the source, and those DLLs had no RTA emulation. The current build (`D:\TomBox\target-xcurl\release`) has:
+  - in-process RTA (`online/rta.rs`; Fortnite's 7:47 run shows `[online] websocket [rta] /connect opened` and subscriptions answered);
+  - achievements, peoplehub and userpresence (`online/xbl_title.rs`), the three calls the run made before RTA.
+- Transport: `Rogue_scarlett_rtx.exe` uses libHttpClient, with HTTP over XCurl (`XCurl.dll`, `XCurlMulti`) and websockets over WinHTTP (`WINHTTP.dll`: `WinHttpWebSocketCompleteUpgrade`, `Send`, `Receive`, `Close`). There is no `curl_ws_*`. That is the same path net_guard and `rta.rs` already serve for Fortnite. In the stale run, no WinHTTP traffic followed the RTA security query, which fits DLLs built before the WinHTTP websocket fix.
 - Missing: catalog data (store items, seasons, battle pass). Nothing is loaded unless `xdefiant_catalog` or `<data_root>\xdefiant\catalog.json` exists; it must be built from the game's own files.
 - Missing: Vivox voice transport (SIP/RTP). Tokens and config are issued locally, but there is no Vivox server emulation, so voice will not connect.
 
@@ -281,3 +313,23 @@ elease`, the log shows one install and every interface is emulated.
 - The real PATCH body keys are not captured yet. Bodies are now logged as "[party] PATCH <path> body=..." in tombox_compat.log. If the client sends a revision the server does not expect, it gets 409, so check for "stale rev sent" lines.
 - Single player: every playlist, including Playlist_Tutorial_1, BattleLab and Playground, is logged as "(Server Only)". The XSX client has no offline or local-match path in its strings. The only way in with no server is the client as its own authority (NM_Standalone): the StartGameInstance command-line patch at RVA 0xB46800 plus a leading map URL (run_fortnite.ps1 -Match Map, os_host/fortnite_match.rs). Not yet run in game. Open: the game-mode class path, ReadyToStartMatch without a playlist, MCP and inventory loading when the frontend is skipped.
 - On user request, multiplayer matchmaking, MPSD, QoS and the LAN party work are paused. That code stays on disk, tested, but is not being extended.
+- Run 42 update (party agent): the solo party fix is confirmed in game (0 UpdateParty timeouts). Play failed with invalid_bucket_id because QoS left the region at NONE (bucket `14457890:0:NONE:playlist_defaultsquad`). The ticket now treats NONE as the local region (`TOMBOX_FN_REGION`, default NAE). It still rejects the pre-init bucket `0:0:NONE:0`.
+- Likely QoS cause: two datacenters (VA and OH) pointed at the same echo port, so both replies were credited to VA and OH stayed at 9999 ms. NAE now has one datacenter only. Unconfirmed whether the region is then selected.
+- The session now writes the ticket's playlist into TOMBOX_FN_PLAYLIST, so the Play-mode Browse rewrite loads Apollo_Terrain with `?Playlist=<selected>`. Every Battle Royale playlist uses Apollo_Terrain. Creative and Playground playlists would need their own map plus game mode; not done.
+- The lobby → Play → local match flow only works when the game is launched with `run_fortnite.ps1 -Match Play`. Run 42 was launched in Off mode: its log has no fn-match lines.
+- Not verified, and the next risk after Play: the content beacon on BEACONPORT 15009 (failure should not cancel, because ContentBeaconFailureCancelsMatchmaking=0) and any reservation beacon. Watch for Beacon lines.
+
+## Fortnite movies and loading screens (run41, 2026-11-21)
+- Bifrost `Movies/Bifrost/Comp 1-6.mp4`: not in the dump (checked the extracted tree, EmbeddedXvd and the pak indexes). The six "Failed to validate media source" errors at 12:56:07 are expected. The game continues cleanly: the frontend loads, the second loading screen hides at 12:56:09.9, and the lobby clip opens, plays and ends at 12:56:59–57:00.
+- No startup movies: DefaultGame.ini, XSXGame.ini and BaseXSXGame.ini (read with uex) have no MoviePlayerSettings/StartupMovies. The engine loading screen is the Slate FortniteEngineLoadingScreen, and the in-game loading screens use pak textures (Content/2dAssets/LoadingScreens/*). So no local mp4 is opened on the normal boot → frontend path; run41 has no source reader, which is correct. Onboarding, Wargames and HomebaseReturn movies play only in their own flows.
+- Lobby clip path, verified in game (run41): Electra → H.264 MFT → D3D12 NV12 → `video.copy` into an R8 texture. The readback gave Y avg 15 / max 16, i.e. video black, which is what the old placeholder contained. The placeholder is now a 640x360 blue-gradient H.264 Main@3.0 clip (backend_data/fortnite/video/init.mp4 + seg0.m4s), so the next capture can show whether it reaches UMG. Test: mfplat proxy_dll `lobby_video_placeholder_decodes_to_nonblack_frames_on_every_path`.
+- Offline MF harness (mfplat tests/proxy_dll.rs, per-mode tests): SatelliteConnection, Onboarding_Appended_Intro, WargamesVictory and HombaseReturn_OutpostIntro decode to non-black 1920x1080 frames in software and as D3D12 NV12 on the console device (MFResetDXGIDeviceManagerX).
+- OPEN (host MF/driver, not on the Fortnite path): with a D3D12 manager, a source reader asked for RGB32 output gives all-zero frames for 1920x1080. 640x360 works. The game uses NV12.
+- OPEN (host MF/driver, intermittent): a second D3D12 source reader on the same device sometimes fails its first ReadSample with DXGI_ERROR_DEVICE_HUNG (GetDeviceRemovedReason 0x887a0006). It reproduces with the plain IMFDXGIDeviceManager::ResetDevice as well, so MFResetDXGIDeviceManagerX is not the cause. Flushing the reader and shutting down the source don't help. Risk: a second in-game video on the same device. Not seen in a game yet.
+- OPEN (most likely the user's "loading screen doesn't show"): from 12:55:29.68 (PresentX frame 3) to the splash at about 12:55:52, the game thread sits in engine init/LoadMap at frame [5] while the EngineLoadingScreen preload screen is active ("HasActivePreLoadScreenType(EngineLoadingScreen) Is True"). Yet frames 3→300 span 29.68→60.54 s, and the splash alone accounts for about 300 frames, so almost nothing is presented for about 22 s. Also logged: "LogMoviePlayer: PassLoadingScreenWindowBackToGame failed. No Window". Next step: run once with TOMBOX_RTCAP=1 and emulator/tools/dev/loading_capture.ps1. A "still-pending" mark means no present happened in that window. Then check the SlateLoadingThread / render-thread present path in d3d12_xs (owner: the d3d12/present agent).
+- Measurement for the startup present stall (run41, from the d3d12_xs upload pump, which runs once per PresentX): presents 1–31 fall in 12:55:29.67–31.02, then nothing until present 32 at 12:55:37.95, a gap of 6.93 s. Between 37.95 and present 300 at 12:56:00.54 there are only 268 presents, against ~79/s in the lobby (presents 300→600 took 3.8 s), so this whole init/preload window presents rarely. Watcher for the capture run: emulator/tools/dev/loading_capture.ps1 -LiveLog <live ODS log> (frames=1, marks in UTC at %TEMP%\tombox_capture_marks.txt).
+- mfplat proxy_dll: `fortnite_movies_decode_to_nonblack_nv12_on_console_d3d12_manager` and `..._rgb32_...` are #[ignore] with the two host-MF reasons above. The software test and `lobby_video_placeholder_decodes_to_nonblack_frames_on_every_path` stay active. d3d12_device() now panics if device creation fails after a device has existed, so a lost device can no longer pass as a skip.
+- Run 43 crash (party agent, 07:53 build fixes the likely cause): an access violation in ntdll inside a winhttp websocket callback. The path was net_guard `cb_wrap` (xmem +0xd5b60/+0xd5efa) → the game's callback (EXE +0xbd93ec) → Websocket.dll. The faulting object held the RTA websocket handle 0x2910724f0 and looked freed and reused (its critical-section fields were garbage).
+- Root cause found in net_guard: the game-callback table was keyed by raw handle value, was never cleaned when a handle closed, and child handles found their owner by walking the parent chain at callback time. WinHTTP reuses handle values. So when the upgrade request closed and a new request took the same value with its own callback, the websocket's events went to the wrong callback and context.
+- Fix: a child now takes a copy of its parent's callback when it is created (as WinHTTP does). A creation purges any stale entry for that value, and HANDLE_CLOSING removes the closed handle's entry.
+- Unit tests `net_guard::callback_owner_tests` cover it, and net_ws_async_rta and net_ws_winhttp still pass. Whether this was the run 43 crash is not proven: it was a single, timing-dependent crash. Run 42 used the same code paths and did not crash.

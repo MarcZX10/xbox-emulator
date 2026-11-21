@@ -25,22 +25,22 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 | Metric | Done | Total | % |
 |---|---|---|---|
 | system_functions | 669 | 671 | 99.7 |
-| d3d12x_methods | 139 | 200 | 69.5 |
-| rdna2_instructions | 272 | 494 | 55.06 |
+| d3d12x_methods | 141 | 200 | 70.5 |
+| rdna2_instructions | 506 | 530 | 95.47 |
 | shaders_translated | 105506 | 105506 | 100.0 |
 | shader_stages | 6 | 8 | 75.0 |
 | milestones | 14 | 19 | 73.68 |
 | titles_examined | 5 | - | - |
-| console_exports | 223 | 1901 | 11.73 |
+| console_exports | 482 | 2141 | 22.51 |
 | shader_compile_lobby_frame | 139 | 139 | 100.0 |
 | shader_compile_fixtures | 25 | 25 | 100.0 |
 | shader_compile_full_sweep | not published | 105506 | - |
 | milestones_verified_this_machine | 7 | 12 | 58.33 |
 | title_imports_Fortnite | 28 | 31 | 90.32 |
 | title_imports_XDefiant | 18 | 29 | 62.07 |
-| title_imports_Terraria | 21 | 25 | 84.0 |
-| title_imports_Trackmania | 12 | 18 | 66.67 |
-| console_exports_targeted | 223 | 1041 | 21.42 |
+| title_imports_Terraria | 24 | 25 | 96.0 |
+| title_imports_Trackmania | 17 | 18 | 94.44 |
+| console_exports_targeted | 482 | 1281 | 37.63 |
 | console_exports_not_targeted | not published | 860 | - |
 
 Shader compile: all 139 shaders of the lobby frame compile with DXC (TomBox `docs/DEVELOPMENT_LOG.md:894`); 25/25 fixtures compile (`:672`). The full-library compile sweep (`:706`) has no published final count, so no compile badge is shown.
@@ -326,13 +326,13 @@ Listed: imports from Xbox console libraries only. Not listed: 2594 imports a PC 
 
 </details>
 
-<details><summary><b>xg_x.dll</b>: 3 functions; stub 3</summary>
+<details><summary><b>xg_x.dll</b>: 3 functions; implemented 3</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `XGCreateTextureComputer` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (E_NOTIMPL, output cleared) |
-| `XGComputeOptimalTileMode` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (always XG_TILE_MODE_LINEAR_GENERAL (0x1f, the console's answer for buffers)) |
-| `XGCreateTexture2DComputer` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (E_NOTIMPL, output cleared) |
+| `XGCreateTextureComputer` | implemented | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (XG_RESOURCE_DESC (D3D12 desc, layout 0/2/0x100+mode)) |
+| `XGComputeOptimalTileMode` | implemented | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (GCN selection (buffer 31, 1D 8, 2D 13/14, +3 for 64KB swizzle, 3D 13/14, depth path), verified against console xg_x for 100k+ inputs) |
+| `XGCreateTexture2DComputer` | implemented | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (layouts byte-identical to console; 1D-thin and linear texel addressing identical; 2D-thin addressing self-consistent (bank/pipe swizzle not yet modelled)) |
 
 </details>
 
@@ -347,15 +347,12 @@ Listed: imports from Xbox console libraries only. Not listed: 2594 imports a PC 
 
 </details>
 
-Terraria console-library import totals (26 binaries): implemented 19, forwarded 2, stub 4.
+Terraria console-library import totals (26 binaries): implemented 22, forwarded 2, stub 1.
 
-<details><summary><b>Terraria: imports not covered</b> (4; status not implemented / forwarded / hooked / pc / title)</summary>
+<details><summary><b>Terraria: imports not covered</b> (1; status not implemented / forwarded / hooked / pc / title)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
-| Terraria.exe | xg_x.dll | `XGComputeOptimalTileMode` | stub | Trackmania |
-| Terraria.exe | xg_x.dll | `XGCreateTexture2DComputer` | stub | only Terraria |
-| Terraria.exe | xg_x.dll | `XGCreateTextureComputer` | stub | Trackmania |
 | Terraria.exe | xmem.dll | `XMemFreePhysicalPages` | stub | Fortnite, Trackmania |
 
 </details>
@@ -399,36 +396,31 @@ Listed: imports from Xbox console libraries only. Not listed: 1320 imports a PC 
 
 </details>
 
-<details><summary><b>xg_x.dll</b>: 4 functions; stub 4</summary>
+<details><summary><b>xg_x.dll</b>: 4 functions; implemented 4</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `XGComputeOptimalDepthStencilTileModes` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (writes LINEAR_GENERAL to both outputs) |
-| `XGComputeOptimalTileMode` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (always XG_TILE_MODE_LINEAR_GENERAL (0x1f, the console's answer for buffers)) |
-| `XGComputeTexture2DLayout` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (E_NOTIMPL) |
-| `XGCreateTextureComputer` | stub | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (E_NOTIMPL, output cleared) |
+| `XGComputeOptimalDepthStencilTileModes` | implemented | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (console rules: MSAA 2/4 -> 1, 8 -> 2, TC-compatible -> 7, HTILE -> 4, stencil formats refuse compressed modes (oracle-verified)) |
+| `XGComputeOptimalTileMode` | implemented | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (GCN selection (buffer 31, 1D 8, 2D 13/14, +3 for 64KB swizzle, 3D 13/14, depth path), verified against console xg_x for 100k+ inputs) |
+| `XGComputeTexture2DLayout` | implemented | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (GCN layout model, byte-identical to console XG_RESOURCE_LAYOUT for modes 8/13/14/31) |
+| `XGCreateTextureComputer` | implemented | [crates/compat/xg_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xg_x/src/lib.rs) (XG_RESOURCE_DESC (D3D12 desc, layout 0/2/0x100+mode)) |
 
 </details>
 
-<details><summary><b>dxcompiler_x.dll</b>: 1 functions; stub 1</summary>
+<details><summary><b>dxcompiler_x.dll</b>: 1 functions; forwarded 1</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `DxcCreateInstance` | stub | [crates/compat/dxcompiler_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/dxcompiler_x/src/lib.rs) (forwards to dxcompiler.dll on the search path; E_NOTIMPL when none (stock Windows has none)) |
+| `DxcCreateInstance` | forwarded | [crates/compat/dxcompiler_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/dxcompiler_x/src/lib.rs) (official DXC 1.9.2609 (Microsoft-signed dxcompiler.dll + dxil.dll): next to dxcompiler_x, TOMBOX_DXC_DIR, or emulator third_party/dxc; compiles SM 6.0 HLSL to signed DXIL) |
 
 </details>
 
-Trackmania console-library import totals (7 binaries): implemented 8, forwarded 4, stub 6.
+Trackmania console-library import totals (7 binaries): implemented 12, forwarded 5, stub 1.
 
-<details><summary><b>Trackmania: imports not covered</b> (6; status not implemented / forwarded / hooked / pc / title)</summary>
+<details><summary><b>Trackmania: imports not covered</b> (1; status not implemented / forwarded / hooked / pc / title)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
-| GbxGame.exe | dxcompiler_x.dll | `DxcCreateInstance` | stub | only Trackmania |
-| GbxGame.exe | xg_x.dll | `XGComputeOptimalDepthStencilTileModes` | stub | only Trackmania |
-| GbxGame.exe | xg_x.dll | `XGComputeOptimalTileMode` | stub | Terraria |
-| GbxGame.exe | xg_x.dll | `XGComputeTexture2DLayout` | stub | only Trackmania |
-| GbxGame.exe | xg_x.dll | `XGCreateTextureComputer` | stub | Terraria |
 | GbxGame.exe | xmem.dll | `XMemFreePhysicalPages` | stub | Fortnite, Terraria |
 
 </details>
@@ -454,7 +446,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | dab.dll | System32 | yes | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | dbghelp.dll | System32 | yes | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | dxbc2dxil_xs.dll | System32 | no | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | Fortnite 2020.11015.12200.10000; XDefiant 2206.2209.12105.11142; Terraria 2206.2209.12105.11142; Trackmania 2210.2210.12006.15549 |
-| dxcompiler_x.dll | System32 | no | 2 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 1 | Fortnite 2020.11015.12200.10000; XDefiant 2206.2209.12105.11142; Terraria 2206.2209.12105.11142; Trackmania 2210.2210.12006.15549 |
+| dxcompiler_x.dll | System32 | no | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | Fortnite 2020.11015.12200.10000; XDefiant 2206.2209.12105.11142; Terraria 2206.2209.12105.11142; Trackmania 2210.2210.12006.15549 |
 | dxcompiler_xs.dll | System32 | no | 4 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 2 | 1 | 0 | 0 | 0 | Fortnite 2020.11015.12200.10000; XDefiant 2206.2209.12105.11142; Terraria 2206.2209.12105.11142; Trackmania 2210.2210.12006.15549 |
 | EventAggregation.dll | System32 | yes | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | FWPUCLNT.DLL | System32 | yes | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -462,8 +454,28 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | gamecorecomproxy.dll | System32 | no | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | gamingtelemetry.dll | System32 | no | 38 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 38 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | GCXAudioExt.dll | System32 | no | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 12 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| GDK XStore (title-linked) | Fortnite EXE (statically linked) | no | 22 | 22 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 22 | 0 | 0 | 0 |  |
-| GDK XUser (title-linked) | Fortnite EXE (statically linked) | no | 28 | 28 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 28 | 0 | 0 | 0 |  |
+| GDK XAccessibility+XSpeechSynthesizer (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 9 | 8 | 15 | 9 |  |
+| GDK XAppBroadcast+XAppCaptureMetadata (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 16 | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 16 | 0 |  |
+| GDK XAppCapture (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 8 | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 0 |  |
+| GDK XAsync/XTaskQueue/XThread (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 21 | 21 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 18 | 18 | 21 | 19 |  |
+| GDK XDisplay (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 |  |
+| GDK XError (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 3 | 1 | 1 |  |
+| GDK XGame (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 1 | 2 | 1 |  |
+| GDK XGameEvent (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 |  |
+| GDK XGameInvite (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 2 | 2 | 2 |  |
+| GDK XGameRuntimeFeature (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 |  |
+| GDK XGameSave (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 29 | 29 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 14 | 0 | 27 | 14 |  |
+| GDK XGameUi (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 26 | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 11 | 8 | 22 | 8 |  |
+| GDK XLaunchUri (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 3 | 1 |  |
+| GDK XNetworking (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 16 | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 9 | 9 | 14 | 9 |  |
+| GDK XPackage (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 23 | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 12 | 3 | 18 | 5 |  |
+| GDK XPersistentLocalStorage (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 2 | 2 | 2 |  |
+| GDK XStore (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 71 | 71 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 22 | 24 | 71 | 21 |  |
+| GDK XSystem (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 4 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 1 | 4 | 1 |  |
+| GDK XSystemAnalytics (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 |  |
+| GDK XUser (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 37 | 37 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 25 | 18 | 32 | 20 |  |
+| GDK XUserDevice (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 6 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 4 | 3 | 6 | 4 |  |
+| GDK XUserGamertag (QueryApiImpl) | xgameruntime QueryApiImpl (title call sites, analysis/gdk) | no | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 |  |
 | hix_xs.dll | System32 | no | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | kernel32.dll | System32/forwarders | yes | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 11 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | kernel32legacy.dll | System32 | no | 303 | 0 | 0 | 3 | 6 | 0 | 0 | 0 | 294 | 2 | 5 | 4 | 6 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -509,7 +521,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | xdxr_i.dll | System32 | no | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | XDefiant None; Terraria None; Trackmania None |
 | xfp_gc.dll | System32 | no | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xfrontpaneldisplay.dll | System32 | no | 8 | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| xg_x.dll | System32 | no | 21 | 0 | 0 | 0 | 0 | 0 | 21 | 0 | 0 | 0 | 0 | 3 | 4 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| xg_x.dll | System32 | no | 21 | 17 | 0 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 3 | 4 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xg_xs.dll | System32 | no | 23 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 22 | 1 | 1 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xgs12.dll | System32 | no | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 17 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xgs12_10.dll | System32 | no | 21 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 21 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -533,7 +545,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 
 ### Not targeted (no analysed title references them)
 
-The console-library total above (1901 exports in 89 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 20 libraries (1041 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 69 below (860 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (1824 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 20 targeted libraries alone: 223/1041.
+The console-library total above (2141 exports in 109 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 40 libraries (1281 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 69 below (860 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (2064 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 40 targeted libraries alone: 482/1281.
 
 | Library | Folder | Same-named PC DLL | Console-only exports | Present in |
 |---|---|---|---|---|
@@ -1519,12 +1531,12 @@ No PC DLL is named advapi32legacy.dll; its PC twin is advapi32.dll. Exports an a
 
 </details>
 
-<details><summary><b>dxcompiler_x.dll</b>: 2 console-only exports, 0 covered</summary>
+<details><summary><b>dxcompiler_x.dll</b>: 2 console-only exports, 2 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
-| `DxcCreateInstance` | stub | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `DxcCreateInstance2` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `DxcCreateInstance` | forwarded | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `DxcCreateInstance2` | forwarded |  | Fortnite, XDefiant, Terraria, Trackmania |
 
 </details>
 
@@ -1642,67 +1654,447 @@ No PC DLL is named advapi32legacy.dll; its PC twin is advapi32.dll. Exports an a
 
 </details>
 
-<details><summary><b>GDK XStore (title-linked)</b>: 22 console-only exports, 22 covered</summary>
+<details><summary><b>GDK XAccessibility+XSpeechSynthesizer (QueryApiImpl)</b>: 15 console-only exports, 15 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
-| `XStoreCloseContextHandle` | implemented | Fortnite | Fortnite |
-| `XStoreCloseProductsQueryHandle` | implemented | Fortnite | Fortnite |
-| `XStoreCreateContext` | implemented | Fortnite | Fortnite |
-| `XStoreEnumerateProductsQuery` | implemented | Fortnite | Fortnite |
-| `XStoreProductsQueryHasMorePages` | implemented | Fortnite | Fortnite |
-| `XStoreProductsQueryNextPageAsync` | implemented | Fortnite | Fortnite |
-| `XStoreProductsQueryNextPageResult` | implemented | Fortnite | Fortnite |
-| `XStoreQueryAssociatedProductsAsync` | implemented | Fortnite | Fortnite |
-| `XStoreQueryAssociatedProductsResult` | implemented | Fortnite | Fortnite |
-| `XStoreQueryConsumableBalanceRemainingAsync` | implemented | Fortnite | Fortnite |
-| `XStoreQueryConsumableBalanceRemainingResult` | implemented | Fortnite | Fortnite |
-| `XStoreQueryEntitledProductsAsync` | implemented | Fortnite | Fortnite |
-| `XStoreQueryEntitledProductsResult` | implemented | Fortnite | Fortnite |
-| `XStoreQueryGameAndDlcPackageUpdatesAsync` | implemented | Fortnite | Fortnite |
-| `XStoreQueryGameAndDlcPackageUpdatesResult` | implemented | Fortnite | Fortnite |
-| `XStoreQueryGameAndDlcPackageUpdatesResultCount` | implemented | Fortnite | Fortnite |
-| `XStoreQueryProductsAsync` | implemented | Fortnite | Fortnite |
-| `XStoreQueryProductsResult` | implemented | Fortnite | Fortnite |
-| `XStoreShowPurchaseUIAsync` | implemented | Fortnite | Fortnite |
-| `XStoreShowPurchaseUIResult` | implemented | Fortnite | Fortnite |
-| `XStoreShowRedeemTokenUIAsync` | implemented | Fortnite | Fortnite |
-| `XStoreShowRedeemTokenUIResult` | implemented | Fortnite | Fortnite |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 10 (synth_close)` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 11 (synth_default_voice)` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 12 (synth_custom_voice)` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 13 (stream_from_text)` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 14 (stream_close)` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 15 (stream_size)` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 16 (stream_data)` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 21 (stream_from_ssml)` | implemented | Terraria | Terraria |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 3 (cc_get_properties)` | implemented | Terraria | Terraria |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 4 (cc_set_enabled)` | implemented | Terraria | Terraria |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 5 (hc_get_mode)` | implemented | Terraria | Terraria |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 6 (stt_set_position)` | implemented | Terraria | Terraria |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 7 (stt_send_string)` | implemented | Terraria | Terraria |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 8 (synth_duplicate)` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAccessibility+XSpeechSynthesizer(d722b373) slot 9 (synth_create)` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
 
 </details>
 
-<details><summary><b>GDK XUser (title-linked)</b>: 28 console-only exports, 28 covered</summary>
+<details><summary><b>GDK XAppBroadcast+XAppCaptureMetadata (QueryApiImpl)</b>: 16 console-only exports, 16 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
-| `XUserAddAsync` | implemented | Fortnite | Fortnite |
-| `XUserAddResult` | implemented | Fortnite | Fortnite |
-| `XUserCheckPrivilege` | implemented | Fortnite | Fortnite |
-| `XUserCloseHandle` | implemented | Fortnite | Fortnite |
-| `XUserCompare` | implemented | Fortnite | Fortnite |
-| `XUserDuplicateHandle` | implemented | Fortnite | Fortnite |
-| `XUserFindForDevice` | implemented | Fortnite | Fortnite |
-| `XUserFindUserById` | implemented | Fortnite | Fortnite |
-| `XUserFindUserByLocalId` | implemented | Fortnite | Fortnite |
-| `XUserGetGamertag` | implemented | Fortnite | Fortnite |
-| `XUserGetId` | implemented | Fortnite | Fortnite |
-| `XUserGetLocalId` | implemented | Fortnite | Fortnite |
-| `XUserGetMaxUsers` | implemented | Fortnite | Fortnite |
-| `XUserGetState` | implemented | Fortnite | Fortnite |
-| `XUserGetTokenAndSignatureAsync` | implemented | Fortnite | Fortnite |
-| `XUserGetTokenAndSignatureResult` | implemented | Fortnite | Fortnite |
-| `XUserGetTokenAndSignatureResultSize` | implemented | Fortnite | Fortnite |
-| `XUserGetTokenAndSignatureUtf16Async` | implemented | Fortnite | Fortnite |
-| `XUserGetTokenAndSignatureUtf16Result` | implemented | Fortnite | Fortnite |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 10 (add_double_event)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 11 (start_string_state)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 12 (start_int_state)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 13 (start_double_state)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 14 (stop_state)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 15 (stop_all_states)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 16 (remaining_storage)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 17 (register_purged)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 18 (unregister_purged)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 3 (folded)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 4 (show_broadcast_ui)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 5 (broadcast_status)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 6 (register_broadcast)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 7 (unregister_broadcast)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 8 (add_string_event)` | implemented | Terraria | Terraria |
+| `XAppBroadcast+XAppCaptureMetadata(186d5592) slot 9 (add_int_event)` | implemented | Terraria | Terraria |
+
+</details>
+
+<details><summary><b>GDK XAppCapture (QueryApiImpl)</b>: 8 console-only exports, 8 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XAppCapture(3a949778) slot 10 (disable_record)` | implemented | Terraria | Terraria |
+| `XAppCapture(3a949778) slot 3 (diagnostic_screenshot)` | implemented | Terraria | Terraria |
+| `XAppCapture(3a949778) slot 4 (diagnostic_clip)` | implemented | Terraria | Terraria |
+| `XAppCapture(3a949778) slot 5 (take_screenshot)` | implemented | Terraria | Terraria |
+| `XAppCapture(3a949778) slot 6 (open_stream)` | implemented | Terraria | Terraria |
+| `XAppCapture(3a949778) slot 7 (read_stream)` | implemented | Terraria | Terraria |
+| `XAppCapture(3a949778) slot 8 (close_stream)` | implemented | Terraria | Terraria |
+| `XAppCapture(3a949778) slot 9 (enable_record)` | implemented | Terraria | Terraria |
+
+</details>
+
+<details><summary><b>GDK XAsync/XTaskQueue/XThread (QueryApiImpl)</b>: 21 console-only exports, 21 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 18 (q_submit)` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 27 (thread_set_time_sensitive)` | implemented | Terraria, Trackmania | Terraria, Trackmania |
+| `XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 30 (thread_is_time_sensitive)` | implemented | Terraria | Terraria |
+| `XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 6 (a_run)` | implemented | Terraria | Terraria |
+| `XAsyncBegin` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAsyncCancel` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAsyncComplete` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAsyncGetResult` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAsyncGetResultSize` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAsyncGetStatus` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XAsyncSchedule` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XTaskQueueCloseHandle` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XTaskQueueCreate` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XTaskQueueCreateComposite` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XTaskQueueDispatch` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XTaskQueueDuplicateHandle` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XTaskQueueGetCurrentProcessTaskQueue` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XTaskQueueGetPort` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XTaskQueueSubmitDelayedCallback` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XTaskQueueTerminate` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XThreadAssertNotTimeSensitive` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+
+</details>
+
+<details><summary><b>GDK XDisplay (QueryApiImpl)</b>: 1 console-only exports, 1 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XDisplayTryEnableHdrMode` | implemented | Fortnite, Terraria, XDefiant | Fortnite, Terraria, XDefiant |
+
+</details>
+
+<details><summary><b>GDK XError (QueryApiImpl)</b>: 3 console-only exports, 3 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XError(8ca467f7) slot 3 (error_report)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XErrorSetCallback` | implemented | Fortnite, XDefiant | Fortnite, XDefiant |
+| `XErrorSetOptions` | implemented | Fortnite, XDefiant | Fortnite, XDefiant |
+
+</details>
+
+<details><summary><b>GDK XGame (QueryApiImpl)</b>: 2 console-only exports, 2 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XGameGetXboxTitleId` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XLaunchNewGame` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+
+</details>
+
+<details><summary><b>GDK XGameEvent (QueryApiImpl)</b>: 1 console-only exports, 1 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XGameEventWrite` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+
+</details>
+
+<details><summary><b>GDK XGameInvite (QueryApiImpl)</b>: 2 console-only exports, 2 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XGameInviteRegisterForEvent` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XGameInviteUnregisterForEvent` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+
+</details>
+
+<details><summary><b>GDK XGameRuntimeFeature (QueryApiImpl)</b>: 1 console-only exports, 1 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XGameRuntimeIsFeatureAvailable` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+
+</details>
+
+<details><summary><b>GDK XGameSave (QueryApiImpl)</b>: 29 console-only exports, 29 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XGameSave(704c3f58..6ee2) slot 11 (delete_container_async)` | implemented | Terraria | Terraria |
+| `XGameSave(704c3f58..6ee2) slot 12 (status_result)` | implemented | Terraria | Terraria |
+| `XGameSave(704c3f58..6ee2) slot 15 (enumerate_containers_by_name)` | implemented | Terraria | Terraria |
+| `XGameSave(704c3f58..6ee2) slot 17 (close_provider)` | implemented | Terraria, Trackmania | Terraria, Trackmania |
+| `XGameSave(704c3f58..6ee2) slot 19 (enumerate_blobs_by_name)` | implemented | Terraria | Terraria |
+| `XGameSave(704c3f58..6ee2) slot 21 (read_blob_data_async)` | implemented | Terraria, Trackmania | Terraria, Trackmania |
+| `XGameSave(704c3f58..6ee2) slot 22 (read_blob_data_result)` | implemented | Terraria, Trackmania | Terraria, Trackmania |
+| `XGameSave(704c3f58..6ee2) slot 26 (submit_blob_delete)` | implemented | Terraria, Trackmania | Terraria, Trackmania |
+| `XGameSave(704c3f58..6ee2) slot 28 (submit_update_async)` | implemented | Terraria, Trackmania | Terraria, Trackmania |
+| `XGameSave(704c3f58..6ee2) slot 29 (status_result)` | implemented | Terraria | Terraria |
+| `XGameSave(704c3f58..6ee2) slot 3 (init_provider)` | implemented | Terraria | Terraria |
+| `XGameSave(704c3f58..6ee2) slot 6 (close_provider)` | implemented | Terraria, Trackmania | Terraria, Trackmania |
+| `XGameSave(704c3f58..6ee2) slot 7 (get_quota)` | implemented | Terraria, Trackmania | Terraria, Trackmania |
+| `XGameSave(704c3f58..6ee2) slot 8 (get_quota_async)` | implemented | Terraria | Terraria |
+| `XGameSave(704c3f58..6ee2) slot 9 (get_quota_result)` | implemented | Terraria | Terraria |
+| `XGameSaveCloseContainer` | implemented | Fortnite | Fortnite |
+| `XGameSaveCloseProvider` | implemented | Fortnite | Fortnite |
+| `XGameSaveCloseUpdate` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XGameSaveCreateContainer` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XGameSaveCreateUpdate` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XGameSaveDeleteContainer` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XGameSaveEnumerateBlobInfo` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XGameSaveEnumerateContainerInfo` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XGameSaveGetContainerInfo` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XGameSaveInitializeProviderAsync` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XGameSaveInitializeProviderResult` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XGameSaveReadBlobData` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XGameSaveSubmitBlobWrite` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XGameSaveSubmitUpdate` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+
+</details>
+
+<details><summary><b>GDK XGameUi (QueryApiImpl)</b>: 26 console-only exports, 26 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XGameUi(72c4e70f) slot 10 (status_result)` | implemented | Terraria | Terraria |
+| `XGameUi(72c4e70f) slot 11 (picker_async)` | implemented | Terraria | Terraria |
+| `XGameUi(72c4e70f) slot 12 (picker_count)` | implemented | Terraria | Terraria |
+| `XGameUi(72c4e70f) slot 13 (picker_result)` | implemented | Terraria | Terraria |
+| `XGameUi(72c4e70f) slot 14 (error_async)` | implemented | Terraria, Trackmania | Terraria, Trackmania |
+| `XGameUi(72c4e70f) slot 15 (status_result)` | implemented | Terraria | Terraria |
+| `XGameUi(72c4e70f) slot 16 (set_notification_hint)` | implemented | Terraria | Terraria |
+| `XGameUi(72c4e70f) slot 24 (web_auth_options_async)` | implemented | Terraria | Terraria |
+| `XGameUi(72c4e70f) slot 25 (result_size)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XGameUi(72c4e70f) slot 26 (web_auth_result)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XGameUi(72c4e70f) slot 27 (web_auth_options_async)` | implemented | Trackmania, XDefiant | Trackmania, XDefiant |
+| `XGameUi(72c4e70f) slot 30 (mpa_invite_async)` | implemented | Terraria | Terraria |
+| `XGameUi(72c4e70f) slot 31 (status_result)` | implemented | Terraria | Terraria |
+| `XGameUi(72c4e70f) slot 6 (status_result)` | implemented | Terraria | Terraria |
+| `XGameUi(72c4e70f) slot 8 (status_result)` | implemented | Terraria, XDefiant | Terraria, XDefiant |
+| `XGameUiShowAchievementsAsync` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XGameUiShowAchievementsResult` | implemented | Fortnite | Fortnite |
+| `XGameUiShowMessageDialogAsync` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XGameUiShowMessageDialogResult` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XGameUiShowPlayerProfileCardAsync` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XGameUiShowPlayerProfileCardResult` | implemented | Fortnite | Fortnite |
+| `XGameUiShowSendGameInviteAsync` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XGameUiShowSendGameInviteResult` | implemented | Fortnite | Fortnite |
+| `XGameUiShowTextEntryAsync` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XGameUiShowTextEntryResult` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XGameUiShowTextEntryResultSize` | implemented | Fortnite, Terraria, XDefiant | Fortnite, Terraria, XDefiant |
+
+</details>
+
+<details><summary><b>GDK XLaunchUri (QueryApiImpl)</b>: 3 console-only exports, 3 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XLaunchUri` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XLaunchUri(1b339674) slot 4 (acquire_display_deferral)` | implemented | Terraria | Terraria |
+| `XLaunchUri(1b339674) slot 5 (close_display_deferral)` | implemented | Terraria | Terraria |
+
+</details>
+
+<details><summary><b>GDK XNetworking (QueryApiImpl)</b>: 16 console-only exports, 16 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XNetworking(37e56907) slot 10 (security_result)` | implemented | Terraria, XDefiant | Terraria, XDefiant |
+| `XNetworking(37e56907) slot 3 (port_sync)` | implemented | Terraria | Terraria |
+| `XNetworking(37e56907) slot 6 (register_port)` | implemented | Terraria | Terraria |
+| `XNetworking(37e56907) slot 7 (unregister_port)` | implemented | Terraria | Terraria |
+| `XNetworking(37e56907) slot 8 (security_async)` | implemented | Terraria, XDefiant | Terraria, XDefiant |
+| `XNetworking(bf2346b2) slot 10 (security_result)` | implemented | Trackmania | Trackmania |
+| `XNetworking(bf2346b2) slot 8 (security_async)` | implemented | Trackmania | Trackmania |
+| `XNetworkingGetConnectivityHint` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XNetworkingQueryPreferredLocalUdpMultiplayerPortAsync` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XNetworkingQueryPreferredLocalUdpMultiplayerPortAsyncResult` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XNetworkingQuerySecurityInformationForUrlUtf16Async` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XNetworkingQuerySecurityInformationForUrlUtf16AsyncResult` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XNetworkingQuerySecurityInformationForUrlUtf16AsyncResultSize` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XNetworkingRegisterConnectivityHintChanged` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XNetworkingUnregisterConnectivityHintChanged` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XNetworkingVerifyServerCertificate` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+
+</details>
+
+<details><summary><b>GDK XPackage (QueryApiImpl)</b>: 23 console-only exports, 23 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XPackage(be3f3e9f) slot 11 (get_user_locale)` | implemented | Fortnite | Fortnite |
+| `XPackage(f92d8712) slot 10 (unregister_progress)` | implemented | Terraria | Terraria |
+| `XPackage(f92d8712) slot 11 (get_user_locale)` | implemented | Terraria, Trackmania | Terraria, Trackmania |
+| `XPackage(f92d8712) slot 18 (estimate_download_size)` | implemented | Terraria | Terraria |
+| `XPackage(f92d8712) slot 22 (unregister_installed)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XPackage(f92d8712) slot 24 (mount_path_size)` | implemented | Terraria | Terraria |
+| `XPackage(f92d8712) slot 25 (get_mount_path)` | implemented | Terraria | Terraria |
+| `XPackage(f92d8712) slot 26 (close_handle)` | implemented | Terraria | Terraria |
+| `XPackage(f92d8712) slot 30 (get_write_stats)` | implemented | Terraria | Terraria |
+| `XPackage(f92d8712) slot 33 (enumerate_features)` | implemented | Terraria | Terraria |
+| `XPackage(f92d8712) slot 36 (register_installed)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XPackage(f92d8712) slot 8 (update_monitor)` | implemented | Terraria | Terraria |
+| `XPackageChangeChunkInstallOrder` | implemented | Fortnite | Fortnite |
+| `XPackageCloseInstallationMonitorHandle` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XPackageCreateInstallationMonitor` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XPackageEnumerateChunkAvailability` | implemented | Fortnite | Fortnite |
+| `XPackageEnumeratePackages` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XPackageFindChunkAvailability` | implemented | Fortnite | Fortnite |
+| `XPackageGetCurrentProcessPackageIdentifier` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XPackageGetInstallationProgress` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XPackageInstallChunksAsync` | implemented | Fortnite | Fortnite |
+| `XPackageIsPackagedProcess` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XPackageRegisterInstallationProgressChanged` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+
+</details>
+
+<details><summary><b>GDK XPersistentLocalStorage (QueryApiImpl)</b>: 3 console-only exports, 3 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XPersistentLocalStorage(d29411df) slot 3 (pls_path_size)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XPersistentLocalStorageGetPath` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XPersistentLocalStorageGetSpaceInfo` | implemented | Fortnite | Fortnite |
+
+</details>
+
+<details><summary><b>GDK XStore (QueryApiImpl)</b>: 71 console-only exports, 71 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XStore(2d42fea5) slot 71 (acquire_durables_license_async)` | implemented | Terraria | Terraria |
+| `XStore(2d42fea5) slot 72 (acquire_license_result)` | implemented | Terraria | Terraria |
+| `XStore(60b09f4e) slot 70 (is_availability_purchasable)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 11 (current_game_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 12 (products_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 13 (for_package_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 14 (products_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 20 (acquire_package_license_async)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XStore(de3dbdd4) slot 21 (acquire_license_result)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XStore(de3dbdd4) slot 22 (is_license_valid)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XStore(de3dbdd4) slot 23 (close_license)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XStore(de3dbdd4) slot 24 (can_store_id_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 25 (can_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 26 (can_package_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 27 (can_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 28 (game_license_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 29 (game_license_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 30 (addons_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 31 (addons_count)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 32 (addons_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 35 (fulfill_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 36 (fulfill_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 37 (collections_id_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 38 (result_size)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 39 (string_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 40 (purchase_id_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 41 (result_size)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 42 (string_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 43 (license_token_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 44 (result_size)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 45 (string_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 51 (rate_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 52 (rate_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 58 (download_updates_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 59 (status_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 60 (download_updates_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 61 (status_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 62 (install_packages_async)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 63 (install_packages_count)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 64 (install_packages_result)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 65 (package_identifier)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 66 (register_changed)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XStore(de3dbdd4) slot 67 (unregister_changed)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XStore(de3dbdd4) slot 68 (register_lost)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 69 (unregister_lost)` | implemented | Terraria | Terraria |
+| `XStore(de3dbdd4) slot 73 (associated_ui_async)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XStore(de3dbdd4) slot 74 (status_result)` | implemented | Terraria, XDefiant | Terraria, XDefiant |
+| `XStore(de3dbdd4) slot 75 (product_page_async)` | implemented | Terraria, Trackmania | Terraria, Trackmania |
+| `XStore(de3dbdd4) slot 76 (status_result)` | implemented | Terraria | Terraria |
+| `XStoreCloseContextHandle` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XStoreCloseProductsQueryHandle` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XStoreCreateContext` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XStoreEnumerateProductsQuery` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XStoreProductsQueryHasMorePages` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XStoreProductsQueryNextPageAsync` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XStoreProductsQueryNextPageResult` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XStoreQueryAssociatedProductsAsync` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XStoreQueryAssociatedProductsResult` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XStoreQueryConsumableBalanceRemainingAsync` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XStoreQueryConsumableBalanceRemainingResult` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XStoreQueryEntitledProductsAsync` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XStoreQueryEntitledProductsResult` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XStoreQueryGameAndDlcPackageUpdatesAsync` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XStoreQueryGameAndDlcPackageUpdatesResult` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XStoreQueryGameAndDlcPackageUpdatesResultCount` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XStoreQueryProductsAsync` | implemented | Fortnite, Terraria, XDefiant | Fortnite, Terraria, XDefiant |
+| `XStoreQueryProductsResult` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XStoreShowPurchaseUIAsync` | implemented | Fortnite, Terraria, XDefiant | Fortnite, Terraria, XDefiant |
+| `XStoreShowPurchaseUIResult` | implemented | Fortnite, Terraria, XDefiant | Fortnite, Terraria, XDefiant |
+| `XStoreShowRedeemTokenUIAsync` | implemented | Fortnite, Terraria, XDefiant | Fortnite, Terraria, XDefiant |
+| `XStoreShowRedeemTokenUIResult` | implemented | Fortnite, Terraria, XDefiant | Fortnite, Terraria, XDefiant |
+
+</details>
+
+<details><summary><b>GDK XSystem (QueryApiImpl)</b>: 4 console-only exports, 4 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XSystem(67ce4bfc) slot 5 (get_app_device_id)` | implemented | Terraria | Terraria |
+| `XSystem(6fd71f09) slot 4 (get_app_device_id)` | implemented | Terraria | Terraria |
+| `XSystemGetConsoleId` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XSystemGetXboxLiveSandboxId` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+
+</details>
+
+<details><summary><b>GDK XSystemAnalytics (QueryApiImpl)</b>: 1 console-only exports, 1 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XSystemGetAnalyticsInfo` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+
+</details>
+
+<details><summary><b>GDK XUser (QueryApiImpl)</b>: 37 console-only exports, 37 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XUser(01acd177) slot 30 (status_result)` | implemented | Fortnite | Fortnite |
+| `XUser(1bf2f8c5) slot 13 (get_is_guest)` | implemented | Terraria | Terraria |
+| `XUser(1bf2f8c5) slot 16 (gamer_picture_async)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XUser(1bf2f8c5) slot 17 (result_size)` | implemented | Terraria, XDefiant | Terraria, XDefiant |
+| `XUser(1bf2f8c5) slot 18 (gamer_picture_result)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XUser(1bf2f8c5) slot 19 (get_age_group)` | implemented | Terraria | Terraria |
+| `XUser(1bf2f8c5) slot 22 (status_result)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XUser(1bf2f8c5) slot 24 (result_size)` | implemented | Terraria, Trackmania, XDefiant | Terraria, Trackmania, XDefiant |
+| `XUser(1bf2f8c5) slot 27 (result_size)` | implemented | Terraria | Terraria |
+| `XUser(1bf2f8c5) slot 31 (resolve_issue16_async)` | implemented | Terraria | Terraria |
+| `XUser(1bf2f8c5) slot 32 (status_result)` | implemented | Terraria | Terraria |
+| `XUser(1bf2f8c5) slot 35 (get_sign_out_deferral)` | implemented | Terraria | Terraria |
+| `XUser(1bf2f8c5) slot 37 (add_by_id_async)` | implemented | Terraria | Terraria |
+| `XUserAddAsync` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XUserAddResult` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XUserCheckPrivilege` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XUserCloseHandle` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XUserCompare` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XUserDuplicateHandle` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XUserFindUserById` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XUserFindUserByLocalId` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XUserGetId` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XUserGetLocalId` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XUserGetMaxUsers` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XUserGetState` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XUserGetTokenAndSignatureAsync` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XUserGetTokenAndSignatureResult` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XUserGetTokenAndSignatureResultSize` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XUserGetTokenAndSignatureUtf16Async` | implemented | Fortnite, Terraria | Fortnite, Terraria |
+| `XUserGetTokenAndSignatureUtf16Result` | implemented | Fortnite, Terraria | Fortnite, Terraria |
 | `XUserGetTokenAndSignatureUtf16ResultSize` | implemented | Fortnite | Fortnite |
-| `XUserRegisterForChangeEvent` | implemented | Fortnite | Fortnite |
-| `XUserRegisterForDeviceAssociationChanged` | implemented | Fortnite | Fortnite |
-| `XUserResolveIssueWithUiAsync` | implemented | Fortnite | Fortnite |
+| `XUserRegisterForChangeEvent` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XUserResolveIssueWithUiAsync` | implemented | Fortnite, Trackmania | Fortnite, Trackmania |
 | `XUserResolveIssueWithUiResult` | implemented | Fortnite | Fortnite |
-| `XUserResolvePrivilegeWithUiAsync` | implemented | Fortnite | Fortnite |
+| `XUserResolvePrivilegeWithUiAsync` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
 | `XUserResolvePrivilegeWithUiResult` | implemented | Fortnite | Fortnite |
-| `XUserUnregisterForChangeEvent` | implemented | Fortnite | Fortnite |
-| `XUserUnregisterForDeviceAssociationChanged` | implemented | Fortnite | Fortnite |
+| `XUserUnregisterForChangeEvent` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+
+</details>
+
+<details><summary><b>GDK XUserDevice (QueryApiImpl)</b>: 6 console-only exports, 6 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XUserDevice(0cc6a956) slot 10 (find_controller_result)` | implemented | Terraria | Terraria |
+| `XUserDevice(0cc6a956) slot 9 (find_controller_async)` | implemented | Terraria | Terraria |
+| `XUserFindForDevice` | implemented | Fortnite, Terraria, Trackmania | Fortnite, Terraria, Trackmania |
+| `XUserGetDefaultAudioEndpointUtf16` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XUserRegisterForDeviceAssociationChanged` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+| `XUserUnregisterForDeviceAssociationChanged` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
+
+</details>
+
+<details><summary><b>GDK XUserGamertag (QueryApiImpl)</b>: 1 console-only exports, 1 covered</summary>
+
+| Function | Status | Imported by | Present in |
+|---|---|---|---|
+| `XUserGetGamertag` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, Terraria, Trackmania, XDefiant |
 
 </details>
 
@@ -3083,31 +3475,31 @@ No PC DLL is named minuserx.dll; its PC twin is user32.dll. Exports an analysed 
 
 </details>
 
-<details><summary><b>xg_x.dll</b>: 21 console-only exports, 0 covered</summary>
+<details><summary><b>xg_x.dll</b>: 21 console-only exports, 17 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
-| `XGComputeBufferLayout` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGComputeOptimalDepthStencilTileModes` | stub | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGComputeOptimalTileMode` | stub | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGComputeTexture1DLayout` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGComputeTexture2DLayout` | stub | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGComputeTexture3DLayout` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGComputeBufferLayout` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGComputeOptimalDepthStencilTileModes` | implemented | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGComputeOptimalTileMode` | implemented | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGComputeTexture1DLayout` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGComputeTexture2DLayout` | implemented | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGComputeTexture3DLayout` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGCreateTexture1DComputer` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGCreateTexture2DComputer` | implemented | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGCreateTexture3DComputer` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGCreateTextureComputer` | implemented | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGCreateTextureComputerWithPitch` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGEnableExclusiveLocking` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGEnterExclusiveLock` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGLeaveExclusiveLock` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGSetHardwareVersion` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGValidateDepthStencilTileMode` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XGValidateJpegFile` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `XGComputeTileShape` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGCreateTexture1DComputer` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGCreateTexture2DComputer` | stub | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGCreateTexture3DComputer` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGCreateTextureComputer` | stub | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
 | `XGCreateTextureComputerFromDescriptor` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGCreateTextureComputerWithPitch` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `XGDecodeDCC` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGEnableExclusiveLocking` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `XGEncodeDCC` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGEnterExclusiveLock` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGLeaveExclusiveLock` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGSetHardwareVersion` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGValidateDepthStencilTileMode` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XGValidateJpegFile` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
 
 </details>
 

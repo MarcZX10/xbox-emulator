@@ -109,11 +109,15 @@ def instructions():
     for line in open(os.path.join(dat, "mnemonics.txt"), encoding="utf-8"):
         n, u, ok = line.split()
         used[n] = (int(u), int(ok))
+    verified = set(cfg.get("rdna2_verified", {}).get("mnemonics", []))
     groups, seen = {}, set()
     for g, names in jload("mnem_groups.json"):
         for n in names:
             seen.add(n)
             u, ok = used.get(n, (0, 0))
+            if n in verified and u == ok:
+                groups.setdefault(g, []).append("done")
+                continue
             groups.setdefault(g, []).append("done" if u and u == ok else "partial" if u else "none")
     for n, (u, ok) in used.items():
         if n not in seen:
@@ -250,8 +254,10 @@ def console(full=False, twins=True):
         libs[lib] = {"rows": rows, "pc_dll": v["pc_dll"], "dir": v["dir"], "versions": v["versions"],
                      "pc_twin": v.get("pc_twin", []), "notes": notes}
     for g, v in cfg["gdk_linked"].items():
-        libs[g] = {"rows": [(n, "implemented", frozenset(["Fortnite"]), ("Fortnite",)) for n in v["functions"]],
-                   "pc_dll": False, "dir": "Fortnite EXE (statically linked)", "versions": {}}
+        tt = v.get("titles", {})
+        st = v.get("status", {})
+        libs[g] = {"rows": [(n, st.get(n, "implemented"), frozenset(tt.get(n, ["Fortnite"])), tuple(sorted(tt.get(n, ["Fortnite"])))) for n in v["functions"]],
+                   "pc_dll": False, "dir": v.get("dir", "Fortnite EXE (statically linked)"), "versions": {}}
     return libs
 
 

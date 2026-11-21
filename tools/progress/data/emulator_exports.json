@@ -76,11 +76,11 @@
  "dxcompiler_x.dll": {
   "file": "crates/compat/dxcompiler_x/src/lib.rs",
   "functions": {
-   "DxcCreateInstance": "stub",
-   "DxcCreateInstance2": "stub"
+   "DxcCreateInstance": "forwarded",
+   "DxcCreateInstance2": "forwarded"
   },
   "notes": {
-   "DxcCreateInstance": "forwards to dxcompiler.dll on the search path; E_NOTIMPL when none (stock Windows has none)",
+   "DxcCreateInstance": "official DXC 1.9.2609 (Microsoft-signed dxcompiler.dll + dxil.dll): next to dxcompiler_x, TOMBOX_DXC_DIR, or emulator third_party/dxc; compiles SM 6.0 HLSL to signed DXIL",
    "DxcCreateInstance2": "as DxcCreateInstance"
   }
  },
@@ -110,34 +110,48 @@
  "xg_x.dll": {
   "file": "crates/compat/xg_x/src/lib.rs",
   "functions": {
-   "XGComputeBufferLayout": "stub",
-   "XGComputeOptimalDepthStencilTileModes": "stub",
-   "XGComputeOptimalTileMode": "stub",
-   "XGComputeTexture1DLayout": "stub",
-   "XGComputeTexture2DLayout": "stub",
-   "XGComputeTexture3DLayout": "stub",
+   "XGComputeBufferLayout": "implemented",
+   "XGComputeOptimalDepthStencilTileModes": "implemented",
+   "XGComputeOptimalTileMode": "implemented",
+   "XGComputeTexture1DLayout": "implemented",
+   "XGComputeTexture2DLayout": "implemented",
+   "XGComputeTexture3DLayout": "implemented",
    "XGComputeTileShape": "stub",
-   "XGCreateTexture1DComputer": "stub",
-   "XGCreateTexture2DComputer": "stub",
-   "XGCreateTexture3DComputer": "stub",
-   "XGCreateTextureComputer": "stub",
+   "XGCreateTexture1DComputer": "implemented",
+   "XGCreateTexture2DComputer": "implemented",
+   "XGCreateTexture3DComputer": "implemented",
+   "XGCreateTextureComputer": "implemented",
    "XGCreateTextureComputerFromDescriptor": "stub",
-   "XGCreateTextureComputerWithPitch": "stub",
+   "XGCreateTextureComputerWithPitch": "implemented",
    "XGDecodeDCC": "stub",
-   "XGEnableExclusiveLocking": "stub",
+   "XGEnableExclusiveLocking": "implemented",
    "XGEncodeDCC": "stub",
-   "XGEnterExclusiveLock": "stub",
-   "XGLeaveExclusiveLock": "stub",
-   "XGSetHardwareVersion": "stub",
-   "XGValidateDepthStencilTileMode": "stub",
-   "XGValidateJpegFile": "stub"
+   "XGEnterExclusiveLock": "implemented",
+   "XGLeaveExclusiveLock": "implemented",
+   "XGSetHardwareVersion": "implemented",
+   "XGValidateDepthStencilTileMode": "implemented",
+   "XGValidateJpegFile": "implemented"
   },
   "notes": {
-   "XGComputeOptimalDepthStencilTileModes": "writes LINEAR_GENERAL to both outputs",
-   "XGComputeOptimalTileMode": "always XG_TILE_MODE_LINEAR_GENERAL (0x1f, the console's answer for buffers)",
-   "XGComputeTexture2DLayout": "E_NOTIMPL",
-   "XGCreateTexture2DComputer": "E_NOTIMPL, output cleared",
-   "XGCreateTextureComputer": "E_NOTIMPL, output cleared"
+   "XGComputeBufferLayout": "byte-sized single plane, 4-byte alignment",
+   "XGComputeOptimalDepthStencilTileModes": "console rules: MSAA 2/4 -> 1, 8 -> 2, TC-compatible -> 7, HTILE -> 4, stencil formats refuse compressed modes (oracle-verified)",
+   "XGComputeOptimalTileMode": "GCN selection (buffer 31, 1D 8, 2D 13/14, +3 for 64KB swizzle, 3D 13/14, depth path), verified against console xg_x for 100k+ inputs",
+   "XGComputeTexture1DLayout": "GCN layout model",
+   "XGComputeTexture2DLayout": "GCN layout model, byte-identical to console XG_RESOURCE_LAYOUT for modes 8/13/14/31",
+   "XGComputeTexture3DLayout": "GCN layout model",
+   "XGComputeTileShape": "not modelled",
+   "XGCreateTexture1DComputer": "GCN layout model",
+   "XGCreateTexture2DComputer": "layouts byte-identical to console; 1D-thin and linear texel addressing identical; 2D-thin addressing self-consistent (bank/pipe swizzle not yet modelled)",
+   "XGCreateTexture3DComputer": "GCN layout model",
+   "XGCreateTextureComputer": "XG_RESOURCE_DESC (D3D12 desc, layout 0/2/0x100+mode)",
+   "XGCreateTextureComputerFromDescriptor": "GCN T# decode not modelled",
+   "XGCreateTextureComputerWithPitch": "pitch argument logged, computed pitch used",
+   "XGDecodeDCC": "GCN 1.1 has no DCC",
+   "XGEnableExclusiveLocking": "critical section like the console",
+   "XGEncodeDCC": "GCN 1.1 has no DCC",
+   "XGSetHardwareVersion": "revision flag = version >= 2 (signed), feeds depth/stencil validation",
+   "XGValidateDepthStencilTileMode": "console compatibility table for both hardware revisions (oracle-verified)",
+   "XGValidateJpegFile": "console marker parser: baseline 8-bit 3-component, 4:2:0 -> NV12, 4:2:2 -> YUY2, 8192 limit, APP byte count (oracle-verified)"
   }
  }
 }

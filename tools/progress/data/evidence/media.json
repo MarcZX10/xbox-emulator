@@ -1,6 +1,6 @@
 {
  "title": "Fortnite",
- "source": "D:\\xbox-pc-port\\emulator\\runs\\run35\\tombox_compat.log run35 (mfplat fortnite_trace) + crates/compat/mfplat tests",
+ "source": "D:\\xbox-pc-port\\emulator\\runs\\run41\\tombox_compat.log run41 (mfplat fortnite_trace) + crates/compat/mfplat tests",
  "modules": {
   "MFPlat.DLL": {
    "loaded": true,
@@ -26,15 +26,15 @@
    "functions": {
     "MFStartup": {
      "bound_to": "mfplat.dll",
-     "bind_line": 10,
+     "bind_line": 11,
      "in_game_calls_logged": 3,
      "failed_logged_calls": 0,
-     "first_call_line": 238,
+     "first_call_line": 246,
      "test": "proxy_dll::startup_and_console_only_exports_follow_console_semantics, fortnite_async (0x20070, MFSTARTUP_FULL)"
     },
     "MFShutdown": {
      "bound_to": "mfplat.dll",
-     "bind_line": 11,
+     "bind_line": 12,
      "in_game_calls_logged": 0,
      "failed_logged_calls": 0,
      "first_call_line": null,
@@ -42,29 +42,37 @@
     },
     "MFCreateAttributes": {
      "bound_to": "mfplat_sys.dll",
-     "bind_line": 16,
+     "bind_line": 17,
      "in_game_calls_logged": 1,
      "failed_logged_calls": 0,
-     "first_call_line": 247,
+     "first_call_line": 255,
      "test": "fortnite_async::create_attributes_with_fortnite_size_hint_grows_past_it (size hint 1)"
     },
     "MFCreateMediaType": {
      "bound_to": "mfplat_sys.dll",
-     "bind_line": 5,
-     "in_game_calls_logged": 0,
+     "bind_line": 6,
+     "in_game_calls_logged": 3,
      "failed_logged_calls": 0,
-     "first_call_line": null,
+     "first_call_line": 3909,
      "test": "proxy_dll::forwarded_exports_keep_full_signatures"
     },
     "MFCreateSample": {
      "bound_to": "mfplat_sys.dll",
-     "bind_line": 8,
-     "in_game_calls_logged": 0,
+     "bind_line": 9,
+     "in_game_calls_logged": 64,
      "failed_logged_calls": 0,
-     "first_call_line": null,
+     "first_call_line": 3912,
      "test": "proxy_dll::forwarded_exports_keep_full_signatures"
     },
     "MFCreateMemoryBuffer": {
+     "bound_to": "mfplat_sys.dll",
+     "bind_line": 15,
+     "in_game_calls_logged": 64,
+     "failed_logged_calls": 0,
+     "first_call_line": 3914,
+     "test": "proxy_dll::forwarded_exports_keep_full_signatures"
+    },
+    "MFCreateAlignedMemoryBuffer": {
      "bound_to": "mfplat_sys.dll",
      "bind_line": 14,
      "in_game_calls_logged": 0,
@@ -72,17 +80,9 @@
      "first_call_line": null,
      "test": "proxy_dll::forwarded_exports_keep_full_signatures"
     },
-    "MFCreateAlignedMemoryBuffer": {
-     "bound_to": "mfplat_sys.dll",
-     "bind_line": 13,
-     "in_game_calls_logged": 0,
-     "failed_logged_calls": 0,
-     "first_call_line": null,
-     "test": "proxy_dll::forwarded_exports_keep_full_signatures"
-    },
     "MFCreateAsyncResult": {
      "bound_to": "rtworkq.dll",
-     "bind_line": 3,
+     "bind_line": 4,
      "in_game_calls_logged": 0,
      "failed_logged_calls": 0,
      "first_call_line": null,
@@ -90,7 +90,7 @@
     },
     "MFInvokeCallback": {
      "bound_to": "rtworkq.dll",
-     "bind_line": 2,
+     "bind_line": 3,
      "in_game_calls_logged": 0,
      "failed_logged_calls": 0,
      "first_call_line": null,
@@ -98,7 +98,7 @@
     },
     "MFPutWorkItem2": {
      "bound_to": "mfplat_sys.dll",
-     "bind_line": 4,
+     "bind_line": 5,
      "in_game_calls_logged": 0,
      "failed_logged_calls": 0,
      "first_call_line": null,
@@ -106,7 +106,7 @@
     },
     "MFCreateFile": {
      "bound_to": "mfplat_sys.dll",
-     "bind_line": 9,
+     "bind_line": 10,
      "in_game_calls_logged": 0,
      "failed_logged_calls": 0,
      "first_call_line": null,
@@ -114,7 +114,7 @@
     },
     "MFCreateSourceResolver": {
      "bound_to": "mfplat_sys.dll",
-     "bind_line": 17,
+     "bind_line": 18,
      "in_game_calls_logged": 0,
      "failed_logged_calls": 0,
      "first_call_line": null,
@@ -122,15 +122,15 @@
     },
     "MFCreateWaveFormatExFromMFMediaType": {
      "bound_to": "mfplat_sys.dll",
-     "bind_line": 15,
-     "in_game_calls_logged": 0,
+     "bind_line": 16,
+     "in_game_calls_logged": 32,
      "failed_logged_calls": 0,
-     "first_call_line": null,
+     "first_call_line": 3921,
      "test": "proxy_dll::forwarded_exports_keep_full_signatures (flags 0)"
     },
     "MFllMulDiv": {
      "bound_to": "mfplat_sys.dll",
-     "bind_line": 12,
+     "bind_line": 13,
      "in_game_calls_logged": 0,
      "failed_logged_calls": 0,
      "first_call_line": null,
@@ -138,18 +138,18 @@
     },
     "MFCreateDXGIDeviceManager": {
      "bound_to": "mfplat_sys.dll",
-     "bind_line": 7,
+     "bind_line": 8,
      "in_game_calls_logged": 1,
      "failed_logged_calls": 0,
-     "first_call_line": 241,
+     "first_call_line": 249,
      "test": "proxy_dll::source_reader_decodes_video_with_d3d12_manager_reset_by_console_export"
     },
     "MFResetDXGIDeviceManagerX": {
      "bound_to": "mfplat.dll",
-     "bind_line": 6,
+     "bind_line": 7,
      "in_game_calls_logged": 1,
      "failed_logged_calls": 0,
-     "first_call_line": 244,
+     "first_call_line": 252,
      "test": "reset_device::reset_binds_real_d3d12_device_behind_wrapper"
     }
    }
@@ -164,7 +164,7 @@
    "functions": {
     "MFCreateSourceReaderFromByteStream": {
      "bound_to": "mfreadwrite.dll",
-     "bind_line": 19,
+     "bind_line": 20,
      "in_game_calls_logged": 0,
      "failed_logged_calls": 0,
      "first_call_line": null,
@@ -172,7 +172,7 @@
     },
     "MFCreateSourceReaderFromMediaSource": {
      "bound_to": "mfreadwrite.dll",
-     "bind_line": 18,
+     "bind_line": 19,
      "in_game_calls_logged": 0,
      "failed_logged_calls": 0,
      "first_call_line": null,
