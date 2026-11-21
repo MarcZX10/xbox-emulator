@@ -203,6 +203,12 @@ elease`, the log shows one install and every interface is emulated.
     - Needed: translate upload-heap creation in `CreateCommittedResource`. On PC an upload heap (type 2) must start in `GENERIC_READ` (0xAC3); Terraria passes 0x8c3, which has no `COPY_SOURCE`. `DENY_SHADER_RESOURCE` (0x8) is only valid together with `ALLOW_DEPTH_STENCIL`.
     - Needed: handle that shader container form.
     - No GDK call is involved.
+    - 11-21 fixes on disk (d3d12_xs, target-xone, not yet run):
+      - Texture VA is on by default for Xbox One titles (when `d3d12_x.dll` is loaded; `TOMBOX_TEXTURE_VA=0` turns it off). The backing is sized to at least the `xg_x` layout size.
+      - `upload.rs` builds layouts from `xg_x.dll` when `xg_xs.dll` is absent, with the GCN layout's bytes-per-element at 0x38. So committed backings registered in `placed` are detiled with the mode-13/14 element offsets of `xg_x`'s computer (slot 6).
+      - `CreateCommittedResource`: an upload heap starts in GENERIC_READ (0xAC3), a readback heap in COPY_DEST, and DENY_SHADER_RESOURCE without ALLOW_DEPTH_STENCIL is dropped.
+      - VS containers: the `magic=[1,0,0,0]` blob is a 144/184-byte variant table. The DXIL part holds three Durango variants (header word 0x20 = 4/2/0). The extractor now takes the variant that exports a position.
+      - Those two VS still fail: every variant starts with `s_swappc_b64 s[0:1], s[0:1]`, a call to a fetch shader that the console runtime builds from the input layout. Needed: synthesize the attribute fetch (VGPR assignment from the Durango input metadata).
   - Online: `[online] unhandled POST /MultiplayerServer/ListPartyQosServers` (PlayFab Party QoS, `40467.playfabapi.com`). The run also fell back to the Fortnite service module, because Terraria had no title module.
     - Now on disk (`online/playfab`, not yet tried in a run): a Terraria/PlayFab module picked by `Terraria.exe`, and `*.playfabapi.com` is routed for every title.
     - It covers every PlayFab route found in `PartyWin.dll`, `PartyXboxLive.dll` and `PlayFabMultiplayerGDK.dll`: LoginWithXbox, ListPartyQosServers, GetCognitiveServicesToken, Party/RequestParty, Event/WriteEvents and WriteTelemetryEvents, Profile/GetTitlePlayersFromXboxLiveIDs, and all 20 Lobby/Match routes. It also covers the common Client/Authentication/Profile calls.
