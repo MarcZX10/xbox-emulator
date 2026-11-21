@@ -24,23 +24,23 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 
 | Metric | Done | Total | % |
 |---|---|---|---|
-| system_functions | 638 | 671 | 95.08 |
+| system_functions | 639 | 671 | 95.23 |
 | d3d12x_methods | 113 | 288 | 39.24 |
 | rdna2_instructions | 272 | 494 | 55.06 |
 | shaders_translated | 105506 | 105506 | 100.0 |
 | shader_stages | 6 | 8 | 75.0 |
 | milestones | 14 | 19 | 73.68 |
 | titles_examined | 5 | - | - |
-| console_exports | 179 | 1901 | 9.42 |
+| console_exports | 182 | 1901 | 9.57 |
 | shader_compile_lobby_frame | 139 | 139 | 100.0 |
 | shader_compile_fixtures | 25 | 25 | 100.0 |
 | shader_compile_full_sweep | not published | 105506 | - |
 | milestones_verified_this_machine | 7 | 12 | 58.33 |
-| title_imports_Fortnite | 22 | 31 | 70.97 |
+| title_imports_Fortnite | 24 | 31 | 77.42 |
 | title_imports_XDefiant | 14 | 29 | 48.28 |
 | title_imports_Terraria | 18 | 25 | 72.0 |
 | title_imports_Trackmania | 12 | 18 | 66.67 |
-| console_exports_targeted | 179 | 1009 | 17.74 |
+| console_exports_targeted | 182 | 1009 | 18.04 |
 | console_exports_not_targeted | not published | 892 | - |
 
 Shader compile: all 139 shaders of the lobby frame compile with DXC (TomBox `docs/DEVELOPMENT_LOG.md:894`); 25/25 fixtures compile (`:672`). The full-library compile sweep (`:706`) has no published final count, so no compile badge is shown.
@@ -57,11 +57,11 @@ Listed: imports from Xbox console libraries only. Not listed: 1187 imports a PC 
 
 ### Fortnite: FortniteClient-XSX-Shipping.exe
 
-<details><summary><b>MFPlat.DLL</b>: 1 functions; stub 1</summary>
+<details><summary><b>MFPlat.DLL</b>: 1 functions; implemented 1</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `MFResetDXGIDeviceManagerX` | stub | [crates/compat/mfplat/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/mfplat/src/lib.rs) (E_NOTIMPL) |
+| `MFResetDXGIDeviceManagerX` | implemented | [crates/compat/mfplat/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/mfplat/src/lib.rs) (unwraps the d3d12_xs device to the real PC ID3D12Device and calls IMFDXGIDeviceManager::ResetDevice; run 23 tombox_compat.log:601 hr=0; test reset_device.rs) |
 
 </details>
 
@@ -90,7 +90,7 @@ Listed: imports from Xbox console libraries only. Not listed: 1187 imports a PC 
 
 </details>
 
-<details><summary><b>d3d12_xs.dll</b>: 6 functions; implemented 2, forwarded 3, stub 1</summary>
+<details><summary><b>d3d12_xs.dll</b>: 6 functions; implemented 3, forwarded 3</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
@@ -99,7 +99,7 @@ Listed: imports from Xbox console libraries only. Not listed: 1187 imports a PC 
 | `IID_ID3D12Device` | implemented | [crates/compat/d3d12_xs/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_xs/src/lib.rs) |
 | `D3D12SerializeRootSignature` | forwarded | [crates/compat/d3d12_xs/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_xs/src/lib.rs) |
 | `D3D12SerializeVersionedRootSignature` | forwarded | [crates/compat/d3d12_xs/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_xs/src/lib.rs) |
-| `D3D12XboxSetProcessDebugFlags` | stub | [crates/compat/d3d12_xs/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_xs/src/lib.rs) (logs, returns S_OK) |
+| `D3D12XboxSetProcessDebugFlags` | implemented | [crates/compat/d3d12_xs/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_xs/src/lib.rs) (console d3d12_xs semantics: stores flags & 0x81f00001, returns S_OK; D3D12XboxGetProcessDebugFlags returns it; D3D12XboxCreateDevice overwrites it with D3D12XBOX_CREATE_DEVICE_PARAMETERS+4 (unmasked) and picks the console UMD from it (bit0 without bit31 = xgs12_d debug, bit20 = xgs12_i instrumented, else xgs12). The debug UMD maps to the PC D3D12 debug layer (enabled once, before the first device); the instrumented UMD has no PC counterpart. Tests: d3d12_xs process_debug unit tests + tests/process_debug_on.rs / process_debug_off.rs (debug-layer activation itself unproven on a PC without d3d12SDKLayers.dll). In-game: Fortnite calls it before D3D12XboxCreateDevice (run 23 tombox_compat.log:48).) |
 
 </details>
 
@@ -153,18 +153,16 @@ Listed: imports from Xbox console libraries only. Not listed: 1187 imports a PC 
 
 </details>
 
-Fortnite console-library import totals (6 binaries): implemented 18, forwarded 4, stub 9.
+Fortnite console-library import totals (6 binaries): implemented 20, forwarded 4, stub 7.
 
-<details><summary><b>Fortnite: imports not covered</b> (9; status not implemented / forwarded / hooked / pc / title)</summary>
+<details><summary><b>Fortnite: imports not covered</b> (7; status not implemented / forwarded / hooked / pc / title)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
 | FortniteClient-XSX-Shipping.exe | AcpHal.dll | `AcpHalAllocateShapeContexts` | stub | Terraria, XDefiant |
 | FortniteClient-XSX-Shipping.exe | AcpHal.dll | `AcpHalCreate` | stub | Terraria, XDefiant |
 | FortniteClient-XSX-Shipping.exe | AcpHal.dll | `ApuFree` | stub | Terraria, XDefiant |
-| FortniteClient-XSX-Shipping.exe | d3d12_xs.dll | `D3D12XboxSetProcessDebugFlags` | stub | only Fortnite |
 | FortniteClient-XSX-Shipping.exe | dxcompiler_xs.dll | `DxcCreateInstance` | stub | only Fortnite |
-| FortniteClient-XSX-Shipping.exe | MFPlat.DLL | `MFResetDXGIDeviceManagerX` | stub | only Fortnite |
 | FortniteClient-XSX-Shipping.exe | xg_xs.dll | `XGCreateTextureComputer` | stub | only Fortnite |
 | FortniteClient-XSX-Shipping.exe | xmem.dll | `XMemFreePhysicalPages` | stub | Terraria, Trackmania |
 | FortniteClient-XSX-Shipping.exe | xmem.dll | `XMemTransferMemory` | stub | only Fortnite |
@@ -463,7 +461,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | ConIoSrv.dll | System32 | no | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | ConnectedStorageService.ProxyStub.dll | System32 | no | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | d3d12_x.dll | System32 | no | 54 | 34 | 8 | 0 | 0 | 0 | 12 | 0 | 0 | 0 | 0 | 4 | 5 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| d3d12_xs.dll | System32 | no | 55 | 5 | 3 | 0 | 0 | 0 | 2 | 0 | 45 | 6 | 3 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| d3d12_xs.dll | System32 | no | 55 | 7 | 3 | 0 | 0 | 0 | 1 | 0 | 44 | 6 | 3 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | dab.dll | System32 | yes | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | dbghelp.dll | System32 | yes | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | dxbc2dxil_xs.dll | System32 | no | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | Fortnite 2020.11015.12200.10000; XDefiant 2206.2209.12105.11142; Terraria 2206.2209.12105.11142; Trackmania 2210.2210.12006.15549 |
@@ -487,7 +485,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | MFH264Enc.dll | System32 | yes | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | Fortnite None; XDefiant None; Terraria None; Trackmania None |
 | mfhevcdec.dll | System32 | no | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | Fortnite None; XDefiant None; Terraria None; Trackmania None |
 | mflnmhelp.dll | System32 | no | 15 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 15 | 0 | 0 | 0 | 0 | Fortnite None; XDefiant None; Terraria None; Trackmania None |
-| mfplat.dll | System32 | yes | 8 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 7 | 1 | 0 | 0 | 0 | Fortnite None; XDefiant None; Terraria None; Trackmania None |
+| mfplat.dll | System32 | yes | 8 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 7 | 1 | 0 | 0 | 0 | Fortnite None; XDefiant None; Terraria None; Trackmania None |
 | minappmodelx.dll | System32 | no | 4 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 4 | 4 | 4 | 4 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | minuserx.dll | System32 | no | 74 | 0 | 0 | 0 | 21 | 0 | 0 | 0 | 53 | 9 | 10 | 12 | 13 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | msave64xgs.dll | System32 | no | 24 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 24 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -546,7 +544,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 
 ### Not targeted (no analysed title references them)
 
-The console-library total above (1901 exports in 89 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 19 libraries (1009 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 70 below (892 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (1824 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 19 targeted libraries alone: 179/1009.
+The console-library total above (1901 exports in 89 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 19 libraries (1009 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 70 below (892 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (1824 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 19 targeted libraries alone: 182/1009.
 
 | Library | Folder | Same-named PC DLL | Console-only exports | Present in |
 |---|---|---|---|---|
@@ -1446,19 +1444,20 @@ No PC DLL is named advapi32legacy.dll; its PC twin is advapi32.dll. Exports an a
 
 </details>
 
-<details><summary><b>d3d12_xs.dll</b>: 55 console-only exports, 8 covered</summary>
+<details><summary><b>d3d12_xs.dll</b>: 55 console-only exports, 10 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
 | `D3D12ConfigureVirtualMemoryX` | implemented | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12XboxCreateDevice` | implemented | Fortnite, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12XboxGetProcessDebugFlags` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12XboxSetProcessDebugFlags` | implemented | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12XboxUnloadDriverModule` | implemented |  | XDefiant, Terraria, Trackmania |
 | `GetFrameBufferPreserveMemorySizeBytes` | implemented |  | XDefiant, Terraria, Trackmania |
 | `IID_ID3D12Device` | implemented | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12CreateDevice` | forwarded | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12SerializeRootSignature` | forwarded | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12SerializeVersionedRootSignature` | forwarded | Fortnite, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12XboxSetProcessDebugFlags` | stub | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12ZeroMemoryX` | stub |  | XDefiant, Terraria, Trackmania |
 | `D3D10CreateBlob` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12CreateRootSignatureDeserializer` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
@@ -1466,7 +1465,6 @@ No PC DLL is named advapi32legacy.dll; its PC twin is advapi32.dll. Exports an a
 | `D3D12GetDebugInterface` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12UploadCustomMicrocodeX` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12XboxEnableMemoryProfiling` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12XboxGetProcessDebugFlags` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3DFlushEntireCpuCache` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `DXGIXGetFrameStatistics` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `DXGIXPresentArray` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
@@ -2150,11 +2148,11 @@ No PC DLL is named kernel32legacy.dll; its PC twin is kernel32.dll / kernelbase.
 
 </details>
 
-<details><summary><b>mfplat.dll</b>: 8 console-only exports, 0 covered</summary>
+<details><summary><b>mfplat.dll</b>: 8 console-only exports, 1 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
-| `MFResetDXGIDeviceManagerX` | stub | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
+| `MFResetDXGIDeviceManagerX` | implemented | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
 | `LFGetGlobalPool` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `MFBlockThread` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `MFCreateDXGISurfaceBufferX` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |

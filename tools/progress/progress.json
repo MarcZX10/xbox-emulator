@@ -17,7 +17,7 @@
     "GameChat2.dll": "none",
     "XMemFreePhysicalPages": "partial",
     "XMemTransferMemory": "partial",
-    "D3D12XboxSetProcessDebugFlags": "partial"
+    "D3D12XboxSetProcessDebugFlags": "done"
   },
   "ordinal_evidence": {
     "GameInput.dll": {"#1": "console GameInput.dll ordinal 1 = GameInputCreate on 19041.3948 / 22000.4429 / 22621.1852 (pefile)"}
@@ -63,7 +63,7 @@
     "d3d12_xs.dll": {"file": "crates/compat/d3d12_xs/src/lib.rs", "functions": {
       "D3D12XboxCreateDevice": "implemented", "IID_ID3D12Device": "implemented",
       "D3D12CreateDevice": "forwarded", "D3D12SerializeRootSignature": "forwarded",
-      "D3D12SerializeVersionedRootSignature": "forwarded", "D3D12XboxSetProcessDebugFlags": "stub",
+      "D3D12SerializeVersionedRootSignature": "forwarded", "D3D12XboxSetProcessDebugFlags": "implemented", "D3D12XboxGetProcessDebugFlags": "implemented",
       "D3D12ConfigureVirtualMemoryX": "implemented", "GetFrameBufferPreserveMemorySizeBytes": "implemented",
       "D3D12XboxUnloadDriverModule": "implemented", "D3D12ZeroMemoryX": "stub"}},
     "xmem.dll": {"file": "crates/compat/xmem/src/lib.rs", "functions": {
@@ -99,13 +99,13 @@
       "MFCreateAsyncResult": "forwarded", "MFInvokeCallback": "forwarded", "MFCreateFile": "forwarded",
       "MFCreateDXGIDeviceManager": "forwarded", "MFCreateWaveFormatExFromMFMediaType": "forwarded",
       "MFCreateSourceResolver": "forwarded", "MFPutWorkItem2": "forwarded", "MFllMulDiv": "forwarded",
-      "MFResetDXGIDeviceManagerX": "stub"}}
+      "MFResetDXGIDeviceManagerX": "implemented"}}
   },
   "notes": {
     "ApuFree": "no-op free (bump allocator)",
     "AcpHalCreate": "returns an inert IAcpHal (no SHAPE DSP)",
     "AcpHalAllocateShapeContexts": "inert",
-    "D3D12XboxSetProcessDebugFlags": "logs, returns S_OK",
+    "D3D12XboxSetProcessDebugFlags": "console d3d12_xs semantics: stores flags & 0x81f00001, returns S_OK; D3D12XboxGetProcessDebugFlags returns it; D3D12XboxCreateDevice overwrites it with D3D12XBOX_CREATE_DEVICE_PARAMETERS+4 (unmasked) and picks the console UMD from it (bit0 without bit31 = xgs12_d debug, bit20 = xgs12_i instrumented, else xgs12). The debug UMD maps to the PC D3D12 debug layer (enabled once, before the first device); the instrumented UMD has no PC counterpart. Tests: d3d12_xs process_debug unit tests + tests/process_debug_on.rs / process_debug_off.rs (debug-layer activation itself unproven on a PC without d3d12SDKLayers.dll). In-game: Fortnite calls it before D3D12XboxCreateDevice (run 23 tombox_compat.log:48).",
     "XMemTransferMemory": "no-op, returns TRUE for directions 0-2 (single partition on PC)",
     "XMemFreePhysicalPages": "no-op, returns TRUE (synthetic PFNs)",
     "XMemGetPartitionHandleAndId": "local stub (console forwards to xbthunk.XbGetPartitionHandleAndId)",
@@ -119,7 +119,7 @@
     "D3D12XboxUnloadDriverModule": "no-op (no console driver module on PC)",
     "DxcCreateInstance": "E_NOTIMPL",
     "XGCreateTextureComputer": "E_NOTIMPL",
-    "MFResetDXGIDeviceManagerX": "E_NOTIMPL",
+    "MFResetDXGIDeviceManagerX": "unwraps the d3d12_xs device to the real PC ID3D12Device and calls IMFDXGIDeviceManager::ResetDevice; run 23 tombox_compat.log:601 hr=0; test reset_device.rs",
     "DStorageGetFactory": "PC DirectStorage (dstorage.dll) with Xbox->PC IID and request translation",
     "D3D12XboxCreateDevice": "real PC D3D12 device wrapped with the Xbox vtable layout",
     "GameInputCreate": "GameInput.dll is not emulated: the console DLL exports only ordinal 1 = GameInputCreate (19041.3948 / 22000.4429 / 22621.1852, pefile), the PC GameInput.dll exports GameInputCreate at ordinal 1, so the title's #1 import binds to the PC GameInputCreate; compat-common gamepad.rs patches the host EXE's import slot only (TerrariaNative.dll's own #1 import is not redirected)"

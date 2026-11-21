@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1908" width="1000" height="1908">
 <rect x="0" y="0" width="1000" height="1908" fill="#0d1117"/>
-<text x="4.00" y="21.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Imported system functions*: 95.08% (638/671)</text>
+<text x="4.00" y="21.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Imported system functions*: 95.23% (639/671)</text>
 <g><title>C/C++ runtime: 357/357 (100%)</title>
 <rect x="1.00" y="31.00" width="20.39" height="21.29" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
 <rect x="21.39" y="31.00" width="20.39" height="21.29" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
@@ -670,13 +670,13 @@
 <rect x="876.85" y="184.78" width="76.97" height="58.09" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="881.85" y="200.78" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">xmem</text>
 </g>
-<g><title>d3d12_xs: 5/6 (83%)</title>
+<g><title>d3d12_xs: 6/6 (100%)</title>
 <rect x="954.82" y="185.78" width="14.73" height="28.04" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
 <rect x="969.55" y="185.78" width="14.73" height="28.04" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
 <rect x="984.27" y="185.78" width="14.73" height="28.04" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
 <rect x="954.82" y="213.82" width="14.73" height="28.04" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
 <rect x="969.55" y="213.82" width="14.73" height="28.04" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
-<rect x="984.27" y="213.82" width="14.73" height="28.04" fill="#d29922" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="984.27" y="213.82" width="14.73" height="28.04" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
 <rect x="953.82" y="184.78" width="46.18" height="58.09" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="958.82" y="200.78" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">d3d12</text>
 </g>
@@ -1640,7 +1640,7 @@
 <rect x="875.00" y="880.00" width="125.00" height="60.00" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="880.00" y="896.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Amplification</text>
 </g>
-<text x="4.00" y="971.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Xbox console libraries: 9.42% (179/1901)</text>
+<text x="4.00" y="971.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Xbox console libraries: 9.57% (182/1901)</text>
 <rect x="4" y="982" width="10" height="10" fill="#2ea043"/>
 <text x="18.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">implemented</text>
 <rect x="109" y="982" width="10" height="10" fill="#388bfd"/>
@@ -1828,13 +1828,13 @@
 <rect x="340.35" y="1194.65" width="179.09" height="158.61" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="345.35" y="1210.65" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">xtfbaseservices</text>
 </g>
-<g><title>d3d12_xs.dll: 8/55 covered; Fortnite imports 6, XDefiant imports 3</title>
-<rect x="520.44" y="1195.65" width="60.81" height="22.37" fill="#8cca97"/>
-<rect x="581.25" y="1195.65" width="40.54" height="22.37" fill="#2ea043"/>
-<rect x="621.79" y="1195.65" width="60.81" height="22.37" fill="#91bffd"/>
-<rect x="520.44" y="1218.02" width="20.27" height="22.37" fill="#e6c685"/>
-<rect x="540.71" y="1218.02" width="20.27" height="22.37" fill="#d29922"/>
-<rect x="560.98" y="1218.02" width="121.63" height="22.37" fill="#6e7681"/>
+<g><title>d3d12_xs.dll: 10/55 covered; Fortnite imports 6, XDefiant imports 3</title>
+<rect x="520.44" y="1195.65" width="81.08" height="22.37" fill="#8cca97"/>
+<rect x="601.52" y="1195.65" width="60.81" height="22.37" fill="#2ea043"/>
+<rect x="662.33" y="1195.65" width="20.27" height="22.37" fill="#91bffd"/>
+<rect x="520.44" y="1218.02" width="40.54" height="22.37" fill="#91bffd"/>
+<rect x="560.98" y="1218.02" width="20.27" height="22.37" fill="#d29922"/>
+<rect x="581.25" y="1218.02" width="101.35" height="22.37" fill="#6e7681"/>
 <rect x="520.44" y="1240.40" width="162.17" height="22.37" fill="#6e7681"/>
 <rect x="520.44" y="1262.77" width="162.17" height="22.37" fill="#6e7681"/>
 <rect x="520.44" y="1285.14" width="162.17" height="22.37" fill="#6e7681"/>
@@ -2247,8 +2247,8 @@
 <rect x="664.77" y="1709.01" width="60.12" height="63.00" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="669.77" y="1725.01" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">hix_xs</text>
 </g>
-<g><title>mfplat.dll: 0/8 covered; Fortnite imports 1</title>
-<rect x="665.77" y="1773.01" width="19.37" height="20.33" fill="#e6c685"/>
+<g><title>mfplat.dll: 1/8 covered; Fortnite imports 1</title>
+<rect x="665.77" y="1773.01" width="19.37" height="20.33" fill="#8cca97"/>
 <rect x="685.15" y="1773.01" width="38.75" height="20.33" fill="#6e7681"/>
 <rect x="665.77" y="1793.34" width="58.12" height="20.33" fill="#6e7681"/>
 <rect x="665.77" y="1813.67" width="38.75" height="20.33" fill="#6e7681"/>

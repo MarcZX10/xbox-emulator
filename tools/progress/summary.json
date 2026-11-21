@@ -2,9 +2,9 @@
  "updated": "2026-11-21",
  "headline": {
   "system_functions": {
-   "done": 638,
+   "done": 639,
    "total": 671,
-   "pct": 95.08
+   "pct": 95.23
   },
   "d3d12x_methods": {
    "done": 113,
@@ -46,9 +46,9 @@
  },
  "extra": {
   "console_exports": {
-   "done": 179,
+   "done": 182,
    "total": 1901,
-   "pct": 9.42
+   "pct": 9.57
   },
   "shader_compile_lobby_frame": {
    "done": 139,
@@ -71,9 +71,9 @@
    "pct": 58.33
   },
   "title_imports_Fortnite": {
-   "done": 22,
+   "done": 24,
    "total": 31,
-   "pct": 70.97
+   "pct": 77.42
   },
   "title_imports_XDefiant": {
    "done": 14,
@@ -91,9 +91,9 @@
    "pct": 66.67
   },
   "console_exports_targeted": {
-   "done": 179,
+   "done": 182,
    "total": 1009,
-   "pct": 17.74
+   "pct": 18.04
   },
   "console_exports_not_targeted": {
    "done": null,
@@ -105,22 +105,22 @@
  "all_including_pc": {
   "note": "previous definition, kept for history: every export of every console OS DLL and every title import, PC-provided ones included",
   "console_exports": {
-   "done": 21048,
+   "done": 21051,
    "total": 23489,
-   "pct": 89.61
+   "pct": 89.62
   },
   "xbox_only_exports": {
-   "done": 179,
+   "done": 181,
    "total": 1824,
-   "pct": 9.81
+   "pct": 9.92
   },
   "title_import_status": {
    "Fortnite": {
     "pc": 926,
     "hooked": 27,
     "forwarded": 19,
-    "stub": 9,
-    "implemented": 18,
+    "implemented": 20,
+    "stub": 7,
     "title": 342,
     "unverified": 233
    },
@@ -151,9 +151,9 @@
    }
   },
   "title_imports_Fortnite": {
-   "done": 1332,
+   "done": 1334,
    "total": 1574,
-   "pct": 84.63
+   "pct": 84.75
   },
   "title_imports_XDefiant": {
    "done": 1597,
@@ -173,8 +173,8 @@
  },
  "title_import_status": {
   "Fortnite": {
-   "stub": 9,
-   "implemented": 18,
+   "implemented": 20,
+   "stub": 7,
    "forwarded": 4
   },
   "XDefiant": {
