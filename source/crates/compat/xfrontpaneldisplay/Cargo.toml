@@ -1,0 +1,21 @@
+[package]
+name = "xfrontpaneldisplay"
+version = "0.1.0"
+edition = "2021"
+description = "Compat DLL for XFrontPanelDisplay.dll: reports no front panel (retail behaviour) and accepts the panel calls as no-ops."
+license = "MIT OR Apache-2.0"
+build = "build.rs"
+
+[lib]
+name = "xfrontpaneldisplay"
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[dependencies]
+compat-common = { path = "../compat-common" }
+
+[build-dependencies]
+xone-exports = { path = "../xone-exports" }
+
+[dev-dependencies]
+xone-exports = { path = "../xone-exports" }

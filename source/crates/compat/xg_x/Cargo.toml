@@ -1,0 +1,21 @@
+[package]
+name = "xg_x"
+version = "0.1.0"
+edition = "2021"
+description = "Compat DLL for Xbox One GameCore xg_x.dll: GCN XG tile modes, XG_RESOURCE_LAYOUT and texture computers with the real export ordinals, verified against the console xg_x as a test oracle."
+license = "MIT OR Apache-2.0"
+build = "build.rs"
+
+[lib]
+name = "xg_x"
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[dependencies]
+compat-common = { path = "../compat-common" }
+
+[build-dependencies]
+xone-exports = { path = "../xone-exports" }
+
+[dev-dependencies]
+xone-exports = { path = "../xone-exports" }

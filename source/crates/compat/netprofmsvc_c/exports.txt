@@ -1,0 +1,1 @@
+2 SvchostPushServiceGlobalsEx implemented | console 0x6fc0: stores the svchost global data pointer in the module global (console 0x6e760) that the service main reads; no other effect

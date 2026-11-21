@@ -1,0 +1,23 @@
+1 XGComputeBufferLayout implemented
+2 XGComputeOptimalDepthStencilSwizzleMode implemented | writes stencil mode 0x18 like the console
+3 XGComputeOptimalSwizzleMode implemented
+4 XGComputeTexture1DLayout implemented
+5 XGComputeTexture2DLayout implemented | color, linear, MSAA and single-sample RT CMASK planes; MSAA RT FMASK/CMASK planes not modelled
+6 XGComputeTexture3DLayout implemented
+7 XGComputeTileShape implemented
+8 XGCreateBVHComputer implemented
+9 XGCreateTexture1DComputer implemented
+10 XGCreateTexture2DComputer implemented
+11 XGCreateTexture3DComputer implemented
+12 XGCreateTextureComputer implemented | D3D12 desc to XG desc conversion
+13 XGCreateTextureComputerFromDescriptor implemented | depth descriptor layouts not modelled, oracle shows remaining mismatches
+14 XGDecodeDCC stub | console multi-stage DCC decoder not ported, returns E_NOTIMPL
+15 XGEnableExclusiveLocking implemented
+16 XGEncodeDCC stub | console multi-stage DCC encoder not ported, returns E_NOTIMPL
+17 XGEnterExclusiveLock implemented
+18 XGInitializeLibrary implemented
+19 XGLeaveExclusiveLock implemented
+20 XGSetHardwareVersion implemented
+21 XGTerminateLibrary implemented
+22 XGValidateDepthStencilSwizzleMode implemented
+23 XGValidateDescriptor implemented

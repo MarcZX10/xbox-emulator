@@ -1,0 +1,18 @@
+[package]
+name = "xtfeventserver"
+version = "0.1.0"
+edition = "2021"
+description = "Compat DLL for the console xtfeventserver.dll (Xbox Tools Framework ETW event server extension)."
+license = "MIT OR Apache-2.0"
+build = "build.rs"
+
+[lib]
+name = "xtfeventserver"
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[dependencies]
+xtfcommon = { path = "../xtfcommon" }
+
+[build-dependencies]
+xtfcommon = { path = "../xtfcommon" }

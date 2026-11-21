@@ -1,0 +1,21 @@
+1 XGComputeBufferLayout implemented | console 0x10a0: bind/misc/tile-pool validation, size + 4 or 64KB alignment, mips 1, tail flag; oracle-tested
+2 XGComputeOptimalDepthStencilTileModes implemented | console rules: MSAA 2/4 -> 1, 8 -> 2, TC-compatible -> 7, HTILE -> 4, stencil formats refuse compressed modes (oracle-verified)
+3 XGComputeOptimalTileMode implemented | GCN selection (buffer 31, 1D 8, 2D 13/14, +3 for 64KB swizzle, 3D 13/14, depth path), verified against console xg_x for 100k+ inputs
+4 XGComputeTexture1DLayout implemented | GCN layout model
+5 XGComputeTexture2DLayout implemented | GCN layout model, byte-identical to console XG_RESOURCE_LAYOUT for modes 8/13/14/31
+6 XGComputeTexture3DLayout implemented | GCN layout model
+7 XGComputeTileShape implemented | ported from console 0x50f0 disassembly with its on-disk DXGI->GCN and GCN shape tables (not oracle-swept); deviations: DXGI 193 (console divides by zero) and formats >=268 (console reads past .data) return E_INVALIDARG
+8 XGCreateTexture1DComputer implemented | GCN layout model
+9 XGCreateTexture2DComputer implemented | layouts byte-identical to console; 1D-thin and linear texel addressing identical; 2D-thin addressing self-consistent (bank/pipe swizzle not yet modelled)
+10 XGCreateTexture3DComputer implemented | GCN layout model
+11 XGCreateTextureComputer implemented | XG_RESOURCE_DESC (D3D12 desc, layout 0/2/0x100+mode)
+12 XGCreateTextureComputerFromDescriptor implemented | console 0x4520 validation/type->dimension exact; T# width/height/depth/last_level/tile_index/data_format decoded into the crate layout model
+13 XGCreateTextureComputerWithPitch implemented | pitch argument logged, computed pitch used
+14 XGDecodeDCC stub | console arg+setup checks exact (E_INVALIDARG); software DCC codec 0x168c0-0x1f1a4 (42 fns, ~25 KB) not ported -> E_NOTIMPL; codec is GCN-specific and differs from the xg_xs (RDNA2) codec, so the xg_xs port cannot be shared
+15 XGEnableExclusiveLocking implemented | critical section like the console
+16 XGEncodeDCC stub | console arg+setup checks exact (E_INVALIDARG); software DCC codec 0x168c0-0x1f1a4 (42 fns, ~25 KB) not ported -> E_NOTIMPL; codec is GCN-specific and differs from the xg_xs (RDNA2) codec, so the xg_xs port cannot be shared
+17 XGEnterExclusiveLock implemented
+18 XGLeaveExclusiveLock implemented
+19 XGSetHardwareVersion implemented | revision flag = version >= 2 (signed), feeds depth/stencil validation
+20 XGValidateDepthStencilTileMode implemented | console compatibility table for both hardware revisions (oracle-verified)
+21 XGValidateJpegFile implemented | console marker parser: baseline 8-bit 3-component, 4:2:0 -> NV12, 4:2:2 -> YUY2, 8192 limit, APP byte count (oracle-verified)

@@ -1,0 +1,15 @@
+[package]
+name = "xvmaudioservice"
+version = "0.1.0"
+edition = "2021"
+description = "Compat DLL for the console XVMAudioService.dll (Gamecore XVM Audio Service): the WRL module exports ported from the console bodies."
+license = "MIT OR Apache-2.0"
+build = "build.rs"
+
+[lib]
+name = "XVMAudioService"
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[build-dependencies]
+xone-exports = { path = "../xone-exports" }

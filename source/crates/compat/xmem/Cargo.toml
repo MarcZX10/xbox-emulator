@@ -1,0 +1,14 @@
+[package]
+name = "xmem"
+version = "0.1.0"
+edition = "2021"
+description = "Compat DLL for Xbox xmem.dll — heap/virtual memory, backed by the real Windows heap."
+license = "MIT OR Apache-2.0"
+
+[lib]
+name = "xmem"
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[dependencies]
+compat-common = { path = "../compat-common" }

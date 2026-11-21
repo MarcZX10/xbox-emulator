@@ -1,0 +1,19 @@
+[package]
+name = "xdxr"
+version = "0.1.0"
+edition = "2021"
+description = "Compat DLL for the Xbox console xdxr.dll (DXR runtime behind xgs12_10): XDXRCreateDevice forwarded to the console's own xdxr.dll, loaded on PC with the emulator xmem.dll serving its XMemAlloc/XMemFree imports."
+license = "MIT OR Apache-2.0"
+build = "build.rs"
+
+[lib]
+name = "xdxr"
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[dependencies]
+compat-common = { path = "../compat-common" }
+console-dll = { path = "../console-dll" }
+
+[dev-dependencies]
+dxcompiler_xs = { path = "../dxcompiler_xs" }

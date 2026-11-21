@@ -1,0 +1,29 @@
+[package]
+name = "tombox-xshader"
+version = "0.1.0"
+edition = "2021"
+description = "Extract and (eventually) translate Xbox Series shaders: DXBC -> DXIL/XDAT -> zlib -> FSSM -> RDNA2 ISA."
+license = "MIT OR Apache-2.0"
+
+[lib]
+name = "tombox_xshader"
+path = "src/lib.rs"
+
+[[bin]]
+name = "xshader"
+path = "src/bin/xshader.rs"
+
+[[bin]]
+name = "xscan"
+path = "src/bin/xscan.rs"
+
+[dependencies]
+miniz_oxide = "0.8"
+
+[[bin]]
+name = "xpso"
+path = "src/bin/xpso.rs"
+
+[[bin]]
+name = "xpair"
+path = "src/bin/xpair.rs"

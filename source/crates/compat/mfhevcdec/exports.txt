@@ -1,0 +1,5 @@
+1 DllGetActivationFactory implemented
+2 DllRegisterServer implemented
+3 DllUnregisterServer implemented
+4 DllCanUnloadNow implemented
+5 DllGetClassObject implemented

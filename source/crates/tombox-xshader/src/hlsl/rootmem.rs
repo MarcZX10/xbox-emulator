@@ -1,0 +1,175 @@
+use super::{sreg_num, sreg_opnd, Emitter, Sym, BINDLESS};
+use crate::meta::RootParamKind;
+use crate::rdna2::{Enc, Insn, Opnd};
+use std::fmt::Write as _;
+
+pub(super) const RM_TABLE: u8 = 0x80;
+
+fn sgpr(o: Option<&Opnd>) -> Option<u8> {
+    match o {
+        Some(Opnd::Sgpr(n)) => Some(*n),
+        _ => None,
+    }
+}
+
+impl Emitter<'_> {
+    pub(super) fn rootmem(&self) -> bool {
+        if let Some(v) = self.rm_mode.get() {
+            return v;
+        }
+        let v = self.detect_rootmem();
+        self.rm_mode.set(Some(v));
+        v
+    }
+
+    fn detect_rootmem(&self) -> bool {
+        if !self.is_cs || self.ex.root_sig.as_ref().map_or(true, |r| r.params.is_empty()) {
+            return false;
+        }
+        let mut ptr: Vec<u8> = vec![0];
+        for ins in &self.insns {
+            match ins.enc {
+                Enc::Smem if ins.op <= 4 => {
+                    if sgpr(ins.src.first()).is_some_and(|b| ptr.contains(&b)) {
+                        return true;
+                    }
+                }
+                Enc::Sop1 if ins.mnemonic == "s_mov_b32" => {
+                    let d = sgpr(ins.dst.first());
+                    let s = sgpr(ins.src.first());
+                    if let Some(d) = d {
+                        ptr.retain(|x| *x != d);
+                        if s.is_some_and(|s| ptr.contains(&s)) {
+                            ptr.push(d);
+                        }
+                    }
+                    continue;
+                }
+                Enc::Sopp if ins.mnemonic.starts_with("s_branch") || ins.mnemonic.starts_with("s_cbranch") || ins.mnemonic == "s_endpgm" => return false,
+                _ => {}
+            }
+            if let Some(d) = sgpr(ins.dst.first()) {
+                ptr.retain(|x| *x != d);
+            }
+        }
+        false
+    }
+
+    pub(super) fn rm_ptr(&self, table: u8) -> bool {
+        (table as usize) < self.user_base() && self.rootmem()
+    }
+
+    fn rm_param(&self, dword: u32) -> Option<(usize, u32)> {
+        let mut at = dword;
+        for (i, p) in self.ex.root_sig.as_ref()?.params.iter().enumerate() {
+            let n = match &p.kind {
+                RootParamKind::Table(_) => return None,
+                RootParamKind::Descriptor { .. } => 2,
+                RootParamKind::Constants { num32, .. } => *num32,
+            };
+            if at < n {
+                return Some((i, at));
+            }
+            at -= n;
+        }
+        None
+    }
+
+    fn rm_kind_of(&self, p: usize) -> Option<&RootParamKind> {
+        self.ex.root_sig.as_ref()?.params.get(p).map(|x| &x.kind)
+    }
+
+    pub(super) fn rm_desc(&self, s: Option<&Sym>) -> Option<Option<Vec<(u8, u32)>>> {
+        let Some(Sym::Desc { table, off, k }) = s else { return None };
+        if !self.rm_ptr(*table) {
+            return None;
+        }
+        if *off & BINDLESS != 0 || off % 4 != 0 {
+            return Some(None);
+        }
+        let Some((p, 0)) = self.rm_param(off / 4 + k) else { return Some(None) };
+        match self.rm_kind_of(p) {
+            Some(RootParamKind::Descriptor { .. }) if p < RM_TABLE as usize => Some(Some(vec![(RM_TABLE | p as u8, 0)])),
+            _ => Some(None),
+        }
+    }
+
+    pub(super) fn rm_table_kind(&self, table: u8) -> Option<Option<u32>> {
+        if table < RM_TABLE {
+            return None;
+        }
+        Some(match self.rm_kind_of((table & !RM_TABLE) as usize) {
+            Some(RootParamKind::Descriptor { kind: 2, .. }) => Some(2),
+            Some(RootParamKind::Descriptor { kind: 3, .. }) => Some(0),
+            Some(RootParamKind::Descriptor { kind: 4, .. }) => Some(1),
+            _ => None,
+        })
+    }
+
+    pub(super) fn rm_bind(&self, table: u8) -> Option<u32> {
+        if table < RM_TABLE {
+            return None;
+        }
+        match self.rm_kind_of((table & !RM_TABLE) as usize) {
+            Some(RootParamKind::Descriptor { register, space, .. }) => Some((space << 16) | register),
+            _ => Some(u32::MAX),
+        }
+    }
+
+    pub(super) fn rm_note_load(&mut self, idx: usize, ins: &Insn, table: u8) -> Result<(), String> {
+        if !self.rm_ptr(table) {
+            return Ok(());
+        }
+        if (ins.raw.get(1).copied().unwrap_or(0) >> 25) != 0x7d {
+            return Err(format!("s_load at {:#x}: root-memory read with a dynamic soffset", ins.offset));
+        }
+        let off = ins.aux.imm as u32;
+        if off % 4 != 0 {
+            return Err(format!("s_load at {:#x}: unaligned root-memory offset {off:#x}", ins.offset));
+        }
+        let n = 1u32 << ins.op;
+        for k in 0..n {
+            if self.rm_param(off / 4 + k).is_none() {
+                return Err(format!("s_load at {:#x}: root-memory dword {} is outside the root signature", ins.offset, off / 4 + k));
+            }
+        }
+        self.rm_loads.insert(idx, off);
+        Ok(())
+    }
+
+    pub(super) fn emit_rm_load(&mut self, idx: usize, ins: &Insn) -> Result<Option<()>, String> {
+        let Some(&off) = self.rm_loads.get(&idx) else { return Ok(None) };
+        let base = ins.dst.first().and_then(sreg_num).ok_or("s_load: bad dst")?;
+        let n = 1u32 << ins.op;
+        for k in 0..n {
+            let (p, i) = self.rm_param(off / 4 + k).ok_or("root memory: bad dword")?;
+            if let Some(RootParamKind::Constants { .. }) = self.rm_kind_of(p) {
+                self.rm_used.insert(p);
+                self.ws(&sreg_opnd(base + k as u8), &format!("tb_rc{p}_{i}"))?;
+            }
+        }
+        Ok(Some(()))
+    }
+
+    pub(super) fn rm_header(&self) -> Option<String> {
+        if self.rm_used.is_empty() {
+            return None;
+        }
+        let mut h = String::new();
+        for &p in &self.rm_used {
+            if let Some(RootParamKind::Constants { register, space, num32 }) = self.rm_kind_of(p) {
+                let fields: String = (0..*num32).map(|i| format!(" uint tb_rc{p}_{i};")).collect();
+                let _ = write!(h, "cbuffer TB_RC{p} : register(b{register}, space{space}) {{{fields} }};\n");
+            }
+        }
+        Some(h)
+    }
+
+    pub(super) fn cs_tgid_base(&self, nparams: usize) -> usize {
+        if self.rootmem() {
+            4
+        } else {
+            4 + nparams
+        }
+    }
+}

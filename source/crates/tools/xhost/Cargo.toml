@@ -1,0 +1,14 @@
+[package]
+name = "xhost"
+version = "0.1.0"
+edition = "2021"
+description = "Multi-DLL host harness: loads the real TomBox compat DLL set in game order and drives the GDK, net_guard and online paths to catch cross-DLL state bugs."
+license = "MIT OR Apache-2.0"
+
+[[bin]]
+name = "xhost"
+path = "src/main.rs"
+
+[dependencies]
+serde_json = "1.0.154"
+tombox-pe = { path = "../../tombox-pe" }

@@ -1,0 +1,14 @@
+[package]
+name = "tombox-disasm"
+version = "0.1.0"
+edition = "2021"
+description = "Disassemble a range of a PE by RVA, resolving call/branch targets to UE symbol names."
+license = "MIT OR Apache-2.0"
+
+[[bin]]
+name = "disasm"
+path = "src/main.rs"
+
+[dependencies]
+tombox-pe = { path = "../tombox-pe" }
+iced-x86 = "1.21.0"

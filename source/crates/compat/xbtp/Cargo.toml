@@ -1,0 +1,21 @@
+[package]
+name = "xbtp"
+version = "0.1.0"
+edition = "2021"
+description = "Compat DLL for the console xbtp.dll (XTF transport: XBTP sessions over TCP, named pipes and the XBTP link)."
+license = "MIT OR Apache-2.0"
+build = "build.rs"
+
+[lib]
+name = "xbtp"
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[features]
+core = []
+
+[build-dependencies]
+xone-exports = { path = "../xone-exports" }
+
+[dev-dependencies]
+xone-exports = { path = "../xone-exports" }

@@ -1,0 +1,48 @@
+{
+  "updated": "2026-11-20",
+  "milestones": {
+    "done": 14,
+    "total": 19
+  },
+  "shaders": {
+    "translated": 105506,
+    "total": 105506
+  },
+  "import_overrides": {
+    "comment": "partial = resolved but a stub, a forwarder, or not verified to work; none = not provided",
+    "AcpHal.dll": "partial",
+    "MFPlat.DLL": "partial",
+    "MFReadWrite.dll": "partial",
+    "XAudio2_9.dll": "partial",
+    "GameInput.dll": "partial",
+    "GameChat2.dll": "none",
+    "XMemGetWorkingSetStatistics": "partial",
+    "XMemTransferMemory": "partial",
+    "D3D12XboxSetProcessDebugFlags": "partial"
+  },
+  "d3d12x": {
+    "comment": "slot states from the tables in crates/compat/d3d12_xs (device_wrap.rs, cmdlist_wrap.rs): done = forwarded or implemented, partial = logging success stub, none = unmapped",
+    "Device": {
+      "total": 160,
+      "done": "0-43,44,48,55,60-62,73,78-81",
+      "partial": "45-47,49-54,56-59,63-72,74-77,82-90"
+    },
+    "CommandList": {
+      "total": 128,
+      "done": "0-26,32-52,59,67,68,83",
+      "partial": ""
+    }
+  },
+  "stages": {
+    "comment": "shader stages the translator accepts; mesh and amplification first seen in the second title",
+    "Vertex": "done",
+    "Pixel": "done",
+    "Compute": "done",
+    "Geometry": "done",
+    "Hull": "done",
+    "Domain": "done",
+    "Mesh": "none",
+    "Amplification": "none"
+  },
+  "titles": 2
+}

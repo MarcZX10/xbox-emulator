@@ -1,0 +1,18 @@
+[package]
+name = "xtfbaseservices"
+version = "0.1.0"
+edition = "2021"
+description = "Compat DLL for the console xtfbaseservices.dll (Xbox Tools Framework logging manager, logging targets and assert/error system)."
+license = "MIT OR Apache-2.0"
+build = "build.rs"
+
+[lib]
+name = "xtfbaseservices"
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[dependencies]
+xtfcommon = { path = "../xtfcommon" }
+
+[build-dependencies]
+xtfcommon = { path = "../xtfcommon" }

@@ -1,0 +1,22 @@
+[package]
+name = "xtfpix"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Console xtfpix.dll (XTF PIX client/server over XBTP)."
+build = "build.rs"
+
+[lib]
+name = "xtfpix"
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[dependencies]
+xtfcommon = { path = "../xtfcommon" }
+
+[build-dependencies]
+xtfcommon = { path = "../xtfcommon" }
+
+[dev-dependencies]
+xbtp = { path = "../xbtp" }
+xpal = { path = "../xpal" }

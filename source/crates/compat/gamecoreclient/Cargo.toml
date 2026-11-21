@@ -1,0 +1,15 @@
+[package]
+name = "gamecoreclient"
+version = "0.1.0"
+edition = "2021"
+description = "Compat DLL for the console gamecoreclient.dll (GameCore proxy-app client): the console WRL module entry points with its class table (two COM classes, no activatable classes)."
+license = "MIT OR Apache-2.0"
+build = "build.rs"
+
+[lib]
+name = "gamecoreclient"
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[build-dependencies]
+xone-exports = { path = "../xone-exports" }

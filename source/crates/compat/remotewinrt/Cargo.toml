@@ -1,0 +1,18 @@
+[package]
+name = "remotewinrt"
+version = "0.1.0"
+edition = "2021"
+description = "Compat DLL for the console RemoteWinRT.dll (GameCore cross-VM WinRT helpers): ERA/SRA VM alias and SEVPipe endpoint names, suspend exemptions, WaitRemotePipe."
+license = "MIT OR Apache-2.0"
+build = "build.rs"
+
+[lib]
+name = "remotewinrt"
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[build-dependencies]
+xone-exports = { path = "../xone-exports" }
+
+[dev-dependencies]
+xone-exports = { path = "../xone-exports" }

@@ -1,0 +1,13 @@
+[package]
+name = "tombox-cli"
+version = "0.1.0"
+edition = "2021"
+description = "pe-inspect: command-line PE/COFF inspector for Xbox Series X|S binaries."
+license = "MIT OR Apache-2.0"
+
+[[bin]]
+name = "pe-inspect"
+path = "src/main.rs"
+
+[dependencies]
+tombox-pe = { path = "../tombox-pe" }

@@ -1,0 +1,5 @@
+1 CreateMergedTraceFile missing | console version is a COM relogger with ~12 injected rundown sources (image id, dbgid, volume map, file version); not ported
+2 DllCanUnloadNow implemented | module object count; S_OK when no objects are live
+3 StartHeapTrace implemented | console extension block (group mask, pid list, stack hook ids) on the Heap provider GUID, then StartTraceW
+4 StartKernelTrace implemented | console extension block with classic-flag to group-mask map and 32-class hook ids, StartTraceW, EnableTraceEx for the system provider
+5 UpdateHeapTrace implemented | same extension block, ControlTraceW EVENT_TRACE_CONTROL_UPDATE

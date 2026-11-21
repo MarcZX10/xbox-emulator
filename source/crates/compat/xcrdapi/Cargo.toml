@@ -1,0 +1,15 @@
+[package]
+name = "xcrdapi"
+version = "0.1.0"
+edition = "2021"
+description = "Compat DLL for Xbox XCRDAPI.dll: console-layout DirectStorage (IDStorageFactoryX/QueueX/FileX/StatusArrayX) on Win32 file I/O with CPU zlib."
+license = "MIT OR Apache-2.0"
+
+[lib]
+name = "xcrdapi"
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[dependencies]
+compat-common = { path = "../compat-common" }
+miniz_oxide = "0.8"

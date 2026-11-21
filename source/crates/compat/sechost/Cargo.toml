@@ -1,0 +1,15 @@
+[package]
+name = "sechost"
+version = "0.1.0"
+edition = "2021"
+description = "Compat DLL for the console sechost.dll export a PC sechost lacks: EtwQueryRealtimeConsumer over a port of the console sechost trace-consumer table, kept by OpenTraceW/ProcessTrace/CloseTrace hooks that wrap the PC consumer."
+license = "MIT OR Apache-2.0"
+build = "build.rs"
+
+[lib]
+name = "sechost"
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[build-dependencies]
+xone-exports = { path = "../xone-exports" }

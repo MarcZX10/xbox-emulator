@@ -1,0 +1,15 @@
+[package]
+name = "acphal"
+version = "0.1.0"
+edition = "2021"
+description = "Compat DLL for Xbox AcpHal.dll: APU heap, SHAPE context memory, IAcpHal object."
+license = "MIT OR Apache-2.0"
+
+[lib]
+name = "acphal"
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[dependencies]
+compat-common = { path = "../compat-common" }
+xma = { path = "../xma" }
