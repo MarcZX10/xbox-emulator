@@ -5,7 +5,7 @@ DST = r"D:\xbox-pc-port"
 MANAGED = ["crates", os.path.join("tools", "dev"), os.path.join("tools", "qa"), os.path.join("tools", "verify"),
            os.path.join("tools", "snap_window.ps1")]
 
-TOP_FILES = {"Cargo.toml", "Cargo.lock", "stage_compat.ps1", "run_fortnite.ps1", "run_xdefiant.ps1", "run_xone.ps1"}
+TOP_FILES = {"Cargo.toml", "Cargo.lock"}
 TOP_DIRS = {"crates", "tools"}
 SKIP_DIRS = {"target", "batch_runs", "evidence", "node_modules", ".git", "__pycache__", "out", "runs", "backend_data"}
 SKIP_EXT = {".md", ".log", ".exe", ".dll", ".pdb", ".lib", ".obj", ".o", ".a", ".bin", ".dxil", ".cso", ".zip",
