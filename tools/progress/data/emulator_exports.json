@@ -478,7 +478,7 @@
   "notes": {
    "XDspActivate": "type 1 convolution (XDefiant) on host; types 2 and 3 return E_NOTIMPL, no title uses them",
    "XDspConnectWithMaximumStreamLimit": "console 0x2bc0: E_INVALIDARG for mem/size/activations, streams > 0x100 or priority > 2, then E_POINTER for a null out; XDspConnect is this call with 0x100 streams, priority 2 (console 0x2b90); limits kept per client, the CPU convolution has no hardware stream queue to apply them to",
-   "XDspSubmitCommandWithEnvelope": "console 0x3200 -> 0x2524 (shared with XDspSubmitCommand 0x31e0, envelope NULL): for convolution streams the envelope is taken at the first command of every 8 (counter +0x150 & 7), must lie in the XDspConnect memory (APU translation 0x1888 fails -> E_INVALIDARG), the stereo-IR flag 0x8 adds the right-IR gains at roundup4(partitions); later commands of the group reuse the snapshot, a NULL envelope at a group start disables it. The hardware DSP microcode that applies it is not in the dump; per the GDK docs the values are per-block gains applied during convolution, so each IR partition k is scaled by gain[k]"
+   "XDspSubmitCommandWithEnvelope": "console 0x3200 -> 0x2524 (shared with XDspSubmitCommand 0x31e0, envelope NULL): for convolution streams the envelope is taken at the first command of every 8 (counter +0x150 & 7) and must lie in the XDspConnect memory (APU translation 0x1888 fails -> E_INVALIDARG); later commands in the group reuse a snapshot and a NULL envelope at a group start disables it. The DSP microcode that applies it is not in any dump, so the gain math is inferred from the GDK description (per-block gains applied during convolution, left then right): IR partition k is scaled by gain[k], right gains at roundup4(partitions). Known gaps vs console: the console snapshot holds only 0x20 bytes per channel and takes the right half at envelope+[+0x148]*4, and +0x148 is not confirmed to equal the partition count"
   }
  },
  "d3d12_x.dll": {
@@ -1641,8 +1641,8 @@
    "DefWindowProcW": "forwarded",
    "DestroyCursor": "forwarded",
    "DestroyWindow": "forwarded",
-   "DispatchMessageA": "forwarded",
-   "DispatchMessageW": "forwarded",
+   "DispatchMessageA": "implemented",
+   "DispatchMessageW": "implemented",
    "GetAsyncKeyState": "forwarded",
    "GetClientRect": "forwarded",
    "GetClipCursor": "implemented",
@@ -1650,11 +1650,11 @@
    "GetCursorInfo": "forwarded",
    "GetCursorPos": "forwarded",
    "GetKeyState": "forwarded",
-   "GetMessageA": "forwarded",
+   "GetMessageA": "implemented",
    "GetMessageExtraInfo": "implemented",
    "GetMessagePos": "implemented",
    "GetMessageTime": "implemented",
-   "GetMessageW": "forwarded",
+   "GetMessageW": "implemented",
    "GetWindowLongA": "forwarded",
    "GetWindowLongPtrA": "forwarded",
    "GetWindowLongPtrW": "forwarded",
@@ -1667,13 +1667,13 @@
    "MinUserXP_GetHooks": "implemented",
    "MinUserXP_SetHooks": "implemented",
    "MoveWindow": "forwarded",
-   "PeekMessageA": "forwarded",
-   "PeekMessageW": "forwarded",
-   "PostMessageA": "forwarded",
-   "PostMessageW": "forwarded",
+   "PeekMessageA": "implemented",
+   "PeekMessageW": "implemented",
+   "PostMessageA": "implemented",
+   "PostMessageW": "implemented",
    "PostQuitMessage": "forwarded",
-   "PostThreadMessageA": "forwarded",
-   "PostThreadMessageW": "forwarded",
+   "PostThreadMessageA": "implemented",
+   "PostThreadMessageW": "implemented",
    "RegisterClassA": "forwarded",
    "RegisterClassExA": "forwarded",
    "RegisterClassExW": "forwarded",
@@ -1717,8 +1717,8 @@
    "DefWindowProcW": "PE forwarder to user32.DefWindowProcW; console body returns 1 for message 1 and 0 otherwise because its CoreWindow windows never need default processing; forwarded because CreateWindowEx forwards to user32 and real PC windows need PC default processing (WM_NCCREATE must return TRUE)",
    "DestroyCursor": "PE forwarder to user32.DestroyCursor; same Win32 signature, windows are real PC user32 windows",
    "DestroyWindow": "PE forwarder to user32.DestroyWindow; same Win32 signature, windows are real PC user32 windows",
-   "DispatchMessageA": "PE forwarder to user32.DispatchMessageW; console DispatchMessageA is a jmp to (or alias of) DispatchMessageW with no ANSI conversion",
-   "DispatchMessageW": "PE forwarder to user32.DispatchMessageW; same Win32 signature, windows are real PC user32 windows",
+   "DispatchMessageA": "console DispatchMessageA is a jmp to DispatchMessageW with no ANSI conversion; same code path as DispatchMessageW",
+   "DispatchMessageW": "console api.cpp DispatchMessageW: calls the window procedure for any queued message and sets last error from the HRESULT; ordinary messages go through user32 DispatchMessageW, messages user32 refuses to dispatch (ERROR_MESSAGE_SYNC_ONLY) call the window procedure directly as the console does",
    "GetAsyncKeyState": "PE forwarder to user32.GetAsyncKeyState; same Win32 signature, windows are real PC user32 windows",
    "GetClientRect": "PE forwarder to user32.GetClientRect; same Win32 signature, windows are real PC user32 windows",
    "GetClipCursor": "console body: SetLastError(E_NOTIMPL 0x80004001), returns 0; reproduced exactly (not forwarded: PC user32 implements it)",
@@ -1726,11 +1726,11 @@
    "GetCursorInfo": "PE forwarder to user32.GetCursorInfo; same Win32 signature, windows are real PC user32 windows",
    "GetCursorPos": "PE forwarder to user32.GetCursorPos; same Win32 signature, windows are real PC user32 windows",
    "GetKeyState": "PE forwarder to user32.GetKeyState; same Win32 signature, windows are real PC user32 windows",
-   "GetMessageA": "PE forwarder to user32.GetMessageW; console GetMessageA is a jmp to (or alias of) GetMessageW with no ANSI conversion",
+   "GetMessageA": "console GetMessageA is a jmp to GetMessageW with no ANSI conversion; same code path as GetMessageW",
    "GetMessageExtraInfo": "console body: SetLastError(E_NOTIMPL 0x80004001), returns 0; reproduced exactly (not forwarded: PC user32 implements it)",
    "GetMessagePos": "console body: SetLastError(E_NOTIMPL 0x80004001), returns 0; reproduced exactly (not forwarded: PC user32 implements it)",
    "GetMessageTime": "console body: SetLastError(E_NOTIMPL 0x80004001), returns 0; reproduced exactly (not forwarded: PC user32 implements it)",
-   "GetMessageW": "PE forwarder to user32.GetMessageW; same Win32 signature, windows are real PC user32 windows",
+   "GetMessageW": "console api.cpp GetMessageW: zeroes the MSG, waits on the thread queue (queue.rs), returns -1 on failure, 0 for WM_QUIT, else 1 (a dead hwnd filter fails with the PC code 1400, not verified against the console); reads the minuserx console-order queue first, then user32 input/paint/timer",
    "GetWindowLongA": "PE forwarder to user32.GetWindowLongW; console GetWindowLongA is a jmp to (or alias of) GetWindowLongW with no ANSI conversion",
    "GetWindowLongPtrA": "PE forwarder to user32.GetWindowLongPtrW; console GetWindowLongPtrA is a jmp to (or alias of) GetWindowLongPtrW with no ANSI conversion",
    "GetWindowLongPtrW": "PE forwarder to user32.GetWindowLongPtrW; same Win32 signature, windows are real PC user32 windows",
@@ -1743,13 +1743,13 @@
    "MinUserXP_GetHooks": "console api.cpp: SRW-locked global hooks object; first call CoIncrementMTAUsage + CoInitializeSecurity + CoCreateInstance({7fa7a8fd-a259-4a79-bb7e-094c18cd0723}, IID {338203c7-6c86-49c4-b53e-4ca4999056ce}); REGDB_E_CLASSNOTREG = no hooks; attaches the callback object; returns an AddRef-ed pointer or NULL",
    "MinUserXP_SetHooks": "console api.cpp: replaces the global hooks (AddRef new, Release old) and attaches the callback object through hooks slot 3 with its +0x30 interface; object layout as the console WRL class: +0 IUnknown/IInspectable (GetIids = IInspectable, IWeakReferenceSource, callback; GetRuntimeClassName/GetTrustLevel E_NOTIMPL via RoOriginateError), +8 IAgileObject/IMarshal forwarding to an owned free-threaded marshaler (E_OUTOFMEMORY without one), +0x28 IWeakReferenceSource (WRL weak reference, strong count moved into it), +0x30 {4e4bde9e-b970-41e7-bc12-aea6c6ee6dd5} Deliver/RefreshCursor; Deliver follows the console queue.cpp enqueue (dead window E_INVALIDARG, NULL hwnd = calling thread, WM_MOUSEMOVE replaces a pending queued WM_MOUSEMOVE, sync-only messages queued) on top of the user32 queue through a WH_GETMESSAGE rewrite",
    "MoveWindow": "PE forwarder to user32.MoveWindow; same Win32 signature, windows are real PC user32 windows",
-   "PeekMessageA": "PE forwarder to user32.PeekMessageW; console PeekMessageA is a jmp to (or alias of) PeekMessageW with no ANSI conversion",
-   "PeekMessageW": "PE forwarder to user32.PeekMessageW; same Win32 signature, windows are real PC user32 windows",
-   "PostMessageA": "PE forwarder to user32.PostMessageW; console PostMessageA is a jmp to (or alias of) PostMessageW with no ANSI conversion",
-   "PostMessageW": "PE forwarder to user32.PostMessageW; same Win32 signature, windows are real PC user32 windows",
+   "PeekMessageA": "console PeekMessageA is a jmp to PeekMessageW with no ANSI conversion; same code path as PeekMessageW",
+   "PeekMessageW": "console api.cpp PeekMessageW: zeroes the MSG, matches the console queue with the real message id against hwnd and range filters, then falls back to user32 for input/paint/timer; last error 0 on success",
+   "PostMessageA": "console PostMessageA is a jmp to PostMessageW with no ANSI conversion; same code path as PostMessageW",
+   "PostMessageW": "console api.cpp PostMessageW: queue.cpp enqueue into the window thread queue (dead window E_INVALIDARG, NULL hwnd = calling thread, WM_MOUSEMOVE replaces a WM_MOUSEMOVE at the tail, no message-type restriction, no quota: overflow held in minuserx; threads that never read through minuserx get a direct user32 post), BOOL from HRESULT, last error set from it",
    "PostQuitMessage": "PE forwarder to user32.PostQuitMessage; same Win32 signature, windows are real PC user32 windows",
-   "PostThreadMessageA": "PE forwarder to user32.PostThreadMessageW; console PostThreadMessageA is a jmp to (or alias of) PostThreadMessageW with no ANSI conversion",
-   "PostThreadMessageW": "PE forwarder to user32.PostThreadMessageW; same Win32 signature, windows are real PC user32 windows",
+   "PostThreadMessageA": "console PostThreadMessageA is a jmp to PostThreadMessageW with no ANSI conversion; same code path as PostThreadMessageW",
+   "PostThreadMessageW": "console api.cpp PostThreadMessageW: enqueue into the target thread queue with hwnd NULL (same coalescing and overflow as PostMessageW; an unknown thread fails with the PC code 1444, not verified against the console thread table), BOOL from HRESULT, last error set from it",
    "RegisterClassA": "PE forwarder to user32.RegisterClassA; same Win32 signature, windows are real PC user32 windows",
    "RegisterClassExA": "PE forwarder to user32.RegisterClassExA; same Win32 signature, windows are real PC user32 windows",
    "RegisterClassExW": "PE forwarder to user32.RegisterClassExW; same Win32 signature, windows are real PC user32 windows",
@@ -1958,13 +1958,13 @@
    "SetImageFileNameCacheUsage": "implemented"
   },
   "notes": {
-   "CreateLiveMerger": "WRL LiveMergerImpl {6f141e8f}: caller-fed EVENT_RECORDs; ImageLoad v2/v3 -> ImageId+DbgID_RSDS via VBI/own-memory/file PE debug dir with \\SystemRoot\\, \\Device\\, \\GLOBAL??\\ path forms; first FileIo -> volume map (ntpath.rs); callback ref consumed",
+   "CreateLiveMerger": "WRL LiveMergerImpl {6f141e8f}: caller-fed EVENT_RECORDs; ImageLoad v2/v3 -> ImageId+DbgID_RSDS via VBI / loaded-module (GetModuleHandleExW+base/size check) / file PE debug dir with \\SystemRoot\\, \\Device\\, \\GLOBAL??\\ path forms; first FileIo -> volume map (ntpath.rs); callback ref consumed",
    "FindPdbInfo": "case-insensitive suffix match over an MSVC vector of 0x58-byte records; -1 when absent",
    "GetVbiRecordsSearched": "returns the VBI-loaded flag",
    "ParsePdbInfo": "name@{GUID}?age pdb entries, MSVC std::wstring/std::string(0x30C) records, sorted by name length; E_FAIL on a malformed entry",
    "PdbInfoFromVBI": "first call loads the first *_vbi value under HKLM\\System\\Software\\Microsoft; HRESULT of the registry error, or 0x80070490 when no record matches",
    "ResetVbiRecordsSearched": "clears the VBI-loaded flag, records kept as on console",
-   "SetImageFileNameCacheUsage": "stores the image file name cache flag"
+   "SetImageFileNameCacheUsage": "stores the image file name cache flag (default on); gates the live merger's per-name image cache lookup"
   }
  },
  "pixrt.dll": {
@@ -1989,7 +1989,7 @@
   },
   "notes": {
    "PixDllInitialize": "console builds the D3D12 GPU capture runtime (0x95ba8-byte capture object, capture-control thread, ETW sessions, Xbtp link to the PIX tool) with no guard; there is no console-exact partial behaviour to reproduce without that runtime",
-   "PixDllInitializeFromTitle": "console creates the capture runtime unconditionally and hands out its 15-slot title table (capture begin/end threads, counters, callbacks); not reproduced, see PixDllInitialize",
+   "PixDllInitializeFromTitle": "console 0x234a0 builds the 0x95b30 capture singleton and the PIX::InteractiveRuntime (D:\\PIX, device/capture/notification threads, Xbtp listen on service 0x1080) and memcpys a 15-slot table, S_OK; 329 functions, and the device-engine loop needs an in-process xbtplink device or it spins (docs/BLOCKERS.md); only loaded when \\\\.\\XgsKmd10 exists",
    "PixDllInitializeToolMemory": "no guard, as on the console: flag bit 0 hands out a null table, otherwise the two-entry tooling-memory allocator table; the allocator's lazy state follows pixrt10 (overflow assumed allowed when \\.\\xvcmgmt cannot be opened, hypervisor CPUID 0x4000000D check on 22000+ builds, d:\\dbgbreakonnotoolingmemory break, PIX debug lines); copies into the caller's buffer and returns S_OK"
   }
  },
@@ -3552,7 +3552,7 @@
   "notes": {
    "XhitInitialize": "Xbox One build of XHIT; the export code is byte-identical to xhit_s.dll at the same RVAs, shares the xhit_s implementation: \\.\\XgsKmd region map and arm IOCTL, returns 0",
    "XhitPerformHangAnalysis": "shared with xhit_s: t:\\gpuhang-<SYSTEMTIME>.xhit with the Xhit header; E_FAIL without a KMD hang snapshot",
-   "XhitPerformHangSummary": "shared with xhit_s: banner and fence-deadlock report from the caller context; E_UNEXPECTED without a KMD hang snapshot",
+   "XhitPerformHangSummary": "shared with xhit_s: KMD mailbox round trip (cmd 0xe ctx, cmd 0xd SQ capture), fence-deadlock report, register-snapshot decode, returns 0; E_UNEXPECTED (host deviation) when no KMD regions are installed",
    "XhitTerminate": "shared with xhit_s: clears the active object, returns 0"
   }
  },
@@ -3809,6 +3809,17 @@
    "XtfLogSetMainLevelAndFile": "console xtfbaseservices.dll RVA-for-RVA reimplementation"
   }
  },
+ "xtfdiaginfo.dll": {
+  "file": "crates/compat/xtfdiaginfo/src/lib.rs",
+  "functions": {
+   "#4": "missing",
+   "#10": "missing"
+  },
+  "notes": {
+   "#4": "XtfExtensionEntryPoint (0x8640): checks extension GUID fd21ac23-3a3a-45ce-a785-c973372dd881 and IID_XBTP_EXTENSION_METADATA_IMPL (E_INVALIDARG otherwise), XbtpCreateExtensionMetadata, AddFunction x14. Done in entry.rs (extension_entry_point) with 11 handlers ported and tested: 0xc SystemUpTime, 0x10 SetSystemGoDark, 0x11 FetchSystemGoDark, 0x18 SetLoggingProperties, 0x19 GetLoggingProperties, 0x21 TerminateProcess, 0x24 DebugBreak, 0x25 ResumeAllThreads, 0x2e QueryProfilingDirectory, 0x31 ResumeDeferredExecution, 0x36 DebugAction (process control limited to registered title processes). Not ported yet: 0x20 ProcessInformationDeltaUpdate (0x6f80, streams process snapshots over the session SendMore interface, not mapped), 0x2d TitleMemoryReport (0xb220, xmem title memory report), 0x32 ConnectionDiagnostic (0xdce0, ICMP ping + XBTP/TCP connects to host addresses, conflicts with the offline rule); not exported until all 14 exist",
+   "#10": "XtfMonitorOperationRequest (0x35f0): singleton OperationRequestMonitor (vtbl 0x35070) whose thread serves \\\\.\\SEVPIPE\\XTF_CONSOLE_EXTENSION_API_SYSTEM_TO_TITLE_OPERATION_REQUEST: UTF-16 JSON {version:1, opid, opbody} -> {version:1, opresult, opbody}. Done in monitor.rs: request decode (0x2de0), response build (0x33d8), pipe read/write loop (0x2c8c) on a per-process local pipe, tested. Not ported yet: the route table (0x30fc) targets opid 3 TraceStart (0x975c), 4 TraceStop (0x9980), 12 LogNetworkState (0x927c) and the startup CheckForPendingTraceXVD (0x9c5c), all part of the ~100KB trace/XCrd/network-state subsystem"
+  }
+ },
  "xtfeventserver.dll": {
   "file": "crates/compat/xtfeventserver/src/lib.rs",
   "functions": {
@@ -3820,13 +3831,24 @@
    "GetEventSourceMap": "returns the function-local static std::map (MSVC _Tree layout: head node 0x80 bytes, left/parent/right = head, color 1, isnil 1, size 0), freed at exit like the console's atexit destructor"
   }
  },
+ "xtffileio.dll": {
+  "file": "crates/compat/xtffileio/src/lib.rs",
+  "functions": {
+   "#4": "missing",
+   "XtfCreateFileIOClient": "missing"
+  },
+  "notes": {
+   "#4": "XbtpServerEntryPoint (console 0x214c0): checks extension GUID 8a8b4d4c-6da2-4fc1-b78c-3e4515cdf8ed and IID_XBTP_EXTENSION_METADATA_IMPL, XbtpCreateExtensionMetadata, 23 AddFunction calls in console order. Implemented as XtfOrdinal_4 with the 15 fileio-a handlers; not exported yet because the 8 fileio-b handlers (0x11 stream, 0x19-0x1f transfer) are not in src/fileio_b.rs yet; flips to implemented when both agents are done",
+   "XtfCreateFileIOClient": "client-side factory (console 0x5d70) for the host-side XtfFileIO client object; not part of the fileio-a/fileio-b server task, not ported"
+  }
+ },
  "xtfpix.dll": {
   "file": "crates/compat/xtfpix/src/lib.rs",
   "functions": {
-   "#1": "missing",
+   "#1": "implemented",
    "XtfCreatePixClient": "missing",
    "XtfCreatePixClientQuiet": "missing",
-   "#4": "missing",
+   "#4": "implemented",
    "XtfPixClearRunningProcessList": "missing",
    "XtfPixEnableGameDvr": "missing",
    "XtfPixPCLogPerformanceResult": "implemented",
@@ -3834,15 +3856,15 @@
    "XtfPixRequestVideoClip": "missing"
   },
   "notes": {
-   "#1": "XtfCreatePixServer: builds the 0x788-byte PixServer XBTP extension object and registers its request handlers through XbtpCreateExtensionMetadata (now implemented in crates/compat/xbtp); the PixServer COM object and its handler bodies are not ported yet, and xtfpix.dll also imports XbtpOpenSession2, which crates/compat/xbtp still lists as missing",
-   "XtfCreatePixClient": "new PixClient(0x6c0) opens an XBTP session to the console (default address when it matches the built-in one) and runs DoVersionHandshake; needs XbtpOpenSession2, which crates/compat/xbtp still lists as missing",
-   "XtfCreatePixClientQuiet": "XtfCreatePixClient with the trace callback silenced; same XbtpOpenSession2 dependency",
-   "#4": "XbtpServerEntryPoint: checks the PIX extension GUID (E_UNEXPECTED otherwise) and the metadata IID (E_INVALIDARG otherwise), then XtfCreatePixServer and QueryInterface; blocked on #1 (PixServer object not ported)",
-   "XtfPixClearRunningProcessList": "SplitConsoleAddress on XBTP_PORT_TITLE, then a JSON request through XbtpOpenSession2 (missing in crates/compat/xbtp)",
-   "XtfPixEnableGameDvr": "SplitConsoleAddress on XBTP_PORT_SYSTEM, JSON request over an XBTP session; XbtpOpenSession2 missing in crates/compat/xbtp",
+   "#1": "console 0x10a50: new(nothrow) 0x788-byte PixServer (E_OUTOFMEMORY), ctor nulls *ppv, XbtpCreateExtensionMetadata(e2b6c063), SysMonDataManager::Init (0x40000 buffer), AddHandlers of the 11 embedded handlers (ops 30,1,2,3,6,8,13,19,37,38,39), QI(riid) (2b25ecdb/IUnknown -> self, e2b6c063 -> metadata, AddRef on the server either way), then Release; handler bodies, XtfOperationErrorContext reply errors and the never-stored SysMon flags reproduced from the disassembly",
+   "XtfCreatePixClient": "new PixClient(0x6c0) opens an XBTP session to the console (default address when it matches the built-in one) and runs DoVersionHandshake; needs XbtpOpenSession2, which crates/compat/xbtp exports.txt row 129 still lists as missing",
+   "XtfCreatePixClientQuiet": "XtfCreatePixClient with the trace callback silenced; same XbtpOpenSession2 dependency (xbtp exports.txt row 129 missing)",
+   "#4": "console 0x10b40: extension id must be 9bd151a3-47d0-41b9-be65-f1137468c280 (E_UNEXPECTED), metadata iid must be e2b6c063 (E_INVALIDARG), then XtfCreatePixServer(e2b6c063) and QueryInterface on the returned metadata; the PixServer reference the console leaks here is leaked the same way",
+   "XtfPixClearRunningProcessList": "SplitConsoleAddress on XBTP_PORT_TITLE, then a JSON request through XbtpOpenSession2 (crates/compat/xbtp exports.txt row 129 missing)",
+   "XtfPixEnableGameDvr": "SplitConsoleAddress on XBTP_PORT_SYSTEM, JSON request over an XBTP session; XbtpOpenSession2 missing in crates/compat/xbtp (exports.txt row 129)",
    "XtfPixPCLogPerformanceResult": "console body is xor eax,eax; ret: returns S_OK",
-   "XtfPixPCLogTelemetryEvent": "GetRawAddress, builds a JSON telemetry body and sends it over an XBTP session; XbtpOpenSession2 missing in crates/compat/xbtp",
-   "XtfPixRequestVideoClip": "validates address/pStartTickOut/pEndTickOut/pFilePath, then a JSON request over an XBTP session on XBTP_PORT_SYSTEM; XbtpOpenSession2 missing in crates/compat/xbtp"
+   "XtfPixPCLogTelemetryEvent": "GetRawAddress, builds a JSON telemetry body and sends it over an XBTP session; XbtpOpenSession2 missing in crates/compat/xbtp (exports.txt row 129)",
+   "XtfPixRequestVideoClip": "validates address/pStartTickOut/pEndTickOut/pFilePath, then a JSON request over an XBTP session on XBTP_PORT_SYSTEM; XbtpOpenSession2 missing in crates/compat/xbtp (exports.txt row 129)"
   }
  },
  "XVMAudioService.dll": {
