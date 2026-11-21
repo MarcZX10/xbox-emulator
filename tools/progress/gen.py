@@ -668,7 +668,7 @@ def selftest():
     check("oshost hook on the PC twin makes the row hooked", st[hk] == "hooked")
     EVIDENCE_OVERRIDE = {}
     g = imports()
-    check("GameInput #1 done without touching XAudio2", g.get("GameInput") == ["done"] and g.get("XAudio2_9", []).count("partial") == 5)
+    check("GameInput #1 done without touching XAudio2", g.get("GameInput") == ["done"] and g.get("XAudio2_9", []).count(cfg["import_overrides"].get("XAudio2_9.dll", "done")) == 5)
     check("GameChat2 stays none without chatprobe evidence", g.get("GameChat2") == ["none"])
     check("MFPlat stays partial without media evidence", g.get("MFPlat", []).count("partial") == 16)
     check("unverified lists unchanged without evidence", unverified_lists("Fortnite") == ({"gamechat2.dll"}, {"gamechat2.dll", "concrt140.dll"}))

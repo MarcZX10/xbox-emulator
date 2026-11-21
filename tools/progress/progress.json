@@ -9,10 +9,8 @@
     "full_sweep": {"done": null, "total": 105506, "source": "TomBox docs/DEVELOPMENT_LOG.md:706 (in progress, no final count published)"}
   },
   "import_overrides": {
-    "AcpHal.dll": "partial",
     "MFPlat.DLL": "partial",
     "MFReadWrite.dll": "partial",
-    "XAudio2_9.dll": "partial",
     "GameInput.dll!#1": "done",
     "GameChat2.dll": "none",
     "XMemFreePhysicalPages": "partial",
@@ -31,8 +29,16 @@
     }
   },
   "d3d12x": {
-    "Device": {"total": 160, "done": "0-44,48,52,55-57,60-62,66,67,73,78-81,87", "partial": "45-47,49-51,53,54,58,59,63-65,68-72,74-77,82-86,88-90"},
-    "CommandList": {"total": 128, "done": "0-26,32-52,59,67,68,83", "partial": ""}
+    "Device": {
+      "total": 90,
+      "done": "0-44,48,50,52-55,57,60-62,64,65,67,69,73,78-81,89",
+      "partial": "45-47,49,51,56,58,59,63,66,68,70-72,74-77,82-88"
+    },
+    "CommandList": {
+      "total": 110,
+      "done": "0-59,67,68,83,87,104-109",
+      "partial": "79,84"
+    }
   },
   "stages": {
     "Vertex": "done", "Pixel": "done", "Compute": "done", "Geometry": "done",
@@ -94,9 +100,12 @@
       "XMemSetWin32HeapName": "implemented", "XMemSetWinHttpHooks": "stub"}},
     "acphal.dll": {"file": "crates/compat/acphal/src/lib.rs", "functions": {
       "ApuCreateHeap": "implemented", "ApuAlloc": "implemented", "ApuHeapGetState": "implemented",
-      "ApuFree": "stub", "AcpHalCreate": "stub", "AcpHalAllocateShapeContexts": "stub",
+      "ApuFree": "implemented", "AcpHalCreate": "implemented", "AcpHalAllocateShapeContexts": "implemented",
       "ApuMapVirtualAddress": "implemented", "ApuIsVirtualAddressValid": "implemented",
-      "AcpHalReleaseShapeContexts": "implemented"}},
+      "AcpHalReleaseShapeContexts": "implemented"},
+      "notes": {
+    "D3D12 interface vtables": "Slot counts and names come from the console UMD in the title's EmbeddedXvd: xgs12_d.dll (debug, names from its validation strings) and xgs12.dll (release, shipping bodies). Device vtable: debug RVA 0x107880, release 0x99090, 90 slots; slots 11 and 12 are null on console. Graphics command list: debug 0x107fe0, release 0x997f0, 110 slots; Xbox 104-109 = PC ID3D12GraphicsCommandList1 60-65. Every slot the emulator already maps lines up with the console names (44 CreatePlacedResourceX, 48 CreateCommandQueueX, 55/60/62 PSO creates, 61 CreateSamplerX, 73 CreateCommandList; list 28-31 queries, 59 ExecuteIndirect, 67 FlushPipelineX, 68 OMSetDepthBoundsX, 83 CopyTextureRegion, 84 CopyResourceX). console_slots.rs ports the release bodies exactly: device 53 S_OK, 54/65 void, 64 returns 0xFFFFFFFF, 69/89 E_NOTIMPL, 50 stores its three arguments per device; list 87 void, 106-108 pass through to PC OMSetDepthBounds/SetSamplePositions/ResolveSubresourceRegion, 104/105/109 are int3 on console (debug break when a debugger is attached). Left partial: device 56/66 (release returns E_ACCESSDENIED, emulator serializes) and 87 (release returns E_NOTIMPL, emulator opens the heap).","IAcpHal": "vtable 0 Connect, 1 Disconnect (0x180001780: 0x8ac8000a when not connected, posts a 0x80 DISCONNECTED message, rings kept until Release), 2 SubmitCommand, 3 PopMessage (BOOL, clears slot+0, 0x180001a50), 4 GetNumMessages (consecutive valid slots, 0x180001b00), 5 Release, 6-9 return 0x8ac80f0e as on the console, 10 reads the console driver's internal counter (0x180001b90 -> internal COM slot 7; no analysed title calls it), 11 destructor. Message ring: unread messages stay until popped and new ones are not written while the ring is full (console valid-slot ring), so a title that never pops (Fortnite waits on fences) keeps the oldest 0x1000. Command types no analysed title issues return E_NOTIMPL.",
+                "SHAPE": "XMA (Fortnite CPU-read streaming, 0x1406de4ec/0x1406de56c/0x1406f296c/0x1406f2ef0), SRC + DMA flowgraphs (XDefiant Wwise), DMA reader rings (Terraria FMOD 0x1410264d0) run on host threads; independent XMA voices decode in parallel across host cores (one voice per thread, so each voice completes in console order). Verified by crates/tests/audio_titles (16 tests: real XDefiant XMA through Fortnite's exact call sequence with output == SamplesEncoded, 6 voices on 6 threads bit-exact, SRC ratios 0.91875/0.66667 stretch duration exactly, FMOD init/disconnect/reinit, ApuHeapGetState/ApuFree accounting) and crates/compat/acphal unit tests."}},
     "xcrdapi.dll": {"file": "crates/compat/xcrdapi/src/lib.rs", "functions": {"DStorageGetFactory": "implemented"},
       "notes": {"DStorageGetFactory": "own console-layout IDStorageFactoryX/FileX/QueueX/StatusArrayX objects (no PC dstorage.dll); Xbox request decode, CPU zlib (format 1), unknown slots trap; known gaps: a zlib stream that ends early still reports S_OK, no ring backpressure"}},
     "dxcompiler_xs.dll": {"file": "crates/compat/dxcompiler_xs/src/lib.rs", "functions": {"DxcCreateInstance": "forwarded", "DxcCreateInstance2": "forwarded"},
@@ -138,10 +147,14 @@
                 "MFGetPrivateWorkqueues": "console argument checks, always writes 0"}}
   },
   "notes": {
-    "ApuFree": "no-op free (bump allocator)",
+    "ApuFree": "returns the block to the heap's free list and coalesces neighbours; ApuHeapGetState free/used/overhead/largest/count return to their prior values (audio_titles tests/heap.rs)",
     "XAudio2Create": "Fortnite passes XAUDIO2_DO_NOT_USE_SHAPE (0x400) at all three XAudio2Create call sites (processors 8, 8, 0); its mixer submits float PCM source voices (pBufferWMA NULL), the legacy path PCM/xWMA only, and XMA is decoded through FXMAAudioInfo on AcpHal SHAPE, so Fortnite never creates an XMA2 XAudio2 voice and audible Fortnite audio depends on the AcpHal SHAPE path. With 0x400 the console engine is the shared XAudio2 codebase, so crates/compat/xaudio2_9 returns the System32 host engine unwrapped (processor 0 -> console default 0x20, CoIncrementMTAUsage for the console's implicit MTA); without 0x400 it wraps the engine and decodes XMA2 source voices in software via the xma crate with console sample numbering (GCXAudioExt 0xa380/0xa610: sample S = frame S/512, subframe (S%512)/128; no first-frame or 64-sample drop). Tests: crates/compat/xaudio2_9/tests (exports vs console ordinals, X3DAudio vs console DLL, XMA voice into a muted master, real XDefiant XMA2 assets).",
-    "AcpHalCreate": "returns an inert IAcpHal (no SHAPE DSP)",
-    "AcpHalAllocateShapeContexts": "inert",
+    "AcpHalCreate": "returns a console-layout IAcpHal driving the emulated SHAPE engine (XMA, SRC, DMA, flowgraphs, fences, message ring); see emulator acphal.dll notes",
+    "AcpHalAllocateShapeContexts": "allocates the six SHAPE context arrays from the APU heap with the console per-type sizes/alignments and fills the title's descriptor with VA + APU addresses",
+    "X3DAudioCalculate": "ordinal 5; Fortnite 0x144a1cf84 passes flags 0x11 (MATRIX | REVERB); forwards to host X3DAudio, compared with the console DLL in crates/compat/xaudio2_9/tests/oracle.rs and replayed with Fortnite's arguments in audio_titles tests/xaudio2.rs",
+    "X3DAudioInitialize": "ordinal 6; Fortnite 0x144a1febd: (0x3f, 343.5, instance); forwards to host",
+    "CreateFX": "ordinal 4; Fortnite 0x144a1d667 creates FXEQ (F5E01117-D6C4-485A-A3F5-695196F3DBFA, no init data), which the host provides; audio_titles tests/xaudio2.rs runs it on a source voice",
+    "CreateAudioReverb": "ordinal 2; Fortnite 0x144a1dcee; forwards to host; audio_titles tests/xaudio2.rs runs it on a submix voice. The XAudio2 replay of Fortnite's device probe (0x144a207bb: XAudio2Create(0x400, 8), CreateMasteringVoice(6, 44100, 0, NULL, NULL, 6)) plays 22050 frames in ~0.5 s with SamplesPlayed 22050 (real-time rate, not fast).",
     "D3D12XboxSetProcessDebugFlags": "console d3d12_xs semantics: stores flags & 0x81f00001, returns S_OK; D3D12XboxGetProcessDebugFlags returns it; D3D12XboxCreateDevice overwrites it with D3D12XBOX_CREATE_DEVICE_PARAMETERS+4 (unmasked) and picks the console UMD from it (bit0 without bit31 = xgs12_d debug, bit20 = xgs12_i instrumented, else xgs12). The debug UMD maps to the PC D3D12 debug layer (enabled once, before the first device); the instrumented UMD has no PC counterpart. Tests: d3d12_xs process_debug unit tests + tests/process_debug_on.rs / process_debug_off.rs (debug-layer activation itself unproven on a PC without d3d12SDKLayers.dll). In-game: Fortnite calls it before D3D12XboxCreateDevice (run 23 tombox_compat.log:48).",
     "XMemTransferMemory": "no-op, returns TRUE for directions 0-2 (single partition on PC)",
     "XMemFreePhysicalPages": "no-op, returns TRUE (synthetic PFNs)",

@@ -70,6 +70,8 @@ Last update: 2026-11-21 (run 33: backdrop diag, 45 FPS lobby).
 - **Decoder cost (release build, one stream):**
   - XMA2: 8-15 us per 512-sample frame, 945x real time. It was 299x before this round of optimisation.
   - Opus: 6-39 us per packet for CELT, SILK and hybrid; 143 us for 60 ms SILK stereo. That is 420x to 1780x real time.
+  - xapu data command: 41 us mean for hybrid stereo, of which 39 us is the decode.
+  - At console maximum concurrency the load nears one core: 512 stereo XMA contexts take about 70%; 500 Opus hybrid streams take about 97%.
 - **Missing:**
   - SHAPE EQ, FILTVOL and PCM contexts: layouts unknown, and no title on disk drives them.
   - SRC paired with PCM contexts.
@@ -80,7 +82,8 @@ Last update: 2026-11-21 (run 33: backdrop diag, 45 FPS lobby).
 - **Recording caveats:**
   - EQ/FILTVOL arrays are not captured.
   - A title write that lands while a SHAPE op is running can be missed.
-- **Open:** the XDefiant replay of a harness recording shows 1805 SRC_BLOCKED messages that the recorded run did not have. Being checked by the XAudio2/acphal agent.
+  - Recording costs about 8 us per op. The Fortnite harness takes 1.5-2.1 s with recording, against 0.6 s without.
+  - Fixed: the XDefiant replay mismatch. The packet cache was not cleared when APU memory was freed. Same-build record and replay now match for all three titles.
 
 ### 🟨 System functions: 33 of 671 unfinished
 - **xmem:** XMemTransferMemory, XMemFreePhysicalPages.
@@ -184,11 +187,22 @@ elease`, the log shows one install and every interface is emulated.
   - `xg_x` is now the real GCN XG model. Tile modes, depth/stencil validation and texture layouts are byte-identical to the console `xg_x.dll` on about 1700 random cases. Before this, texture sizes came out as 0.
 - **Missing:**
   - After `XGCreateTexture2DComputer` (2048x2048 fmt 65 mode 13), the log has no `PresentX`.
-  - The cause is unknown. Frame events are not it: `SetFrameIntervalX` / `ScheduleFrameEventX` (types 0 and 2) arrive and the frame clock runs. It may be a fence wait (DMA/copy queue), or the upload path for Xbox One placed textures (`upload.rs` uses `xg_xs`, which Terraria does not load).
+  - Found 11-21: the cause is texture GPU VA = 0 (see below). Frame events are not it: `SetFrameIntervalX` / `ScheduleFrameEventX` (types 0 and 2) arrive and the frame clock runs. It may be a fence wait (DMA/copy queue), or the upload path for Xbox One placed textures (`upload.rs` uses `xg_xs`, which Terraria does not load).
   - One run in two crashed after 6 s: an AV in ntdll on a networking/PlayFab Party thread, after a C++ exception.
   - 11-21 GDK sweep (40 s, one DLL set from target-gdk, d3d12_xs from target-xone): no E_NOTIMPL or unhandled GDK calls. Title view: Series X (device type 7), 7 cores, mask 0x7f. Still no `PresentX` in 40 s.
   - 11-21 thread dump at 30 s (`MDBG_HANGDUMP=30`): no title thread is blocked in a GDK call. The only GDK frame is Terraria's XTaskQueue dispatcher thread idling in `XTaskQueueDispatch` (manual queue, timed wait), which is normal. No XGameUi calls. The last GDK call is at about +17 s, the gamepad is never polled, and XGameSave is not initialized yet.
-  - The IL2CPP game-logic thread waits in the kernel, called from `GameAssembly.dll +0x17f8ce`. Callers: +0x155b9a, +0x1b3dfc6, +0x1c70da, +0x1b3d409, +0x1361954, +0x135e60b, +0x1beaf5e, +0x1923c6, +0x168691. Unity threads wait at `Terraria.exe +0x55e2cf / +0x522eb5`. Next: name those GameAssembly frames from the IL2CPP metadata.
+  - The IL2CPP game-logic thread waits in the kernel, called from `GameAssembly.dll +0x17f8ce`. Callers: +0x155b9a, +0x1b3dfc6, +0x1c70da, +0x1b3d409, +0x1361954, +0x135e60b, +0x1beaf5e, +0x1923c6, +0x168691. Unity threads wait at `Terraria.exe +0x55e2cf / +0x522eb5`. (That thread turned out to be the `CacheFileManager::FileUpload` worker, not the main thread.)
+  - **Cause of the first-frame hang (found 11-21, the fix belongs to the Xbox One D3D layer, `d3d12_xs/src/gpu_va.rs`):**
+    - A proper unwind of the main thread shows the C# path `XNAUnityRunner::Start` → `Main::Initialize` → `ClientInitialize` → `LoadSettings` → `GUIMap::set_ActiveFrameStyle` → `GUIMap::LoadContent` → `ContentManager::LoadTexture2D` → `Texture2D::get_UnityTexture` → `TextureAtlasDB::AltlasTexture`. Unity then waits forever in `Terraria.exe +0x4873c0` (the sync wait for an async texture upload): `WaitOnAddress` loop until `texture+0xe9` is set.
+    - `+0x442a60` starts that upload. It asks the texture-memory object (`[+0x1892a88]`, vtable slot 0x598 = `+0x7f6b30`) for a CPU pointer to the texture's memory. That calls `ID3D12Resource::GetGPUVirtualAddress` (vtable slot 11) and uses the result as a CPU address, because on the console the GPU VA and the CPU VA are the same unified memory.
+    - Our `get_gpu_va_x` returns 0 for committed textures unless `TOMBOX_TEXTURE_VA=1`. With 0, Unity takes the error branch at `+0x442bbe`, the "async texture load: ... (unable to get texture memory)" path. That message never appears in our logs. Unity drops the request there and never sets the completion flag. Live memory at 30 s matches: texture `e8=1 e9=0`, AsyncUploadManager idle (32 free slots, nothing pending), render thread and AsyncRead thread idle.
+    - Check: the same run with `TOMBOX_TEXTURE_VA=1` gets past the hang (CopyTextureRegionX, PSO creation, shader_xlat). It then dies at 8.5 s. Two upload-heap buffers fail `CreateCommittedResource` (E_INVALIDARG; heap type 2, state 0x8c3, flags 0x8 deny-SRV, 256x1 and 52x1), and two VS shaders fail with "inflated N bytes but magic=[1,0,0,0]". Unity then logs "D3D12: Removing Device" and an AV follows at `EXE+0x7e7048`.
+    - Needed: texture VA on by default, with CPU-visible memory per texture that is synced into the real texture before the GPU uses it.
+      - Unity writes the texels there in the tiled layout that `xg_x` reported for the texture (mode 13), so the sync must detile with that layout. It cannot copy the bytes as linear.
+      - Today `back_committed_texture` memory never reaches the real texture.
+    - Needed: translate upload-heap creation in `CreateCommittedResource`. On PC an upload heap (type 2) must start in `GENERIC_READ` (0xAC3); Terraria passes 0x8c3, which has no `COPY_SOURCE`. `DENY_SHADER_RESOURCE` (0x8) is only valid together with `ALLOW_DEPTH_STENCIL`.
+    - Needed: handle that shader container form.
+    - No GDK call is involved.
   - Online: `[online] unhandled POST /MultiplayerServer/ListPartyQosServers` (PlayFab Party QoS, `40467.playfabapi.com`). The run also fell back to the Fortnite service module, because Terraria had no title module.
     - Now on disk (`online/playfab`, not yet tried in a run): a Terraria/PlayFab module picked by `Terraria.exe`, and `*.playfabapi.com` is routed for every title.
     - It covers every PlayFab route found in `PartyWin.dll`, `PartyXboxLive.dll` and `PlayFabMultiplayerGDK.dll`: LoginWithXbox, ListPartyQosServers, GetCognitiveServicesToken, Party/RequestParty, Event/WriteEvents and WriteTelemetryEvents, Profile/GetTitlePlayersFromXboxLiveIDs, and all 20 Lobby/Match routes. It also covers the common Client/Authentication/Profile calls.
