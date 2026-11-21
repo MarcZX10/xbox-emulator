@@ -1606,21 +1606,19 @@
 <rect x="875.00" y="880.00" width="125.00" height="60.00" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="880.00" y="896.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Amplification</text>
 </g>
-<text x="4.00" y="971.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Xbox console libraries: 89.77% (1922/2141)</text>
+<text x="4.00" y="971.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Xbox console libraries: 92.62% (1983/2141)</text>
 <rect x="4" y="982" width="10" height="10" fill="#2ea043"/>
 <text x="18.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">implemented</text>
 <rect x="109" y="982" width="10" height="10" fill="#388bfd"/>
 <text x="123.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">forwarded</text>
 <rect x="200" y="982" width="10" height="10" fill="#a371f7"/>
 <text x="214.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">hooked</text>
-<rect x="270" y="982" width="10" height="10" fill="#2f8f83"/>
-<text x="284.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">pc</text>
-<rect x="312" y="982" width="10" height="10" fill="#d29922"/>
-<text x="326.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">stub</text>
-<rect x="368" y="982" width="10" height="10" fill="#6e7681"/>
-<text x="382.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">missing</text>
-<rect x="445" y="982" width="10" height="10" fill="#afb3b9"/>
-<text x="459.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">lighter = imported by an analysed title</text>
+<rect x="270" y="982" width="10" height="10" fill="#d29922"/>
+<text x="284.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">stub</text>
+<rect x="326" y="982" width="10" height="10" fill="#6e7681"/>
+<text x="340.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">missing</text>
+<rect x="403" y="982" width="10" height="10" fill="#afb3b9"/>
+<text x="417.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">lighter = imported by an analysed title</text>
 <g><title>kernel32legacy.dll: 303/303 covered; Fortnite imports 2, Terraria imports 4, Trackmania imports 6, XDefiant imports 5</title>
 <rect x="1.00" y="999.00" width="40.03" height="19.98" fill="#2ea043"/>
 <rect x="41.03" y="999.00" width="100.07" height="19.98" fill="#91bffd"/>
@@ -1752,18 +1750,19 @@
 <rect x="302.20" y="998.00" width="269.01" height="207.83" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="307.20" y="1014.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">xbtp</text>
 </g>
-<g><title>minuserx.dll: 21/74 covered; Fortnite imports 9, Terraria imports 12, Trackmania imports 13, XDefiant imports 10</title>
-<rect x="572.20" y="999.00" width="147.67" height="20.58" fill="#8cc1ba"/>
-<rect x="572.20" y="1019.58" width="147.67" height="20.58" fill="#8cc1ba"/>
-<rect x="572.20" y="1040.17" width="92.30" height="20.58" fill="#8cc1ba"/>
-<rect x="664.50" y="1040.17" width="55.38" height="20.58" fill="#6e7681"/>
-<rect x="572.20" y="1060.75" width="147.67" height="20.58" fill="#6e7681"/>
-<rect x="572.20" y="1081.33" width="147.67" height="20.58" fill="#6e7681"/>
-<rect x="572.20" y="1101.92" width="147.67" height="20.58" fill="#6e7681"/>
-<rect x="572.20" y="1122.50" width="147.67" height="20.58" fill="#6e7681"/>
-<rect x="572.20" y="1143.08" width="147.67" height="20.58" fill="#6e7681"/>
-<rect x="572.20" y="1163.67" width="147.67" height="20.58" fill="#6e7681"/>
-<rect x="572.20" y="1184.25" width="36.92" height="20.58" fill="#6e7681"/>
+<g><title>minuserx.dll: 74/74 covered; Fortnite imports 9, Terraria imports 12, Trackmania imports 13, XDefiant imports 10</title>
+<rect x="572.20" y="999.00" width="147.67" height="20.58" fill="#2ea043"/>
+<rect x="572.20" y="1019.58" width="147.67" height="20.58" fill="#2ea043"/>
+<rect x="572.20" y="1040.17" width="110.76" height="20.58" fill="#2ea043"/>
+<rect x="682.96" y="1040.17" width="36.92" height="20.58" fill="#91bffd"/>
+<rect x="572.20" y="1060.75" width="147.67" height="20.58" fill="#91bffd"/>
+<rect x="572.20" y="1081.33" width="147.67" height="20.58" fill="#91bffd"/>
+<rect x="572.20" y="1101.92" width="55.38" height="20.58" fill="#91bffd"/>
+<rect x="627.58" y="1101.92" width="92.30" height="20.58" fill="#388bfd"/>
+<rect x="572.20" y="1122.50" width="147.67" height="20.58" fill="#388bfd"/>
+<rect x="572.20" y="1143.08" width="147.67" height="20.58" fill="#388bfd"/>
+<rect x="572.20" y="1163.67" width="147.67" height="20.58" fill="#388bfd"/>
+<rect x="572.20" y="1184.25" width="36.92" height="20.58" fill="#388bfd"/>
 <line x1="572.20" y1="1019.58" x2="719.88" y2="1019.58" stroke="#0d1117" stroke-width="0.5"/>
 <line x1="572.20" y1="1040.17" x2="719.88" y2="1040.17" stroke="#0d1117" stroke-width="0.5"/>
 <line x1="572.20" y1="1060.75" x2="719.88" y2="1060.75" stroke="#0d1117" stroke-width="0.5"/>
@@ -1869,7 +1868,7 @@
 <rect x="302.20" y="1393.75" width="134.22" height="172.26" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="307.20" y="1409.75" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">d3d12_xs</text>
 </g>
-<g><title>d3d12_x.dll: 51/54 covered; Terraria imports 4, Trackmania imports 5</title>
+<g><title>d3d12_x.dll: 54/54 covered; Terraria imports 4, Trackmania imports 5</title>
 <rect x="303.20" y="1567.01" width="37.78" height="20.89" fill="#8cca97"/>
 <rect x="340.97" y="1567.01" width="94.44" height="20.89" fill="#2ea043"/>
 <rect x="303.20" y="1587.90" width="132.22" height="20.89" fill="#2ea043"/>
@@ -1877,11 +1876,10 @@
 <rect x="303.20" y="1629.68" width="132.22" height="20.89" fill="#2ea043"/>
 <rect x="303.20" y="1650.57" width="132.22" height="20.89" fill="#2ea043"/>
 <rect x="303.20" y="1671.46" width="132.22" height="20.89" fill="#2ea043"/>
-<rect x="303.20" y="1692.35" width="18.89" height="20.89" fill="#2ea043"/>
-<rect x="322.08" y="1692.35" width="75.55" height="20.89" fill="#91bffd"/>
-<rect x="397.64" y="1692.35" width="37.78" height="20.89" fill="#388bfd"/>
-<rect x="303.20" y="1713.25" width="37.78" height="20.89" fill="#388bfd"/>
-<rect x="340.97" y="1713.25" width="56.66" height="20.89" fill="#d29922"/>
+<rect x="303.20" y="1692.35" width="75.55" height="20.89" fill="#2ea043"/>
+<rect x="378.75" y="1692.35" width="56.66" height="20.89" fill="#91bffd"/>
+<rect x="303.20" y="1713.25" width="18.89" height="20.89" fill="#91bffd"/>
+<rect x="322.08" y="1713.25" width="75.55" height="20.89" fill="#388bfd"/>
 <line x1="303.20" y1="1587.90" x2="435.41" y2="1587.90" stroke="#0d1117" stroke-width="0.5"/>
 <line x1="303.20" y1="1608.79" x2="435.41" y2="1608.79" stroke="#0d1117" stroke-width="0.5"/>
 <line x1="303.20" y1="1629.68" x2="435.41" y2="1629.68" stroke="#0d1117" stroke-width="0.5"/>
@@ -1914,7 +1912,8 @@
 <g><title>xbsc_xs.dll: 41/41 covered; not imported by an analysed title</title>
 <rect x="437.41" y="1206.83" width="150.02" height="18.56" fill="#2ea043"/>
 <rect x="437.41" y="1225.39" width="150.02" height="18.56" fill="#2ea043"/>
-<rect x="437.41" y="1243.96" width="150.02" height="18.56" fill="#388bfd"/>
+<rect x="437.41" y="1243.96" width="18.75" height="18.56" fill="#2ea043"/>
+<rect x="456.16" y="1243.96" width="131.27" height="18.56" fill="#388bfd"/>
 <rect x="437.41" y="1262.52" width="150.02" height="18.56" fill="#388bfd"/>
 <rect x="437.41" y="1281.08" width="150.02" height="18.56" fill="#388bfd"/>
 <rect x="437.41" y="1299.64" width="18.75" height="18.56" fill="#388bfd"/>
@@ -2003,13 +2002,13 @@
 <rect x="558.27" y="1319.20" width="121.86" height="110.39" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="563.27" y="1335.20" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">symsrv</text>
 </g>
-<g><title>wdbase.dll: 27/29 covered; not imported by an analysed title</title>
+<g><title>wdbase.dll: 28/29 covered; not imported by an analysed title</title>
 <rect x="681.13" y="1320.20" width="108.43" height="21.68" fill="#2ea043"/>
 <rect x="681.13" y="1341.88" width="108.43" height="21.68" fill="#2ea043"/>
 <rect x="681.13" y="1363.56" width="108.43" height="21.68" fill="#2ea043"/>
 <rect x="681.13" y="1385.24" width="108.43" height="21.68" fill="#2ea043"/>
-<rect x="681.13" y="1406.91" width="54.22" height="21.68" fill="#2ea043"/>
-<rect x="735.34" y="1406.91" width="36.14" height="21.68" fill="#6e7681"/>
+<rect x="681.13" y="1406.91" width="72.29" height="21.68" fill="#2ea043"/>
+<rect x="753.41" y="1406.91" width="18.07" height="21.68" fill="#6e7681"/>
 <line x1="681.13" y1="1341.88" x2="789.56" y2="1341.88" stroke="#0d1117" stroke-width="0.5"/>
 <line x1="681.13" y1="1363.56" x2="789.56" y2="1363.56" stroke="#0d1117" stroke-width="0.5"/>
 <line x1="681.13" y1="1385.24" x2="789.56" y2="1385.24" stroke="#0d1117" stroke-width="0.5"/>
@@ -2549,15 +2548,16 @@
 <rect x="869.19" y="1705.19" width="32.70" height="38.56" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="874.19" y="1721.19" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">net</text>
 </g>
-<g><title>pixrt.dll: 0/3 covered; not imported by an analysed title</title>
-<rect x="902.89" y="1706.19" width="30.70" height="18.28" fill="#6e7681"/>
-<rect x="902.89" y="1724.47" width="15.35" height="18.28" fill="#6e7681"/>
+<g><title>pixrt.dll: 3/3 covered; not imported by an analysed title</title>
+<rect x="902.89" y="1706.19" width="30.70" height="18.28" fill="#2ea043"/>
+<rect x="902.89" y="1724.47" width="15.35" height="18.28" fill="#2ea043"/>
 <line x1="902.89" y1="1724.47" x2="933.59" y2="1724.47" stroke="#0d1117" stroke-width="0.5"/>
 <rect x="901.89" y="1705.19" width="32.70" height="38.56" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="906.89" y="1721.19" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">pix</text>
 </g>
-<g><title>pixrt10.dll: 0/3 covered; not imported by an analysed title</title>
-<rect x="935.59" y="1706.19" width="30.70" height="18.28" fill="#6e7681"/>
+<g><title>pixrt10.dll: 1/3 covered; not imported by an analysed title</title>
+<rect x="935.59" y="1706.19" width="15.35" height="18.28" fill="#2ea043"/>
+<rect x="950.94" y="1706.19" width="15.35" height="18.28" fill="#6e7681"/>
 <rect x="935.59" y="1724.47" width="15.35" height="18.28" fill="#6e7681"/>
 <line x1="935.59" y1="1724.47" x2="966.30" y2="1724.47" stroke="#0d1117" stroke-width="0.5"/>
 <rect x="934.59" y="1705.19" width="32.70" height="38.56" fill="none" stroke="#0d1117" stroke-width="2"/>

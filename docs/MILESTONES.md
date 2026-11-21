@@ -11,7 +11,7 @@
 | All RDNA2 instructions verified | 545/549 | open |
 | All shader stages translated | 6/8 | open |
 | Full title shader sweep translated | 105506/105506 | reached |
-| All Xbox console libraries covered | 1922/2141 | open |
+| All Xbox console libraries covered | 1983/2141 | open |
 
 ## Running titles (Fortnite)
 
