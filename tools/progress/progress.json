@@ -20,7 +20,15 @@
     "D3D12XboxSetProcessDebugFlags": "done"
   },
   "ordinal_evidence": {
-    "GameInput.dll": {"#1": "console GameInput.dll ordinal 1 = GameInputCreate on 19041.3948 / 22000.4429 / 22621.1852 (pefile)"}
+    "GameInput.dll": {"#1": "console GameInput.dll ordinal 1 = GameInputCreate on 19041.3948 / 22000.4429 / 22621.1852 (pefile)"},
+    "XAudio2_9.dll": {
+      "#1": "XAudio2Create: console XAudio2_9.dll export ordinal 1 on 10.0.19041.3948 (Fortnite EmbeddedXvd, rva 0x3d50, shared with #8 XAudio2CreateV2_9) and 10.0.22000.4429 (XDefiant EmbeddedXvd, rva 0x3d80) (pefile); imported by ordinal by FortniteClient-XSX-Shipping.exe (IAT 0x146155a40), EOSSDK-XboxOneGDK-Shipping.dll (0x180c36880), GbxGame.exe (Trackmania, 0x141ad6780), Terraria.exe (0x141459458), bink2scarlett.dll (XDefiant, 0x18002b030); crates/compat/xaudio2_9 exports XAudio2Create at #1 (build.rs .def, checked by tests/oracle.rs and tests/cdylib.rs) with console flag/processor handling",
+      "#2": "CreateAudioReverb: console ordinal 2 on 19041.3948 (rva 0x3efc0) and 22000.4429 (rva 0x414d0); imported by Fortnite (IAT 0x146155a28) and Trackmania GbxGame.exe (0x141ad6768); compat DLL #2 forwards to the host System32 CreateAudioReverb (same shared XAudio2 codebase, no Xbox-only arguments)",
+      "#4": "CreateFX: console ordinal 4 on 19041.3948 (rva 0x63b50) and 22000.4429 (rva 0x66220); imported by Fortnite only (IAT 0x146155a38); compat DLL #4 forwards to the host CreateFX and logs the console-only GCXAudioExt loudness-meter CLSID when the host refuses it",
+      "#5": "X3DAudioCalculate: console ordinal 5 on 19041.3948 (rva 0x3e920) and 22000.4429 (rva 0x40e60); imported by Fortnite (IAT 0x146155a48) and Trackmania (0x141ad6778); compat DLL #5 forwards to host X3DAudioCalculate; tests/oracle.rs runs console and compat X3DAudio side by side on packed structs and compares outputs",
+      "#6": "X3DAudioInitialize: console ordinal 6 on 19041.3948 (rva 0x3d310) and 22000.4429 (rva 0x3f880); imported by Fortnite (IAT 0x146155a30) and Trackmania (0x141ad6770); compat DLL #6 forwards to host X3DAudioInitialize (instance layout identical, verified in tests/oracle.rs)",
+      "map": "console = PC = compat: 1 XAudio2Create, 2 CreateAudioReverb, 3 CreateAudioVolumeMeter, 4 CreateFX, 5 X3DAudioCalculate, 6 X3DAudioInitialize, 7 CreateAudioReverbV2_8, 8 XAudio2CreateV2_9, 9 XAudio2CreateWithVersionInfo, 10 XAudio2CreateWithSharedContexts (host 10.0.26100.9818 has the same ordinals); no title imports #3 or #7-#10"
+    }
   },
   "d3d12x": {
     "Device": {"total": 160, "done": "0-44,48,52,55-57,60-62,66,67,73,78-81,87", "partial": "45-47,49-51,53,54,58,59,63-65,68-72,74-77,82-86,88-90"},
@@ -131,6 +139,7 @@
   },
   "notes": {
     "ApuFree": "no-op free (bump allocator)",
+    "XAudio2Create": "Fortnite passes XAUDIO2_DO_NOT_USE_SHAPE (0x400) at all three XAudio2Create call sites (processors 8, 8, 0); its mixer submits float PCM source voices (pBufferWMA NULL), the legacy path PCM/xWMA only, and XMA is decoded through FXMAAudioInfo on AcpHal SHAPE, so Fortnite never creates an XMA2 XAudio2 voice and audible Fortnite audio depends on the AcpHal SHAPE path. With 0x400 the console engine is the shared XAudio2 codebase, so crates/compat/xaudio2_9 returns the System32 host engine unwrapped (processor 0 -> console default 0x20, CoIncrementMTAUsage for the console's implicit MTA); without 0x400 it wraps the engine and decodes XMA2 source voices in software via the xma crate with console sample numbering (GCXAudioExt 0xa380/0xa610: sample S = frame S/512, subframe (S%512)/128; no first-frame or 64-sample drop). Tests: crates/compat/xaudio2_9/tests (exports vs console ordinals, X3DAudio vs console DLL, XMA voice into a muted master, real XDefiant XMA2 assets).",
     "AcpHalCreate": "returns an inert IAcpHal (no SHAPE DSP)",
     "AcpHalAllocateShapeContexts": "inert",
     "D3D12XboxSetProcessDebugFlags": "console d3d12_xs semantics: stores flags & 0x81f00001, returns S_OK; D3D12XboxGetProcessDebugFlags returns it; D3D12XboxCreateDevice overwrites it with D3D12XBOX_CREATE_DEVICE_PARAMETERS+4 (unmasked) and picks the console UMD from it (bit0 without bit31 = xgs12_d debug, bit20 = xgs12_i instrumented, else xgs12). The debug UMD maps to the PC D3D12 debug layer (enabled once, before the first device); the instrumented UMD has no PC counterpart. Tests: d3d12_xs process_debug unit tests + tests/process_debug_on.rs / process_debug_off.rs (debug-layer activation itself unproven on a PC without d3d12SDKLayers.dll). In-game: Fortnite calls it before D3D12XboxCreateDevice (run 23 tombox_compat.log:48).",

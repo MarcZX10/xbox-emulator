@@ -24,7 +24,7 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 
 | Metric | Done | Total | % |
 |---|---|---|---|
-| system_functions | 640 | 671 | 95.38 |
+| system_functions | 658 | 671 | 98.06 |
 | d3d12x_methods | 113 | 288 | 39.24 |
 | rdna2_instructions | 272 | 494 | 55.06 |
 | shaders_translated | 105506 | 105506 | 100.0 |
@@ -624,7 +624,7 @@ The console-library total above (1901 exports in 89 libraries) keeps every conso
 | File | Used for | Present |
 |---|---|---|
 | `chatprobe.json` | Fortnite GameChat2.dll / CONCRT140.dll leave the unverified lists; GameChat2 delay import in system functions | yes |
-| `media.json` | MFPlat.DLL x16 and MFReadWrite.dll x2 in system functions | no |
+| `media.json` | MFPlat.DLL x16 and MFReadWrite.dll x2 in system functions | yes |
 | `gameinput_ext.json` | GameInput.dll imports outside the EXE (TerrariaNative.dll) | no |
 | `oshost.json` | PC-twin rows become `hooked` instead of `pc` | yes |
 
@@ -3600,6 +3600,7 @@ No PC DLL is named minuserx.dll; its PC twin is user32.dll. Exports an analysed 
 - Fortnite: GameChat2.dll loads and resolves (chatprobe evidence, `tools/progress/data/evidence/chatprobe.json`).
 - Fortnite: CONCRT140.dll loads and resolves (chatprobe evidence).
 - GameInput.dll ordinal imports: #1: console GameInput.dll ordinal 1 = GameInputCreate on 19041.3948 / 22000.4429 / 22621.1852 (pefile).
+- XAudio2_9.dll ordinal imports: #1: XAudio2Create: console XAudio2_9.dll export ordinal 1 on 10.0.19041.3948 (Fortnite EmbeddedXvd, rva 0x3d50, shared with #8 XAudio2CreateV2_9) and 10.0.22000.4429 (XDefiant EmbeddedXvd, rva 0x3d80) (pefile); imported by ordinal by FortniteClient-XSX-Shipping.exe (IAT 0x146155a40), EOSSDK-XboxOneGDK-Shipping.dll (0x180c36880), GbxGame.exe (Trackmania, 0x141ad6780), Terraria.exe (0x141459458), bink2scarlett.dll (XDefiant, 0x18002b030); crates/compat/xaudio2_9 exports XAudio2Create at #1 (build.rs .def, checked by tests/oracle.rs and tests/cdylib.rs) with console flag/processor handling; #2: CreateAudioReverb: console ordinal 2 on 19041.3948 (rva 0x3efc0) and 22000.4429 (rva 0x414d0); imported by Fortnite (IAT 0x146155a28) and Trackmania GbxGame.exe (0x141ad6768); compat DLL #2 forwards to the host System32 CreateAudioReverb (same shared XAudio2 codebase, no Xbox-only arguments); #4: CreateFX: console ordinal 4 on 19041.3948 (rva 0x63b50) and 22000.4429 (rva 0x66220); imported by Fortnite only (IAT 0x146155a38); compat DLL #4 forwards to the host CreateFX and logs the console-only GCXAudioExt loudness-meter CLSID when the host refuses it; #5: X3DAudioCalculate: console ordinal 5 on 19041.3948 (rva 0x3e920) and 22000.4429 (rva 0x40e60); imported by Fortnite (IAT 0x146155a48) and Trackmania (0x141ad6778); compat DLL #5 forwards to host X3DAudioCalculate; tests/oracle.rs runs console and compat X3DAudio side by side on packed structs and compares outputs; #6: X3DAudioInitialize: console ordinal 6 on 19041.3948 (rva 0x3d310) and 22000.4429 (rva 0x3f880); imported by Fortnite (IAT 0x146155a30) and Trackmania (0x141ad6770); compat DLL #6 forwards to host X3DAudioInitialize (instance layout identical, verified in tests/oracle.rs); map: console = PC = compat: 1 XAudio2Create, 2 CreateAudioReverb, 3 CreateAudioVolumeMeter, 4 CreateFX, 5 X3DAudioCalculate, 6 X3DAudioInitialize, 7 CreateAudioReverbV2_8, 8 XAudio2CreateV2_9, 9 XAudio2CreateWithVersionInfo, 10 XAudio2CreateWithSharedContexts (host 10.0.26100.9818 has the same ordinals); no title imports #3 or #7-#10.
 - XAudio2_9 ordinal imports are treated as PC-provided because the PC DLL exports those ordinals; that the console DLL uses the same ordinals was not checked here. XAudio2 starts streaming in the Fortnite log, but there is no audio.
 - PC-twin rows (minuserx -> user32, kernel32legacy -> kernel32 / kernelbase, advapi32legacy -> advapi32, minappmodelx -> twinapi.appcore / kernel.appcore) are export-name matches on the twin only; the console DLLs' own behaviour is not reproduced.
 - PC-provided is an export-name match (ordinal match for ordinal-only exports) against this PC's System32; behaviour differences between console and PC system DLLs are not measured, and such exports are outside this map.

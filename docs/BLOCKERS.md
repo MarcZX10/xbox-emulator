@@ -28,6 +28,17 @@ Last update: 2026-11-21 (run 33: backdrop diag, 45 FPS lobby).
   - **Result:** branches 47,923 to 6,668, phi 40,658 to 20,302, DXIL 460,604 to 400,850 instructions, no new compile failures. The top pixel shader went from 7.0x to 5.0x the ISA, with 3,908 branches down to 224.
   - **Still to do:** GPU ms per pass in a live run (`TOMBOX_GPUPROF=1`, A/B with `TOMBOX_XLAT_GUARD_BRANCH=1`).
   - **Not used:** no 16-bit packed math (`v_pk_*`) appears in these shaders, so there is no 16-bit gap to recover. SampleGrad appears in only 1 shader (in-loop implicit samples).
+- **GPU hitches are waits, not shader cost:**
+  - **Run 40:** 145 HITCHHUNTER GPU hitches, 70-1,250 ms each, about 2 per second through the lobby. Many are on frames of only 30-50 draws.
+  - **Run 35 was worse:** up to 10.5 s on frames of 39-52 draws.
+  - **Likely cause:** that much GPU time on so few draws means the timed interval includes idle or wait time (cross-queue fence waits, late submits) or a timestamp problem.
+  - **Next:** run with `TOMBOX_GPUPROF=1`. It reports summed per-draw GPU ms next to the wall span; a large gap between them confirms waits.
+- **Anaconda (XSX_Anaconda profile) black scene, offline checks:**
+  - 62 shaders appear only in Anaconda runs (37-39). All translate and compile.
+  - No PSO failures (pso_fail=0, untranslatable=0).
+  - None of the new compute shaders uses LDS or 16-bit packed math.
+  - So it is not a translation failure. It needs an RT capture.
+  - Occlusion results: about 97% are zero in runs 39 and 40, against 17% in run 35. The early proxy-box diagnostics are identical, so this may reflect the scene rather than a query bug.
 - **After that:** the older build drew the backdrop black (PS `31dd3b33133e9ca3`). Its material constant buffers (cb1/cb2) are bound as root CBVs, and the trace does not capture those yet.
 
 ### 🟨 Flashing rectangle (bloom inf) - FIXED
@@ -40,8 +51,25 @@ Last update: 2026-11-21 (run 33: backdrop diag, 45 FPS lobby).
   - Run 35 captures 10/11/12: inf=0 in every target, the 3200x1800 history peaks at 0.43, and the 1600x900 first stage peaks at 488-536 (was 1000+).
 
 ### 🟨 Audio
-- **Missing:** XMA2 and Opus decoders (being ported from FFmpeg/libopus sources), and the console-name `XAudio2_9.dll` with XMA source voices.
-- **Status:** AcpHal, SHAPE, xapu and chad emulation are in progress.
+- **Done:**
+  - The XMA2 decoder (crate `xma`, ported from FFmpeg wmaprodec) is within 1 LSB of ffmpeg. Hardware mode keeps frame 0, so output is 512 × frames.
+  - The Opus decoder (crate `opusdec`, ported from libopus) is within 1 LSB in all modes.
+  - AcpHal, SHAPE, xapu and chad run on the CPU.
+  - Record/replay: `TOMBOX_AUDIO_RECORD=1` writes `%LOCALAPPDATA%\TomBox\audio-rec\*.tbrec`, or the folder in `TOMBOX_AUDIO_RECORD_DIR`. `target-audio\release\audio-replay.exe <file>` writes WAVs plus a stall report.
+- **Decoder cost (release build, one stream):**
+  - XMA2: 8-15 us per 512-sample frame, 945x real time. It was 299x before this round of optimisation.
+  - Opus: 6-39 us per packet for CELT, SILK and hybrid; 143 us for 60 ms SILK stereo. That is 420x to 1780x real time.
+- **Missing:**
+  - SHAPE EQ, FILTVOL and PCM contexts: layouts unknown, and no title on disk drives them.
+  - SRC paired with PCM contexts.
+  - XMA loops are packet-granular, not sample-granular.
+  - xapu codecs 1/3 and chad kinds 2/3 return E_NOTIMPL, because no title issues them.
+  - SHAPE command types outside the known set return E_NOTIMPL.
+  - Some xapu result fields are guessed: +0x1C, +0x1E, +0x22.
+- **Recording caveats:**
+  - EQ/FILTVOL arrays are not captured.
+  - A title write that lands while a SHAPE op is running can be missed.
+- **Open:** the XDefiant replay of a harness recording shows 1805 SRC_BLOCKED messages that the recorded run did not have. Being checked by the XAudio2/acphal agent.
 
 ### 🟨 System functions: 33 of 671 unfinished
 - **xmem:** XMemTransferMemory, XMemFreePhysicalPages.
@@ -190,6 +218,22 @@ elease`, the log shows one install and every interface is emulated.
   - Done: Ubi session through the XDefiant module; Nadeo token exchange, refresh and nadeoservices; `/api/routes`; all 115 Core routes, stateful.
   - Missing: Live services (`live-services.trackmania.nadeo.live`) and Meet (`meet.trackmania.nadeo.club`) routes. These are logged as unhandled; the first run will list what the game calls.
   - Missing: real campaign, seasons and Track of the Day data. The game gets empty lists until the build's own map files are fed in.
+
+## XDefiant rendering and startup (parked 2026-11-21)
+- **Current state:** runs about 140 s at 60 fps. All graphics PSOs build, and command lists close cleanly after the aliasing-barrier fixes (`xone_barrier.rs`, `placed::is_committed_placement`). The presented frame is still all black. Captures at frames 1800 and 6900 show only compute dispatches and one ExecuteIndirect draw into a 960x540 target, and every target reads zero.
+- **Aliased-VA render targets:**
+  - The title creates pairs of `CreatePlacedResourceX` targets at the same Xbox VA (e.g. 0x3e2400000, 0x3e13f0000).
+  - On console they share memory. Here each one is a separate committed resource, so a write through one alias never appears in the other.
+  - Needs a real shared backing for same-VA placements: placed resources in one heap per VA range, or aliasing through a reserved resource.
+- **`rta.xboxlive.com` websocket:**
+  - The title retries `wss://rta.xboxlive.com/connect` every 10-25 s and never gets past startup.
+  - RTA (real-time activity) must be emulated in-process: a websocket upgrade plus the RTA subscribe protocol.
+  - Never make a real connection.
+- **Texture-pool crash at `Rogue_scarlett_rtx.exe+0x67a8f9`:**
+  - A NULL write about 140 s in (around frame 8400).
+  - `rbx=0x80070057` and a nearby string `pool/rgba_float16 120x68x64/268` suggest a resource or view creation for a 120x68x64 R16G16B16A16_FLOAT 3D texture returned E_INVALIDARG. The title does not handle the failure.
+  - `d3d12_xs` logged no failing call, so the failing method is an unlogged forwarder.
+  - Run log: the ISA agent's scratchpad `xdrun19`.
 
 ## XDefiant online gaps
 - Missing: catalog data (store items, seasons, battle pass). Nothing is loaded unless `xdefiant_catalog` or `<data_root>\xdefiant\catalog.json` exists; it must be built from the game's own files.

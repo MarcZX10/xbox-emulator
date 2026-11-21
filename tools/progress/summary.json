@@ -2,9 +2,9 @@
  "updated": "2026-11-21",
  "headline": {
   "system_functions": {
-   "done": 640,
+   "done": 658,
    "total": 671,
-   "pct": 95.38
+   "pct": 98.06
   },
   "d3d12x_methods": {
    "done": 113,
