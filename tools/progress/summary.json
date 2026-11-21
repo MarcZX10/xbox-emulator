@@ -2,19 +2,19 @@
  "updated": "2026-11-21",
  "headline": {
   "system_functions": {
-   "done": 669,
+   "done": 671,
    "total": 671,
-   "pct": 99.7
+   "pct": 100.0
   },
   "d3d12x_methods": {
-   "done": 141,
+   "done": 165,
    "total": 200,
-   "pct": 70.5
+   "pct": 82.5
   },
   "rdna2_instructions": {
-   "done": 506,
-   "total": 530,
-   "pct": 95.47
+   "done": 526,
+   "total": 549,
+   "pct": 95.81
   },
   "shaders_translated": {
    "done": 105506,
@@ -46,9 +46,9 @@
  },
  "extra": {
   "console_exports": {
-   "done": 493,
+   "done": 1291,
    "total": 2141,
-   "pct": 23.03
+   "pct": 60.3
   },
   "shader_compile_lobby_frame": {
    "done": 139,
@@ -71,9 +71,9 @@
    "pct": 58.33
   },
   "title_imports_Fortnite": {
-   "done": 28,
+   "done": 30,
    "total": 31,
-   "pct": 90.32
+   "pct": 96.77
   },
   "title_imports_XDefiant": {
    "done": 28,
@@ -81,46 +81,46 @@
    "pct": 96.55
   },
   "title_imports_Terraria": {
-   "done": 24,
+   "done": 25,
    "total": 25,
-   "pct": 96.0
+   "pct": 100.0
   },
   "title_imports_Trackmania": {
-   "done": 17,
+   "done": 18,
    "total": 18,
-   "pct": 94.44
+   "pct": 100.0
   },
   "console_exports_targeted": {
-   "done": 493,
-   "total": 1281,
-   "pct": 38.49
+   "done": 1291,
+   "total": 1626,
+   "pct": 79.4
   },
   "console_exports_not_targeted": {
    "done": null,
-   "total": 860,
+   "total": 515,
    "pct": null,
-   "libraries": 69
+   "libraries": 52
   }
  },
  "all_including_pc": {
   "note": "previous definition, kept for history: every export of every console OS DLL and every title import, PC-provided ones included",
   "console_exports": {
-   "done": 21362,
+   "done": 22160,
    "total": 23729,
-   "pct": 90.02
+   "pct": 93.39
   },
   "xbox_only_exports": {
-   "done": 489,
+   "done": 1265,
    "total": 2064,
-   "pct": 23.69
+   "pct": 61.29
   },
   "title_import_status": {
    "Fortnite": {
     "pc": 1136,
     "hooked": 36,
     "forwarded": 19,
-    "implemented": 24,
-    "stub": 3,
+    "implemented": 26,
+    "stub": 1,
     "title": 356
    },
    "XDefiant": {
@@ -136,22 +136,20 @@
     "title": 877,
     "forwarded": 9,
     "hooked": 74,
-    "implemented": 22,
-    "stub": 1
+    "implemented": 23
    },
    "Trackmania": {
     "title": 241,
     "pc": 1284,
     "hooked": 36,
     "forwarded": 5,
-    "implemented": 12,
-    "stub": 1
+    "implemented": 13
    }
   },
   "title_imports_Fortnite": {
-   "done": 1571,
+   "done": 1573,
    "total": 1574,
-   "pct": 99.81
+   "pct": 99.94
   },
   "title_imports_XDefiant": {
    "done": 1611,
@@ -159,20 +157,20 @@
    "pct": 99.94
   },
   "title_imports_Terraria": {
-   "done": 3495,
+   "done": 3496,
    "total": 3496,
-   "pct": 99.97
+   "pct": 100.0
   },
   "title_imports_Trackmania": {
-   "done": 1578,
+   "done": 1579,
    "total": 1579,
-   "pct": 99.94
+   "pct": 100.0
   }
  },
  "title_import_status": {
   "Fortnite": {
-   "implemented": 24,
-   "stub": 3,
+   "implemented": 26,
+   "stub": 1,
    "forwarded": 4
   },
   "XDefiant": {
@@ -181,14 +179,12 @@
    "forwarded": 1
   },
   "Terraria": {
-   "implemented": 22,
-   "stub": 1,
+   "implemented": 23,
    "forwarded": 2
   },
   "Trackmania": {
    "forwarded": 5,
-   "implemented": 12,
-   "stub": 1
+   "implemented": 13
   }
  },
  "console_os_builds": {

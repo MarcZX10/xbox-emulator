@@ -28,6 +28,9 @@
       "s_andn2_saveexec_b32",
       "s_andn2_saveexec_b64",
       "s_ashr_i64",
+      "s_atc_probe",
+      "s_atc_probe_buffer",
+      "s_barrier",
       "s_bcnt0_i32_b32",
       "s_bcnt0_i32_b64",
       "s_bcnt1_i32_b32",
@@ -41,7 +44,23 @@
       "s_bitset0_b64",
       "s_bitset1_b32",
       "s_bitset1_b64",
+      "s_branch",
       "s_brev_b64",
+      "s_buffer_load_dword",
+      "s_buffer_load_dwordx16",
+      "s_buffer_load_dwordx2",
+      "s_buffer_load_dwordx4",
+      "s_buffer_load_dwordx8",
+      "s_cbranch_cdbgsys",
+      "s_cbranch_cdbgsys_and_user",
+      "s_cbranch_cdbgsys_or_user",
+      "s_cbranch_cdbguser",
+      "s_cbranch_execnz",
+      "s_cbranch_execz",
+      "s_cbranch_scc0",
+      "s_cbranch_scc1",
+      "s_cbranch_vccnz",
+      "s_cbranch_vccz",
       "s_clause",
       "s_cmov_b32",
       "s_cmov_b64",
@@ -62,7 +81,12 @@
       "s_cmpk_lt_i32",
       "s_cmpk_lt_u32",
       "s_code_end",
+      "s_dcache_inv",
       "s_decperflevel",
+      "s_denorm_mode",
+      "s_endpgm",
+      "s_endpgm_ordered_ps_done",
+      "s_endpgm_saved",
       "s_ff0_i32_b32",
       "s_ff0_i32_b64",
       "s_ff1_i32_b32",
@@ -72,8 +96,15 @@
       "s_flbit_i32_b64",
       "s_flbit_i32_i64",
       "s_getreg_b32",
+      "s_gl1_inv",
       "s_icache_inv",
       "s_incperflevel",
+      "s_inst_prefetch",
+      "s_load_dword",
+      "s_load_dwordx16",
+      "s_load_dwordx2",
+      "s_load_dwordx4",
+      "s_load_dwordx8",
       "s_lshl1_add_u32",
       "s_lshl2_add_u32",
       "s_lshl3_add_u32",
@@ -81,6 +112,8 @@
       "s_lshr_b64",
       "s_max_i32",
       "s_max_u32",
+      "s_memrealtime",
+      "s_memtime",
       "s_min_i32",
       "s_min_u32",
       "s_mul_hi_i32",
@@ -88,6 +121,7 @@
       "s_mulk_i32",
       "s_nand_b32",
       "s_nand_b64",
+      "s_nop",
       "s_nor_b32",
       "s_nor_b64",
       "s_not_b32",
@@ -102,19 +136,29 @@
       "s_pack_hh_b32_b16",
       "s_pack_lh_b32_b16",
       "s_pack_ll_b32_b16",
+      "s_round_mode",
+      "s_sendmsg",
+      "s_sethalt",
+      "s_setkill",
       "s_setprio",
       "s_setreg_b32",
+      "s_setreg_imm32_b32",
       "s_sext_i32_i16",
       "s_sext_i32_i8",
       "s_sleep",
       "s_sub_i32",
       "s_sub_u32",
       "s_subb_u32",
+      "s_ttracedata",
+      "s_ttracedata_imm",
       "s_version",
+      "s_wait_idle",
+      "s_waitcnt",
       "s_waitcnt_depctr",
       "s_waitcnt_expcnt",
       "s_waitcnt_lgkmcnt",
       "s_waitcnt_vmcnt",
+      "s_waitcnt_vscnt",
       "s_wakeup",
       "s_wqm_b32",
       "s_xnor_b32",
@@ -247,25 +291,48 @@
     ]
   },
   "updated": "2026-11-21",
-  "upstream": {"repo": "drycheetah84/TomBox", "commit": "7e8064f"},
-  "milestones": {"done": 14, "total": 19},
-  "shaders": {"translated": 105506, "total": 105506},
+  "upstream": {
+    "repo": "drycheetah84/TomBox",
+    "commit": "7e8064f"
+  },
+  "milestones": {
+    "done": 14,
+    "total": 19
+  },
+  "shaders": {
+    "translated": 105506,
+    "total": 105506
+  },
   "shader_compile": {
-    "lobby_frame": {"done": 139, "total": 139, "source": "TomBox docs/DEVELOPMENT_LOG.md:894"},
-    "fixtures": {"done": 25, "total": 25, "source": "TomBox docs/DEVELOPMENT_LOG.md:672"},
-    "full_sweep": {"done": null, "total": 105506, "source": "TomBox docs/DEVELOPMENT_LOG.md:706 (in progress, no final count published)"}
+    "lobby_frame": {
+      "done": 139,
+      "total": 139,
+      "source": "TomBox docs/DEVELOPMENT_LOG.md:894"
+    },
+    "fixtures": {
+      "done": 25,
+      "total": 25,
+      "source": "TomBox docs/DEVELOPMENT_LOG.md:672"
+    },
+    "full_sweep": {
+      "done": null,
+      "total": 105506,
+      "source": "TomBox docs/DEVELOPMENT_LOG.md:706 (in progress, no final count published)"
+    }
   },
   "import_overrides": {
     "MFPlat.DLL": "partial",
     "MFReadWrite.dll": "partial",
     "GameInput.dll!#1": "done",
     "GameChat2.dll": "none",
-    "XMemFreePhysicalPages": "partial",
-    "XMemTransferMemory": "partial",
+    "XMemFreePhysicalPages": "done",
+    "XMemTransferMemory": "done",
     "D3D12XboxSetProcessDebugFlags": "done"
   },
   "ordinal_evidence": {
-    "GameInput.dll": {"#1": "console GameInput.dll ordinal 1 = GameInputCreate on 19041.3948 / 22000.4429 / 22621.1852 (pefile)"},
+    "GameInput.dll": {
+      "#1": "console GameInput.dll ordinal 1 = GameInputCreate on 19041.3948 / 22000.4429 / 22621.1852 (pefile)"
+    },
     "XAudio2_9.dll": {
       "#1": "XAudio2Create: console XAudio2_9.dll export ordinal 1 on 10.0.19041.3948 (Fortnite EmbeddedXvd, rva 0x3d50, shared with #8 XAudio2CreateV2_9) and 10.0.22000.4429 (XDefiant EmbeddedXvd, rva 0x3d80) (pefile); imported by ordinal by FortniteClient-XSX-Shipping.exe (IAT 0x146155a40), EOSSDK-XboxOneGDK-Shipping.dll (0x180c36880), GbxGame.exe (Trackmania, 0x141ad6780), Terraria.exe (0x141459458), bink2scarlett.dll (XDefiant, 0x18002b030); crates/compat/xaudio2_9 exports XAudio2Create at #1 (build.rs .def, checked by tests/oracle.rs and tests/cdylib.rs) with console flag/processor handling",
       "#2": "CreateAudioReverb: console ordinal 2 on 19041.3948 (rva 0x3efc0) and 22000.4429 (rva 0x414d0); imported by Fortnite (IAT 0x146155a28) and Trackmania GbxGame.exe (0x141ad6768); compat DLL #2 forwards to the host System32 CreateAudioReverb (same shared XAudio2 codebase, no Xbox-only arguments)",
@@ -278,122 +345,312 @@
   "d3d12x": {
     "Device": {
       "total": 90,
-      "done": "0-43,48,50,52-57,60-62,64-67,69,73,78-81,87,89",
-      "partial": "44-47,49,51,58,59,63,68,70-72,74-77,82-86,88",
-      "evidence": "Console UMD in the title EmbeddedXvd: xgs12_d.dll names slots via validation strings, xgs12.dll gives shipping bodies. Device vtable debug RVA 0x107880 / release 0x99090, 90 slots, 11 and 12 null. console_slots.rs ports release bodies: 53 S_OK, 54/65 void, 64 returns 0xFFFFFFFF, 69/89 E_NOTIMPL, 50 stores its 3 args per device. 56/66 return E_ACCESSDENIED (release body RVA 0x44950) and 87 returns E_NOTIMPL (shared stub RVA 0x16c0), as the shipping driver does (device_x.rs). 44 CreatePlacedResourceX (alias.rs) aliases title memory: a 64 KB-aligned buffer in committed title memory is placed on an ID3D12Device3::OpenExistingHeapFromAddress heap over its allocation (CPU and GPU share the bytes, Map returns the title VA), and textures and uncommitted ranges go in one GPU-local heap per VA range, so same-VA placements share heap and offset and aliasing barriers are real (tests alias::two_placements_at_one_va_share_title_memory, two_textures_at_one_va_share_gpu_local_heap). Partial: PC places buffers only at 64 KB heap offsets, so buffers at finer VAs (Fortnite sub-allocates at 8 KB) and MSAA textures still get a separate committed resource, with map_x as the CPU fallback."
+      "done": "0-43,45-67,69,73-75,78-81,87,89",
+      "partial": "44,68,70-72,76,77,82-86,88",
+      "evidence": "Console UMD in the title EmbeddedXvd: xgs12_d.dll names slots via validation strings, xgs12.dll gives shipping bodies. Device vtable debug RVA 0x107880 / release 0x99090, 90 slots, 11 and 12 null. console_slots.rs ports release bodies: 53 S_OK, 54/65 void, 64 returns 0xFFFFFFFF, 69/89 E_NOTIMPL, 50 stores its 3 args per device. 56/66 return E_ACCESSDENIED (release body RVA 0x44950) and 87 returns E_NOTIMPL (shared stub RVA 0x16c0), as the shipping driver does (device_x.rs). 74/75 RegisterPagePoolX/UnregisterPagePoolX: release wraps IOCTL 0x7900c23b ({va, pages, &index}; unregister sends va=0, pages=0 with the index) and returns S_OK or E_FAIL, E_INVALIDARG for a null va or zero pages; the emulator keeps the pool table with stable indices (tests page_pool_indices_are_stable, unregister_page_pool_matches_release_driver). 44 CreatePlacedResourceX (alias.rs): textures and 64 KB-aligned buffers go in one GPU-local heap per title VA reservation (up to 64 MB, otherwise a 4 MB window), so same-VA placements share heap and offset, small textures use 4 KB placement, and aliasing barriers are real. Title-memory buffers on an ID3D12Device3::OpenExistingHeapFromAddress heap (CPU and GPU share bytes, Map returns the title VA) are implemented and tested but opt-in (TOMBOX_ALIAS_TITLE=1): the PC runtime pins the allocation, so VirtualFree/UnmapViewOfFile fail while the heap is open (test title_heap_does_not_block_unmap_or_free), and mapped xmem views are never used. Tests alias::two_placements_at_one_va_share_title_memory, two_textures_at_one_va_share_gpu_local_heap, local_span_covers_the_reservation. Partial: buffers at finer than 64 KB VAs (Fortnite sub-allocates at 8 KB) and MSAA textures still get a separate committed resource, with map_x as the CPU fallback. | dev-a (device_ext_a.rs, release xgs12 bodies): 45 (RVA 0x478b0) widens the 0x38 resource desc to the 0x40 component desc (DCC fields at +0x34/+0x38 from flag bits 22/23) and calls slot 77 CreateComponentPlacedResourceX; 46/47 CreatePlacedShaderResourceViewX/UAV (0x45fd0/0x46050): 0x48/0x40 desc = PC desc + placed GPU VA at +0x28 (UAV counter VA at +0x30, -1 = none), view built on the tracked resource at that VA with FirstElement rebased, depth view formats 44-47 promoted to 19-22 as helper 0x58f48 does; 49 (0x415a8) driver-option switch on ids 0..0x14 and 0x16/0x100-0x104/0xbe7a/0xbaaad411/0xdeaddead with the default path = kernel option IOCTL 0x7900c19c {id,value} (core vt[1] 0x10c50), 16 = shader cache via scache.dll/scache_lnm.dll with the g:\\D3D_DisableShaderCache check; 51 (0x3f8a0) GPU-crash report: bit0 = XHIT hang analysis only, else first report logs the UMD fatal string, sends kernel 0xbaaad911 and int3; 58 (0x485c0) kernel option 0x10001; 59 (0x482d0) sample pattern {Count,Quality} -> 4x16 signed sample positions, 16 centroid priorities and 2 packed register words from the device table built by 0x3eeec (sample_pattern.rs, generated by executing the release builder), E_INVALIDARG for Count>15 or Quality outside -2..4; 63 CreateDerivedComputePipelineStateX (0x44cd0, 5 args, no riid): new PSO from the base program, last patch decoded to COMPUTE_RESOURCE_LIMITS/STATIC_THREAD_MGMT as 0x58fc does. Test vectors for 59 and 63 come from running the release code under a CPU emulator. Tests device_ext_a::tests::*"
     },
     "CommandList": {
       "total": 110,
-      "done": "0-61,63,67,68,82,83,87,104-109",
-      "partial": "62,79,84",
-      "evidence": "Graphics list vtable debug RVA 0x107fe0 / release 0x997f0, 110 slots; Xbox 104-109 = PC ID3D12GraphicsCommandList1 60-65 (passthrough). 87 void. 60 CopyMemoryToMemoryX -> CopyBufferRegion with transitions; 61/63 FillMemoryWith32/128BitValueX via fill.rs 16-byte pattern; 62 Fill64 partial (release hands the shared filler dwords {hi,lo,hi,lo}, filler order not decompiled); 82 Nop (PM4 NOP padding)."
+      "done": "0-63,66-68,78,82-85,87-92,95,98-99,103-109",
+      "partial": "79,81,93-94,100-102",
+      "evidence": "Graphics list vtable debug RVA 0x107fe0 / release 0x997f0, 110 slots; Xbox 104-109 = PC ID3D12GraphicsCommandList1 60-65 (passthrough). 87 void. 60 CopyMemoryToMemoryX -> CopyBufferRegion with transitions; 61/63 FillMemoryWith32/128BitValueX via fill.rs 16-byte pattern; 62 Fill64 partial (release hands the shared filler dwords {hi,lo,hi,lo}, filler order not decompiled); 82 Nop (PM4 NOP padding). | batch3 (xgs12 release+debug): 66 null vtable entry; 78 DispatchX(x,y,z,Flags) record 0x4003cc00 -> PC Dispatch, invalid-flag mask 0xfffff103 from debug; 85 SetPredicationBufferX({u64 va,u32 op}|null) record 0x4002d000 -> PC SetPredication(res,off,op) via gpu_va, 8-byte aligned; 88/89 Write32/64BitValueTopOfPipeX(va,value,flags) PM4 WRITE_DATA 0xc0033700/0xc0043700 -> WriteBufferImmediate MARKER_IN, 89 flags 0x4/0x8 timestamp -> timestamp::write; 90 Write32BitValueBottomOfShaderX(va,value,stage 4|5) EVENT_WRITE_EOS 0x630/0x62f -> WriteBufferImmediate MARKER_OUT; 98 PrefetchMemoryX(va,u64 size,flags) DMA_DATA L2 prefetch, size 1..2MiB-4 multiple of 4, flags must be 0, cache hint with no architectural effect; 81 DrawIndexedX(va,fmt R16/R32,count,arg5) record 0x4004cd00 -> IASetIndexBuffer+DrawIndexedInstanced with title IB restored; partial: arg5 enters the firmware packet unvalidated, meaning unknown | cl-b (console_slots_cl2.rs, xgs12 release+debug): 62 Fill64 decoded: release packs {hi,lo,hi,lo} through the shared filler 0x24a30, which picks format 0xe (4x32) / 0xb (2x32) by size alignment and packs component i from dword i (0x1c8d4), so memory holds the HIGH dword first; fill64_pattern now matches. 84 CopyResourceX(dst,src,flags) debug validation ported (null, flags&~0x1fff, dimension, subresource count unless flags&0x380, extent, RESUMMARIZE_HTILE 0x10 needs src==dst, colour-metadata 0x1c00 without FORCE_DECOMPRESS 0x60 needs src==dst); src!=dst -> PC CopyResource; src==dst is an in-place compression-metadata pass, no PC work (texel contents unchanged). Unhandled: with flags&0x380 the console also copies between resources of different subresource counts (compressed-source modes); PC CopyResource cannot, so that case is logged and not copied. 91 GetExecutionCommandSizeX -> 0 unless bundle (release [list+0x10]==1, 0 after a failed close), else size of the emulator bundle record (16 bytes); 92 CloseBundleX(void** ppBuffer, MaxSize) -> u32 size: non-bundle 0, debug MaxSize check, PC Close via the Xbox vtable, writes a 16-byte record {'TBnd',16,bundle} into *ppBuffer or an emulator-owned buffer written back to *ppBuffer, registry bundle_for_buffer() for ExecuteIndirectBundleX. 95 SetGraphicsShaderLimitsX(ps,tess,gs,gsOnChip,pLimits) CU/wave limits, bundle rejected, no architectural effect; 99 PrefetchPipelineStateX(pso,u64 size,stageFlags,flags) debug validation (stages 0x7f non-zero, size 4..2MiB-4 multiple of 4, flags 0), shader-code prefetch hint; PSO-type/stage-match checks need console PSO state and are not reproduced. 103 TranscodeTextureRegionX(pDst,pSrc,slices): release acts only when src is an opaque subresource (PC: texture with LAYOUT_UNKNOWN), dst footprint or subresource; slices = dispatch Z, contiguous Height*RowPitch per slice in footprints (from the size math in 0x2ddd4), 3D -> src box depth -> PC CopyTextureRegion per slice; into-opaque does nothing as on console; Fill64 order cross-checked in xgs12_d 0x41a60 (same {hi,lo,hi,lo} array). Unhandled: a destination format different from the source (console footprint path sizes by the destination format, no debug rule forbids it) and later footprint slices off 512-byte placement alignment are logged and not recorded, PC CopyTextureRegion cannot do either. Partial: 93 KickoffX (release: [list+0x558]==0 sets deferred flag 0x40, else flushes and submits the recorded segment through [obj+0x240]->vt[3]; PC cannot submit an open list, and cross-queue waits on kicked work are observable); 94 RSSetDepthBiasX(INT bias, FLOAT clamp, FLOAT slope, BOOL depthClip) writes PA_CL_CLIP_CNTL 0x204 (ZCLIP_NEAR/FAR_DISABLE bits 26/27 = !depthClip, DX_CLIP_SPACE_DEF bit 19) and PA_SU_POLY_OFFSET_CLAMP..BACK_OFFSET 0x2df-0x2e3 = {(int)clamp bits, slope*16, (float)bias, slope*16, (float)bias}; PC needs PSOs created with DYNAMIC_DEPTH_BIAS (List9::RSSetDepthBias) and has no dynamic depth clip, PSO creation not in this area; 100/101/102 hardware perf-counter begin/SampleCountersX(pDstBuffer,8-aligned offset)/end (regs 0xd9e0/0x98c/0x9f4): no PC counter source, never fake values."
     }
   },
   "stages": {
-    "Vertex": "done", "Pixel": "done", "Compute": "done", "Geometry": "done",
-    "Hull": "done", "Domain": "done", "Mesh": "none", "Amplification": "none"
+    "Vertex": "done",
+    "Pixel": "done",
+    "Compute": "done",
+    "Geometry": "done",
+    "Hull": "done",
+    "Domain": "done",
+    "Mesh": "none",
+    "Amplification": "none"
   },
-  "titles_upstream": ["Fortnite", "Grand Theft Auto VI"],
+  "titles_upstream": [
+    "Fortnite",
+    "Grand Theft Auto VI"
+  ],
   "titles_analysed": [
-    {"name": "Fortnite", "build": "2.0.1461.7919", "exe": "FortniteClient-XSX-Shipping.exe", "exe_size": 157572608,
-     "binaries": "input/extracted/Mount/FortniteGame/Binaries/XSX", "xvd": "input/extracted/EmbeddedXvd/Windows",
-     "run_evidence": true, "unverified_binaries": ["GameChat2.dll"], "unverified_modules": ["GameChat2.dll", "CONCRT140.dll"]},
-    {"name": "XDefiant", "exe": "Rogue_scarlett_rtx.exe", "exe_size": 97231360,
-     "binaries": "input/xdefiant/Mount", "xvd": "input/xdefiant/EmbeddedXvd/Windows",
-     "run_evidence": false, "unverified_binaries": [], "unverified_modules": []},
-    {"name": "Terraria", "build": "4.4.14.1081", "exe": "Terraria.exe", "exe_size": 25889280,
-     "binaries": "input/terraria/Mount", "binary_dirs": ["", "Data/Native", "Data/Plugins"],
-     "xvd": "input/terraria/EmbeddedXvd/Windows",
-     "summary": "Unity 2021.3.16f1 GameCore **Xbox One** player (`TargetDeviceFamily=\"XboxOne\"`, PDB `GameCoreXboxOnePlayerNoDevelopment_Master`), IL2CPP scripting backend (no CLR header; C# compiled to `Data/Native/GameAssembly.dll` + `global-metadata.dat`), FMOD audio over XAudio2, Unity `baselib.dll`. Scanned: `Mount` (Terraria.exe, XCurl, baselib, MSVC 14.28 CRT), `Mount/Data/Native` (GameAssembly + MSVC 14.29 CRT), `Mount/Data/Plugins` (PartyWin, PartyXboxLive, PlayFabMultiplayerGDK, TerrariaNative, XCurl). Imports `d3d12_x.dll` / `xg_x.dll` / `XFrontPanelDisplay.dll` (the Xbox One variants, not the Scarlett `_xs` ones); the emulator provides them as separate crates with the console's export ordinals, and the remaining gaps are stubs. XGameRuntime is loaded by name (`xgameruntime.dll` + `QueryApiImpl`), so its services are not in the import table.",
-     "run_evidence": false, "unverified_binaries": [], "unverified_modules": []},
-    {"name": "Trackmania", "build": "1.6.2.0", "exe": "GbxGame.exe", "exe_size": 44931072,
-     "binaries": "input/trackmania/Mount", "binary_dirs": ["", "aegir"],
-     "xvd": "input/trackmania/EmbeddedXvd/Windows",
-     "summary": "Nadeo GBX engine (ManiaPlanet lineage), native C++ GameCore **Xbox One** build (`TargetDeviceFamily=\"XboxOne\"`, PDB folder `Release_Gaming.Xbox.XboxOne.x64`, build id `2024-04-30_c8c94a9ed_..._XB1`), GDK edition string `October 2022 GRDK` in the EXE, Ubisoft UbiServices SDK 2020.Release.62. Scanned: `Mount` (GbxGame.exe, GameChat2.dll 2210, XCurl.dll 2210, MSVC 14.29 CRT) and `Mount/aegir` (aegir.dll, 36 MB, a WebKit/JavaScriptCore UI engine: 12,887 `WebCore`/`JSC` exports). GameChat2.dll and aegir.dll are not in GbxGame.exe's import table; they are loaded at run time (the EXE carries `aegir.dll` loader strings). Imports `d3d12_x.dll` / `xg_x.dll` / `dxcompiler_x.dll` (Xbox One variants, not the Scarlett `_xs` ones); the emulator provides them as separate crates with the console's export ordinals, and the remaining gaps are stubs. XGameRuntime is loaded by name.",
-     "run_evidence": false, "unverified_binaries": [], "unverified_modules": []}
+    {
+      "name": "Fortnite",
+      "build": "2.0.1461.7919",
+      "exe": "FortniteClient-XSX-Shipping.exe",
+      "exe_size": 157572608,
+      "binaries": "input/extracted/Mount/FortniteGame/Binaries/XSX",
+      "xvd": "input/extracted/EmbeddedXvd/Windows",
+      "run_evidence": true,
+      "unverified_binaries": [
+        "GameChat2.dll"
+      ],
+      "unverified_modules": [
+        "GameChat2.dll",
+        "CONCRT140.dll"
+      ]
+    },
+    {
+      "name": "XDefiant",
+      "exe": "Rogue_scarlett_rtx.exe",
+      "exe_size": 97231360,
+      "binaries": "input/xdefiant/Mount",
+      "xvd": "input/xdefiant/EmbeddedXvd/Windows",
+      "run_evidence": false,
+      "unverified_binaries": [],
+      "unverified_modules": []
+    },
+    {
+      "name": "Terraria",
+      "build": "4.4.14.1081",
+      "exe": "Terraria.exe",
+      "exe_size": 25889280,
+      "binaries": "input/terraria/Mount",
+      "binary_dirs": [
+        "",
+        "Data/Native",
+        "Data/Plugins"
+      ],
+      "xvd": "input/terraria/EmbeddedXvd/Windows",
+      "summary": "Unity 2021.3.16f1 GameCore **Xbox One** player (`TargetDeviceFamily=\"XboxOne\"`, PDB `GameCoreXboxOnePlayerNoDevelopment_Master`), IL2CPP scripting backend (no CLR header; C# compiled to `Data/Native/GameAssembly.dll` + `global-metadata.dat`), FMOD audio over XAudio2, Unity `baselib.dll`. Scanned: `Mount` (Terraria.exe, XCurl, baselib, MSVC 14.28 CRT), `Mount/Data/Native` (GameAssembly + MSVC 14.29 CRT), `Mount/Data/Plugins` (PartyWin, PartyXboxLive, PlayFabMultiplayerGDK, TerrariaNative, XCurl). Imports `d3d12_x.dll` / `xg_x.dll` / `XFrontPanelDisplay.dll` (the Xbox One variants, not the Scarlett `_xs` ones); the emulator provides them as separate crates with the console's export ordinals, and the remaining gaps are stubs. XGameRuntime is loaded by name (`xgameruntime.dll` + `QueryApiImpl`), so its services are not in the import table.",
+      "run_evidence": false,
+      "unverified_binaries": [],
+      "unverified_modules": []
+    },
+    {
+      "name": "Trackmania",
+      "build": "1.6.2.0",
+      "exe": "GbxGame.exe",
+      "exe_size": 44931072,
+      "binaries": "input/trackmania/Mount",
+      "binary_dirs": [
+        "",
+        "aegir"
+      ],
+      "xvd": "input/trackmania/EmbeddedXvd/Windows",
+      "summary": "Nadeo GBX engine (ManiaPlanet lineage), native C++ GameCore **Xbox One** build (`TargetDeviceFamily=\"XboxOne\"`, PDB folder `Release_Gaming.Xbox.XboxOne.x64`, build id `2024-04-30_c8c94a9ed_..._XB1`), GDK edition string `October 2022 GRDK` in the EXE, Ubisoft UbiServices SDK 2020.Release.62. Scanned: `Mount` (GbxGame.exe, GameChat2.dll 2210, XCurl.dll 2210, MSVC 14.29 CRT) and `Mount/aegir` (aegir.dll, 36 MB, a WebKit/JavaScriptCore UI engine: 12,887 `WebCore`/`JSC` exports). GameChat2.dll and aegir.dll are not in GbxGame.exe's import table; they are loaded at run time (the EXE carries `aegir.dll` loader strings). Imports `d3d12_x.dll` / `xg_x.dll` / `dxcompiler_x.dll` (Xbox One variants, not the Scarlett `_xs` ones); the emulator provides them as separate crates with the console's export ordinals, and the remaining gaps are stubs. XGameRuntime is loaded by name.",
+      "run_evidence": false,
+      "unverified_binaries": [],
+      "unverified_modules": []
+    }
   ],
   "verified_milestones": [
-    {"name": "Boots (process starts, GDK runtime services up)", "evidence": "%TEMP%\\tombox\\run.txt:1-4"},
-    {"name": "First frames (PresentX into the title window)", "evidence": "%TEMP%\\tombox\\tombox_compat.log:14540"},
-    {"name": "Window clamped to the primary monitor", "evidence": "%TEMP%\\tombox\\tombox_compat.log:12987"},
-    {"name": "Login complete (HandleLoginRequestComplete Result=2)", "evidence": "%TEMP%\\tombox\\run.txt:5962"},
-    {"name": "Hotfix check UpdateSuccess", "evidence": "%TEMP%\\tombox\\run.txt:3401,6094"},
-    {"name": "Game-mode select (UI.State.Startup.SubgameSelect)", "evidence": "%TEMP%\\tombox\\run.txt:6249"},
-    {"name": "Battle Royale lobby (UI.State.Athena.Frontend)", "evidence": "%TEMP%\\tombox\\run.txt:6496"}
+    {
+      "name": "Boots (process starts, GDK runtime services up)",
+      "evidence": "%TEMP%\\tombox\\run.txt:1-4"
+    },
+    {
+      "name": "First frames (PresentX into the title window)",
+      "evidence": "%TEMP%\\tombox\\tombox_compat.log:14540"
+    },
+    {
+      "name": "Window clamped to the primary monitor",
+      "evidence": "%TEMP%\\tombox\\tombox_compat.log:12987"
+    },
+    {
+      "name": "Login complete (HandleLoginRequestComplete Result=2)",
+      "evidence": "%TEMP%\\tombox\\run.txt:5962"
+    },
+    {
+      "name": "Hotfix check UpdateSuccess",
+      "evidence": "%TEMP%\\tombox\\run.txt:3401,6094"
+    },
+    {
+      "name": "Game-mode select (UI.State.Startup.SubgameSelect)",
+      "evidence": "%TEMP%\\tombox\\run.txt:6249"
+    },
+    {
+      "name": "Battle Royale lobby (UI.State.Athena.Frontend)",
+      "evidence": "%TEMP%\\tombox\\run.txt:6496"
+    }
   ],
-  "open_milestones": ["3D scene correct", "Keyboard / controller input", "Audio", "Gameplay", "A second title running"],
+  "open_milestones": [
+    "3D scene correct",
+    "Keyboard / controller input",
+    "Audio",
+    "Gameplay",
+    "A second title running"
+  ],
   "emulator": {
-    "d3d12_xs.dll": {"file": "crates/compat/d3d12_xs/src/lib.rs", "functions": {
-      "D3D12XboxCreateDevice": "implemented", "IID_ID3D12Device": "implemented",
-      "D3D12CreateDevice": "forwarded", "D3D12SerializeRootSignature": "forwarded",
-      "D3D12SerializeVersionedRootSignature": "forwarded", "D3D12XboxSetProcessDebugFlags": "implemented", "D3D12XboxGetProcessDebugFlags": "implemented",
-      "D3D12ConfigureVirtualMemoryX": "implemented", "GetFrameBufferPreserveMemorySizeBytes": "implemented",
-      "D3D12XboxUnloadDriverModule": "implemented", "D3D12ZeroMemoryX": "stub"}},
-    "xmem.dll": {"file": "crates/compat/xmem/src/lib.rs", "functions": {
-      "XMemAlloc": "implemented", "XMemAllocDefault": "implemented",
-      "XMemAllocatePhysicalPages": "implemented", "XMemCreateWin32Heap": "implemented",
-      "XMemDumpMemoryStats": "implemented", "XMemFree": "implemented", "XMemFreeDefault": "implemented",
-      "XMemFreePhysicalPages": "stub", "XMemGetAllocationHysteresis": "implemented",
-      "XMemGetAllocationStatistics": "implemented", "XMemGetFreePageStatistics": "implemented",
-      "XMemGetPartitionHandleAndId": "stub", "XMemGetPhysicalMemoryLayout": "implemented",
-      "XMemGetTitleHeap": "implemented", "XMemGetWin32HeapStatistics": "implemented",
-      "XMemGetWorkingSetStatistics": "implemented", "XMemIsToolsMemAvailable": "stub",
-      "XMemMakeTag": "implemented", "XMemMapPhysicalPages": "implemented",
-      "XMemMapPhysicalPagesScatter": "implemented", "XMemPreallocateFreeSpace": "stub",
-      "XMemSetAllocationHooks": "implemented", "XMemSetAllocationHysteresis": "implemented",
-      "XMemSetOption": "implemented", "XMemSetWin32HeapTrackingHooks": "stub", "XMemTransferMemory": "stub",
-      "XMemVirtualAlloc": "implemented", "XMemVirtualQuery": "implemented",
-      "XMemGetWin32HeapName": "implemented", "XMemGetWriteWatch": "implemented",
-      "XMemHistoryData": "implemented", "XMemRegisterGraphicsMemoryConfiguration": "implemented",
-      "XMemResetWriteWatch": "implemented", "XMemResumeWriteWatch": "implemented",
-      "XMemSetWin32HeapName": "implemented", "XMemSetWinHttpHooks": "stub"}},
-    "acphal.dll": {"file": "crates/compat/acphal/src/lib.rs", "functions": {
-      "ApuCreateHeap": "implemented", "ApuAlloc": "implemented", "ApuHeapGetState": "implemented",
-      "ApuFree": "implemented", "AcpHalCreate": "implemented", "AcpHalAllocateShapeContexts": "implemented",
-      "ApuMapVirtualAddress": "implemented", "ApuMapApuAddress": "implemented", "ApuIsVirtualAddressValid": "implemented",
-      "AcpHalReleaseShapeContexts": "implemented"},
+    "d3d12_xs.dll": {
+      "file": "crates/compat/d3d12_xs/src/lib.rs",
+      "functions": {
+        "D3D12XboxCreateDevice": "implemented",
+        "IID_ID3D12Device": "implemented",
+        "D3D12CreateDevice": "forwarded",
+        "D3D12SerializeRootSignature": "forwarded",
+        "D3D12SerializeVersionedRootSignature": "forwarded",
+        "D3D12XboxSetProcessDebugFlags": "implemented",
+        "D3D12XboxGetProcessDebugFlags": "implemented",
+        "D3D12ConfigureVirtualMemoryX": "implemented",
+        "GetFrameBufferPreserveMemorySizeBytes": "implemented",
+        "D3D12XboxUnloadDriverModule": "implemented",
+        "D3D12ZeroMemoryX": "stub"
+      }
+    },
+    "xmem.dll": {
+      "file": "crates/compat/xmem/src/lib.rs",
+      "functions": {
+        "XMemAlloc": "implemented",
+        "XMemAllocDefault": "implemented",
+        "XMemAllocatePhysicalPages": "implemented",
+        "XMemCreateWin32Heap": "implemented",
+        "XMemDumpMemoryStats": "implemented",
+        "XMemFree": "implemented",
+        "XMemFreeDefault": "implemented",
+        "XMemFreePhysicalPages": "implemented",
+        "XMemGetAllocationHysteresis": "implemented",
+        "XMemGetAllocationStatistics": "implemented",
+        "XMemGetFreePageStatistics": "implemented",
+        "XMemGetPartitionHandleAndId": "implemented",
+        "XMemGetPhysicalMemoryLayout": "implemented",
+        "XMemGetTitleHeap": "implemented",
+        "XMemGetWin32HeapStatistics": "implemented",
+        "XMemGetWorkingSetStatistics": "implemented",
+        "XMemIsToolsMemAvailable": "implemented",
+        "XMemMakeTag": "implemented",
+        "XMemMapPhysicalPages": "implemented",
+        "XMemMapPhysicalPagesScatter": "implemented",
+        "XMemPreallocateFreeSpace": "implemented",
+        "XMemSetAllocationHooks": "implemented",
+        "XMemSetAllocationHysteresis": "implemented",
+        "XMemSetOption": "implemented",
+        "XMemSetWin32HeapTrackingHooks": "implemented",
+        "XMemTransferMemory": "implemented",
+        "XMemVirtualAlloc": "implemented",
+        "XMemVirtualQuery": "implemented",
+        "XMemGetWin32HeapName": "implemented",
+        "XMemGetWriteWatch": "implemented",
+        "XMemHistoryData": "implemented",
+        "XMemRegisterGraphicsMemoryConfiguration": "implemented",
+        "XMemResetWriteWatch": "implemented",
+        "XMemResumeWriteWatch": "implemented",
+        "XMemSetWin32HeapName": "implemented",
+        "XMemSetWinHttpHooks": "implemented"
+      }
+    },
+    "acphal.dll": {
+      "file": "crates/compat/acphal/src/lib.rs",
+      "functions": {
+        "ApuCreateHeap": "implemented",
+        "ApuAlloc": "implemented",
+        "ApuHeapGetState": "implemented",
+        "ApuFree": "implemented",
+        "AcpHalCreate": "implemented",
+        "AcpHalAllocateShapeContexts": "implemented",
+        "ApuMapVirtualAddress": "implemented",
+        "ApuMapApuAddress": "implemented",
+        "ApuIsVirtualAddressValid": "implemented",
+        "AcpHalReleaseShapeContexts": "implemented"
+      },
       "notes": {
-    "D3D12 interface vtables": "Slot counts and names come from the console UMD in the title's EmbeddedXvd: xgs12_d.dll (debug, names from its validation strings) and xgs12.dll (release, shipping bodies). Device vtable: debug RVA 0x107880, release 0x99090, 90 slots; slots 11 and 12 are null on console. Graphics command list: debug 0x107fe0, release 0x997f0, 110 slots; Xbox 104-109 = PC ID3D12GraphicsCommandList1 60-65. Every slot the emulator already maps lines up with the console names (44 CreatePlacedResourceX, 48 CreateCommandQueueX, 55/60/62 PSO creates, 61 CreateSamplerX, 73 CreateCommandList; list 28-31 queries, 59 ExecuteIndirect, 67 FlushPipelineX, 68 OMSetDepthBoundsX, 83 CopyTextureRegion, 84 CopyResourceX). console_slots.rs ports the release bodies exactly: device 53 S_OK, 54/65 void, 64 returns 0xFFFFFFFF, 69/89 E_NOTIMPL, 50 stores its three arguments per device; list 87 void, 106-108 pass through to PC OMSetDepthBounds/SetSamplePositions/ResolveSubresourceRegion, 104/105/109 are int3 on console (debug break when a debugger is attached). Left partial: device 56/66 (release returns E_ACCESSDENIED, emulator serializes) and 87 (release returns E_NOTIMPL, emulator opens the heap).","IAcpHal": "vtable 0 Connect, 1 Disconnect (0x180001780: 0x8ac8000a when not connected, posts a 0x80 DISCONNECTED message, rings kept until Release), 2 SubmitCommand, 3 PopMessage (BOOL, clears slot+0, 0x180001a50), 4 GetNumMessages (consecutive valid slots, 0x180001b00), 5 Release, 6-9 return 0x8ac80f0e as on the console, 10 maps a driver-shared region (0x180001b90 -> 0x180004c50 -> driver object vtbl+0x38 0x180004a60 with type 1: IOCTL 0x8000e023, output {u64 user VA, u32, u32 size}; VirtualAudioBus.sys 0x12afc maps the host-defined region into the process; type 0 is mapped by Connect, type 2 by XVMAudioService with size 0x100000). The region contents are defined by the VM host and are not on disk, so the emulator writes *out = 0 and returns 0x80070032, the console's failed-IOCTL path; E_INVALIDARG for a NULL out as on the console; no analysed title calls it, 11 destructor. Message ring: unread messages stay until popped and new ones are not written while the ring is full (console valid-slot ring), so a title that never pops (Fortnite waits on fences) keeps the oldest 0x1000. Command types no analysed title issues return E_NOTIMPL.",
-                "SHAPE": "XMA (Fortnite CPU-read streaming, 0x1406de4ec/0x1406de56c/0x1406f296c/0x1406f2ef0), SRC + DMA flowgraphs (XDefiant Wwise), DMA reader rings (Terraria FMOD 0x1410264d0) run on host threads; independent XMA voices decode in parallel across host cores (one voice per thread, so each voice completes in console order). Verified by crates/tests/audio_titles (20 tests, incl. SRC ratio 1.5 pitch-up; parallel voices run on a persistent tombox-shape-xma worker pool, not per-call threads: 4 XDefiant voices (stereo, mono, 44.1 kHz and 32 kHz SRC) enabled by one mask and mixed in one flowgraph, each exact, real XDefiant XMA through Fortnite's exact call sequence with output == SamplesEncoded, 6 voices on 6 threads bit-exact, SRC ratios 0.91875/0.66667 stretch duration exactly, FMOD init/disconnect/reinit, ApuHeapGetState/ApuFree accounting, ApuMapApuAddress/ApuMapVirtualAddress round trip) and crates/compat/acphal unit tests."}},
-    "xcrdapi.dll": {"file": "crates/compat/xcrdapi/src/lib.rs", "functions": {"DStorageGetFactory": "implemented"},
-      "notes": {"DStorageGetFactory": "own console-layout IDStorageFactoryX/FileX/QueueX/StatusArrayX objects (no PC dstorage.dll); Xbox request decode, CPU zlib (format 1), unknown slots trap; known gaps: a zlib stream that ends early still reports S_OK, no ring backpressure"}},
-    "dxcompiler_xs.dll": {"file": "crates/compat/dxcompiler_xs/src/lib.rs", "functions": {"DxcCreateInstance": "forwarded", "DxcCreateInstance2": "forwarded"},
-      "notes": {"DxcCreateInstance": "ordinal 3; forwards to a host dxcompiler.dll (env / tombox.cfg / EXE dir / SDK), native IDxcUtils fallback, Xbox-only CLSIDs refused with E_NOINTERFACE",
-                "DxcCreateInstance2": "ordinal 4; IMalloc passed through to the host"}},
-    "AudioHALWrapper.dll": {"file": "crates/compat/audiohalwrapper/src/lib.rs", "functions": {
-      "AcquireDecoder": "implemented", "AcquireEncoder": "implemented", "CreateOpusDecoderHardwareInterface": "implemented",
-      "CreateOpusEncoderHardwareInterface": "implemented", "CreateSilkHardwareInterface": "implemented", "DecodePacket": "implemented",
-      "DestroyOpusDecoderHardwareInterface": "implemented", "DestroyOpusEncoderHardwareInterface": "implemented",
-      "DestroySilkHardwareInterface": "implemented", "EncodeFrame": "implemented", "GetDecodeOutput": "implemented",
-      "GetEncodeOutput": "implemented", "GetIsDataInFlightForDecoder": "implemented", "GetIsDataInFlightForEncoder": "implemented",
-      "GetMaximumDecoderCount": "implemented", "GetMaximumEncoderCount": "implemented", "ReleaseDecoder": "implemented",
-      "ReleaseEncoder": "implemented", "SilkAcquireDecoder": "implemented", "SilkAcquireEncoder": "implemented",
-      "SilkDecodeFrame": "implemented", "SilkEncodeFrame": "implemented", "SilkGetDecodeOutput": "implemented",
-      "SilkGetEncodeOutput": "implemented", "SilkGetIsDecoderDataInFlight": "implemented", "SilkGetIsEncoderDataInFlight": "implemented",
-      "SilkGetMaximumDecoderBufferSizes": "implemented", "SilkGetMaximumDecoderCount": "implemented",
-      "SilkGetMaximumEncoderBufferSizes": "implemented", "SilkGetMaximumEncoderCount": "implemented",
-      "SilkReleaseDecoder": "implemented", "SilkReleaseEncoder": "implemented"},
-      "notes": {"CreateOpusDecoderHardwareInterface": "codec loaded at run time from opus.dll; none ships, so Create returns 0x8007007E and titles use their software fallback",
-                "CreateOpusEncoderHardwareInterface": "codec loaded at run time from opus.dll; none ships, so Create returns 0x8007007E and titles use their software fallback",
-                "CreateSilkHardwareInterface": "codec loaded at run time from SKP_SILK_SDK.dll; none ships, so Create returns 0x8007007E and titles use their software fallback"}},
-    "xg_xs.dll": {"file": "crates/compat/xg_xs/src/lib.rs", "functions": {"XGCreateTextureComputer": "stub"}},
-    "mfplat.dll": {"file": "crates/compat/mfplat/src/lib.rs", "functions": {
-      "MFStartup": "forwarded", "MFShutdown": "forwarded", "MFCreateMediaType": "forwarded",
-      "MFCreateSample": "forwarded", "MFCreateMemoryBuffer": "forwarded",
-      "MFCreateAlignedMemoryBuffer": "forwarded", "MFCreateAttributes": "forwarded",
-      "MFCreateAsyncResult": "forwarded", "MFInvokeCallback": "forwarded", "MFCreateFile": "forwarded",
-      "MFCreateDXGIDeviceManager": "forwarded", "MFCreateWaveFormatExFromMFMediaType": "forwarded",
-      "MFCreateSourceResolver": "forwarded", "MFPutWorkItem2": "forwarded", "MFllMulDiv": "forwarded",
-      "MFResetDXGIDeviceManagerX": "implemented", "MFCreateDXGISurfaceBufferX": "forwarded",
-      "LFGetGlobalPool": "implemented", "MFJoinIoPort": "implemented", "MFGetPlatform": "stub",
-      "MFBlockThread": "stub", "MFUnblockThread": "stub", "MFGetPrivateWorkqueues": "stub"},
-      "notes": {"MFCreateDXGISurfaceBufferX": "forwards to PC MFCreateDXGISurfaceBuffer (console drops fBottomUp for D3D12 resources)",
-                "LFGetGlobalPool": "returns NULL, as the console code does (xor eax,eax)",
-                "MFJoinIoPort": "MFJoinWorkQueue(5, handle, &cookie), as the console code does",
-                "MFGetPlatform": "returns NULL (no CMFPlatform object on PC)",
-                "MFBlockThread": "MF_E_SHUTDOWN before MFStartup, S_OK after; no work-queue block on PC",
-                "MFUnblockThread": "MF_E_SHUTDOWN before MFStartup, S_OK after; no work-queue unblock on PC",
-                "MFGetPrivateWorkqueues": "console argument checks, always writes 0"}}
+        "D3D12 interface vtables": "Slot counts and names come from the console UMD in the title's EmbeddedXvd: xgs12_d.dll (debug, names from its validation strings) and xgs12.dll (release, shipping bodies). Device vtable: debug RVA 0x107880, release 0x99090, 90 slots; slots 11 and 12 are null on console. Graphics command list: debug 0x107fe0, release 0x997f0, 110 slots; Xbox 104-109 = PC ID3D12GraphicsCommandList1 60-65. Every slot the emulator already maps lines up with the console names (44 CreatePlacedResourceX, 48 CreateCommandQueueX, 55/60/62 PSO creates, 61 CreateSamplerX, 73 CreateCommandList; list 28-31 queries, 59 ExecuteIndirect, 67 FlushPipelineX, 68 OMSetDepthBoundsX, 83 CopyTextureRegion, 84 CopyResourceX). console_slots.rs ports the release bodies exactly: device 53 S_OK, 54/65 void, 64 returns 0xFFFFFFFF, 69/89 E_NOTIMPL, 50 stores its three arguments per device; list 87 void, 106-108 pass through to PC OMSetDepthBounds/SetSamplePositions/ResolveSubresourceRegion, 104/105/109 are int3 on console (debug break when a debugger is attached). Left partial: device 56/66 (release returns E_ACCESSDENIED, emulator serializes) and 87 (release returns E_NOTIMPL, emulator opens the heap).",
+        "IAcpHal": "vtable 0 Connect, 1 Disconnect (0x180001780: 0x8ac8000a when not connected, posts a 0x80 DISCONNECTED message, rings kept until Release), 2 SubmitCommand, 3 PopMessage (BOOL, clears slot+0, 0x180001a50), 4 GetNumMessages (consecutive valid slots, 0x180001b00), 5 Release, 6-9 return 0x8ac80f0e as on the console, 10 maps a driver-shared region (0x180001b90 -> 0x180004c50 -> driver object vtbl+0x38 0x180004a60 with type 1: IOCTL 0x8000e023, output {u64 user VA, u32, u32 size}; VirtualAudioBus.sys 0x12afc maps the host-defined region into the process; type 0 is mapped by Connect, type 2 by XVMAudioService with size 0x100000). The region contents are defined by the VM host and are not on disk, so the emulator writes *out = 0 and returns 0x80070032, the console's failed-IOCTL path; E_INVALIDARG for a NULL out as on the console; no analysed title calls it, 11 destructor. Message ring: unread messages stay until popped and new ones are not written while the ring is full (console valid-slot ring), so a title that never pops (Fortnite waits on fences) keeps the oldest 0x1000. Command types no analysed title issues return E_NOTIMPL.",
+        "SHAPE": "XMA (Fortnite CPU-read streaming, 0x1406de4ec/0x1406de56c/0x1406f296c/0x1406f2ef0), SRC + DMA flowgraphs (XDefiant Wwise), DMA reader rings (Terraria FMOD 0x1410264d0) run on host threads; independent XMA voices decode in parallel across host cores (one voice per thread, so each voice completes in console order). Verified by crates/tests/audio_titles (20 tests, incl. SRC ratio 1.5 pitch-up; parallel voices run on a persistent tombox-shape-xma worker pool, not per-call threads: 4 XDefiant voices (stereo, mono, 44.1 kHz and 32 kHz SRC) enabled by one mask and mixed in one flowgraph, each exact, real XDefiant XMA through Fortnite's exact call sequence with output == SamplesEncoded, 6 voices on 6 threads bit-exact, SRC ratios 0.91875/0.66667 stretch duration exactly, FMOD init/disconnect/reinit, ApuHeapGetState/ApuFree accounting, ApuMapApuAddress/ApuMapVirtualAddress round trip) and crates/compat/acphal unit tests."
+      }
+    },
+    "xcrdapi.dll": {
+      "file": "crates/compat/xcrdapi/src/lib.rs",
+      "functions": {
+        "DStorageGetFactory": "implemented"
+      },
+      "notes": {
+        "DStorageGetFactory": "own console-layout IDStorageFactoryX/FileX/QueueX/StatusArrayX objects (no PC dstorage.dll); Xbox request decode, CPU zlib (format 1), unknown slots trap; known gaps: a zlib stream that ends early still reports S_OK, no ring backpressure"
+      }
+    },
+    "dxcompiler_xs.dll": {
+      "file": "crates/compat/dxcompiler_xs/src/lib.rs",
+      "functions": {
+        "DxcCreateInstance": "forwarded",
+        "DxcCreateInstance2": "forwarded"
+      },
+      "notes": {
+        "DxcCreateInstance": "ordinal 3; forwards to a host dxcompiler.dll (env / tombox.cfg / EXE dir / SDK), native IDxcUtils fallback, Xbox-only CLSIDs refused with E_NOINTERFACE",
+        "DxcCreateInstance2": "ordinal 4; IMalloc passed through to the host"
+      }
+    },
+    "AudioHALWrapper.dll": {
+      "file": "crates/compat/audiohalwrapper/src/lib.rs",
+      "functions": {
+        "AcquireDecoder": "implemented",
+        "AcquireEncoder": "implemented",
+        "CreateOpusDecoderHardwareInterface": "implemented",
+        "CreateOpusEncoderHardwareInterface": "implemented",
+        "CreateSilkHardwareInterface": "implemented",
+        "DecodePacket": "implemented",
+        "DestroyOpusDecoderHardwareInterface": "implemented",
+        "DestroyOpusEncoderHardwareInterface": "implemented",
+        "DestroySilkHardwareInterface": "implemented",
+        "EncodeFrame": "implemented",
+        "GetDecodeOutput": "implemented",
+        "GetEncodeOutput": "implemented",
+        "GetIsDataInFlightForDecoder": "implemented",
+        "GetIsDataInFlightForEncoder": "implemented",
+        "GetMaximumDecoderCount": "implemented",
+        "GetMaximumEncoderCount": "implemented",
+        "ReleaseDecoder": "implemented",
+        "ReleaseEncoder": "implemented",
+        "SilkAcquireDecoder": "implemented",
+        "SilkAcquireEncoder": "implemented",
+        "SilkDecodeFrame": "implemented",
+        "SilkEncodeFrame": "implemented",
+        "SilkGetDecodeOutput": "implemented",
+        "SilkGetEncodeOutput": "implemented",
+        "SilkGetIsDecoderDataInFlight": "implemented",
+        "SilkGetIsEncoderDataInFlight": "implemented",
+        "SilkGetMaximumDecoderBufferSizes": "implemented",
+        "SilkGetMaximumDecoderCount": "implemented",
+        "SilkGetMaximumEncoderBufferSizes": "implemented",
+        "SilkGetMaximumEncoderCount": "implemented",
+        "SilkReleaseDecoder": "implemented",
+        "SilkReleaseEncoder": "implemented"
+      },
+      "notes": {
+        "CreateOpusDecoderHardwareInterface": "codec loaded at run time from opus.dll; none ships, so Create returns 0x8007007E and titles use their software fallback",
+        "CreateOpusEncoderHardwareInterface": "codec loaded at run time from opus.dll; none ships, so Create returns 0x8007007E and titles use their software fallback",
+        "CreateSilkHardwareInterface": "codec loaded at run time from SKP_SILK_SDK.dll; none ships, so Create returns 0x8007007E and titles use their software fallback"
+      }
+    },
+    "xg_xs.dll": {
+      "file": "crates/compat/xg_xs/src/lib.rs",
+      "functions": {
+        "XGCreateTextureComputer": "stub"
+      }
+    },
+    "mfplat.dll": {
+      "file": "crates/compat/mfplat/src/lib.rs",
+      "functions": {
+        "MFStartup": "forwarded",
+        "MFShutdown": "forwarded",
+        "MFCreateMediaType": "forwarded",
+        "MFCreateSample": "forwarded",
+        "MFCreateMemoryBuffer": "forwarded",
+        "MFCreateAlignedMemoryBuffer": "forwarded",
+        "MFCreateAttributes": "forwarded",
+        "MFCreateAsyncResult": "forwarded",
+        "MFInvokeCallback": "forwarded",
+        "MFCreateFile": "forwarded",
+        "MFCreateDXGIDeviceManager": "forwarded",
+        "MFCreateWaveFormatExFromMFMediaType": "forwarded",
+        "MFCreateSourceResolver": "forwarded",
+        "MFPutWorkItem2": "forwarded",
+        "MFllMulDiv": "forwarded",
+        "MFResetDXGIDeviceManagerX": "implemented",
+        "MFCreateDXGISurfaceBufferX": "forwarded",
+        "LFGetGlobalPool": "implemented",
+        "MFJoinIoPort": "implemented",
+        "MFGetPlatform": "stub",
+        "MFBlockThread": "stub",
+        "MFUnblockThread": "stub",
+        "MFGetPrivateWorkqueues": "stub"
+      },
+      "notes": {
+        "MFCreateDXGISurfaceBufferX": "forwards to PC MFCreateDXGISurfaceBuffer (console drops fBottomUp for D3D12 resources)",
+        "LFGetGlobalPool": "returns NULL, as the console code does (xor eax,eax)",
+        "MFJoinIoPort": "MFJoinWorkQueue(5, handle, &cookie), as the console code does",
+        "MFGetPlatform": "returns NULL (no CMFPlatform object on PC)",
+        "MFBlockThread": "MF_E_SHUTDOWN before MFStartup, S_OK after; no work-queue block on PC",
+        "MFUnblockThread": "MF_E_SHUTDOWN before MFStartup, S_OK after; no work-queue unblock on PC",
+        "MFGetPrivateWorkqueues": "console argument checks, always writes 0"
+      }
+    }
   },
   "notes": {
     "ApuFree": "returns the block to the heap's free list and coalesces neighbours; ApuHeapGetState free/used/overhead/largest/count return to their prior values (audio_titles tests/heap.rs)",
@@ -405,14 +662,14 @@
     "CreateFX": "ordinal 4; Fortnite 0x144a1d667 creates FXEQ (F5E01117-D6C4-485A-A3F5-695196F3DBFA, no init data), which the host provides; audio_titles tests/xaudio2.rs runs it on a source voice",
     "CreateAudioReverb": "ordinal 2; Trackmania reaches it through XAudio2CreateReverb (thunk 0x1417f7a6b) on a 1-channel submix at the mastering rate; the compat engine (Trackmania passes XAudio2Create(0, 0), so it is wrapped) creates rate-0 mastering voices at the console mix rate 48000 Hz instead of the PC device rate (a 96 kHz host device made the reverb submix fail with XAUDIO2_E_XAPO_CREATION_FAILED and Trackmania 0x1415714b7 would drop all audio); audio_titles tests/trackmania.rs replays Trackmania's init (mastering 0/0/category 6, GetVoiceDetails <= 8 ch, GetChannelMask, reverb SetEffectParameters 0x39 bytes, X3DAudioInitialize(mask, 343.5), X3DAudioCalculate with Trackmania's flags 0x7d | 0x20000 LFE | 2 stereo, the 35/35/12/4 PCM16/float mono/stereo 44.1 kHz source pools with max ratio 4.0, real-time playback at ratios 1 and 2). Fortnite 0x144a1dcee; Fortnite 0x144a1dcee; forwards to host; audio_titles tests/xaudio2.rs runs it on a submix voice. The XAudio2 replay of Fortnite's device probe (0x144a207bb: XAudio2Create(0x400, 8), CreateMasteringVoice(6, 44100, 0, NULL, NULL, 6)) plays 22050 frames in ~0.5 s with SamplesPlayed 22050 (real-time rate, not fast).",
     "D3D12XboxSetProcessDebugFlags": "console d3d12_xs semantics: stores flags & 0x81f00001, returns S_OK; D3D12XboxGetProcessDebugFlags returns it; D3D12XboxCreateDevice overwrites it with D3D12XBOX_CREATE_DEVICE_PARAMETERS+4 (unmasked) and picks the console UMD from it (bit0 without bit31 = xgs12_d debug, bit20 = xgs12_i instrumented, else xgs12). The debug UMD maps to the PC D3D12 debug layer (enabled once, before the first device); the instrumented UMD has no PC counterpart. Tests: d3d12_xs process_debug unit tests + tests/process_debug_on.rs / process_debug_off.rs (debug-layer activation itself unproven on a PC without d3d12SDKLayers.dll). In-game: Fortnite calls it before D3D12XboxCreateDevice (run 23 tombox_compat.log:48).",
-    "XMemTransferMemory": "no-op, returns TRUE for directions 0-2 (single partition on PC)",
-    "XMemFreePhysicalPages": "no-op, returns TRUE (synthetic PFNs)",
-    "XMemGetPartitionHandleAndId": "local stub (console forwards to xbthunk.XbGetPartitionHandleAndId)",
-    "XMemSetWinHttpHooks": "stores 4 pointers, never read (console forwards to xbthunk.XbSetWinHttpHooks)",
-    "XMemSetWin32HeapTrackingHooks": "stores hooks, never invoked on heap alloc/free",
-    "XMemPreallocateFreeSpace": "no-op after type validation",
-    "XMemIsToolsMemAvailable": "always 0 (no tools partition)",
-    "XMemAllocatePhysicalPages": "counter PFNs; map commits VA, unmap decommits; no aliasing of a PFN across VAs",
+    "XMemTransferMemory": "console xmem.dll 0x3940 flow: tools check (ERROR_NOT_SUPPORTED for directions 1/2 without tools memory), size 0 -> TRUE, direction 0 = title->system, 1 = tools->system, 2 = tools->title (any-node retry on multi-node), pages rounded up to 2 MB ((size+0x1fffff)>>12 & ~0x1ff), ERROR_NO_SYSTEM_RESOURCES when the PC cannot back it; directions 0/1 raise the pool commit hard/soft limits (base captured on first use: paged+nonpaged pool + 32/30 MB, 40/38 MB on console mode >= 0x60; the console captures it in DllMain) reported by XMemGetWorkingSetStatistics internal version flag 8 at +0x48/+0x4c; tests stats::transfer_memory_follows_console_flow",
+    "XMemFreePhysicalPages": "console 0x2e40: frees in 0x1000-page chunks, NULL array -> ERROR_NOACCESS, unknown or duplicate PFN -> ERROR_INVALID_PARAMETER; releases the backing section once the last PFN is gone (mapped views stay valid until unmapped); tests virt::free_physical_pages_matches_console_chunking, physical_pages_alias_and_persist",
+    "XMemGetPartitionHandleAndId": "console forwards to xbthunk.XbGetPartitionHandleAndId: index > 2 -> ERROR_INVALID_PARAMETER; opens the real memory partition object when present, otherwise system/title use a duplicated process handle (VirtualAlloc2/MapViewOfFile3 imports strip it) and the tools partition fails with ERROR_PARTITION_NOT_FOUND; test partition_query_follows_xbthunk",
+    "XMemSetWinHttpHooks": "console forwards to xbthunk.XbSetWinHttpHooks: 7-entry table (Open, Connect, OpenRequest, WebSocketCompleteUpgrade, CloseHandle, ReceiveResponse, SetOption); title WinHttp imports are redirected through dispatch wrappers that call the hook or the original; test winhttp_hooks_replace_calls",
+    "XMemSetWin32HeapTrackingHooks": "alloc/realloc/free hooks run after every Heap*/Rtl*Heap call of the title (IAT wrappers, re-entrancy guarded per thread, last error preserved); option 3 makes realloc report the old block as freed first; test heap::tracking_hooks_see_heap_operations",
+    "XMemPreallocateFreeSpace": "console 0x6770: per-pool cache (index type | 0x10 for alt) of committed 512 KB granules (2 MB with option 6 = 0; fixed 4 MB on the 19041 console build, chosen by the gameinput_os_build setting); commits granules until the cache holds the pool's hysteresis (default 64 MB for pool types 1-6/10-12, 8 MB otherwise), records the cached count as the low-water mark, SetLastError(0) and TRUE, FALSE with the commit error otherwise; granule-sized XMemAlloc takes cached granules and frees return them up to the hysteresis; tests pool::preallocate_fills_cache_and_trim_releases, alloc::preallocate_commits_granules_that_allocations_reuse",
+    "XMemIsToolsMemAvailable": "console 0x3880 -> 0x1854(0): console mode 0x68 -> TRUE; tools partition handle (XbGetPartitionHandleAndId(2)) required; system type 0x60 -> FALSE; else the xmem device tools flag (IOCTL 0x1500e8), which has no PC device, so FALSE; test stats::transfer_memory_follows_console_flow",
+    "XMemAllocatePhysicalPages": "counter PFNs backed by page-file sections; a PFN can be mapped at several VAs (aliases share bytes, test physical_pages_alias_and_persist); the console pool-limit gate (ERROR_NOT_ENOUGH_MEMORY past the hard limit) is not applied, see docs/BLOCKERS.md xmem",
     "D3D12ZeroMemoryX": "validation exact; zeroes only VirtualQuery-writable CPU ranges, ignores flags&1 and the 1TB floor, no GPU DMA path",
     "D3D12ConfigureVirtualMemoryX": "matches console; kernel ioctl skipped, outputs 0",
     "D3D12XboxUnloadDriverModule": "no-op (no console driver module on PC)",
@@ -423,31 +680,1715 @@
   },
   "hooked": {
     "file": "crates/compat/compat-common/src/net_guard.rs",
-    "ws2_32.dll": ["getaddrinfo", "GetAddrInfoW", "GetAddrInfoExW", "GetAddrInfoExA", "gethostbyname", "connect", "WSAConnect", "WSAConnectByNameW", "WSAConnectByNameA", "sendto", "WSASendTo"],
-    "winhttp.dll": ["WinHttpConnect", "WinHttpOpenRequest", "WinHttpOpen", "WinHttpSetOption", "WinHttpQueryOption", "WinHttpSendRequest", "WinHttpSetStatusCallback", "WinHttpReceiveResponse", "WinHttpQueryDataAvailable", "WinHttpReadData", "WinHttpQueryHeaders"]
+    "ws2_32.dll": [
+      "getaddrinfo",
+      "GetAddrInfoW",
+      "GetAddrInfoExW",
+      "GetAddrInfoExA",
+      "gethostbyname",
+      "connect",
+      "WSAConnect",
+      "WSAConnectByNameW",
+      "WSAConnectByNameA",
+      "sendto",
+      "WSASendTo"
+    ],
+    "winhttp.dll": [
+      "WinHttpConnect",
+      "WinHttpOpenRequest",
+      "WinHttpOpen",
+      "WinHttpSetOption",
+      "WinHttpQueryOption",
+      "WinHttpSendRequest",
+      "WinHttpSetStatusCallback",
+      "WinHttpReceiveResponse",
+      "WinHttpQueryDataAvailable",
+      "WinHttpReadData",
+      "WinHttpQueryHeaders"
+    ]
   },
   "gdk_linked": {
-    "GDK XAccessibility+XSpeechSynthesizer (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/access.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XAccessibility+XSpeechSynthesizer(d722b373) slot 3 (cc_get_properties)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 4 (cc_set_enabled)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 5 (hc_get_mode)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 6 (stt_set_position)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 7 (stt_send_string)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 8 (synth_duplicate)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 9 (synth_create)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 10 (synth_close)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 11 (synth_default_voice)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 12 (synth_custom_voice)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 13 (stream_from_text)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 14 (stream_close)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 15 (stream_size)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 16 (stream_data)", "XAccessibility+XSpeechSynthesizer(d722b373) slot 21 (stream_from_ssml)"], "titles": {"XAccessibility+XSpeechSynthesizer(d722b373) slot 3 (cc_get_properties)": ["Terraria"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 4 (cc_set_enabled)": ["Terraria"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 5 (hc_get_mode)": ["Terraria"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 6 (stt_set_position)": ["Terraria"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 7 (stt_send_string)": ["Terraria"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 8 (synth_duplicate)": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 9 (synth_create)": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 10 (synth_close)": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 11 (synth_default_voice)": ["Fortnite", "Terraria", "Trackmania"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 12 (synth_custom_voice)": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 13 (stream_from_text)": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 14 (stream_close)": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 15 (stream_size)": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 16 (stream_data)": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAccessibility+XSpeechSynthesizer(d722b373) slot 21 (stream_from_ssml)": ["Terraria"]}},
-    "GDK XAppBroadcast+XAppCaptureMetadata (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/capture.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XAppBroadcast+XAppCaptureMetadata(186d5592) slot 3 (folded)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 4 (show_broadcast_ui)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 5 (broadcast_status)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 6 (register_broadcast)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 7 (unregister_broadcast)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 8 (add_string_event)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 9 (add_int_event)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 10 (add_double_event)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 11 (start_string_state)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 12 (start_int_state)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 13 (start_double_state)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 14 (stop_state)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 15 (stop_all_states)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 16 (remaining_storage)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 17 (register_purged)", "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 18 (unregister_purged)"], "titles": {"XAppBroadcast+XAppCaptureMetadata(186d5592) slot 3 (folded)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 4 (show_broadcast_ui)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 5 (broadcast_status)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 6 (register_broadcast)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 7 (unregister_broadcast)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 8 (add_string_event)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 9 (add_int_event)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 10 (add_double_event)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 11 (start_string_state)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 12 (start_int_state)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 13 (start_double_state)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 14 (stop_state)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 15 (stop_all_states)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 16 (remaining_storage)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 17 (register_purged)": ["Terraria"], "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 18 (unregister_purged)": ["Terraria"]}},
-    "GDK XAppCapture (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/capture.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XAppCapture(3a949778) slot 3 (diagnostic_screenshot)", "XAppCapture(3a949778) slot 4 (diagnostic_clip)", "XAppCapture(3a949778) slot 5 (take_screenshot)", "XAppCapture(3a949778) slot 6 (open_stream)", "XAppCapture(3a949778) slot 7 (read_stream)", "XAppCapture(3a949778) slot 8 (close_stream)", "XAppCapture(3a949778) slot 9 (enable_record)", "XAppCapture(3a949778) slot 10 (disable_record)"], "titles": {"XAppCapture(3a949778) slot 3 (diagnostic_screenshot)": ["Terraria"], "XAppCapture(3a949778) slot 4 (diagnostic_clip)": ["Terraria"], "XAppCapture(3a949778) slot 5 (take_screenshot)": ["Terraria"], "XAppCapture(3a949778) slot 6 (open_stream)": ["Terraria"], "XAppCapture(3a949778) slot 7 (read_stream)": ["Terraria"], "XAppCapture(3a949778) slot 8 (close_stream)": ["Terraria"], "XAppCapture(3a949778) slot 9 (enable_record)": ["Terraria"], "XAppCapture(3a949778) slot 10 (disable_record)": ["Terraria"]}},
-    "GDK XAsync/XTaskQueue/XThread (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/rt.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XAsyncGetStatus", "XAsyncGetResultSize", "XAsyncCancel", "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 6 (a_run)", "XAsyncBegin", "XAsyncSchedule", "XAsyncComplete", "XAsyncGetResult", "XTaskQueueCreate", "XTaskQueueCreateComposite", "XTaskQueueGetPort", "XTaskQueueDuplicateHandle", "XTaskQueueDispatch", "XTaskQueueCloseHandle", "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 18 (q_submit)", "XTaskQueueSubmitDelayedCallback", "XTaskQueueTerminate", "XTaskQueueGetCurrentProcessTaskQueue", "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 27 (thread_set_time_sensitive)", "XThreadAssertNotTimeSensitive", "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 30 (thread_is_time_sensitive)"], "titles": {"XAsyncGetStatus": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAsyncGetResultSize": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAsyncCancel": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 6 (a_run)": ["Terraria"], "XAsyncBegin": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAsyncSchedule": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAsyncComplete": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAsyncGetResult": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XTaskQueueCreate": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XTaskQueueCreateComposite": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XTaskQueueGetPort": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XTaskQueueDuplicateHandle": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XTaskQueueDispatch": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XTaskQueueCloseHandle": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 18 (q_submit)": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XTaskQueueSubmitDelayedCallback": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XTaskQueueTerminate": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XTaskQueueGetCurrentProcessTaskQueue": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 27 (thread_set_time_sensitive)": ["Terraria", "Trackmania"], "XThreadAssertNotTimeSensitive": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 30 (thread_is_time_sensitive)": ["Terraria"]}},
-    "GDK XDisplay (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/basic.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XDisplayTryEnableHdrMode"], "titles": {"XDisplayTryEnableHdrMode": ["Fortnite", "Terraria", "XDefiant"]}},
-    "GDK XError (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/basic.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XError(8ca467f7) slot 3 (error_report)", "XErrorSetCallback", "XErrorSetOptions"], "titles": {"XError(8ca467f7) slot 3 (error_report)": ["Terraria", "Trackmania", "XDefiant"], "XErrorSetCallback": ["Fortnite", "XDefiant"], "XErrorSetOptions": ["Fortnite", "XDefiant"]}},
-    "GDK XGame (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/system.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XGameGetXboxTitleId", "XLaunchNewGame"], "titles": {"XGameGetXboxTitleId": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XLaunchNewGame": ["Fortnite", "Terraria"]}},
-    "GDK XGameEvent (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/system.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XGameEventWrite"], "titles": {"XGameEventWrite": ["Fortnite", "Terraria", "Trackmania", "XDefiant"]}},
-    "GDK XGameInvite (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/social.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XGameInviteRegisterForEvent", "XGameInviteUnregisterForEvent"], "titles": {"XGameInviteRegisterForEvent": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XGameInviteUnregisterForEvent": ["Fortnite", "Terraria", "Trackmania", "XDefiant"]}},
-    "GDK XGameRuntimeFeature (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/basic.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XGameRuntimeIsFeatureAvailable"], "titles": {"XGameRuntimeIsFeatureAvailable": ["Fortnite", "Terraria", "Trackmania", "XDefiant"]}},
-    "GDK XGameSave (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/save.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XGameSaveInitializeProviderAsync", "XGameSaveInitializeProviderResult", "XGameSaveCloseProvider", "XGameSaveDeleteContainer", "XGameSaveGetContainerInfo", "XGameSaveEnumerateContainerInfo", "XGameSaveCreateContainer", "XGameSaveCloseContainer", "XGameSaveEnumerateBlobInfo", "XGameSaveReadBlobData", "XGameSaveCreateUpdate", "XGameSaveCloseUpdate", "XGameSaveSubmitBlobWrite", "XGameSaveSubmitUpdate", "XGameSave(704c3f58..6ee2) slot 3 (init_provider)", "XGameSave(704c3f58..6ee2) slot 6 (close_provider)", "XGameSave(704c3f58..6ee2) slot 7 (get_quota)", "XGameSave(704c3f58..6ee2) slot 8 (get_quota_async)", "XGameSave(704c3f58..6ee2) slot 9 (get_quota_result)", "XGameSave(704c3f58..6ee2) slot 11 (delete_container_async)", "XGameSave(704c3f58..6ee2) slot 12 (status_result)", "XGameSave(704c3f58..6ee2) slot 15 (enumerate_containers_by_name)", "XGameSave(704c3f58..6ee2) slot 17 (close_provider)", "XGameSave(704c3f58..6ee2) slot 19 (enumerate_blobs_by_name)", "XGameSave(704c3f58..6ee2) slot 21 (read_blob_data_async)", "XGameSave(704c3f58..6ee2) slot 22 (read_blob_data_result)", "XGameSave(704c3f58..6ee2) slot 26 (submit_blob_delete)", "XGameSave(704c3f58..6ee2) slot 28 (submit_update_async)", "XGameSave(704c3f58..6ee2) slot 29 (status_result)"], "titles": {"XGameSaveInitializeProviderAsync": ["Fortnite", "Terraria", "Trackmania"], "XGameSaveInitializeProviderResult": ["Fortnite", "Terraria", "Trackmania"], "XGameSaveCloseProvider": ["Fortnite"], "XGameSaveDeleteContainer": ["Fortnite", "Terraria"], "XGameSaveGetContainerInfo": ["Fortnite", "Terraria"], "XGameSaveEnumerateContainerInfo": ["Fortnite", "Terraria"], "XGameSaveCreateContainer": ["Fortnite", "Terraria", "Trackmania"], "XGameSaveCloseContainer": ["Fortnite"], "XGameSaveEnumerateBlobInfo": ["Fortnite", "Terraria", "Trackmania"], "XGameSaveReadBlobData": ["Fortnite", "Terraria"], "XGameSaveCreateUpdate": ["Fortnite", "Terraria", "Trackmania"], "XGameSaveCloseUpdate": ["Fortnite", "Terraria", "Trackmania"], "XGameSaveSubmitBlobWrite": ["Fortnite", "Terraria", "Trackmania"], "XGameSaveSubmitUpdate": ["Fortnite", "Terraria"], "XGameSave(704c3f58..6ee2) slot 3 (init_provider)": ["Terraria"], "XGameSave(704c3f58..6ee2) slot 6 (close_provider)": ["Terraria", "Trackmania"], "XGameSave(704c3f58..6ee2) slot 7 (get_quota)": ["Terraria", "Trackmania"], "XGameSave(704c3f58..6ee2) slot 8 (get_quota_async)": ["Terraria"], "XGameSave(704c3f58..6ee2) slot 9 (get_quota_result)": ["Terraria"], "XGameSave(704c3f58..6ee2) slot 11 (delete_container_async)": ["Terraria"], "XGameSave(704c3f58..6ee2) slot 12 (status_result)": ["Terraria"], "XGameSave(704c3f58..6ee2) slot 15 (enumerate_containers_by_name)": ["Terraria"], "XGameSave(704c3f58..6ee2) slot 17 (close_provider)": ["Terraria", "Trackmania"], "XGameSave(704c3f58..6ee2) slot 19 (enumerate_blobs_by_name)": ["Terraria"], "XGameSave(704c3f58..6ee2) slot 21 (read_blob_data_async)": ["Terraria", "Trackmania"], "XGameSave(704c3f58..6ee2) slot 22 (read_blob_data_result)": ["Terraria", "Trackmania"], "XGameSave(704c3f58..6ee2) slot 26 (submit_blob_delete)": ["Terraria", "Trackmania"], "XGameSave(704c3f58..6ee2) slot 28 (submit_update_async)": ["Terraria", "Trackmania"], "XGameSave(704c3f58..6ee2) slot 29 (status_result)": ["Terraria"]}},
-    "GDK XGameUi (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/ui.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XGameUiShowMessageDialogAsync", "XGameUiShowMessageDialogResult", "XGameUiShowSendGameInviteAsync", "XGameUiShowSendGameInviteResult", "XGameUiShowPlayerProfileCardAsync", "XGameUiShowPlayerProfileCardResult", "XGameUiShowAchievementsAsync", "XGameUiShowAchievementsResult", "XGameUiShowTextEntryAsync", "XGameUiShowTextEntryResultSize", "XGameUiShowTextEntryResult", "XGameUi(72c4e70f) slot 6 (status_result)", "XGameUi(72c4e70f) slot 8 (status_result)", "XGameUi(72c4e70f) slot 10 (status_result)", "XGameUi(72c4e70f) slot 11 (picker_async)", "XGameUi(72c4e70f) slot 12 (picker_count)", "XGameUi(72c4e70f) slot 13 (picker_result)", "XGameUi(72c4e70f) slot 14 (error_async)", "XGameUi(72c4e70f) slot 15 (status_result)", "XGameUi(72c4e70f) slot 16 (set_notification_hint)", "XGameUi(72c4e70f) slot 24 (web_auth_options_async)", "XGameUi(72c4e70f) slot 25 (result_size)", "XGameUi(72c4e70f) slot 26 (web_auth_result)", "XGameUi(72c4e70f) slot 27 (web_auth_options_async)", "XGameUi(72c4e70f) slot 30 (mpa_invite_async)", "XGameUi(72c4e70f) slot 31 (status_result)"], "titles": {"XGameUiShowMessageDialogAsync": ["Fortnite", "Terraria"], "XGameUiShowMessageDialogResult": ["Fortnite", "Terraria"], "XGameUiShowSendGameInviteAsync": ["Fortnite", "Terraria", "Trackmania"], "XGameUiShowSendGameInviteResult": ["Fortnite"], "XGameUiShowPlayerProfileCardAsync": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XGameUiShowPlayerProfileCardResult": ["Fortnite"], "XGameUiShowAchievementsAsync": ["Fortnite", "Terraria"], "XGameUiShowAchievementsResult": ["Fortnite"], "XGameUiShowTextEntryAsync": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XGameUiShowTextEntryResultSize": ["Fortnite", "Terraria", "XDefiant"], "XGameUiShowTextEntryResult": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XGameUi(72c4e70f) slot 6 (status_result)": ["Terraria"], "XGameUi(72c4e70f) slot 8 (status_result)": ["Terraria", "XDefiant"], "XGameUi(72c4e70f) slot 10 (status_result)": ["Terraria"], "XGameUi(72c4e70f) slot 11 (picker_async)": ["Terraria"], "XGameUi(72c4e70f) slot 12 (picker_count)": ["Terraria"], "XGameUi(72c4e70f) slot 13 (picker_result)": ["Terraria"], "XGameUi(72c4e70f) slot 14 (error_async)": ["Terraria", "Trackmania"], "XGameUi(72c4e70f) slot 15 (status_result)": ["Terraria"], "XGameUi(72c4e70f) slot 16 (set_notification_hint)": ["Terraria"], "XGameUi(72c4e70f) slot 24 (web_auth_options_async)": ["Terraria"], "XGameUi(72c4e70f) slot 25 (result_size)": ["Terraria", "Trackmania", "XDefiant"], "XGameUi(72c4e70f) slot 26 (web_auth_result)": ["Terraria", "Trackmania", "XDefiant"], "XGameUi(72c4e70f) slot 27 (web_auth_options_async)": ["Trackmania", "XDefiant"], "XGameUi(72c4e70f) slot 30 (mpa_invite_async)": ["Terraria"], "XGameUi(72c4e70f) slot 31 (status_result)": ["Terraria"]}},
-    "GDK XLaunchUri (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/system.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XLaunchUri", "XLaunchUri(1b339674) slot 4 (acquire_display_deferral)", "XLaunchUri(1b339674) slot 5 (close_display_deferral)"], "titles": {"XLaunchUri": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XLaunchUri(1b339674) slot 4 (acquire_display_deferral)": ["Terraria"], "XLaunchUri(1b339674) slot 5 (close_display_deferral)": ["Terraria"]}},
-    "GDK XNetworking (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/net.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XNetworking(37e56907) slot 3 (port_sync)", "XNetworkingQueryPreferredLocalUdpMultiplayerPortAsync", "XNetworkingQueryPreferredLocalUdpMultiplayerPortAsyncResult", "XNetworking(37e56907) slot 6 (register_port)", "XNetworking(37e56907) slot 7 (unregister_port)", "XNetworking(37e56907) slot 8 (security_async)", "XNetworkingQuerySecurityInformationForUrlUtf16AsyncResultSize", "XNetworking(37e56907) slot 10 (security_result)", "XNetworkingQuerySecurityInformationForUrlUtf16Async", "XNetworkingQuerySecurityInformationForUrlUtf16AsyncResult", "XNetworkingVerifyServerCertificate", "XNetworkingGetConnectivityHint", "XNetworkingRegisterConnectivityHintChanged", "XNetworkingUnregisterConnectivityHintChanged", "XNetworking(bf2346b2) slot 8 (security_async)", "XNetworking(bf2346b2) slot 10 (security_result)"], "titles": {"XNetworking(37e56907) slot 3 (port_sync)": ["Terraria"], "XNetworkingQueryPreferredLocalUdpMultiplayerPortAsync": ["Fortnite", "Terraria"], "XNetworkingQueryPreferredLocalUdpMultiplayerPortAsyncResult": ["Fortnite", "Terraria"], "XNetworking(37e56907) slot 6 (register_port)": ["Terraria"], "XNetworking(37e56907) slot 7 (unregister_port)": ["Terraria"], "XNetworking(37e56907) slot 8 (security_async)": ["Terraria", "XDefiant"], "XNetworkingQuerySecurityInformationForUrlUtf16AsyncResultSize": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XNetworking(37e56907) slot 10 (security_result)": ["Terraria", "XDefiant"], "XNetworkingQuerySecurityInformationForUrlUtf16Async": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XNetworkingQuerySecurityInformationForUrlUtf16AsyncResult": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XNetworkingVerifyServerCertificate": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XNetworkingGetConnectivityHint": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XNetworkingRegisterConnectivityHintChanged": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XNetworkingUnregisterConnectivityHintChanged": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XNetworking(bf2346b2) slot 8 (security_async)": ["Trackmania"], "XNetworking(bf2346b2) slot 10 (security_result)": ["Trackmania"]}},
-    "GDK XPackage (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/package.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XPackageGetCurrentProcessPackageIdentifier", "XPackageIsPackagedProcess", "XPackageCreateInstallationMonitor", "XPackageCloseInstallationMonitorHandle", "XPackageGetInstallationProgress", "XPackageRegisterInstallationProgressChanged", "XPackage(be3f3e9f) slot 11 (get_user_locale)", "XPackageFindChunkAvailability", "XPackageEnumerateChunkAvailability", "XPackageChangeChunkInstallOrder", "XPackageInstallChunksAsync", "XPackageEnumeratePackages", "XPackage(f92d8712) slot 8 (update_monitor)", "XPackage(f92d8712) slot 10 (unregister_progress)", "XPackage(f92d8712) slot 11 (get_user_locale)", "XPackage(f92d8712) slot 18 (estimate_download_size)", "XPackage(f92d8712) slot 22 (unregister_installed)", "XPackage(f92d8712) slot 24 (mount_path_size)", "XPackage(f92d8712) slot 25 (get_mount_path)", "XPackage(f92d8712) slot 26 (close_handle)", "XPackage(f92d8712) slot 30 (get_write_stats)", "XPackage(f92d8712) slot 33 (enumerate_features)", "XPackage(f92d8712) slot 36 (register_installed)"], "titles": {"XPackageGetCurrentProcessPackageIdentifier": ["Fortnite", "Terraria", "Trackmania"], "XPackageIsPackagedProcess": ["Fortnite", "Terraria"], "XPackageCreateInstallationMonitor": ["Fortnite", "Terraria"], "XPackageCloseInstallationMonitorHandle": ["Fortnite", "Terraria"], "XPackageGetInstallationProgress": ["Fortnite", "Terraria"], "XPackageRegisterInstallationProgressChanged": ["Fortnite", "Terraria"], "XPackage(be3f3e9f) slot 11 (get_user_locale)": ["Fortnite"], "XPackageFindChunkAvailability": ["Fortnite"], "XPackageEnumerateChunkAvailability": ["Fortnite"], "XPackageChangeChunkInstallOrder": ["Fortnite"], "XPackageInstallChunksAsync": ["Fortnite"], "XPackageEnumeratePackages": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XPackage(f92d8712) slot 8 (update_monitor)": ["Terraria"], "XPackage(f92d8712) slot 10 (unregister_progress)": ["Terraria"], "XPackage(f92d8712) slot 11 (get_user_locale)": ["Terraria", "Trackmania"], "XPackage(f92d8712) slot 18 (estimate_download_size)": ["Terraria"], "XPackage(f92d8712) slot 22 (unregister_installed)": ["Terraria", "Trackmania", "XDefiant"], "XPackage(f92d8712) slot 24 (mount_path_size)": ["Terraria"], "XPackage(f92d8712) slot 25 (get_mount_path)": ["Terraria"], "XPackage(f92d8712) slot 26 (close_handle)": ["Terraria"], "XPackage(f92d8712) slot 30 (get_write_stats)": ["Terraria"], "XPackage(f92d8712) slot 33 (enumerate_features)": ["Terraria"], "XPackage(f92d8712) slot 36 (register_installed)": ["Terraria", "Trackmania", "XDefiant"]}},
-    "GDK XPersistentLocalStorage (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/system.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XPersistentLocalStorage(d29411df) slot 3 (pls_path_size)", "XPersistentLocalStorageGetPath", "XPersistentLocalStorageGetSpaceInfo"], "titles": {"XPersistentLocalStorage(d29411df) slot 3 (pls_path_size)": ["Terraria", "Trackmania", "XDefiant"], "XPersistentLocalStorageGetPath": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XPersistentLocalStorageGetSpaceInfo": ["Fortnite"]}},
-    "GDK XStore (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/store.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XStore(2d42fea5) slot 71 (acquire_durables_license_async)", "XStore(2d42fea5) slot 72 (acquire_license_result)", "XStore(60b09f4e) slot 70 (is_availability_purchasable)", "XStoreCreateContext", "XStoreCloseContextHandle", "XStoreQueryAssociatedProductsAsync", "XStoreQueryAssociatedProductsResult", "XStoreQueryProductsAsync", "XStoreQueryProductsResult", "XStoreQueryEntitledProductsAsync", "XStoreQueryEntitledProductsResult", "XStore(de3dbdd4) slot 11 (current_game_async)", "XStore(de3dbdd4) slot 12 (products_result)", "XStore(de3dbdd4) slot 13 (for_package_async)", "XStore(de3dbdd4) slot 14 (products_result)", "XStoreEnumerateProductsQuery", "XStoreProductsQueryHasMorePages", "XStoreProductsQueryNextPageAsync", "XStoreProductsQueryNextPageResult", "XStoreCloseProductsQueryHandle", "XStore(de3dbdd4) slot 20 (acquire_package_license_async)", "XStore(de3dbdd4) slot 21 (acquire_license_result)", "XStore(de3dbdd4) slot 22 (is_license_valid)", "XStore(de3dbdd4) slot 23 (close_license)", "XStore(de3dbdd4) slot 24 (can_store_id_async)", "XStore(de3dbdd4) slot 25 (can_result)", "XStore(de3dbdd4) slot 26 (can_package_async)", "XStore(de3dbdd4) slot 27 (can_result)", "XStore(de3dbdd4) slot 28 (game_license_async)", "XStore(de3dbdd4) slot 29 (game_license_result)", "XStore(de3dbdd4) slot 30 (addons_async)", "XStore(de3dbdd4) slot 31 (addons_count)", "XStore(de3dbdd4) slot 32 (addons_result)", "XStoreQueryConsumableBalanceRemainingAsync", "XStoreQueryConsumableBalanceRemainingResult", "XStore(de3dbdd4) slot 35 (fulfill_async)", "XStore(de3dbdd4) slot 36 (fulfill_result)", "XStore(de3dbdd4) slot 37 (collections_id_async)", "XStore(de3dbdd4) slot 38 (result_size)", "XStore(de3dbdd4) slot 39 (string_result)", "XStore(de3dbdd4) slot 40 (purchase_id_async)", "XStore(de3dbdd4) slot 41 (result_size)", "XStore(de3dbdd4) slot 42 (string_result)", "XStore(de3dbdd4) slot 43 (license_token_async)", "XStore(de3dbdd4) slot 44 (result_size)", "XStore(de3dbdd4) slot 45 (string_result)", "XStoreShowPurchaseUIAsync", "XStoreShowPurchaseUIResult", "XStore(de3dbdd4) slot 51 (rate_async)", "XStore(de3dbdd4) slot 52 (rate_result)", "XStoreShowRedeemTokenUIAsync", "XStoreShowRedeemTokenUIResult", "XStoreQueryGameAndDlcPackageUpdatesAsync", "XStoreQueryGameAndDlcPackageUpdatesResultCount", "XStoreQueryGameAndDlcPackageUpdatesResult", "XStore(de3dbdd4) slot 58 (download_updates_async)", "XStore(de3dbdd4) slot 59 (status_result)", "XStore(de3dbdd4) slot 60 (download_updates_async)", "XStore(de3dbdd4) slot 61 (status_result)", "XStore(de3dbdd4) slot 62 (install_packages_async)", "XStore(de3dbdd4) slot 63 (install_packages_count)", "XStore(de3dbdd4) slot 64 (install_packages_result)", "XStore(de3dbdd4) slot 65 (package_identifier)", "XStore(de3dbdd4) slot 66 (register_changed)", "XStore(de3dbdd4) slot 67 (unregister_changed)", "XStore(de3dbdd4) slot 68 (register_lost)", "XStore(de3dbdd4) slot 69 (unregister_lost)", "XStore(de3dbdd4) slot 73 (associated_ui_async)", "XStore(de3dbdd4) slot 74 (status_result)", "XStore(de3dbdd4) slot 75 (product_page_async)", "XStore(de3dbdd4) slot 76 (status_result)"], "titles": {"XStore(2d42fea5) slot 71 (acquire_durables_license_async)": ["Terraria"], "XStore(2d42fea5) slot 72 (acquire_license_result)": ["Terraria"], "XStore(60b09f4e) slot 70 (is_availability_purchasable)": ["Terraria"], "XStoreCreateContext": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XStoreCloseContextHandle": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XStoreQueryAssociatedProductsAsync": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XStoreQueryAssociatedProductsResult": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XStoreQueryProductsAsync": ["Fortnite", "Terraria", "XDefiant"], "XStoreQueryProductsResult": ["Fortnite", "Terraria"], "XStoreQueryEntitledProductsAsync": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XStoreQueryEntitledProductsResult": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XStore(de3dbdd4) slot 11 (current_game_async)": ["Terraria"], "XStore(de3dbdd4) slot 12 (products_result)": ["Terraria"], "XStore(de3dbdd4) slot 13 (for_package_async)": ["Terraria"], "XStore(de3dbdd4) slot 14 (products_result)": ["Terraria"], "XStoreEnumerateProductsQuery": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XStoreProductsQueryHasMorePages": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XStoreProductsQueryNextPageAsync": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XStoreProductsQueryNextPageResult": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XStoreCloseProductsQueryHandle": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XStore(de3dbdd4) slot 20 (acquire_package_license_async)": ["Terraria", "Trackmania", "XDefiant"], "XStore(de3dbdd4) slot 21 (acquire_license_result)": ["Terraria", "Trackmania", "XDefiant"], "XStore(de3dbdd4) slot 22 (is_license_valid)": ["Terraria", "Trackmania", "XDefiant"], "XStore(de3dbdd4) slot 23 (close_license)": ["Terraria", "Trackmania", "XDefiant"], "XStore(de3dbdd4) slot 24 (can_store_id_async)": ["Terraria"], "XStore(de3dbdd4) slot 25 (can_result)": ["Terraria"], "XStore(de3dbdd4) slot 26 (can_package_async)": ["Terraria"], "XStore(de3dbdd4) slot 27 (can_result)": ["Terraria"], "XStore(de3dbdd4) slot 28 (game_license_async)": ["Terraria"], "XStore(de3dbdd4) slot 29 (game_license_result)": ["Terraria"], "XStore(de3dbdd4) slot 30 (addons_async)": ["Terraria"], "XStore(de3dbdd4) slot 31 (addons_count)": ["Terraria"], "XStore(de3dbdd4) slot 32 (addons_result)": ["Terraria"], "XStoreQueryConsumableBalanceRemainingAsync": ["Fortnite", "Terraria", "Trackmania"], "XStoreQueryConsumableBalanceRemainingResult": ["Fortnite", "Terraria", "Trackmania"], "XStore(de3dbdd4) slot 35 (fulfill_async)": ["Terraria"], "XStore(de3dbdd4) slot 36 (fulfill_result)": ["Terraria"], "XStore(de3dbdd4) slot 37 (collections_id_async)": ["Terraria"], "XStore(de3dbdd4) slot 38 (result_size)": ["Terraria"], "XStore(de3dbdd4) slot 39 (string_result)": ["Terraria"], "XStore(de3dbdd4) slot 40 (purchase_id_async)": ["Terraria"], "XStore(de3dbdd4) slot 41 (result_size)": ["Terraria"], "XStore(de3dbdd4) slot 42 (string_result)": ["Terraria"], "XStore(de3dbdd4) slot 43 (license_token_async)": ["Terraria"], "XStore(de3dbdd4) slot 44 (result_size)": ["Terraria"], "XStore(de3dbdd4) slot 45 (string_result)": ["Terraria"], "XStoreShowPurchaseUIAsync": ["Fortnite", "Terraria", "XDefiant"], "XStoreShowPurchaseUIResult": ["Fortnite", "Terraria", "XDefiant"], "XStore(de3dbdd4) slot 51 (rate_async)": ["Terraria"], "XStore(de3dbdd4) slot 52 (rate_result)": ["Terraria"], "XStoreShowRedeemTokenUIAsync": ["Fortnite", "Terraria", "XDefiant"], "XStoreShowRedeemTokenUIResult": ["Fortnite", "Terraria", "XDefiant"], "XStoreQueryGameAndDlcPackageUpdatesAsync": ["Fortnite", "Terraria"], "XStoreQueryGameAndDlcPackageUpdatesResultCount": ["Fortnite", "Terraria"], "XStoreQueryGameAndDlcPackageUpdatesResult": ["Fortnite", "Terraria"], "XStore(de3dbdd4) slot 58 (download_updates_async)": ["Terraria"], "XStore(de3dbdd4) slot 59 (status_result)": ["Terraria"], "XStore(de3dbdd4) slot 60 (download_updates_async)": ["Terraria"], "XStore(de3dbdd4) slot 61 (status_result)": ["Terraria"], "XStore(de3dbdd4) slot 62 (install_packages_async)": ["Terraria"], "XStore(de3dbdd4) slot 63 (install_packages_count)": ["Terraria"], "XStore(de3dbdd4) slot 64 (install_packages_result)": ["Terraria"], "XStore(de3dbdd4) slot 65 (package_identifier)": ["Terraria"], "XStore(de3dbdd4) slot 66 (register_changed)": ["Terraria", "Trackmania", "XDefiant"], "XStore(de3dbdd4) slot 67 (unregister_changed)": ["Terraria", "Trackmania", "XDefiant"], "XStore(de3dbdd4) slot 68 (register_lost)": ["Terraria"], "XStore(de3dbdd4) slot 69 (unregister_lost)": ["Terraria"], "XStore(de3dbdd4) slot 73 (associated_ui_async)": ["Terraria", "Trackmania", "XDefiant"], "XStore(de3dbdd4) slot 74 (status_result)": ["Terraria", "XDefiant"], "XStore(de3dbdd4) slot 75 (product_page_async)": ["Terraria", "Trackmania"], "XStore(de3dbdd4) slot 76 (status_result)": ["Terraria"]}},
-    "GDK XSystem (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/system.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XSystemGetConsoleId", "XSystemGetXboxLiveSandboxId", "XSystem(67ce4bfc) slot 5 (get_app_device_id)", "XSystem(6fd71f09) slot 4 (get_app_device_id)"], "titles": {"XSystemGetConsoleId": ["Fortnite", "Terraria"], "XSystemGetXboxLiveSandboxId": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XSystem(67ce4bfc) slot 5 (get_app_device_id)": ["Terraria"], "XSystem(6fd71f09) slot 4 (get_app_device_id)": ["Terraria"]}},
-    "GDK XSystemAnalytics (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/system.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XSystemGetAnalyticsInfo"], "titles": {"XSystemGetAnalyticsInfo": ["Fortnite", "Terraria", "Trackmania", "XDefiant"]}},
-    "GDK XUser (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/user.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XUserDuplicateHandle", "XUserCloseHandle", "XUserCompare", "XUserAddAsync", "XUserAddResult", "XUserGetId", "XUserResolveIssueWithUiAsync", "XUser(01acd177) slot 30 (status_result)", "XUserUnregisterForChangeEvent", "XUserGetMaxUsers", "XUserGetLocalId", "XUserFindUserByLocalId", "XUserFindUserById", "XUser(1bf2f8c5) slot 13 (get_is_guest)", "XUserGetState", "XUser(1bf2f8c5) slot 16 (gamer_picture_async)", "XUser(1bf2f8c5) slot 17 (result_size)", "XUser(1bf2f8c5) slot 18 (gamer_picture_result)", "XUser(1bf2f8c5) slot 19 (get_age_group)", "XUserCheckPrivilege", "XUserResolvePrivilegeWithUiAsync", "XUser(1bf2f8c5) slot 22 (status_result)", "XUserGetTokenAndSignatureAsync", "XUser(1bf2f8c5) slot 24 (result_size)", "XUserGetTokenAndSignatureResult", "XUserGetTokenAndSignatureUtf16Async", "XUser(1bf2f8c5) slot 27 (result_size)", "XUserGetTokenAndSignatureUtf16Result", "XUser(1bf2f8c5) slot 31 (resolve_issue16_async)", "XUser(1bf2f8c5) slot 32 (status_result)", "XUserRegisterForChangeEvent", "XUser(1bf2f8c5) slot 35 (get_sign_out_deferral)", "XUser(1bf2f8c5) slot 37 (add_by_id_async)", "XUserResolvePrivilegeWithUiResult", "XUserGetTokenAndSignatureResultSize", "XUserGetTokenAndSignatureUtf16ResultSize", "XUserResolveIssueWithUiResult"], "titles": {"XUserDuplicateHandle": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUserCloseHandle": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUserCompare": ["Fortnite", "Terraria"], "XUserAddAsync": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUserAddResult": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUserGetId": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUserResolveIssueWithUiAsync": ["Fortnite", "Trackmania"], "XUser(01acd177) slot 30 (status_result)": ["Fortnite"], "XUserUnregisterForChangeEvent": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUserGetMaxUsers": ["Fortnite", "Terraria"], "XUserGetLocalId": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUserFindUserByLocalId": ["Fortnite", "Terraria", "Trackmania"], "XUserFindUserById": ["Fortnite", "Terraria", "Trackmania"], "XUser(1bf2f8c5) slot 13 (get_is_guest)": ["Terraria"], "XUserGetState": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUser(1bf2f8c5) slot 16 (gamer_picture_async)": ["Terraria", "Trackmania", "XDefiant"], "XUser(1bf2f8c5) slot 17 (result_size)": ["Terraria", "XDefiant"], "XUser(1bf2f8c5) slot 18 (gamer_picture_result)": ["Terraria", "Trackmania", "XDefiant"], "XUser(1bf2f8c5) slot 19 (get_age_group)": ["Terraria"], "XUserCheckPrivilege": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUserResolvePrivilegeWithUiAsync": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUser(1bf2f8c5) slot 22 (status_result)": ["Terraria", "Trackmania", "XDefiant"], "XUserGetTokenAndSignatureAsync": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUser(1bf2f8c5) slot 24 (result_size)": ["Terraria", "Trackmania", "XDefiant"], "XUserGetTokenAndSignatureResult": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUserGetTokenAndSignatureUtf16Async": ["Fortnite", "Terraria"], "XUser(1bf2f8c5) slot 27 (result_size)": ["Terraria"], "XUserGetTokenAndSignatureUtf16Result": ["Fortnite", "Terraria"], "XUser(1bf2f8c5) slot 31 (resolve_issue16_async)": ["Terraria"], "XUser(1bf2f8c5) slot 32 (status_result)": ["Terraria"], "XUserRegisterForChangeEvent": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUser(1bf2f8c5) slot 35 (get_sign_out_deferral)": ["Terraria"], "XUser(1bf2f8c5) slot 37 (add_by_id_async)": ["Terraria"], "XUserResolvePrivilegeWithUiResult": ["Fortnite"], "XUserGetTokenAndSignatureResultSize": ["Fortnite", "Terraria"], "XUserGetTokenAndSignatureUtf16ResultSize": ["Fortnite"], "XUserResolveIssueWithUiResult": ["Fortnite"]}},
-    "GDK XUserDevice (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/user.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XUserFindForDevice", "XUserRegisterForDeviceAssociationChanged", "XUserUnregisterForDeviceAssociationChanged", "XUserGetDefaultAudioEndpointUtf16", "XUserDevice(0cc6a956) slot 9 (find_controller_async)", "XUserDevice(0cc6a956) slot 10 (find_controller_result)"], "titles": {"XUserFindForDevice": ["Fortnite", "Terraria", "Trackmania"], "XUserRegisterForDeviceAssociationChanged": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUserUnregisterForDeviceAssociationChanged": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUserGetDefaultAudioEndpointUtf16": ["Fortnite", "Terraria", "Trackmania", "XDefiant"], "XUserDevice(0cc6a956) slot 9 (find_controller_async)": ["Terraria"], "XUserDevice(0cc6a956) slot 10 (find_controller_result)": ["Terraria"]}},
-    "GDK XUserGamertag (QueryApiImpl)": {"file": "crates/compat/compat-common/src/gdk/user.rs", "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)", "functions": ["XUserGetGamertag"], "titles": {"XUserGetGamertag": ["Fortnite", "Terraria", "Trackmania", "XDefiant"]}}
+    "GDK XAccessibility+XSpeechSynthesizer (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/access.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 3 (cc_get_properties)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 4 (cc_set_enabled)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 5 (hc_get_mode)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 6 (stt_set_position)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 7 (stt_send_string)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 8 (synth_duplicate)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 9 (synth_create)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 10 (synth_close)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 11 (synth_default_voice)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 12 (synth_custom_voice)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 13 (stream_from_text)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 14 (stream_close)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 15 (stream_size)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 16 (stream_data)",
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 21 (stream_from_ssml)"
+      ],
+      "titles": {
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 3 (cc_get_properties)": [
+          "Terraria"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 4 (cc_set_enabled)": [
+          "Terraria"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 5 (hc_get_mode)": [
+          "Terraria"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 6 (stt_set_position)": [
+          "Terraria"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 7 (stt_send_string)": [
+          "Terraria"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 8 (synth_duplicate)": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 9 (synth_create)": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 10 (synth_close)": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 11 (synth_default_voice)": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 12 (synth_custom_voice)": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 13 (stream_from_text)": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 14 (stream_close)": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 15 (stream_size)": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 16 (stream_data)": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAccessibility+XSpeechSynthesizer(d722b373) slot 21 (stream_from_ssml)": [
+          "Terraria"
+        ]
+      }
+    },
+    "GDK XAppBroadcast+XAppCaptureMetadata (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/capture.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 3 (folded)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 4 (show_broadcast_ui)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 5 (broadcast_status)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 6 (register_broadcast)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 7 (unregister_broadcast)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 8 (add_string_event)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 9 (add_int_event)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 10 (add_double_event)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 11 (start_string_state)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 12 (start_int_state)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 13 (start_double_state)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 14 (stop_state)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 15 (stop_all_states)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 16 (remaining_storage)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 17 (register_purged)",
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 18 (unregister_purged)"
+      ],
+      "titles": {
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 3 (folded)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 4 (show_broadcast_ui)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 5 (broadcast_status)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 6 (register_broadcast)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 7 (unregister_broadcast)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 8 (add_string_event)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 9 (add_int_event)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 10 (add_double_event)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 11 (start_string_state)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 12 (start_int_state)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 13 (start_double_state)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 14 (stop_state)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 15 (stop_all_states)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 16 (remaining_storage)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 17 (register_purged)": [
+          "Terraria"
+        ],
+        "XAppBroadcast+XAppCaptureMetadata(186d5592) slot 18 (unregister_purged)": [
+          "Terraria"
+        ]
+      }
+    },
+    "GDK XAppCapture (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/capture.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XAppCapture(3a949778) slot 3 (diagnostic_screenshot)",
+        "XAppCapture(3a949778) slot 4 (diagnostic_clip)",
+        "XAppCapture(3a949778) slot 5 (take_screenshot)",
+        "XAppCapture(3a949778) slot 6 (open_stream)",
+        "XAppCapture(3a949778) slot 7 (read_stream)",
+        "XAppCapture(3a949778) slot 8 (close_stream)",
+        "XAppCapture(3a949778) slot 9 (enable_record)",
+        "XAppCapture(3a949778) slot 10 (disable_record)"
+      ],
+      "titles": {
+        "XAppCapture(3a949778) slot 3 (diagnostic_screenshot)": [
+          "Terraria"
+        ],
+        "XAppCapture(3a949778) slot 4 (diagnostic_clip)": [
+          "Terraria"
+        ],
+        "XAppCapture(3a949778) slot 5 (take_screenshot)": [
+          "Terraria"
+        ],
+        "XAppCapture(3a949778) slot 6 (open_stream)": [
+          "Terraria"
+        ],
+        "XAppCapture(3a949778) slot 7 (read_stream)": [
+          "Terraria"
+        ],
+        "XAppCapture(3a949778) slot 8 (close_stream)": [
+          "Terraria"
+        ],
+        "XAppCapture(3a949778) slot 9 (enable_record)": [
+          "Terraria"
+        ],
+        "XAppCapture(3a949778) slot 10 (disable_record)": [
+          "Terraria"
+        ]
+      }
+    },
+    "GDK XAsync/XTaskQueue/XThread (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/rt.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XAsyncGetStatus",
+        "XAsyncGetResultSize",
+        "XAsyncCancel",
+        "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 6 (a_run)",
+        "XAsyncBegin",
+        "XAsyncSchedule",
+        "XAsyncComplete",
+        "XAsyncGetResult",
+        "XTaskQueueCreate",
+        "XTaskQueueCreateComposite",
+        "XTaskQueueGetPort",
+        "XTaskQueueDuplicateHandle",
+        "XTaskQueueDispatch",
+        "XTaskQueueCloseHandle",
+        "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 18 (q_submit)",
+        "XTaskQueueSubmitDelayedCallback",
+        "XTaskQueueTerminate",
+        "XTaskQueueGetCurrentProcessTaskQueue",
+        "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 27 (thread_set_time_sensitive)",
+        "XThreadAssertNotTimeSensitive",
+        "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 30 (thread_is_time_sensitive)"
+      ],
+      "titles": {
+        "XAsyncGetStatus": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAsyncGetResultSize": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAsyncCancel": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 6 (a_run)": [
+          "Terraria"
+        ],
+        "XAsyncBegin": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAsyncSchedule": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAsyncComplete": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAsyncGetResult": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XTaskQueueCreate": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XTaskQueueCreateComposite": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XTaskQueueGetPort": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XTaskQueueDuplicateHandle": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XTaskQueueDispatch": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XTaskQueueCloseHandle": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 18 (q_submit)": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XTaskQueueSubmitDelayedCallback": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XTaskQueueTerminate": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XTaskQueueGetCurrentProcessTaskQueue": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 27 (thread_set_time_sensitive)": [
+          "Terraria",
+          "Trackmania"
+        ],
+        "XThreadAssertNotTimeSensitive": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XAsync/XTaskQueue/XThread(073b7dcb, emulated) slot 30 (thread_is_time_sensitive)": [
+          "Terraria"
+        ]
+      }
+    },
+    "GDK XDisplay (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/basic.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XDisplayTryEnableHdrMode"
+      ],
+      "titles": {
+        "XDisplayTryEnableHdrMode": [
+          "Fortnite",
+          "Terraria",
+          "XDefiant"
+        ]
+      }
+    },
+    "GDK XError (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/basic.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XError(8ca467f7) slot 3 (error_report)",
+        "XErrorSetCallback",
+        "XErrorSetOptions"
+      ],
+      "titles": {
+        "XError(8ca467f7) slot 3 (error_report)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XErrorSetCallback": [
+          "Fortnite",
+          "XDefiant"
+        ],
+        "XErrorSetOptions": [
+          "Fortnite",
+          "XDefiant"
+        ]
+      }
+    },
+    "GDK XGame (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/system.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XGameGetXboxTitleId",
+        "XLaunchNewGame"
+      ],
+      "titles": {
+        "XGameGetXboxTitleId": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XLaunchNewGame": [
+          "Fortnite",
+          "Terraria"
+        ]
+      }
+    },
+    "GDK XGameEvent (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/system.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XGameEventWrite"
+      ],
+      "titles": {
+        "XGameEventWrite": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ]
+      }
+    },
+    "GDK XGameInvite (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/social.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XGameInviteRegisterForEvent",
+        "XGameInviteUnregisterForEvent"
+      ],
+      "titles": {
+        "XGameInviteRegisterForEvent": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XGameInviteUnregisterForEvent": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ]
+      }
+    },
+    "GDK XGameRuntimeFeature (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/basic.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XGameRuntimeIsFeatureAvailable"
+      ],
+      "titles": {
+        "XGameRuntimeIsFeatureAvailable": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ]
+      }
+    },
+    "GDK XGameSave (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/save.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XGameSaveInitializeProviderAsync",
+        "XGameSaveInitializeProviderResult",
+        "XGameSaveCloseProvider",
+        "XGameSaveDeleteContainer",
+        "XGameSaveGetContainerInfo",
+        "XGameSaveEnumerateContainerInfo",
+        "XGameSaveCreateContainer",
+        "XGameSaveCloseContainer",
+        "XGameSaveEnumerateBlobInfo",
+        "XGameSaveReadBlobData",
+        "XGameSaveCreateUpdate",
+        "XGameSaveCloseUpdate",
+        "XGameSaveSubmitBlobWrite",
+        "XGameSaveSubmitUpdate",
+        "XGameSave(704c3f58..6ee2) slot 3 (init_provider)",
+        "XGameSave(704c3f58..6ee2) slot 6 (close_provider)",
+        "XGameSave(704c3f58..6ee2) slot 7 (get_quota)",
+        "XGameSave(704c3f58..6ee2) slot 8 (get_quota_async)",
+        "XGameSave(704c3f58..6ee2) slot 9 (get_quota_result)",
+        "XGameSave(704c3f58..6ee2) slot 11 (delete_container_async)",
+        "XGameSave(704c3f58..6ee2) slot 12 (status_result)",
+        "XGameSave(704c3f58..6ee2) slot 15 (enumerate_containers_by_name)",
+        "XGameSave(704c3f58..6ee2) slot 17 (close_provider)",
+        "XGameSave(704c3f58..6ee2) slot 19 (enumerate_blobs_by_name)",
+        "XGameSave(704c3f58..6ee2) slot 21 (read_blob_data_async)",
+        "XGameSave(704c3f58..6ee2) slot 22 (read_blob_data_result)",
+        "XGameSave(704c3f58..6ee2) slot 26 (submit_blob_delete)",
+        "XGameSave(704c3f58..6ee2) slot 28 (submit_update_async)",
+        "XGameSave(704c3f58..6ee2) slot 29 (status_result)"
+      ],
+      "titles": {
+        "XGameSaveInitializeProviderAsync": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSaveInitializeProviderResult": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSaveCloseProvider": [
+          "Fortnite"
+        ],
+        "XGameSaveDeleteContainer": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XGameSaveGetContainerInfo": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XGameSaveEnumerateContainerInfo": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XGameSaveCreateContainer": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSaveCloseContainer": [
+          "Fortnite"
+        ],
+        "XGameSaveEnumerateBlobInfo": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSaveReadBlobData": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XGameSaveCreateUpdate": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSaveCloseUpdate": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSaveSubmitBlobWrite": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSaveSubmitUpdate": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 3 (init_provider)": [
+          "Terraria"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 6 (close_provider)": [
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 7 (get_quota)": [
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 8 (get_quota_async)": [
+          "Terraria"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 9 (get_quota_result)": [
+          "Terraria"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 11 (delete_container_async)": [
+          "Terraria"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 12 (status_result)": [
+          "Terraria"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 15 (enumerate_containers_by_name)": [
+          "Terraria"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 17 (close_provider)": [
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 19 (enumerate_blobs_by_name)": [
+          "Terraria"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 21 (read_blob_data_async)": [
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 22 (read_blob_data_result)": [
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 26 (submit_blob_delete)": [
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 28 (submit_update_async)": [
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameSave(704c3f58..6ee2) slot 29 (status_result)": [
+          "Terraria"
+        ]
+      }
+    },
+    "GDK XGameUi (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/ui.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XGameUiShowMessageDialogAsync",
+        "XGameUiShowMessageDialogResult",
+        "XGameUiShowSendGameInviteAsync",
+        "XGameUiShowSendGameInviteResult",
+        "XGameUiShowPlayerProfileCardAsync",
+        "XGameUiShowPlayerProfileCardResult",
+        "XGameUiShowAchievementsAsync",
+        "XGameUiShowAchievementsResult",
+        "XGameUiShowTextEntryAsync",
+        "XGameUiShowTextEntryResultSize",
+        "XGameUiShowTextEntryResult",
+        "XGameUi(72c4e70f) slot 6 (status_result)",
+        "XGameUi(72c4e70f) slot 8 (status_result)",
+        "XGameUi(72c4e70f) slot 10 (status_result)",
+        "XGameUi(72c4e70f) slot 11 (picker_async)",
+        "XGameUi(72c4e70f) slot 12 (picker_count)",
+        "XGameUi(72c4e70f) slot 13 (picker_result)",
+        "XGameUi(72c4e70f) slot 14 (error_async)",
+        "XGameUi(72c4e70f) slot 15 (status_result)",
+        "XGameUi(72c4e70f) slot 16 (set_notification_hint)",
+        "XGameUi(72c4e70f) slot 24 (web_auth_options_async)",
+        "XGameUi(72c4e70f) slot 25 (result_size)",
+        "XGameUi(72c4e70f) slot 26 (web_auth_result)",
+        "XGameUi(72c4e70f) slot 27 (web_auth_options_async)",
+        "XGameUi(72c4e70f) slot 30 (mpa_invite_async)",
+        "XGameUi(72c4e70f) slot 31 (status_result)"
+      ],
+      "titles": {
+        "XGameUiShowMessageDialogAsync": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XGameUiShowMessageDialogResult": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XGameUiShowSendGameInviteAsync": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameUiShowSendGameInviteResult": [
+          "Fortnite"
+        ],
+        "XGameUiShowPlayerProfileCardAsync": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XGameUiShowPlayerProfileCardResult": [
+          "Fortnite"
+        ],
+        "XGameUiShowAchievementsAsync": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XGameUiShowAchievementsResult": [
+          "Fortnite"
+        ],
+        "XGameUiShowTextEntryAsync": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XGameUiShowTextEntryResultSize": [
+          "Fortnite",
+          "Terraria",
+          "XDefiant"
+        ],
+        "XGameUiShowTextEntryResult": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XGameUi(72c4e70f) slot 6 (status_result)": [
+          "Terraria"
+        ],
+        "XGameUi(72c4e70f) slot 8 (status_result)": [
+          "Terraria",
+          "XDefiant"
+        ],
+        "XGameUi(72c4e70f) slot 10 (status_result)": [
+          "Terraria"
+        ],
+        "XGameUi(72c4e70f) slot 11 (picker_async)": [
+          "Terraria"
+        ],
+        "XGameUi(72c4e70f) slot 12 (picker_count)": [
+          "Terraria"
+        ],
+        "XGameUi(72c4e70f) slot 13 (picker_result)": [
+          "Terraria"
+        ],
+        "XGameUi(72c4e70f) slot 14 (error_async)": [
+          "Terraria",
+          "Trackmania"
+        ],
+        "XGameUi(72c4e70f) slot 15 (status_result)": [
+          "Terraria"
+        ],
+        "XGameUi(72c4e70f) slot 16 (set_notification_hint)": [
+          "Terraria"
+        ],
+        "XGameUi(72c4e70f) slot 24 (web_auth_options_async)": [
+          "Terraria"
+        ],
+        "XGameUi(72c4e70f) slot 25 (result_size)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XGameUi(72c4e70f) slot 26 (web_auth_result)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XGameUi(72c4e70f) slot 27 (web_auth_options_async)": [
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XGameUi(72c4e70f) slot 30 (mpa_invite_async)": [
+          "Terraria"
+        ],
+        "XGameUi(72c4e70f) slot 31 (status_result)": [
+          "Terraria"
+        ]
+      }
+    },
+    "GDK XLaunchUri (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/system.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XLaunchUri",
+        "XLaunchUri(1b339674) slot 4 (acquire_display_deferral)",
+        "XLaunchUri(1b339674) slot 5 (close_display_deferral)"
+      ],
+      "titles": {
+        "XLaunchUri": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XLaunchUri(1b339674) slot 4 (acquire_display_deferral)": [
+          "Terraria"
+        ],
+        "XLaunchUri(1b339674) slot 5 (close_display_deferral)": [
+          "Terraria"
+        ]
+      }
+    },
+    "GDK XNetworking (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/net.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XNetworking(37e56907) slot 3 (port_sync)",
+        "XNetworkingQueryPreferredLocalUdpMultiplayerPortAsync",
+        "XNetworkingQueryPreferredLocalUdpMultiplayerPortAsyncResult",
+        "XNetworking(37e56907) slot 6 (register_port)",
+        "XNetworking(37e56907) slot 7 (unregister_port)",
+        "XNetworking(37e56907) slot 8 (security_async)",
+        "XNetworkingQuerySecurityInformationForUrlUtf16AsyncResultSize",
+        "XNetworking(37e56907) slot 10 (security_result)",
+        "XNetworkingQuerySecurityInformationForUrlUtf16Async",
+        "XNetworkingQuerySecurityInformationForUrlUtf16AsyncResult",
+        "XNetworkingVerifyServerCertificate",
+        "XNetworkingGetConnectivityHint",
+        "XNetworkingRegisterConnectivityHintChanged",
+        "XNetworkingUnregisterConnectivityHintChanged",
+        "XNetworking(bf2346b2) slot 8 (security_async)",
+        "XNetworking(bf2346b2) slot 10 (security_result)"
+      ],
+      "titles": {
+        "XNetworking(37e56907) slot 3 (port_sync)": [
+          "Terraria"
+        ],
+        "XNetworkingQueryPreferredLocalUdpMultiplayerPortAsync": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XNetworkingQueryPreferredLocalUdpMultiplayerPortAsyncResult": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XNetworking(37e56907) slot 6 (register_port)": [
+          "Terraria"
+        ],
+        "XNetworking(37e56907) slot 7 (unregister_port)": [
+          "Terraria"
+        ],
+        "XNetworking(37e56907) slot 8 (security_async)": [
+          "Terraria",
+          "XDefiant"
+        ],
+        "XNetworkingQuerySecurityInformationForUrlUtf16AsyncResultSize": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XNetworking(37e56907) slot 10 (security_result)": [
+          "Terraria",
+          "XDefiant"
+        ],
+        "XNetworkingQuerySecurityInformationForUrlUtf16Async": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XNetworkingQuerySecurityInformationForUrlUtf16AsyncResult": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XNetworkingVerifyServerCertificate": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XNetworkingGetConnectivityHint": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XNetworkingRegisterConnectivityHintChanged": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XNetworkingUnregisterConnectivityHintChanged": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XNetworking(bf2346b2) slot 8 (security_async)": [
+          "Trackmania"
+        ],
+        "XNetworking(bf2346b2) slot 10 (security_result)": [
+          "Trackmania"
+        ]
+      }
+    },
+    "GDK XPackage (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/package.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XPackageGetCurrentProcessPackageIdentifier",
+        "XPackageIsPackagedProcess",
+        "XPackageCreateInstallationMonitor",
+        "XPackageCloseInstallationMonitorHandle",
+        "XPackageGetInstallationProgress",
+        "XPackageRegisterInstallationProgressChanged",
+        "XPackage(be3f3e9f) slot 11 (get_user_locale)",
+        "XPackageFindChunkAvailability",
+        "XPackageEnumerateChunkAvailability",
+        "XPackageChangeChunkInstallOrder",
+        "XPackageInstallChunksAsync",
+        "XPackageEnumeratePackages",
+        "XPackage(f92d8712) slot 8 (update_monitor)",
+        "XPackage(f92d8712) slot 10 (unregister_progress)",
+        "XPackage(f92d8712) slot 11 (get_user_locale)",
+        "XPackage(f92d8712) slot 18 (estimate_download_size)",
+        "XPackage(f92d8712) slot 22 (unregister_installed)",
+        "XPackage(f92d8712) slot 24 (mount_path_size)",
+        "XPackage(f92d8712) slot 25 (get_mount_path)",
+        "XPackage(f92d8712) slot 26 (close_handle)",
+        "XPackage(f92d8712) slot 30 (get_write_stats)",
+        "XPackage(f92d8712) slot 33 (enumerate_features)",
+        "XPackage(f92d8712) slot 36 (register_installed)"
+      ],
+      "titles": {
+        "XPackageGetCurrentProcessPackageIdentifier": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XPackageIsPackagedProcess": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XPackageCreateInstallationMonitor": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XPackageCloseInstallationMonitorHandle": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XPackageGetInstallationProgress": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XPackageRegisterInstallationProgressChanged": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XPackage(be3f3e9f) slot 11 (get_user_locale)": [
+          "Fortnite"
+        ],
+        "XPackageFindChunkAvailability": [
+          "Fortnite"
+        ],
+        "XPackageEnumerateChunkAvailability": [
+          "Fortnite"
+        ],
+        "XPackageChangeChunkInstallOrder": [
+          "Fortnite"
+        ],
+        "XPackageInstallChunksAsync": [
+          "Fortnite"
+        ],
+        "XPackageEnumeratePackages": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XPackage(f92d8712) slot 8 (update_monitor)": [
+          "Terraria"
+        ],
+        "XPackage(f92d8712) slot 10 (unregister_progress)": [
+          "Terraria"
+        ],
+        "XPackage(f92d8712) slot 11 (get_user_locale)": [
+          "Terraria",
+          "Trackmania"
+        ],
+        "XPackage(f92d8712) slot 18 (estimate_download_size)": [
+          "Terraria"
+        ],
+        "XPackage(f92d8712) slot 22 (unregister_installed)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XPackage(f92d8712) slot 24 (mount_path_size)": [
+          "Terraria"
+        ],
+        "XPackage(f92d8712) slot 25 (get_mount_path)": [
+          "Terraria"
+        ],
+        "XPackage(f92d8712) slot 26 (close_handle)": [
+          "Terraria"
+        ],
+        "XPackage(f92d8712) slot 30 (get_write_stats)": [
+          "Terraria"
+        ],
+        "XPackage(f92d8712) slot 33 (enumerate_features)": [
+          "Terraria"
+        ],
+        "XPackage(f92d8712) slot 36 (register_installed)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ]
+      }
+    },
+    "GDK XPersistentLocalStorage (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/system.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XPersistentLocalStorage(d29411df) slot 3 (pls_path_size)",
+        "XPersistentLocalStorageGetPath",
+        "XPersistentLocalStorageGetSpaceInfo"
+      ],
+      "titles": {
+        "XPersistentLocalStorage(d29411df) slot 3 (pls_path_size)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XPersistentLocalStorageGetPath": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XPersistentLocalStorageGetSpaceInfo": [
+          "Fortnite"
+        ]
+      }
+    },
+    "GDK XStore (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/store.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XStore(2d42fea5) slot 71 (acquire_durables_license_async)",
+        "XStore(2d42fea5) slot 72 (acquire_license_result)",
+        "XStore(60b09f4e) slot 70 (is_availability_purchasable)",
+        "XStoreCreateContext",
+        "XStoreCloseContextHandle",
+        "XStoreQueryAssociatedProductsAsync",
+        "XStoreQueryAssociatedProductsResult",
+        "XStoreQueryProductsAsync",
+        "XStoreQueryProductsResult",
+        "XStoreQueryEntitledProductsAsync",
+        "XStoreQueryEntitledProductsResult",
+        "XStore(de3dbdd4) slot 11 (current_game_async)",
+        "XStore(de3dbdd4) slot 12 (products_result)",
+        "XStore(de3dbdd4) slot 13 (for_package_async)",
+        "XStore(de3dbdd4) slot 14 (products_result)",
+        "XStoreEnumerateProductsQuery",
+        "XStoreProductsQueryHasMorePages",
+        "XStoreProductsQueryNextPageAsync",
+        "XStoreProductsQueryNextPageResult",
+        "XStoreCloseProductsQueryHandle",
+        "XStore(de3dbdd4) slot 20 (acquire_package_license_async)",
+        "XStore(de3dbdd4) slot 21 (acquire_license_result)",
+        "XStore(de3dbdd4) slot 22 (is_license_valid)",
+        "XStore(de3dbdd4) slot 23 (close_license)",
+        "XStore(de3dbdd4) slot 24 (can_store_id_async)",
+        "XStore(de3dbdd4) slot 25 (can_result)",
+        "XStore(de3dbdd4) slot 26 (can_package_async)",
+        "XStore(de3dbdd4) slot 27 (can_result)",
+        "XStore(de3dbdd4) slot 28 (game_license_async)",
+        "XStore(de3dbdd4) slot 29 (game_license_result)",
+        "XStore(de3dbdd4) slot 30 (addons_async)",
+        "XStore(de3dbdd4) slot 31 (addons_count)",
+        "XStore(de3dbdd4) slot 32 (addons_result)",
+        "XStoreQueryConsumableBalanceRemainingAsync",
+        "XStoreQueryConsumableBalanceRemainingResult",
+        "XStore(de3dbdd4) slot 35 (fulfill_async)",
+        "XStore(de3dbdd4) slot 36 (fulfill_result)",
+        "XStore(de3dbdd4) slot 37 (collections_id_async)",
+        "XStore(de3dbdd4) slot 38 (result_size)",
+        "XStore(de3dbdd4) slot 39 (string_result)",
+        "XStore(de3dbdd4) slot 40 (purchase_id_async)",
+        "XStore(de3dbdd4) slot 41 (result_size)",
+        "XStore(de3dbdd4) slot 42 (string_result)",
+        "XStore(de3dbdd4) slot 43 (license_token_async)",
+        "XStore(de3dbdd4) slot 44 (result_size)",
+        "XStore(de3dbdd4) slot 45 (string_result)",
+        "XStoreShowPurchaseUIAsync",
+        "XStoreShowPurchaseUIResult",
+        "XStore(de3dbdd4) slot 51 (rate_async)",
+        "XStore(de3dbdd4) slot 52 (rate_result)",
+        "XStoreShowRedeemTokenUIAsync",
+        "XStoreShowRedeemTokenUIResult",
+        "XStoreQueryGameAndDlcPackageUpdatesAsync",
+        "XStoreQueryGameAndDlcPackageUpdatesResultCount",
+        "XStoreQueryGameAndDlcPackageUpdatesResult",
+        "XStore(de3dbdd4) slot 58 (download_updates_async)",
+        "XStore(de3dbdd4) slot 59 (status_result)",
+        "XStore(de3dbdd4) slot 60 (download_updates_async)",
+        "XStore(de3dbdd4) slot 61 (status_result)",
+        "XStore(de3dbdd4) slot 62 (install_packages_async)",
+        "XStore(de3dbdd4) slot 63 (install_packages_count)",
+        "XStore(de3dbdd4) slot 64 (install_packages_result)",
+        "XStore(de3dbdd4) slot 65 (package_identifier)",
+        "XStore(de3dbdd4) slot 66 (register_changed)",
+        "XStore(de3dbdd4) slot 67 (unregister_changed)",
+        "XStore(de3dbdd4) slot 68 (register_lost)",
+        "XStore(de3dbdd4) slot 69 (unregister_lost)",
+        "XStore(de3dbdd4) slot 73 (associated_ui_async)",
+        "XStore(de3dbdd4) slot 74 (status_result)",
+        "XStore(de3dbdd4) slot 75 (product_page_async)",
+        "XStore(de3dbdd4) slot 76 (status_result)"
+      ],
+      "titles": {
+        "XStore(2d42fea5) slot 71 (acquire_durables_license_async)": [
+          "Terraria"
+        ],
+        "XStore(2d42fea5) slot 72 (acquire_license_result)": [
+          "Terraria"
+        ],
+        "XStore(60b09f4e) slot 70 (is_availability_purchasable)": [
+          "Terraria"
+        ],
+        "XStoreCreateContext": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStoreCloseContextHandle": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStoreQueryAssociatedProductsAsync": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStoreQueryAssociatedProductsResult": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStoreQueryProductsAsync": [
+          "Fortnite",
+          "Terraria",
+          "XDefiant"
+        ],
+        "XStoreQueryProductsResult": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XStoreQueryEntitledProductsAsync": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStoreQueryEntitledProductsResult": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStore(de3dbdd4) slot 11 (current_game_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 12 (products_result)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 13 (for_package_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 14 (products_result)": [
+          "Terraria"
+        ],
+        "XStoreEnumerateProductsQuery": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStoreProductsQueryHasMorePages": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStoreProductsQueryNextPageAsync": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStoreProductsQueryNextPageResult": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStoreCloseProductsQueryHandle": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStore(de3dbdd4) slot 20 (acquire_package_license_async)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStore(de3dbdd4) slot 21 (acquire_license_result)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStore(de3dbdd4) slot 22 (is_license_valid)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStore(de3dbdd4) slot 23 (close_license)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStore(de3dbdd4) slot 24 (can_store_id_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 25 (can_result)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 26 (can_package_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 27 (can_result)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 28 (game_license_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 29 (game_license_result)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 30 (addons_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 31 (addons_count)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 32 (addons_result)": [
+          "Terraria"
+        ],
+        "XStoreQueryConsumableBalanceRemainingAsync": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XStoreQueryConsumableBalanceRemainingResult": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XStore(de3dbdd4) slot 35 (fulfill_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 36 (fulfill_result)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 37 (collections_id_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 38 (result_size)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 39 (string_result)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 40 (purchase_id_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 41 (result_size)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 42 (string_result)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 43 (license_token_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 44 (result_size)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 45 (string_result)": [
+          "Terraria"
+        ],
+        "XStoreShowPurchaseUIAsync": [
+          "Fortnite",
+          "Terraria",
+          "XDefiant"
+        ],
+        "XStoreShowPurchaseUIResult": [
+          "Fortnite",
+          "Terraria",
+          "XDefiant"
+        ],
+        "XStore(de3dbdd4) slot 51 (rate_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 52 (rate_result)": [
+          "Terraria"
+        ],
+        "XStoreShowRedeemTokenUIAsync": [
+          "Fortnite",
+          "Terraria",
+          "XDefiant"
+        ],
+        "XStoreShowRedeemTokenUIResult": [
+          "Fortnite",
+          "Terraria",
+          "XDefiant"
+        ],
+        "XStoreQueryGameAndDlcPackageUpdatesAsync": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XStoreQueryGameAndDlcPackageUpdatesResultCount": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XStoreQueryGameAndDlcPackageUpdatesResult": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 58 (download_updates_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 59 (status_result)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 60 (download_updates_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 61 (status_result)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 62 (install_packages_async)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 63 (install_packages_count)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 64 (install_packages_result)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 65 (package_identifier)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 66 (register_changed)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStore(de3dbdd4) slot 67 (unregister_changed)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStore(de3dbdd4) slot 68 (register_lost)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 69 (unregister_lost)": [
+          "Terraria"
+        ],
+        "XStore(de3dbdd4) slot 73 (associated_ui_async)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XStore(de3dbdd4) slot 74 (status_result)": [
+          "Terraria",
+          "XDefiant"
+        ],
+        "XStore(de3dbdd4) slot 75 (product_page_async)": [
+          "Terraria",
+          "Trackmania"
+        ],
+        "XStore(de3dbdd4) slot 76 (status_result)": [
+          "Terraria"
+        ]
+      }
+    },
+    "GDK XSystem (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/system.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XSystemGetConsoleId",
+        "XSystemGetXboxLiveSandboxId",
+        "XSystem(67ce4bfc) slot 5 (get_app_device_id)",
+        "XSystem(6fd71f09) slot 4 (get_app_device_id)"
+      ],
+      "titles": {
+        "XSystemGetConsoleId": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XSystemGetXboxLiveSandboxId": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XSystem(67ce4bfc) slot 5 (get_app_device_id)": [
+          "Terraria"
+        ],
+        "XSystem(6fd71f09) slot 4 (get_app_device_id)": [
+          "Terraria"
+        ]
+      }
+    },
+    "GDK XSystemAnalytics (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/system.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XSystemGetAnalyticsInfo"
+      ],
+      "titles": {
+        "XSystemGetAnalyticsInfo": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ]
+      }
+    },
+    "GDK XUser (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/user.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XUserDuplicateHandle",
+        "XUserCloseHandle",
+        "XUserCompare",
+        "XUserAddAsync",
+        "XUserAddResult",
+        "XUserGetId",
+        "XUserResolveIssueWithUiAsync",
+        "XUser(01acd177) slot 30 (status_result)",
+        "XUserUnregisterForChangeEvent",
+        "XUserGetMaxUsers",
+        "XUserGetLocalId",
+        "XUserFindUserByLocalId",
+        "XUserFindUserById",
+        "XUser(1bf2f8c5) slot 13 (get_is_guest)",
+        "XUserGetState",
+        "XUser(1bf2f8c5) slot 16 (gamer_picture_async)",
+        "XUser(1bf2f8c5) slot 17 (result_size)",
+        "XUser(1bf2f8c5) slot 18 (gamer_picture_result)",
+        "XUser(1bf2f8c5) slot 19 (get_age_group)",
+        "XUserCheckPrivilege",
+        "XUserResolvePrivilegeWithUiAsync",
+        "XUser(1bf2f8c5) slot 22 (status_result)",
+        "XUserGetTokenAndSignatureAsync",
+        "XUser(1bf2f8c5) slot 24 (result_size)",
+        "XUserGetTokenAndSignatureResult",
+        "XUserGetTokenAndSignatureUtf16Async",
+        "XUser(1bf2f8c5) slot 27 (result_size)",
+        "XUserGetTokenAndSignatureUtf16Result",
+        "XUser(1bf2f8c5) slot 31 (resolve_issue16_async)",
+        "XUser(1bf2f8c5) slot 32 (status_result)",
+        "XUserRegisterForChangeEvent",
+        "XUser(1bf2f8c5) slot 35 (get_sign_out_deferral)",
+        "XUser(1bf2f8c5) slot 37 (add_by_id_async)",
+        "XUserResolvePrivilegeWithUiResult",
+        "XUserGetTokenAndSignatureResultSize",
+        "XUserGetTokenAndSignatureUtf16ResultSize",
+        "XUserResolveIssueWithUiResult"
+      ],
+      "titles": {
+        "XUserDuplicateHandle": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserCloseHandle": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserCompare": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XUserAddAsync": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserAddResult": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserGetId": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserResolveIssueWithUiAsync": [
+          "Fortnite",
+          "Trackmania"
+        ],
+        "XUser(01acd177) slot 30 (status_result)": [
+          "Fortnite"
+        ],
+        "XUserUnregisterForChangeEvent": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserGetMaxUsers": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XUserGetLocalId": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserFindUserByLocalId": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XUserFindUserById": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XUser(1bf2f8c5) slot 13 (get_is_guest)": [
+          "Terraria"
+        ],
+        "XUserGetState": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUser(1bf2f8c5) slot 16 (gamer_picture_async)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUser(1bf2f8c5) slot 17 (result_size)": [
+          "Terraria",
+          "XDefiant"
+        ],
+        "XUser(1bf2f8c5) slot 18 (gamer_picture_result)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUser(1bf2f8c5) slot 19 (get_age_group)": [
+          "Terraria"
+        ],
+        "XUserCheckPrivilege": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserResolvePrivilegeWithUiAsync": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUser(1bf2f8c5) slot 22 (status_result)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserGetTokenAndSignatureAsync": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUser(1bf2f8c5) slot 24 (result_size)": [
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserGetTokenAndSignatureResult": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserGetTokenAndSignatureUtf16Async": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XUser(1bf2f8c5) slot 27 (result_size)": [
+          "Terraria"
+        ],
+        "XUserGetTokenAndSignatureUtf16Result": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XUser(1bf2f8c5) slot 31 (resolve_issue16_async)": [
+          "Terraria"
+        ],
+        "XUser(1bf2f8c5) slot 32 (status_result)": [
+          "Terraria"
+        ],
+        "XUserRegisterForChangeEvent": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUser(1bf2f8c5) slot 35 (get_sign_out_deferral)": [
+          "Terraria"
+        ],
+        "XUser(1bf2f8c5) slot 37 (add_by_id_async)": [
+          "Terraria"
+        ],
+        "XUserResolvePrivilegeWithUiResult": [
+          "Fortnite"
+        ],
+        "XUserGetTokenAndSignatureResultSize": [
+          "Fortnite",
+          "Terraria"
+        ],
+        "XUserGetTokenAndSignatureUtf16ResultSize": [
+          "Fortnite"
+        ],
+        "XUserResolveIssueWithUiResult": [
+          "Fortnite"
+        ]
+      }
+    },
+    "GDK XUserDevice (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/user.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XUserFindForDevice",
+        "XUserRegisterForDeviceAssociationChanged",
+        "XUserUnregisterForDeviceAssociationChanged",
+        "XUserGetDefaultAudioEndpointUtf16",
+        "XUserDevice(0cc6a956) slot 9 (find_controller_async)",
+        "XUserDevice(0cc6a956) slot 10 (find_controller_result)"
+      ],
+      "titles": {
+        "XUserFindForDevice": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania"
+        ],
+        "XUserRegisterForDeviceAssociationChanged": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserUnregisterForDeviceAssociationChanged": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserGetDefaultAudioEndpointUtf16": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ],
+        "XUserDevice(0cc6a956) slot 9 (find_controller_async)": [
+          "Terraria"
+        ],
+        "XUserDevice(0cc6a956) slot 10 (find_controller_result)": [
+          "Terraria"
+        ]
+      }
+    },
+    "GDK XUserGamertag (QueryApiImpl)": {
+      "file": "crates/compat/compat-common/src/gdk/user.rs",
+      "dir": "xgameruntime QueryApiImpl (title call sites, analysis/gdk)",
+      "functions": [
+        "XUserGetGamertag"
+      ],
+      "titles": {
+        "XUserGetGamertag": [
+          "Fortnite",
+          "Terraria",
+          "Trackmania",
+          "XDefiant"
+        ]
+      }
+    }
   }
 }

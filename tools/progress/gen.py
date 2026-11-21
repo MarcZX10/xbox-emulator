@@ -55,6 +55,7 @@ XCOL = {"implemented": "#2ea043", "forwarded": "#388bfd", "hooked": "#a371f7", "
         "title": "#56b6c2", "stub": "#d29922", "unverified": "#3d444d", "missing": "#6e7681"}
 XORDER = ["implemented", "forwarded", "hooked", "pc", "title", "stub", "unverified", "missing"]
 COVERED = {"implemented", "forwarded", "hooked", "pc", "title"}
+PC_SUPPLEMENT = {"kernel32.dll", "advapi32.dll"}
 LABEL = {"implemented": "implemented in emulator", "forwarded": "forwarded by emulator to PC",
          "hooked": "PC system DLL, hooked by emulator", "pc": "PC system DLL (name match)",
          "title": "shipped with the title", "stub": "emulator stub", "unverified": "unverified",
@@ -235,7 +236,7 @@ def console(full=False, twins=True):
             users = set(direct.get((low, n), set()))
             if host.get(n) == low:
                 users |= by_func.get(n, set())
-            if low in emu:
+            if low in emu and (has == 0 or n in emu[low]["functions"] or low not in PC_SUPPLEMENT):
                 st = emu[low]["functions"].get(n, "missing")
             elif has == 1:
                 st = "hooked" if n in hooked.get(low, ()) else "pc"
@@ -366,7 +367,7 @@ def classify_title_import(title, shipped, binary, mod, f, pcflag):
     ub, um = unverified_lists(title)
     if binary.lower() in ub:
         return "unverified", f"{binary} is delay-loaded by the EXE and never appears in run logs"
-    if low in emu:
+    if low in emu and (f in emu[low]["functions"] or low not in PC_SUPPLEMENT):
         st = emu[low]["functions"].get(f, "missing")
         note = (emu[low].get("notes", {}).get(f) or cfg["notes"].get(f, "")) if st != "missing" else f"not exported by the emulator's {mod}"
         return st, f"[{emu[low]['file']}]({TOMBOX}{emu[low]['file']})" + (f" ({note})" if note else "")
@@ -656,14 +657,15 @@ def selftest():
     rows1 = [r for v in tw.values() for r in v["rows"]]
     check("twin mapping keeps the console denominator", len(rows0) == len(rows1))
     check("twin mapping keeps the library set and pc_dll flags", {k: v["pc_dll"] for k, v in base.items()} == {k: v["pc_dll"] for k, v in tw.items()})
-    twl = [k for k, v in tw.items() if v.get("pc_twin")]
+    check("twin libraries present", {k.lower() for k, v in tw.items() if v.get("pc_twin")} >= {"minuserx.dll", "kernel32legacy.dll", "advapi32legacy.dll", "minappmodelx.dll"})
+    twl = [k for k, v in tw.items() if v.get("pc_twin") and k.lower() not in {e.lower() for e in cfg["emulator"]}]
     flips = [(k, a[0], b[1]) for k in twl for a, b in zip(base[k]["rows"], tw[k]["rows"]) if a[1] != b[1]]
-    check("twin libraries present", {k.lower() for k in twl} >= {"minuserx.dll", "kernel32legacy.dll", "advapi32legacy.dll", "minappmodelx.dll"})
     check("only imported twin rows flip", all(next(r for r in tw[k]["rows"] if r[0] == n)[2] for k, n, _ in flips))
     check("twin rows flip to pc only (no oshost evidence)", all(s == "pc" for _, _, s in flips))
     check("no twin row is implemented", not any(r[1] == "implemented" for k in twl for r in tw[k]["rows"]))
     check("every twin flip carries a note", all(n in tw[k]["notes"] for k, n, _ in flips))
-    check("35 twin rows flip", len(flips) == 35)
+    _emu_twins = {"kernel32legacy.dll", "advapi32legacy.dll"} & {e.lower() for e in cfg["emulator"]}
+    check("35 twin rows flip (25 once kernel32legacy and advapi32legacy are emulated)", len(flips) == (25 if len(_emu_twins) == 2 else 35))
     cov0 = sum(1 for r in rows0 if r[1] in COVERED)
     cov1 = sum(1 for r in rows1 if r[1] in COVERED)
     check("covered rises by exactly the twin flips", cov1 - cov0 == len(flips))
