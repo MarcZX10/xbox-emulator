@@ -22,14 +22,14 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 
 | Metric | Done | Total | % |
 |---|---|---|---|
-| system_functions | 637 | 671 | 94.93 |
+| system_functions | 638 | 671 | 95.08 |
 | d3d12x_methods | 113 | 288 | 39.24 |
 | rdna2_instructions | 272 | 494 | 55.06 |
 | shaders_translated | 105506 | 105506 | 100.0 |
 | shader_stages | 6 | 8 | 75.0 |
 | milestones | 14 | 19 | 73.68 |
 | titles_examined | 5 | - | - |
-| console_exports | 138 | 1901 | 7.26 |
+| console_exports | 173 | 1901 | 9.1 |
 | shader_compile_lobby_frame | 139 | 139 | 100.0 |
 | shader_compile_fixtures | 25 | 25 | 100.0 |
 | shader_compile_full_sweep | not published | 105506 | - |
@@ -38,6 +38,8 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 | title_imports_XDefiant | 14 | 29 | 48.28 |
 | title_imports_Terraria | 14 | 25 | 56.0 |
 | title_imports_Trackmania | 12 | 18 | 66.67 |
+| console_exports_targeted | 173 | 1009 | 17.15 |
+| console_exports_not_targeted | not published | 892 | - |
 
 Shader compile: all 139 shaders of the lobby frame compile with DXC (TomBox `docs/DEVELOPMENT_LOG.md:894`); 25/25 fixtures compile (`:672`). The full-library compile sweep (`:706`) has no published final count, so no compile badge is shown.
 
@@ -456,7 +458,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | AcpHal.dll | System32 | no | 10 | 6 | 0 | 0 | 0 | 0 | 3 | 0 | 1 | 6 | 9 | 7 | 0 | Fortnite None; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | advapi32.dll | System32/forwarders | yes | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 13 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| advapi32legacy.dll | System32 | no | 207 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 207 | 1 | 1 | 1 | 1 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| advapi32legacy.dll | System32 | no | 207 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 206 | 1 | 1 | 1 | 1 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | AudioHALWrapper.dll | System32 | no | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 32 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | bootshsvc.dll | System32 | no | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | chad.dll | System32 | no | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 7 | 0 | 5 | 0 | 0 | XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -479,7 +481,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | GDK XUser (title-linked) | Fortnite EXE (statically linked) | no | 28 | 28 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 28 | 0 | 0 | 0 |  |
 | hix_xs.dll | System32 | no | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | kernel32.dll | System32/forwarders | yes | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 11 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| kernel32legacy.dll | System32 | no | 303 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 303 | 2 | 5 | 4 | 6 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| kernel32legacy.dll | System32 | no | 303 | 0 | 0 | 0 | 9 | 0 | 0 | 0 | 294 | 2 | 5 | 4 | 6 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | KernelBase.dll | System32 | yes | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | KernelTraceControl.dll | System32 | no | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | lsasrv.dll | System32 | yes | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -488,8 +490,8 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | mfhevcdec.dll | System32 | no | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | Fortnite None; XDefiant None; Terraria None; Trackmania None |
 | mflnmhelp.dll | System32 | no | 15 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 15 | 0 | 0 | 0 | 0 | Fortnite None; XDefiant None; Terraria None; Trackmania None |
 | mfplat.dll | System32 | yes | 8 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 7 | 1 | 0 | 0 | 0 | Fortnite None; XDefiant None; Terraria None; Trackmania None |
-| minappmodelx.dll | System32 | no | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 4 | 4 | 4 | 4 | 4 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| minuserx.dll | System32 | no | 74 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 74 | 9 | 10 | 12 | 13 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| minappmodelx.dll | System32 | no | 4 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 4 | 4 | 4 | 4 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| minuserx.dll | System32 | no | 74 | 0 | 0 | 0 | 21 | 0 | 0 | 0 | 53 | 9 | 10 | 12 | 13 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | msave64xgs.dll | System32 | no | 24 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 24 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | netprofmsvc_c.dll | System32 | no | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | newbe.dll | System32 | no | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | Fortnite 2020.11015.12200.10000; XDefiant 2206.2209.12105.11142; Terraria 2206.2209.12105.11142; Trackmania 2210.2210.12006.15549 |
@@ -543,6 +545,94 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | xtfpix.dll | System32 | no | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xtfremoterun.dll | System32 | no | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | XVMAudioService.dll | System32 | no | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+
+### Not targeted (no analysed title references them)
+
+The console-library total above (1901 exports in 89 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 19 libraries (1009 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 70 below (892 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (1824 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 19 targeted libraries alone: 173/1009.
+
+| Library | Folder | Same-named PC DLL | Console-only exports | Present in |
+|---|---|---|---|---|
+| xbtp.dll | System32 | no | 133 | Fortnite, XDefiant, Terraria, Trackmania |
+| sc_dll.dll | System32 | no | 67 | Fortnite, XDefiant, Terraria, Trackmania |
+| xtfbaseservices.dll | System32 | no | 60 | Fortnite, XDefiant, Terraria, Trackmania |
+| xpal.dll | System32 | no | 52 | XDefiant, Terraria, Trackmania |
+| xbsc_xs.dll | System32 | no | 41 | Fortnite, XDefiant, Terraria, Trackmania |
+| gamingtelemetry.dll | System32 | no | 38 | Fortnite, XDefiant, Terraria, Trackmania |
+| AudioHALWrapper.dll | System32 | no | 32 | Fortnite, XDefiant, Terraria, Trackmania |
+| symsrv.dll | System32 | no | 32 | Fortnite, XDefiant, Terraria, Trackmania |
+| wdbase.dll | System32 | no | 29 | Fortnite, XDefiant, Terraria, Trackmania |
+| msave64xgs.dll | System32 | no | 24 | Fortnite, XDefiant, Terraria, Trackmania |
+| xgs12_10.dll | System32 | no | 21 | Fortnite, XDefiant, Terraria, Trackmania |
+| xgs12_10d.dll | System32 | no | 21 | Fortnite, XDefiant, Terraria, Trackmania |
+| xgs12_10i.dll | System32 | no | 21 | Fortnite, XDefiant, Terraria, Trackmania |
+| WerXboxGc.dll | System32 | no | 19 | Fortnite, XDefiant, Terraria, Trackmania |
+| xgs12.dll | System32 | no | 17 | Fortnite, XDefiant, Terraria, Trackmania |
+| xgs12_d.dll | System32 | no | 17 | Fortnite, XDefiant, Terraria, Trackmania |
+| xgs12_i.dll | System32 | no | 17 | Fortnite, XDefiant, Terraria, Trackmania |
+| pixevt.dll | System32 | no | 16 | Fortnite, XDefiant, Terraria, Trackmania |
+| mflnmhelp.dll | System32 | no | 15 | Fortnite, XDefiant, Terraria, Trackmania |
+| RemoteWinRT.dll | System32 | no | 15 | Fortnite, XDefiant, Terraria, Trackmania |
+| advapi32.dll | System32/forwarders | yes | 13 | Fortnite, XDefiant, Terraria, Trackmania |
+| wldp.dll | System32 | yes | 13 | Fortnite, XDefiant, Terraria, Trackmania |
+| GCXAudioExt.dll | System32 | no | 12 | Fortnite, XDefiant, Terraria, Trackmania |
+| kernel32.dll | System32/forwarders | yes | 11 | Fortnite, XDefiant, Terraria, Trackmania |
+| xbthunk.dll | System32 | no | 11 | Fortnite, XDefiant, Terraria, Trackmania |
+| xtfpix.dll | System32 | no | 9 | Fortnite, XDefiant, Terraria, Trackmania |
+| hix_xs.dll | System32 | no | 8 | Fortnite, XDefiant, Terraria, Trackmania |
+| xfp_gc.dll | System32 | no | 8 | Fortnite, XDefiant, Terraria, Trackmania |
+| pixlivemerge.dll | System32 | no | 7 | Fortnite, XDefiant, Terraria, Trackmania |
+| scdxil.dll | System32 | no | 7 | Fortnite, XDefiant, Terraria, Trackmania |
+| newbe_xs.dll | System32 | no | 6 | Fortnite, XDefiant, Terraria, Trackmania |
+| ConnectedStorageService.ProxyStub.dll | System32 | no | 5 | Fortnite, XDefiant, Terraria, Trackmania |
+| gamecorecomproxy.dll | System32 | no | 5 | Fortnite, XDefiant, Terraria, Trackmania |
+| KernelTraceControl.dll | System32 | no | 5 | Fortnite, XDefiant, Terraria, Trackmania |
+| lsasrv.dll | System32 | yes | 5 | Fortnite, XDefiant, Terraria, Trackmania |
+| mfhevcdec.dll | System32 | no | 5 | Fortnite, XDefiant, Terraria, Trackmania |
+| newbe.dll | System32 | no | 5 | Fortnite, XDefiant, Terraria, Trackmania |
+| ntdll.dll | System32 | yes | 4 | Fortnite, XDefiant, Terraria, Trackmania |
+| xhit.dll | System32 | no | 4 | Fortnite, XDefiant, Terraria, Trackmania |
+| xhit_s.dll | System32 | no | 4 | Fortnite, XDefiant, Terraria, Trackmania |
+| gamecoreclient.dll | System32 | no | 3 | Fortnite, XDefiant, Terraria, Trackmania |
+| KernelBase.dll | System32 | yes | 3 | Fortnite, XDefiant, Terraria, Trackmania |
+| netprofmsvc_c.dll | System32 | no | 3 | Fortnite, XDefiant, Terraria, Trackmania |
+| pixrt.dll | System32 | no | 3 | Fortnite, XDefiant, Terraria, Trackmania |
+| pixrt10.dll | System32 | no | 3 | Fortnite, XDefiant, Terraria, Trackmania |
+| secur32.dll | System32 | yes | 3 | Fortnite, XDefiant, Terraria, Trackmania |
+| SHCore.dll | System32 | yes | 3 | Fortnite, XDefiant, Terraria, Trackmania |
+| XVMAudioService.dll | System32 | no | 3 | Fortnite, XDefiant, Terraria, Trackmania |
+| bootshsvc.dll | System32 | no | 2 | Fortnite, XDefiant, Terraria, Trackmania |
+| dab.dll | System32 | yes | 2 | Fortnite, XDefiant, Terraria, Trackmania |
+| FWPUCLNT.DLL | System32 | yes | 2 | Fortnite, XDefiant, Terraria, Trackmania |
+| MFH264Enc.dll | System32 | yes | 2 | Fortnite, XDefiant, Terraria, Trackmania |
+| ole32.dll | System32/forwarders | yes | 2 | Fortnite, XDefiant, Terraria, Trackmania |
+| ttdrecordcpu.dll | System32 | yes | 2 | XDefiant, Terraria, Trackmania |
+| xtfconsolecontrol.dll | System32 | no | 2 | Fortnite, XDefiant, Terraria, Trackmania |
+| xtfdebugmonitor.dll | System32 | no | 2 | Fortnite, XDefiant, Terraria, Trackmania |
+| xtfdiaginfo.dll | System32 | no | 2 | Fortnite, XDefiant, Terraria, Trackmania |
+| xtfeventserver.dll | System32 | no | 2 | Fortnite, XDefiant, Terraria, Trackmania |
+| xtffileio.dll | System32 | no | 2 | Fortnite, XDefiant, Terraria, Trackmania |
+| xtfremoterun.dll | System32 | no | 2 | Fortnite, XDefiant, Terraria, Trackmania |
+| ConIoSrv.dll | System32 | no | 1 | Fortnite, XDefiant, Terraria, Trackmania |
+| dbghelp.dll | System32 | yes | 1 | Fortnite, XDefiant, Terraria, Trackmania |
+| dxbc2dxil_xs.dll | System32 | no | 1 | Fortnite, XDefiant, Terraria, Trackmania |
+| EventAggregation.dll | System32 | yes | 1 | Fortnite, XDefiant, Terraria, Trackmania |
+| mfh264dec.dll | System32 | no | 1 | Fortnite, XDefiant, Terraria, Trackmania |
+| sechost.dll | System32 | yes | 1 | Fortnite, XDefiant, Terraria, Trackmania |
+| TimeBrokerServer.dll | System32 | yes | 1 | Fortnite, XDefiant, Terraria, Trackmania |
+| xdxr.dll | System32 | no | 1 | XDefiant, Terraria, Trackmania |
+| xdxr_d.dll | System32 | no | 1 | XDefiant, Terraria, Trackmania |
+| xdxr_i.dll | System32 | no | 1 | XDefiant, Terraria, Trackmania |
+
+### Evidence files
+
+`sync.py` copies these from TomBox `analysis/progress_evidence/` into `tools/progress/data/evidence/`; `gen.py` reads them, and a missing file changes nothing. Schema: `{"title": "Fortnite", "source": "<log or test>", "modules": {"<Module.dll>": {"loaded": true, "resolved": ["<export>", ...], "unresolved": []}}}`. A module counts as loading and resolving only when `loaded` is true and `unresolved` is an empty list; a system-functions import flips to done only when its name is in `resolved`. `oshost.json` is `{"file": "<crate path>", "hooks": {"<console or PC twin DLL>": ["<export>", ...]}}`.
+
+| File | Used for | Present |
+|---|---|---|
+| `chatprobe.json` | Fortnite GameChat2.dll / CONCRT140.dll leave the unverified lists; GameChat2 delay import in system functions | no |
+| `media.json` | MFPlat.DLL x16 and MFReadWrite.dll x2 in system functions | no |
+| `gameinput_ext.json` | GameInput.dll imports outside the EXE (TerrariaNative.dll) | no |
+| `oshost.json` | PC-twin rows become `hooked` instead of `pc` | no |
 
 ### Exports not present in every title's console OS
 
@@ -999,217 +1089,219 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 </details>
 
-<details><summary><b>advapi32legacy.dll</b>: 207 console-only exports, 0 covered</summary>
+<details><summary><b>advapi32legacy.dll</b>: 207 console-only exports, 1 covered</summary>
 
-| Function | Status | Imported by | Present in |
-|---|---|---|---|
-| `AbortSystemShutdownA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `AbortSystemShutdownW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseRegCloseKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseRegCreateKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseRegDeleteKeyEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseRegDeleteValue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseRegFlushKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseRegGetVersion` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseRegLoadKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseRegOpenKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseRegRestoreKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseRegSaveKeyEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseRegSetKeySecurity` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseRegSetValue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseRegUnLoadKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BuildExplicitAccessWithNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BuildExplicitAccessWithNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BuildImpersonateTrusteeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BuildImpersonateTrusteeW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BuildSecurityDescriptorA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BuildSecurityDescriptorW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BuildTrusteeWithNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BuildTrusteeWithNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BuildTrusteeWithObjectsAndSidA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BuildTrusteeWithObjectsAndSidW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BuildTrusteeWithSidA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BuildTrusteeWithSidW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ControlTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ConvertSidToStringSidA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ConvertStringSidToSidA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateProcessWithLogonW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateProcessWithTokenW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DeregisterEventSource` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ElfDeregisterEventSource` | missing |  | Fortnite, XDefiant, Terraria |
-| `ElfFlushEventLog` | missing |  | Fortnite, XDefiant, Terraria |
-| `ElfRegisterEventSourceW` | missing |  | Fortnite, XDefiant, Terraria |
-| `ElfReportEventW` | missing |  | Fortnite, XDefiant, Terraria |
-| `EnableTrace` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnableTraceEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumDependentServicesA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumerateTraceGuids` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumServicesStatusA` | missing |  | XDefiant, Terraria, Trackmania |
-| `EnumServicesStatusExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumServicesStatusW` | missing |  | XDefiant, Terraria, Trackmania |
-| `FlushTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FlushTraceW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetAuditedPermissionsFromAclA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetAuditedPermissionsFromAclW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetEffectiveRightsFromAclA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetEffectiveRightsFromAclW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetEventLogInformation` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetExplicitEntriesFromAclA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetFileSecurityA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetNamedSecurityInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetSecurityInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetServiceDisplayNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetServiceKeyNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetUserNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetUserNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `InitiateShutdownA` | missing |  | XDefiant, Terraria, Trackmania |
-| `InitiateShutdownW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `InitiateSystemShutdownA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `InitiateSystemShutdownExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `InitiateSystemShutdownExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `InitiateSystemShutdownW` | missing |  | XDefiant, Terraria, Trackmania |
-| `IsTextUnicode` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LogonUserA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LogonUserExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LogonUserExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LogonUserW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LookupAccountNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LookupAccountNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LookupAccountSidA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LookupAccountSidW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LookupPrivilegeDisplayNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LookupPrivilegeDisplayNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LookupPrivilegeNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LookupPrivilegeNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LookupPrivilegeValueA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LookupPrivilegeValueW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaAddPrivilegesToAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaConfigureAutoLogonCredentials` | missing |  | XDefiant, Terraria, Trackmania |
-| `LsaCreateAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaCreateTrustedDomain` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaCreateTrustedDomainEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaDeleteTrustedDomain` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaDisablePasswordLessCurrentUser` | missing |  | XDefiant, Terraria |
-| `LsaDisableUserArso` | missing |  | XDefiant, Terraria, Trackmania |
-| `LsaEnablePasswordLessCurrentUser` | missing |  | XDefiant, Terraria |
-| `LsaEnableUserArso` | missing |  | XDefiant, Terraria, Trackmania |
-| `LsaEnumerateAccounts` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaEnumeratePrivileges` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaEnumeratePrivilegesOfAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaEnumerateTrustedDomains` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaEnumerateTrustedDomainsEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaGetDeviceRegistrationInfo` | missing |  | XDefiant, Terraria, Trackmania |
-| `LsaGetRemoteUserName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaGetSystemAccessAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaGetUserName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaIsUserArsoAllowed` | missing |  | XDefiant, Terraria, Trackmania |
-| `LsaIsUserArsoEnabled` | missing |  | XDefiant, Terraria, Trackmania |
-| `LsaLookupNames` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaLookupPrivilegeDisplayName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaLookupPrivilegeName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaLookupPrivilegeValue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaManageSidNameMapping` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaNtStatusToWinError` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaOpenAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaOpenTrustedDomain` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaOpenTrustedDomainByName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaProfileDeleted` | missing |  | XDefiant, Terraria, Trackmania |
-| `LsaQueryDomainInformationPolicy` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaQueryForestTrustInformation` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaQueryInfoTrustedDomain` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaQuerySecurityObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaQueryTrustedDomainInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaQueryTrustedDomainInfoByName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaRemovePrivilegesFromAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaSetDomainInformationPolicy` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaSetForestTrustInformation` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaSetInformationTrustedDomain` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaSetSecurityObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaSetSystemAccessAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaSetTrustedDomainInfoByName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaSetTrustedDomainInformation` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LsaValidateProcUniqueLuid` | missing |  | XDefiant, Terraria, Trackmania |
-| `MIDL_user_free_Ext` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `NotifyBootConfigStatus` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `NpGetUserName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `OpenTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfAddCounters` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfCloseQueryHandle` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfDeleteCounters` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfEnumerateCounterSet` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfEnumerateCounterSetInstances` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfOpenQueryHandle` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfQueryCounterData` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfQueryCounterInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfQueryCounterSetRegistrationInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfRegCloseKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfRegEnumKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfRegEnumValue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfRegQueryInfoKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfRegQueryValue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PerfRegSetValue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `QueryAllTracesA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `QueryTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `QueryTraceW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegConnectRegistryA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegConnectRegistryExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegConnectRegistryExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegConnectRegistryW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegCopyTreeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegCreateKeyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegCreateKeyTransactedA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegCreateKeyTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegCreateKeyW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegDeleteKeyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegDeleteKeyTransactedA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegDeleteKeyTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegDeleteKeyValueA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegDeleteKeyValueW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegDeleteKeyW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegDisablePredefinedCache` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegEnumKeyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegEnumKeyW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegisterEventSourceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegisterEventSourceW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegOpenKeyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegOpenKeyTransactedA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegOpenKeyTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegOpenKeyW` | missing | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegOverridePredefKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegQueryMultipleValuesA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegQueryMultipleValuesW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegQueryValueA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegQueryValueW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegRenameKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegReplaceKeyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegReplaceKeyW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegSaveKeyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegSaveKeyW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegSetKeyValueA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegSetKeyValueW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegSetValueA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegSetValueW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RemoteRegEnumKeyWrapper` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RemoteRegEnumValueWrapper` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RemoteRegQueryInfoKeyWrapper` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RemoteRegQueryMultipleValues2Wrapper` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RemoteRegQueryMultipleValuesWrapper` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RemoteRegQueryValueWrapper` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ReportEventA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ReportEventW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SafeBaseRegGetKeySecurity` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetEntriesInAclA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetFileSecurityA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetNamedSecurityInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetSecurityInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `StartTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `StopTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SystemFunction036` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SystemFunction040` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SystemFunction041` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `TreeResetNamedSecurityInfoW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `UpdateTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `UpdateTraceW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
+No PC DLL is named advapi32legacy.dll; its PC twin is advapi32.dll. Exports an analysed title imports and the twin exports by name are `pc` (or `hooked` where the emulator's OS host reports a hook): 1 rows. They are not implemented by the emulator; the other exports stay `missing`.
+
+| Function | Status | Imported by | Present in | Note |
+|---|---|---|---|---|
+| `RegOpenKeyW` | pc | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin advapi32.dll; the console advapi32legacy.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `AbortSystemShutdownA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `AbortSystemShutdownW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseRegCloseKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseRegCreateKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseRegDeleteKeyEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseRegDeleteValue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseRegFlushKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseRegGetVersion` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseRegLoadKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseRegOpenKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseRegRestoreKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseRegSaveKeyEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseRegSetKeySecurity` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseRegSetValue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseRegUnLoadKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BuildExplicitAccessWithNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BuildExplicitAccessWithNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BuildImpersonateTrusteeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BuildImpersonateTrusteeW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BuildSecurityDescriptorA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BuildSecurityDescriptorW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BuildTrusteeWithNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BuildTrusteeWithNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BuildTrusteeWithObjectsAndSidA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BuildTrusteeWithObjectsAndSidW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BuildTrusteeWithSidA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BuildTrusteeWithSidW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `ControlTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `ConvertSidToStringSidA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `ConvertStringSidToSidA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateProcessWithLogonW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateProcessWithTokenW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `DeregisterEventSource` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `ElfDeregisterEventSource` | missing |  | Fortnite, XDefiant, Terraria |  |
+| `ElfFlushEventLog` | missing |  | Fortnite, XDefiant, Terraria |  |
+| `ElfRegisterEventSourceW` | missing |  | Fortnite, XDefiant, Terraria |  |
+| `ElfReportEventW` | missing |  | Fortnite, XDefiant, Terraria |  |
+| `EnableTrace` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnableTraceEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumDependentServicesA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumerateTraceGuids` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumServicesStatusA` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `EnumServicesStatusExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumServicesStatusW` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `FlushTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FlushTraceW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetAuditedPermissionsFromAclA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetAuditedPermissionsFromAclW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetEffectiveRightsFromAclA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetEffectiveRightsFromAclW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetEventLogInformation` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetExplicitEntriesFromAclA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetFileSecurityA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetNamedSecurityInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetSecurityInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetServiceDisplayNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetServiceKeyNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetUserNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetUserNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `InitiateShutdownA` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `InitiateShutdownW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `InitiateSystemShutdownA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `InitiateSystemShutdownExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `InitiateSystemShutdownExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `InitiateSystemShutdownW` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `IsTextUnicode` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LogonUserA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LogonUserExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LogonUserExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LogonUserW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LookupAccountNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LookupAccountNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LookupAccountSidA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LookupAccountSidW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LookupPrivilegeDisplayNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LookupPrivilegeDisplayNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LookupPrivilegeNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LookupPrivilegeNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LookupPrivilegeValueA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LookupPrivilegeValueW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaAddPrivilegesToAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaConfigureAutoLogonCredentials` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `LsaCreateAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaCreateTrustedDomain` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaCreateTrustedDomainEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaDeleteTrustedDomain` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaDisablePasswordLessCurrentUser` | missing |  | XDefiant, Terraria |  |
+| `LsaDisableUserArso` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `LsaEnablePasswordLessCurrentUser` | missing |  | XDefiant, Terraria |  |
+| `LsaEnableUserArso` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `LsaEnumerateAccounts` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaEnumeratePrivileges` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaEnumeratePrivilegesOfAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaEnumerateTrustedDomains` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaEnumerateTrustedDomainsEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaGetDeviceRegistrationInfo` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `LsaGetRemoteUserName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaGetSystemAccessAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaGetUserName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaIsUserArsoAllowed` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `LsaIsUserArsoEnabled` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `LsaLookupNames` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaLookupPrivilegeDisplayName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaLookupPrivilegeName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaLookupPrivilegeValue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaManageSidNameMapping` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaNtStatusToWinError` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaOpenAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaOpenTrustedDomain` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaOpenTrustedDomainByName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaProfileDeleted` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `LsaQueryDomainInformationPolicy` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaQueryForestTrustInformation` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaQueryInfoTrustedDomain` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaQuerySecurityObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaQueryTrustedDomainInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaQueryTrustedDomainInfoByName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaRemovePrivilegesFromAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaSetDomainInformationPolicy` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaSetForestTrustInformation` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaSetInformationTrustedDomain` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaSetSecurityObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaSetSystemAccessAccount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaSetTrustedDomainInfoByName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaSetTrustedDomainInformation` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LsaValidateProcUniqueLuid` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `MIDL_user_free_Ext` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `NotifyBootConfigStatus` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `NpGetUserName` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `OpenTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfAddCounters` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfCloseQueryHandle` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfDeleteCounters` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfEnumerateCounterSet` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfEnumerateCounterSetInstances` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfOpenQueryHandle` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfQueryCounterData` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfQueryCounterInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfQueryCounterSetRegistrationInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfRegCloseKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfRegEnumKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfRegEnumValue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfRegQueryInfoKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfRegQueryValue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PerfRegSetValue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `QueryAllTracesA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `QueryTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `QueryTraceW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegConnectRegistryA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegConnectRegistryExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegConnectRegistryExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegConnectRegistryW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegCopyTreeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegCreateKeyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegCreateKeyTransactedA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegCreateKeyTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegCreateKeyW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegDeleteKeyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegDeleteKeyTransactedA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegDeleteKeyTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegDeleteKeyValueA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegDeleteKeyValueW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegDeleteKeyW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegDisablePredefinedCache` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegEnumKeyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegEnumKeyW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegisterEventSourceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegisterEventSourceW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegOpenKeyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegOpenKeyTransactedA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegOpenKeyTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegOverridePredefKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegQueryMultipleValuesA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegQueryMultipleValuesW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegQueryValueA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegQueryValueW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegRenameKey` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegReplaceKeyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegReplaceKeyW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegSaveKeyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegSaveKeyW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegSetKeyValueA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegSetKeyValueW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegSetValueA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegSetValueW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RemoteRegEnumKeyWrapper` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RemoteRegEnumValueWrapper` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RemoteRegQueryInfoKeyWrapper` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RemoteRegQueryMultipleValues2Wrapper` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RemoteRegQueryMultipleValuesWrapper` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RemoteRegQueryValueWrapper` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `ReportEventA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `ReportEventW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SafeBaseRegGetKeySecurity` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetEntriesInAclA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetFileSecurityA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetNamedSecurityInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetSecurityInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `StartTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `StopTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SystemFunction036` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SystemFunction040` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SystemFunction041` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `TreeResetNamedSecurityInfoW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `UpdateTraceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `UpdateTraceW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
 
 </details>
 
@@ -1663,313 +1755,315 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 </details>
 
-<details><summary><b>kernel32legacy.dll</b>: 303 console-only exports, 0 covered</summary>
+<details><summary><b>kernel32legacy.dll</b>: 303 console-only exports, 9 covered</summary>
 
-| Function | Status | Imported by | Present in |
-|---|---|---|---|
-| `_lclose` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `_lcreat` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `_llseek` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `_lopen` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `_lread` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `_lwrite` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `AddAtomA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `AddAtomW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `AddLocalAlternateComputerNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `AddLocalAlternateComputerNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `AdjustCalendarDate` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `AssignProcessToJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BackupRead` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BackupSeek` | missing |  | XDefiant, Terraria, Trackmania |
-| `BackupWrite` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BaseSetLastNTError` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `BindIoCompletionCallback` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CallNamedPipeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CeipIsOptedIn` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CheckElevation` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CheckElevationEnabled` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CheckForReadOnlyResource` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CompareCalendarDates` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ConvertCalDateTimeToSystemTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ConvertFiberToThread` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ConvertSystemTimeToCalDateTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ConvertThreadToFiber` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ConvertThreadToFiberEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CopyFileA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CopyFileExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CopyFileTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CopyFileW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateActCtxA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateBoundaryDescriptorA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateDirectoryExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateDirectoryTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateFiber` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateFiberEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateFileMappingA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateFileMappingNumaA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateFileTransactedA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateFileTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateHardLinkTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateJobObjectA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateJobObjectW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateMailslotA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateMailslotW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateNamedPipeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreatePrivateNamespaceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateSemaphoreA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateSemaphoreExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateSemaphoreW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateSymbolicLinkA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateSymbolicLinkTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateToolhelp32Snapshot` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateWaitableTimerA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateWaitableTimerExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DefineDosDeviceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DeleteAtom` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DeleteFiber` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DeleteFileTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DeleteVolumeMountPointA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DnsHostnameToComputerNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DosDateTimeToFileTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DosPathToSessionPathW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumCalendarInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumCalendarInfoExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumDateFormatsA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumDateFormatsExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumerateLocalComputerNamesW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumLanguageGroupLocalesA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumSystemCodePagesA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumSystemLanguageGroupsA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumTimeFormatsA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `EnumUILanguagesA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FatalAppExitA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FatalAppExitW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FileTimeToDosDateTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindActCtxSectionStringA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindAtomA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindAtomW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindFirstFileTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindFirstVolumeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindFirstVolumeMountPointA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindFirstVolumeMountPointW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindNextVolumeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindNextVolumeMountPointA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindNextVolumeMountPointW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindResourceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindResourceExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindResourceW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FindVolumeMountPointClose` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FoldStringA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `FreeMemoryJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetActiveProcessorCount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetActiveProcessorGroupCount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetAtomNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetAtomNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetBinaryTypeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetBinaryTypeW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetCalendarDateFormatEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetCalendarInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetCalendarMonthsInYear` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetCalendarSupportedDateRange` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetCompressedFileSizeTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetComputerNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetComputerNameW` | missing | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetConsoleTitleA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetConsoleWindow` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetCPInfoExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetCurrencyFormatA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetDateFormatAWorker` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetDateFormatWWorker` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetDevicePowerState` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetDllDirectoryW` | missing | Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetDurationFormatEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetFileAttributesTransactedA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetFileAttributesTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetFirmwareEnvironmentVariableA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetFirmwareEnvironmentVariableExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetFirmwareEnvironmentVariableExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetFirmwareEnvironmentVariableW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetFirmwareType` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetFullPathNameTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetGeoInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetLogicalDriveStringsA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetLongPathNameTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetMailslotInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetMaximumProcessorCount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetMaximumProcessorGroupCount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetNamedPipeClientComputerNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetNamedPipeClientProcessId` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetNamedPipeHandleStateA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetNamedPipeServerProcessId` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetNumaAvailableMemoryNodeEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetNumaNodeProcessorMask` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetNumaProcessorNodeEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetNumberFormatA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetPrivateProfileIntA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetPrivateProfileIntW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetPrivateProfileSectionA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetPrivateProfileSectionW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetPrivateProfileStringA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetPrivateProfileStringW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetProcessAffinityMask` | missing | Fortnite, Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetProcessIoCounters` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetProfileIntA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetProfileIntW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetProfileSectionA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetProfileSectionW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetProfileStringA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetProfileStringW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetShortPathNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetStartupInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetStringTypeExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetSystemPowerStatus` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetSystemWow64DirectoryA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetSystemWow64DirectoryW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetTapeParameters` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetTempPathA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetThreadSelectorEntry` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetTimeFormatAWorker` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetTimeFormatWWorker` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetVolumeNameForVolumeMountPointA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetVolumePathNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetVolumePathNamesForVolumeNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalAddAtomA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalAddAtomExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalAddAtomExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalAddAtomW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalAlloc` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalDeleteAtom` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalFindAtomA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalFindAtomW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalFlags` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalFree` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalGetAtomNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalGetAtomNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalHandle` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalLock` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalMemoryStatus` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalReAlloc` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalSize` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GlobalUnlock` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Heap32First` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Heap32ListFirst` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Heap32ListNext` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Heap32Next` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `InitAtomTable` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IsCalendarLeapYear` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `IsSystemResumeAutomatic` | missing |  | XDefiant, Terraria, Trackmania |
-| `LoadLibraryA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LoadLibraryW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LocalAlloc` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LocalFlags` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LocalFree` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LocalLock` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LocalReAlloc` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LocalSize` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LocalUnlock` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `lstrcatA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `lstrcatW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `lstrcmpA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `lstrcmpiA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `lstrcmpiW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `lstrcmpW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `lstrcpyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `lstrcpynA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `lstrcpynW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `lstrcpyW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `lstrlenA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `lstrlenW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Module32First` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Module32FirstW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Module32Next` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Module32NextW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `MoveFileA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `MoveFileExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `MoveFileTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `MoveFileW` | missing | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `MoveFileWithProgressA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `MulDiv` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `OOBEComplete` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `OpenFile` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `OpenFileMappingA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `OpenJobObjectA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `OpenJobObjectW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `OpenMutexA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `OpenPrivateNamespaceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `OpenSemaphoreA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `OpenWaitableTimerA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PowerClearRequest` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PowerCreateRequest` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PowerSetRequest` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PrivCopyFileExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Process32First` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Process32FirstW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Process32Next` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Process32NextW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PulseEvent` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `QueryDosDeviceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `QueryInformationJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `QueryIoRateControlInformationJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RaiseFailFastException` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegisterWaitForInputIdle` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegisterWaitForSingleObject` | missing | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegisterWaitUntilOOBECompleted` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RemoveDirectoryTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RemoveLocalAlternateComputerNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ReplaceFileA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RequestWakeupLatency` | missing |  | XDefiant, Terraria, Trackmania |
-| `SetCalendarInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetConsoleTitleA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetDllDirectoryA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetDllDirectoryW` | missing | Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetEnvironmentStringsA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetFileAttributesTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetFileCompletionNotificationModes` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetFirmwareEnvironmentVariableA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetFirmwareEnvironmentVariableExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetFirmwareEnvironmentVariableExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetFirmwareEnvironmentVariableW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetHandleCount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetInformationJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetIoRateControlInformationJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetLocaleInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetLocalPrimaryComputerNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetMailslotInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetProcessAffinityMask` | missing | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetSystemPowerState` | missing |  | XDefiant, Terraria, Trackmania |
-| `SetTermsrvAppInstallMode` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetThreadAffinityMask` | missing | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetThreadExecutionState` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetThreadIdealProcessor` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetVolumeLabelA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetVolumeLabelW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetVolumeMountPointA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetVolumeMountPointW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SortCloseHandle` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SortGetHandle` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SwitchToFiber` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `TerminateJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `TerminateProcessOnMemoryExhaustion` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Thread32First` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Thread32Next` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `timeBeginPeriod` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `timeEndPeriod` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `timeGetDevCaps` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `timeGetSystemTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `timeGetTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `UnregisterWait` | missing | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `UnregisterWaitUntilOOBECompleted` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `UpdateCalendarDayOfWeek` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `VerifyVersionInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `VerifyVersionInfoW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `WaitForMultipleObjects` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `WaitNamedPipeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `Wow64EnableWow64FsRedirection` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `WritePrivateProfileSectionA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `WritePrivateProfileSectionW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `WritePrivateProfileStringA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `WritePrivateProfileStringW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `WTSGetActiveConsoleSessionId` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
+No PC DLL is named kernel32legacy.dll; its PC twin is kernel32.dll / kernelbase.dll. Exports an analysed title imports and the twin exports by name are `pc` (or `hooked` where the emulator's OS host reports a hook): 9 rows. They are not implemented by the emulator; the other exports stay `missing`.
+
+| Function | Status | Imported by | Present in | Note |
+|---|---|---|---|---|
+| `GetComputerNameW` | pc | Terraria | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin kernel32.dll / kernelbase.dll; the console kernel32legacy.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `GetDllDirectoryW` | pc | Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin kernel32.dll / kernelbase.dll; the console kernel32legacy.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `GetProcessAffinityMask` | pc | Fortnite, Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin kernel32.dll / kernelbase.dll; the console kernel32legacy.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `MoveFileW` | pc | Trackmania | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin kernel32.dll / kernelbase.dll; the console kernel32legacy.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `RegisterWaitForSingleObject` | pc | Trackmania | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin kernel32.dll / kernelbase.dll; the console kernel32legacy.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `SetDllDirectoryW` | pc | Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin kernel32.dll / kernelbase.dll; the console kernel32legacy.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `SetProcessAffinityMask` | pc | XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin kernel32.dll / kernelbase.dll; the console kernel32legacy.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `SetThreadAffinityMask` | pc | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin kernel32.dll / kernelbase.dll; the console kernel32legacy.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `UnregisterWait` | pc | Trackmania | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin kernel32.dll / kernelbase.dll; the console kernel32legacy.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `_lclose` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `_lcreat` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `_llseek` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `_lopen` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `_lread` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `_lwrite` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `AddAtomA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `AddAtomW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `AddLocalAlternateComputerNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `AddLocalAlternateComputerNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `AdjustCalendarDate` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `AssignProcessToJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BackupRead` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BackupSeek` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `BackupWrite` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BaseSetLastNTError` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `BindIoCompletionCallback` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CallNamedPipeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CeipIsOptedIn` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CheckElevation` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CheckElevationEnabled` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CheckForReadOnlyResource` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CompareCalendarDates` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `ConvertCalDateTimeToSystemTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `ConvertFiberToThread` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `ConvertSystemTimeToCalDateTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `ConvertThreadToFiber` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `ConvertThreadToFiberEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CopyFileA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CopyFileExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CopyFileTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CopyFileW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateActCtxA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateBoundaryDescriptorA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateDirectoryExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateDirectoryTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateFiber` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateFiberEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateFileMappingA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateFileMappingNumaA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateFileTransactedA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateFileTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateHardLinkTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateJobObjectA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateJobObjectW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateMailslotA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateMailslotW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateNamedPipeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreatePrivateNamespaceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateSemaphoreA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateSemaphoreExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateSemaphoreW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateSymbolicLinkA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateSymbolicLinkTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateToolhelp32Snapshot` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateWaitableTimerA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CreateWaitableTimerExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `DefineDosDeviceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `DeleteAtom` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `DeleteFiber` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `DeleteFileTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `DeleteVolumeMountPointA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `DnsHostnameToComputerNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `DosDateTimeToFileTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `DosPathToSessionPathW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumCalendarInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumCalendarInfoExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumDateFormatsA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumDateFormatsExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumerateLocalComputerNamesW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumLanguageGroupLocalesA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumSystemCodePagesA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumSystemLanguageGroupsA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumTimeFormatsA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `EnumUILanguagesA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FatalAppExitA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FatalAppExitW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FileTimeToDosDateTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindActCtxSectionStringA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindAtomA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindAtomW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindFirstFileTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindFirstVolumeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindFirstVolumeMountPointA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindFirstVolumeMountPointW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindNextVolumeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindNextVolumeMountPointA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindNextVolumeMountPointW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindResourceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindResourceExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindResourceW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FindVolumeMountPointClose` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FoldStringA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `FreeMemoryJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetActiveProcessorCount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetActiveProcessorGroupCount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetAtomNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetAtomNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetBinaryTypeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetBinaryTypeW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetCalendarDateFormatEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetCalendarInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetCalendarMonthsInYear` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetCalendarSupportedDateRange` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetCompressedFileSizeTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetComputerNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetConsoleTitleA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetConsoleWindow` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetCPInfoExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetCurrencyFormatA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetDateFormatAWorker` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetDateFormatWWorker` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetDevicePowerState` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetDurationFormatEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetFileAttributesTransactedA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetFileAttributesTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetFirmwareEnvironmentVariableA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetFirmwareEnvironmentVariableExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetFirmwareEnvironmentVariableExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetFirmwareEnvironmentVariableW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetFirmwareType` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetFullPathNameTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetGeoInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetLogicalDriveStringsA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetLongPathNameTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetMailslotInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetMaximumProcessorCount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetMaximumProcessorGroupCount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetNamedPipeClientComputerNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetNamedPipeClientProcessId` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetNamedPipeHandleStateA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetNamedPipeServerProcessId` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetNumaAvailableMemoryNodeEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetNumaNodeProcessorMask` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetNumaProcessorNodeEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetNumberFormatA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetPrivateProfileIntA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetPrivateProfileIntW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetPrivateProfileSectionA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetPrivateProfileSectionW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetPrivateProfileStringA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetPrivateProfileStringW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetProcessIoCounters` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetProfileIntA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetProfileIntW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetProfileSectionA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetProfileSectionW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetProfileStringA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetProfileStringW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetShortPathNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetStartupInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetStringTypeExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetSystemPowerStatus` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetSystemWow64DirectoryA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetSystemWow64DirectoryW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetTapeParameters` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetTempPathA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetThreadSelectorEntry` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetTimeFormatAWorker` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetTimeFormatWWorker` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetVolumeNameForVolumeMountPointA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetVolumePathNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetVolumePathNamesForVolumeNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalAddAtomA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalAddAtomExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalAddAtomExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalAddAtomW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalAlloc` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalDeleteAtom` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalFindAtomA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalFindAtomW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalFlags` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalFree` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalGetAtomNameA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalGetAtomNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalHandle` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalLock` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalMemoryStatus` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalReAlloc` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalSize` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GlobalUnlock` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Heap32First` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Heap32ListFirst` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Heap32ListNext` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Heap32Next` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `InitAtomTable` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `IsCalendarLeapYear` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `IsSystemResumeAutomatic` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `LoadLibraryA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LoadLibraryW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LocalAlloc` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LocalFlags` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LocalFree` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LocalLock` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LocalReAlloc` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LocalSize` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LocalUnlock` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `lstrcatA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `lstrcatW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `lstrcmpA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `lstrcmpiA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `lstrcmpiW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `lstrcmpW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `lstrcpyA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `lstrcpynA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `lstrcpynW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `lstrcpyW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `lstrlenA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `lstrlenW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Module32First` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Module32FirstW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Module32Next` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Module32NextW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `MoveFileA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `MoveFileExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `MoveFileTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `MoveFileWithProgressA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `MulDiv` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `OOBEComplete` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `OpenFile` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `OpenFileMappingA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `OpenJobObjectA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `OpenJobObjectW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `OpenMutexA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `OpenPrivateNamespaceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `OpenSemaphoreA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `OpenWaitableTimerA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PowerClearRequest` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PowerCreateRequest` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PowerSetRequest` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PrivCopyFileExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Process32First` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Process32FirstW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Process32Next` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Process32NextW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PulseEvent` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `QueryDosDeviceA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `QueryInformationJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `QueryIoRateControlInformationJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RaiseFailFastException` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegisterWaitForInputIdle` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegisterWaitUntilOOBECompleted` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RemoveDirectoryTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RemoveLocalAlternateComputerNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `ReplaceFileA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RequestWakeupLatency` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `SetCalendarInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetConsoleTitleA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetDllDirectoryA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetEnvironmentStringsA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetFileAttributesTransactedW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetFileCompletionNotificationModes` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetFirmwareEnvironmentVariableA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetFirmwareEnvironmentVariableExA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetFirmwareEnvironmentVariableExW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetFirmwareEnvironmentVariableW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetHandleCount` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetInformationJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetIoRateControlInformationJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetLocaleInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetLocalPrimaryComputerNameW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetMailslotInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetSystemPowerState` | missing |  | XDefiant, Terraria, Trackmania |  |
+| `SetTermsrvAppInstallMode` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetThreadExecutionState` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetThreadIdealProcessor` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetVolumeLabelA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetVolumeLabelW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetVolumeMountPointA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetVolumeMountPointW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SortCloseHandle` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SortGetHandle` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SwitchToFiber` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `TerminateJobObject` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `TerminateProcessOnMemoryExhaustion` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Thread32First` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Thread32Next` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `timeBeginPeriod` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `timeEndPeriod` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `timeGetDevCaps` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `timeGetSystemTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `timeGetTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `UnregisterWaitUntilOOBECompleted` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `UpdateCalendarDayOfWeek` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `VerifyVersionInfoA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `VerifyVersionInfoW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `WaitForMultipleObjects` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `WaitNamedPipeA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `Wow64EnableWow64FsRedirection` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `WritePrivateProfileSectionA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `WritePrivateProfileSectionW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `WritePrivateProfileStringA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `WritePrivateProfileStringW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `WTSGetActiveConsoleSessionId` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
 
 </details>
 
@@ -2073,95 +2167,99 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 </details>
 
-<details><summary><b>minappmodelx.dll</b>: 4 console-only exports, 0 covered</summary>
+<details><summary><b>minappmodelx.dll</b>: 4 console-only exports, 4 covered</summary>
 
-| Function | Status | Imported by | Present in |
-|---|---|---|---|
-| `RegisterAppConstrainedChangeNotification` | missing | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegisterAppStateChangeNotification` | missing | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `UnregisterAppConstrainedChangeNotification` | missing | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `UnregisterAppStateChangeNotification` | missing | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+No PC DLL is named minappmodelx.dll; its PC twin is twinapi.appcore.dll / kernel.appcore.dll. Exports an analysed title imports and the twin exports by name are `pc` (or `hooked` where the emulator's OS host reports a hook): 4 rows. They are not implemented by the emulator; the other exports stay `missing`.
+
+| Function | Status | Imported by | Present in | Note |
+|---|---|---|---|---|
+| `RegisterAppConstrainedChangeNotification` | pc | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin twinapi.appcore.dll / kernel.appcore.dll; the console minappmodelx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `RegisterAppStateChangeNotification` | pc | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin twinapi.appcore.dll / kernel.appcore.dll; the console minappmodelx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `UnregisterAppConstrainedChangeNotification` | pc | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin twinapi.appcore.dll / kernel.appcore.dll; the console minappmodelx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `UnregisterAppStateChangeNotification` | pc | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin twinapi.appcore.dll / kernel.appcore.dll; the console minappmodelx.dll is not emulated, the title's API-set import resolves to the PC DLL |
 
 </details>
 
-<details><summary><b>minuserx.dll</b>: 74 console-only exports, 0 covered</summary>
+<details><summary><b>minuserx.dll</b>: 74 console-only exports, 21 covered</summary>
 
-| Function | Status | Imported by | Present in |
-|---|---|---|---|
-| `#2534` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `AdjustWindowRect` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `AdjustWindowRectEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CallWindowProcA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CallWindowProcW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ClipCursor` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateWindowExA` | missing | Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `CreateWindowExW` | missing | Fortnite, Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `DefWindowProcA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DefWindowProcW` | missing | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `DestroyCursor` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DestroyWindow` | missing | Fortnite, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `DispatchMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `DispatchMessageW` | missing | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetAsyncKeyState` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetClientRect` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetClipCursor` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetCursor` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetCursorInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetCursorPos` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetKeyState` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetMessageExtraInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetMessagePos` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetMessageTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetMessageW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetWindowLongA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetWindowLongPtrA` | missing | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetWindowLongPtrW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetWindowLongW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `InSendMessage` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `InSendMessageEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `KillTimer` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LoadCursorA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `LoadCursorW` | missing | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `MinUserXP_GetHooks` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `MinUserXP_SetHooks` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `MoveWindow` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PeekMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PeekMessageW` | missing | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `PostMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PostMessageW` | missing | Fortnite, Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `PostQuitMessage` | missing | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `PostThreadMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `PostThreadMessageW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegisterClassA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegisterClassExA` | missing | Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegisterClassExW` | missing | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegisterClassW` | missing | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegisterWindowMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `RegisterWindowMessageW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SendMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SendMessageCallbackA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SendMessageCallbackW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SendMessageTimeoutA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SendMessageTimeoutW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SendMessageW` | missing | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `SendNotifyMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SendNotifyMessageW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetCursor` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetCursorPos` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetMessageExtraInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetTimer` | missing | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetWindowLongA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetWindowLongPtrA` | missing | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetWindowLongPtrW` | missing | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetWindowLongW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `SetWindowPos` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `ShowCursor` | missing | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `ShowWindow` | missing | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `TranslateMessage` | missing | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `UnregisterClassA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `UnregisterClassW` | missing | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `WaitMessage` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
+No PC DLL is named minuserx.dll; its PC twin is user32.dll. Exports an analysed title imports and the twin exports by name are `pc` (or `hooked` where the emulator's OS host reports a hook): 21 rows. They are not implemented by the emulator; the other exports stay `missing`.
+
+| Function | Status | Imported by | Present in | Note |
+|---|---|---|---|---|
+| `CreateWindowExA` | pc | Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `CreateWindowExW` | pc | Fortnite, Terraria | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `DefWindowProcW` | pc | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `DestroyWindow` | pc | Fortnite, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `DispatchMessageW` | pc | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `GetWindowLongPtrA` | pc | XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `LoadCursorW` | pc | Terraria | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `PeekMessageW` | pc | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `PostMessageW` | pc | Fortnite, Terraria | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `PostQuitMessage` | pc | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `RegisterClassExA` | pc | Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `RegisterClassExW` | pc | Terraria | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `RegisterClassW` | pc | Fortnite | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `SendMessageW` | pc | Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `SetTimer` | pc | Trackmania | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `SetWindowLongPtrA` | pc | XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `SetWindowLongPtrW` | pc | Terraria | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `ShowCursor` | pc | Trackmania | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `ShowWindow` | pc | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `TranslateMessage` | pc | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `UnregisterClassW` | pc | Trackmania | Fortnite, XDefiant, Terraria, Trackmania | name match on the PC twin user32.dll; the console minuserx.dll is not emulated, the title's API-set import resolves to the PC DLL |
+| `#2534` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `AdjustWindowRect` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `AdjustWindowRectEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CallWindowProcA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `CallWindowProcW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `ClipCursor` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `DefWindowProcA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `DestroyCursor` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `DispatchMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetAsyncKeyState` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetClientRect` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetClipCursor` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetCursor` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetCursorInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetCursorPos` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetKeyState` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetMessageExtraInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetMessagePos` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetMessageTime` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetMessageW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetWindowLongA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetWindowLongPtrW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `GetWindowLongW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `InSendMessage` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `InSendMessageEx` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `KillTimer` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `LoadCursorA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `MinUserXP_GetHooks` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `MinUserXP_SetHooks` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `MoveWindow` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PeekMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PostMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PostThreadMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `PostThreadMessageW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegisterClassA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegisterWindowMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `RegisterWindowMessageW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SendMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SendMessageCallbackA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SendMessageCallbackW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SendMessageTimeoutA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SendMessageTimeoutW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SendNotifyMessageA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SendNotifyMessageW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetCursor` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetCursorPos` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetMessageExtraInfo` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetWindowLongA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetWindowLongW` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `SetWindowPos` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `UnregisterClassA` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
+| `WaitMessage` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |  |
 
 </details>
 
@@ -3505,8 +3603,11 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 ## Unverified
 
-- Fortnite: GameChat2.dll (14 delay imports) and everything it imports: never seen loading. CONCRT140.dll (MSVCP140 delay import): not observed.
-- XAudio2_9 / GameInput ordinal imports are treated as PC-provided because the PC DLLs export those ordinals; that the console DLL uses the same ordinals was not checked. XAudio2 starts streaming in the Fortnite log, but there is no audio.
+- Fortnite: GameChat2.dll (14 delay imports) and everything it imports: never seen loading.
+- Fortnite: CONCRT140.dll (MSVCP140 delay import): not observed.
+- GameInput.dll ordinal imports: #1: console GameInput.dll ordinal 1 = GameInputCreate on 19041.3948 / 22000.4429 / 22621.1852 (pefile).
+- XAudio2_9 ordinal imports are treated as PC-provided because the PC DLL exports those ordinals; that the console DLL uses the same ordinals was not checked here. XAudio2 starts streaming in the Fortnite log, but there is no audio.
+- PC-twin rows (minuserx -> user32, kernel32legacy -> kernel32 / kernelbase, advapi32legacy -> advapi32, minappmodelx -> twinapi.appcore / kernel.appcore) are export-name matches on the twin only; the console DLLs' own behaviour is not reproduced.
 - PC-provided is an export-name match (ordinal match for ordinal-only exports) against this PC's System32; behaviour differences between console and PC system DLLs are not measured, and such exports are outside this map.
 - Titles without run evidence are classified statically only.
 - Milestones 14/19 and the RDNA2 instruction table are upstream's numbers (`progress.json`, `data/mnemonics.txt`); not re-measured here.

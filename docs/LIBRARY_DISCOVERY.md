@@ -2,6 +2,14 @@
 
 Console and title libraries found while mapping the Xbox Series system surface. Every dump stays read-only.
 
+## 2026-11-21 — PC twins for console host DLLs, GameInput ordinal checked, evidence files
+
+- Four console host DLLs have no same-named PC DLL but a PC twin: `minuserx.dll` -> `user32.dll`, `kernel32legacy.dll` -> `kernel32.dll` / `kernelbase.dll`, `advapi32legacy.dll` -> `advapi32.dll`, `minappmodelx.dll` -> `twinapi.appcore.dll` / `kernel.appcore.dll`. `sync.py` now records, per console DLL, which of its exports the twin exports by name (`pc_twin`, `twin_has` in `data/console_exports.json`): 71 / 303 / 201 / 4 exports.
+- The titles reach these DLLs through API sets; host attribution (`HOST_PRIORITY` in `gen.py`) assigns 35 imported functions to them (minuserx 21, kernel32legacy 9, minappmodelx 4, advapi32legacy 1). All 35 exist by name in the twin, so they are now `pc` (name match, with a note), not implemented. No emulator OS-host hook list exists yet (`oshost.json` absent), so none is `hooked`. The 1901 console-library denominator is unchanged; the libraries stay counted as console-only. Headline 138 -> 173 of 1901.
+- Console `GameInput.dll` exports exactly one function, ordinal 1 = `GameInputCreate`, in all three console OS builds analysed (0.2008.19041.3948 Fortnite; 0.2206.22000.4429 XDefiant and Terraria; 0.2210.22621.1852 Trackmania; checked with pefile). The PC DLL uses the same ordinal, so Fortnite's `GameInput.dll #1` import counts as done in system functions (637 -> 638 of 671).
+- Evidence gates: `gen.py` reads `tools/progress/data/evidence/{chatprobe,media,gameinput_ext,oshost}.json`, which `sync.py` copies from TomBox `analysis/progress_evidence/`. None exists yet. The schema is in `LIBRARY_MAP.md` under "Evidence files". GameChat2.dll / CONCRT140.dll leave Fortnite's unverified lists, and MFPlat / MFReadWrite / GameChat2 imports flip, only when those files show the module loaded with an empty `unresolved` list.
+- `LIBRARY_MAP.md` now has a "Not targeted" section: 70 console libraries (892 exports) that no analysed title imports and no emulator crate provides. They remain in the denominator as `missing`.
+
 ## 2026-11-21 — Xbox One GameCore driver variants provided (d3d12_x, xg_x, dxcompiler_x, XFrontPanelDisplay)
 
 The `missing` rows logged below for Terraria and Trackmania are now provided by four new emulator crates. Their export names and ordinals match the console DLLs in both dumps exactly (d3d12_x 54 exports, xg_x 21, dxcompiler_x 2, XFrontPanelDisplay 8), checked by unit tests against the dumps and against the built DLLs. Each crate carries an `exports.txt` (ordinal, name, status, note) that `tools/progress/sync.py` now reads into `data/emulator_exports.json`, and `gen.py` credits from it.

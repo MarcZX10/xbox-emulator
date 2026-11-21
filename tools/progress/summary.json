@@ -2,9 +2,9 @@
  "updated": "2026-11-21",
  "headline": {
   "system_functions": {
-   "done": 637,
+   "done": 638,
    "total": 671,
-   "pct": 94.93
+   "pct": 95.08
   },
   "d3d12x_methods": {
    "done": 113,
@@ -46,9 +46,9 @@
  },
  "extra": {
   "console_exports": {
-   "done": 138,
+   "done": 173,
    "total": 1901,
-   "pct": 7.26
+   "pct": 9.1
   },
   "shader_compile_lobby_frame": {
    "done": 139,
@@ -89,48 +89,30 @@
    "done": 12,
    "total": 18,
    "pct": 66.67
+  },
+  "console_exports_targeted": {
+   "done": 173,
+   "total": 1009,
+   "pct": 17.15
+  },
+  "console_exports_not_targeted": {
+   "done": null,
+   "total": 892,
+   "pct": null,
+   "libraries": 70
   }
- },
- "title_import_status": {
-  "Fortnite": {
-   "stub": 9,
-   "implemented": 18,
-   "forwarded": 4
-  },
-  "XDefiant": {
-   "implemented": 13,
-   "stub": 3,
-   "missing": 12,
-   "forwarded": 1
-  },
-  "Terraria": {
-   "implemented": 12,
-   "stub": 11,
-   "forwarded": 2
-  },
-  "Trackmania": {
-   "forwarded": 4,
-   "implemented": 8,
-   "stub": 6
-  }
- },
- "console_os_builds": {
-  "Fortnite": "10.0.19041.3948",
-  "XDefiant": "10.0.22000.4429",
-  "Terraria": "10.0.22000.4429",
-  "Trackmania": "10.0.22621.1852"
  },
  "all_including_pc": {
   "note": "previous definition, kept for history: every export of every console OS DLL and every title import, PC-provided ones included",
   "console_exports": {
-   "done": 21007,
+   "done": 21042,
    "total": 23489,
-   "pct": 89.43
+   "pct": 89.58
   },
   "xbox_only_exports": {
-   "done": 138,
+   "done": 173,
    "total": 1824,
-   "pct": 7.57
+   "pct": 9.48
   },
   "title_import_status": {
    "Fortnite": {
@@ -188,5 +170,34 @@
    "total": 1579,
    "pct": 99.62
   }
+ },
+ "title_import_status": {
+  "Fortnite": {
+   "stub": 9,
+   "implemented": 18,
+   "forwarded": 4
+  },
+  "XDefiant": {
+   "implemented": 13,
+   "stub": 3,
+   "missing": 12,
+   "forwarded": 1
+  },
+  "Terraria": {
+   "implemented": 12,
+   "stub": 11,
+   "forwarded": 2
+  },
+  "Trackmania": {
+   "forwarded": 4,
+   "implemented": 8,
+   "stub": 6
+  }
+ },
+ "console_os_builds": {
+  "Fortnite": "10.0.19041.3948",
+  "XDefiant": "10.0.22000.4429",
+  "Terraria": "10.0.22000.4429",
+  "Trackmania": "10.0.22621.1852"
  }
 }

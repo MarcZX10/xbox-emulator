@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1908" width="1000" height="1908">
 <rect x="0" y="0" width="1000" height="1908" fill="#0d1117"/>
-<text x="4.00" y="21.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Imported system functions*: 94.93% (637/671)</text>
+<text x="4.00" y="21.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Imported system functions*: 95.08% (638/671)</text>
 <g><title>C/C++ runtime: 357/357 (100%)</title>
 <rect x="1.00" y="31.00" width="20.39" height="21.29" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
 <rect x="21.39" y="31.00" width="20.39" height="21.29" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
@@ -719,8 +719,8 @@
 <rect x="933.30" y="283.08" width="28.59" height="31.28" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="938.30" y="299.08" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">bcr</text>
 </g>
-<g><title>GameInput: 0/1 (0%)</title>
-<rect x="934.30" y="315.36" width="26.59" height="13.64" fill="#d29922" stroke="#0d1117" stroke-width="0.5"/>
+<g><title>GameInput: 1/1 (100%)</title>
+<rect x="934.30" y="315.36" width="26.59" height="13.64" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
 <rect x="933.30" y="314.36" width="28.59" height="15.64" fill="none" stroke="#0d1117" stroke-width="2"/>
 </g>
 <g><title>xg_xs: 1/1 (100%)</title>
@@ -1640,19 +1640,21 @@
 <rect x="875.00" y="880.00" width="125.00" height="60.00" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="880.00" y="896.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Amplification</text>
 </g>
-<text x="4.00" y="971.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Xbox console libraries: 7.26% (138/1901)</text>
+<text x="4.00" y="971.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Xbox console libraries: 9.10% (173/1901)</text>
 <rect x="4" y="982" width="10" height="10" fill="#2ea043"/>
 <text x="18.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">implemented</text>
 <rect x="109" y="982" width="10" height="10" fill="#388bfd"/>
 <text x="123.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">forwarded</text>
-<rect x="200" y="982" width="10" height="10" fill="#d29922"/>
-<text x="214.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">stub</text>
-<rect x="256" y="982" width="10" height="10" fill="#6e7681"/>
-<text x="270.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">missing</text>
-<rect x="333" y="982" width="10" height="10" fill="#afb3b9"/>
-<text x="347.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">lighter = imported by an analysed title</text>
-<g><title>kernel32legacy.dll: 0/303 covered; Fortnite imports 2, Terraria imports 4, Trackmania imports 6, XDefiant imports 5</title>
-<rect x="1.00" y="999.00" width="190.32" height="22.08" fill="#afb3b9"/>
+<rect x="200" y="982" width="10" height="10" fill="#2f8f83"/>
+<text x="214.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">pc</text>
+<rect x="242" y="982" width="10" height="10" fill="#d29922"/>
+<text x="256.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">stub</text>
+<rect x="298" y="982" width="10" height="10" fill="#6e7681"/>
+<text x="312.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">missing</text>
+<rect x="375" y="982" width="10" height="10" fill="#afb3b9"/>
+<text x="389.00" y="991.00" font-family="sans-serif" font-size="11" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">lighter = imported by an analysed title</text>
+<g><title>kernel32legacy.dll: 9/303 covered; Fortnite imports 2, Terraria imports 4, Trackmania imports 6, XDefiant imports 5</title>
+<rect x="1.00" y="999.00" width="190.32" height="22.08" fill="#8cc1ba"/>
 <rect x="191.32" y="999.00" width="148.03" height="22.08" fill="#6e7681"/>
 <rect x="1.00" y="1021.08" width="338.35" height="22.08" fill="#6e7681"/>
 <rect x="1.00" y="1043.16" width="338.35" height="22.08" fill="#6e7681"/>
@@ -1693,8 +1695,8 @@
 <rect x="0.00" y="998.00" width="340.35" height="421.48" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="5.00" y="1014.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">kernel32legacy</text>
 </g>
-<g><title>advapi32legacy.dll: 0/207 covered; Fortnite imports 1, Terraria imports 1, Trackmania imports 1, XDefiant imports 1</title>
-<rect x="1.00" y="1420.48" width="21.15" height="22.00" fill="#afb3b9"/>
+<g><title>advapi32legacy.dll: 1/207 covered; Fortnite imports 1, Terraria imports 1, Trackmania imports 1, XDefiant imports 1</title>
+<rect x="1.00" y="1420.48" width="21.15" height="22.00" fill="#8cc1ba"/>
 <rect x="22.15" y="1420.48" width="317.20" height="22.00" fill="#6e7681"/>
 <rect x="1.00" y="1442.48" width="338.35" height="22.00" fill="#6e7681"/>
 <rect x="1.00" y="1464.48" width="338.35" height="22.00" fill="#6e7681"/>
@@ -1766,10 +1768,10 @@
 <rect x="340.35" y="998.00" width="320.20" height="196.65" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="345.35" y="1014.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">xbtp</text>
 </g>
-<g><title>minuserx.dll: 0/74 covered; Fortnite imports 9, Terraria imports 12, Trackmania imports 13, XDefiant imports 10</title>
-<rect x="661.54" y="999.00" width="176.15" height="21.63" fill="#afb3b9"/>
-<rect x="661.54" y="1020.63" width="176.15" height="21.63" fill="#afb3b9"/>
-<rect x="661.54" y="1042.26" width="58.72" height="21.63" fill="#afb3b9"/>
+<g><title>minuserx.dll: 21/74 covered; Fortnite imports 9, Terraria imports 12, Trackmania imports 13, XDefiant imports 10</title>
+<rect x="661.54" y="999.00" width="176.15" height="21.63" fill="#8cc1ba"/>
+<rect x="661.54" y="1020.63" width="176.15" height="21.63" fill="#8cc1ba"/>
+<rect x="661.54" y="1042.26" width="58.72" height="21.63" fill="#8cc1ba"/>
 <rect x="720.26" y="1042.26" width="117.44" height="21.63" fill="#6e7681"/>
 <rect x="661.54" y="1063.88" width="176.15" height="21.63" fill="#6e7681"/>
 <rect x="661.54" y="1085.51" width="176.15" height="21.63" fill="#6e7681"/>
@@ -2367,9 +2369,9 @@
 <rect x="822.18" y="1685.00" width="44.45" height="42.60" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="827.18" y="1701.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">dxcom</text>
 </g>
-<g><title>minappmodelx.dll: 0/4 covered; Fortnite imports 4, Terraria imports 4, Trackmania imports 4, XDefiant imports 4</title>
-<rect x="867.64" y="1686.00" width="42.45" height="20.30" fill="#afb3b9"/>
-<rect x="867.64" y="1706.30" width="14.15" height="20.30" fill="#afb3b9"/>
+<g><title>minappmodelx.dll: 4/4 covered; Fortnite imports 4, Terraria imports 4, Trackmania imports 4, XDefiant imports 4</title>
+<rect x="867.64" y="1686.00" width="42.45" height="20.30" fill="#8cc1ba"/>
+<rect x="867.64" y="1706.30" width="14.15" height="20.30" fill="#8cc1ba"/>
 <line x1="867.64" y1="1706.30" x2="910.09" y2="1706.30" stroke="#0d1117" stroke-width="0.5"/>
 <rect x="866.64" y="1685.00" width="44.45" height="42.60" fill="none" stroke="#0d1117" stroke-width="2"/>
 <text x="871.64" y="1701.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">minap</text>

@@ -13,11 +13,14 @@
     "MFPlat.DLL": "partial",
     "MFReadWrite.dll": "partial",
     "XAudio2_9.dll": "partial",
-    "GameInput.dll": "partial",
+    "GameInput.dll!#1": "done",
     "GameChat2.dll": "none",
     "XMemFreePhysicalPages": "partial",
     "XMemTransferMemory": "partial",
     "D3D12XboxSetProcessDebugFlags": "partial"
+  },
+  "ordinal_evidence": {
+    "GameInput.dll": {"#1": "console GameInput.dll ordinal 1 = GameInputCreate on 19041.3948 / 22000.4429 / 22621.1852 (pefile)"}
   },
   "d3d12x": {
     "Device": {"total": 160, "done": "0-44,48,52,55-57,60-62,66,67,73,78-81,87", "partial": "45-47,49-51,53,54,58,59,63-65,68-72,74-77,82-86,88-90"},
@@ -118,7 +121,8 @@
     "XGCreateTextureComputer": "E_NOTIMPL",
     "MFResetDXGIDeviceManagerX": "E_NOTIMPL",
     "DStorageGetFactory": "PC DirectStorage (dstorage.dll) with Xbox->PC IID and request translation",
-    "D3D12XboxCreateDevice": "real PC D3D12 device wrapped with the Xbox vtable layout"
+    "D3D12XboxCreateDevice": "real PC D3D12 device wrapped with the Xbox vtable layout",
+    "GameInputCreate": "GameInput.dll is not emulated: the console DLL exports only ordinal 1 = GameInputCreate (19041.3948 / 22000.4429 / 22621.1852, pefile), the PC GameInput.dll exports GameInputCreate at ordinal 1, so the title's #1 import binds to the PC GameInputCreate; compat-common gamepad.rs patches the host EXE's import slot only (TerrariaNative.dll's own #1 import is not redirected)"
   },
   "hooked": {
     "file": "crates/compat/compat-common/src/net_guard.rs",

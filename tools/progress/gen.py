@@ -1,4 +1,4 @@
-import json, os, math
+import json, os, math, sys
 from xml.sax.saxutils import escape
 
 here = os.path.dirname(os.path.abspath(__file__))
@@ -6,10 +6,49 @@ root = os.path.normpath(os.path.join(here, "..", ".."))
 dat = os.path.join(here, "data")
 img = os.path.join(root, "docs", "img")
 cfg = json.load(open(os.path.join(here, "progress.json"), encoding="utf-8"))
+_emu = {k.lower(): dict(v) for k, v in cfg["emulator"].items()}
 if os.path.isfile(os.path.join(dat, "emulator_exports.json")):
     for _dll, _v in json.load(open(os.path.join(dat, "emulator_exports.json"), encoding="utf-8")).items():
-        cfg["emulator"][_dll] = {"file": _v["file"], "notes": _v["notes"],
-                                 "functions": {f: s for f, s in _v["functions"].items() if s != "missing"}}
+        _e = _emu.setdefault(_dll.lower(), {})
+        _e["file"] = _v["file"]
+        _e["functions"] = {f: s for f, s in _v["functions"].items() if s != "missing"}
+        _e["notes"] = {**_e.get("notes", {}), **_v["notes"]}
+cfg["emulator"] = _emu
+EVIDENCE_OVERRIDE = None
+
+
+def evidence(name):
+    if EVIDENCE_OVERRIDE is not None:
+        return EVIDENCE_OVERRIDE.get(name)
+    p = os.path.join(dat, "evidence", name)
+    return json.load(open(p, encoding="utf-8")) if os.path.isfile(p) else None
+
+
+def ev_modules(name):
+    e = evidence(name) or {}
+    return {k.lower(): v for k, v in e.get("modules", {}).items()}
+
+
+def module_proven(name, mod):
+    m = ev_modules(name).get(mod.lower())
+    return bool(m and m.get("loaded") is True and isinstance(m.get("unresolved"), list) and not m["unresolved"])
+
+
+def function_proven(name, mod, f):
+    m = ev_modules(name).get(mod.lower())
+    if not m or m.get("loaded") is not True:
+        return False
+    if f == "(delay-loaded)":
+        return module_proven(name, mod)
+    return f in m.get("resolved", []) and f not in m.get("unresolved", [])
+
+
+def oshost_hooks():
+    e = evidence("oshost.json") or {}
+    return {k.lower(): set(v) for k, v in e.get("hooks", {}).items()}, e.get("file")
+
+
+IMPORT_EVIDENCE = ["media.json", "gameinput_ext.json", "chatprobe.json"]
 GREEN, AMBER, GREY, BG = "#2ea043", "#d29922", "#6e7681", "#0d1117"
 COL = {"done": GREEN, "partial": AMBER, "none": GREY}
 XCOL = {"implemented": "#2ea043", "forwarded": "#388bfd", "hooked": "#a371f7", "pc": "#2f8f83",
@@ -49,7 +88,10 @@ def imports():
         else:
             g = mod.rsplit(".", 1)[0]
         for f in funcs:
-            groups.setdefault(g, []).append(ov.get(f, ov.get(mod, "done")))
+            st = ov.get(f"{mod}!{f}", ov.get(f, ov.get(mod, "done")))
+            if st != "done" and any(function_proven(e, mod, f) for e in IMPORT_EVIDENCE):
+                st = "done"
+            groups.setdefault(g, []).append(st)
     return groups
 
 
@@ -166,11 +208,12 @@ HOST_PRIORITY = ["kernelbase.dll", "ucrtbase.dll", "ntdll.dll", "combase.dll", "
                  "sechost.dll", "minuserx.dll", "oleaut32.dll"]
 
 
-def console(full=False):
+def console(full=False, twins=True):
     con = jload("console_exports.json")
     ti, direct, by_func = title_import_index()
     emu = {k.lower(): v for k, v in cfg["emulator"].items()}
     hooked = {k: set(v) for k, v in cfg["hooked"].items() if k != "file"}
+    oshook, oshook_file = oshost_hooks()
     host = {}
     for lib in sorted(con, key=lambda l: (HOST_PRIORITY.index(l.lower()) if l.lower() in HOST_PRIORITY else 99, l.lower())):
         for n, has, fwd, pres in con[lib]["exports"]:
@@ -179,29 +222,45 @@ def console(full=False):
     libs = {}
     for lib, v in con.items():
         low = lib.lower()
-        rows = []
+        rows, notes = [], {}
+        twin = set(v.get("twin_has", ())) if twins and not v["pc_dll"] and low not in emu else set()
+        tw = " / ".join(v.get("pc_twin", ()))
         for n, has, fwd, pres in v["exports"]:
             if not full and has != 0:
                 continue
+            users = set(direct.get((low, n), set()))
+            if host.get(n) == low:
+                users |= by_func.get(n, set())
             if low in emu:
                 st = emu[low]["functions"].get(n, "missing")
             elif has == 1:
                 st = "hooked" if n in hooked.get(low, ()) else "pc"
             elif has == 2:
                 st = "unverified"
+            elif users and n in twin:
+                hk = n in oshook.get(low, ()) or any(n in oshook.get(t, ()) for t in v.get("pc_twin", ()))
+                st = "hooked" if hk else "pc"
+                notes[n] = (f"PC twin {tw} exports {n}; hooked by the emulator OS host ({oshook_file})" if hk
+                            else f"name match on the PC twin {tw}; the console {lib} is not emulated, the title's API-set import resolves to the PC DLL")
             else:
                 st = "missing"
-            users = set(direct.get((low, n), set()))
-            if host.get(n) == low:
-                users |= by_func.get(n, set())
             rows.append((n, st, frozenset(users), tuple(pres)))
         if not rows:
             continue
-        libs[lib] = {"rows": rows, "pc_dll": v["pc_dll"], "dir": v["dir"], "versions": v["versions"]}
+        libs[lib] = {"rows": rows, "pc_dll": v["pc_dll"], "dir": v["dir"], "versions": v["versions"],
+                     "pc_twin": v.get("pc_twin", []), "notes": notes}
     for g, v in cfg["gdk_linked"].items():
         libs[g] = {"rows": [(n, "implemented", frozenset(["Fortnite"]), ("Fortnite",)) for n in v["functions"]],
                    "pc_dll": False, "dir": "Fortnite EXE (statically linked)", "versions": {}}
     return libs
+
+
+def not_targeted(libs):
+    emu = {k.lower() for k in cfg["emulator"]}
+    nt, tg = [], []
+    for lib, v in libs.items():
+        (tg if lib.lower() in emu or any(r[2] for r in v["rows"]) else nt).append(lib)
+    return nt, tg
 
 
 def console_section(o, y, libs, height):
@@ -280,18 +339,32 @@ def tcfg(title):
     return next((t for t in cfg["titles_analysed"] if t["name"] == title), {})
 
 
+def unverified_lists(title):
+    tc = tcfg(title)
+    ev = evidence("chatprobe.json") or {}
+    probe = ev.get("title", "Fortnite") == title
+    ub = {b.lower() for b in tc.get("unverified_binaries", []) if not (probe and module_proven("chatprobe.json", b))}
+    um = {m.lower() for m in tc.get("unverified_modules", []) if not (probe and module_proven("chatprobe.json", m))}
+    return ub, um
+
+
+def ordinal_evidence(mod, f):
+    return cfg.get("ordinal_evidence", {}).get(mod, {}).get(f)
+
+
 def classify_title_import(title, shipped, binary, mod, f, pcflag):
     tc = tcfg(title)
     low = mod.lower()
     emu = {k.lower(): v for k, v in cfg["emulator"].items()}
     hooked = {k: set(v) for k, v in cfg["hooked"].items() if k != "file"}
-    if binary.lower() in {b.lower() for b in tc.get("unverified_binaries", [])}:
+    ub, um = unverified_lists(title)
+    if binary.lower() in ub:
         return "unverified", f"{binary} is delay-loaded by the EXE and never appears in run logs"
     if low in emu:
         st = emu[low]["functions"].get(f, "missing")
         note = (emu[low].get("notes", {}).get(f) or cfg["notes"].get(f, "")) if st != "missing" else f"not exported by the emulator's {mod}"
         return st, f"[{emu[low]['file']}]({TOMBOX}{emu[low]['file']})" + (f" ({note})" if note else "")
-    if low in {m.lower() for m in tc.get("unverified_modules", [])}:
+    if low in um:
         return "unverified", "delay-loaded; no load seen in run logs"
     if low in shipped:
         return "title", f"shipped with the title ({mod})"
@@ -299,8 +372,9 @@ def classify_title_import(title, shipped, binary, mod, f, pcflag):
         return "hooked", f"PC System32\\{mod}; [{cfg['hooked']['file']}]({TOMBOX}{cfg['hooked']['file']})"
     if pcflag == 2:
         o = jload("pc_ordinals.json").get(mod, {}).get(f)
+        ce = ordinal_evidence(mod, f)
         if o:
-            return "pc", f"PC System32\\{mod} ordinal {f} = {o} on PC (same meaning on console not verified)"
+            return "pc", f"PC System32\\{mod} ordinal {f} = {o} on PC" + (f"; {ce}" if ce else " (same meaning on console not verified)")
         return "unverified", f"ordinal import {f} exists on PC {mod}; meaning not checked"
     if pcflag == 1:
         return "pc", f"PC System32\\{mod}" + ("; resolved by the OS loader in our runs" if tc.get("run_evidence") else "; export name match")
@@ -369,7 +443,7 @@ def library_map(summary, libs):
     w("")
     w("Direct3D 12.x: 160 / 128 are the table sizes the wrappers allocate (`d3d12_xs/src/device_wrap.rs`, `cmdlist_wrap.rs`), not documented interface sizes. Device: done = forwarded PC slots 0-43 plus intercepted Xbox slots 44, 48, 52 (SetDebugFlags_X, documented no-op), 55, 56/57 and 66/67 (graphics/compute PSO serialize/deserialize, emulator TBPS format only), 60-62, 73, 78-81, 87 (OpenExistingHeapFromAddress via ID3D12Device3); partial = logging S_OK stubs in 45-90, including 74 (RegisterPagePoolX, bookkeeping only). CommandList: done = 0-26, 32-52 (PC methods shifted by 4), 59, 67, 68, 83; 27-31 are Xbox-inserted stubs and 53-127 log-and-ignore probes, counted as not done.")
     w("")
-    w("Direct3D 12.x on Xbox One (Terraria, Trackmania; `crates/compat/d3d12_x`): the console `d3d12_x.dll` is a 48 KB loader (export table identical in both dumps, 54 exports, ordinals 1-54) that loads a user-mode driver flavour (`xgs12.dll`, `xgs12_d.dll`, `xgs12_i.dll`) and calls its `UMDCreateDevice12`; Scarlett's `d3d12_xs.dll` loads `xgs12_10*.dll` instead. The COM vtables live in those drivers, not in `d3d12_x.dll`. Neither driver carries RTTI type names for the D3D12 classes. Tables found statically (a constructor `lea` of an `.rdata` table of code pointers, inside a `.pdata` function) number 109 in `xgs12.dll` and 67 in `xgs12_10.dll`; the only one tied to an interface IID through its QueryInterface is ID3D12CommandQueue: 34 slots on Xbox One, 35 on Scarlett. The ID3D12Device and ID3D12GraphicsCommandList tables were not identified by static analysis: both drivers hold long unattributed runs of static code pointers (about 480 entries in `xgs12.dll`, 520 in `xgs12_10.dll`) that may contain them, or the tables may be assembled at run time. So the Xbox One layout of the Xbox-specific slots (Device 44+, CommandList 27-31 and 53+) is unverified. The interface IIDs are unchanged (`IID_ID3D12Device` 189819f1-..., the PC GUID), the `D3D12XboxCreateDevice` parameter block is 0x28 bytes and NULL is rejected with E_INVALIDARG. The emulator therefore forwards Xbox One device creation to `d3d12_xs.dll` (Scarlett wrapper): PC slots 0-43 behave as on PC; any Xbox-only slot a title calls goes to the Scarlett slot of the same index, which may be a different method. `D3DMapEsramMemory(Flags, VA, NumPages, PageList)` (signature from the console stub, 0x18-byte driver packet) accepts flags 1 and 3 only and is mapped onto ordinary committed memory of NumPages x 64 KiB at the caller's VA.")
+    w("Direct3D 12.x on Xbox One (Terraria, Trackmania; `crates/compat/d3d12_x`): the console `d3d12_x.dll` is a 48 KB loader (export table identical in both dumps, 54 exports, ordinals 1-54) that loads a user-mode driver flavour (`xgs12.dll`, `xgs12_d.dll`, `xgs12_i.dll`) and calls its `UMDCreateDevice12`; Scarlett's `d3d12_xs.dll` loads `xgs12_10*.dll` instead. The COM vtables live in those drivers, not in `d3d12_x.dll`. Neither driver carries RTTI type names for the D3D12 classes. Tables found statically (a constructor `lea` of an `.rdata` table of code pointers, inside a `.pdata` function) number 109 in `xgs12.dll` and 67 in `xgs12_10.dll`; the only one tied to an interface IID through its QueryInterface is ID3D12CommandQueue: 34 slots on Xbox One, 35 on Scarlett. The ID3D12Device and ID3D12GraphicsCommandList tables were not identified by static analysis: both drivers hold long unattributed runs of static code pointers (about 480 entries in `xgs12.dll`, 520 in `xgs12_10.dll`) that may contain them, or the tables may be assembled at run time. So the Xbox One layout of the Xbox-specific slots (Device 44+, CommandList 27-31 and 53+) is unverified. From the titles' own call sites (device pointer traced from the `D3D12XboxCreateDevice` output: Trackmania `[renderer+0x3e80]`, Terraria a global; then `mov rax,[dev]; call [rax+8*n]`), the device slots the titles call are: Trackmania 2, 13, 15, 18-20, 52, 53, 59, 80; Terraria 0, 2, 9, 10, 13-16, 18, 19, 22, 25, 27-30, 36-38, 41, 48, 62, 64, 65, 68, 69, 73, 79-81. Xbox-range slots used by an Xbox One title are therefore 48, 52, 53, 59, 62, 64, 65, 68, 69, 73, 79, 80, 81; their meaning on Xbox One is not yet matched to the Scarlett slots of the same index (Trackmania calls 53 with no arguments and feeds its result to 52 right after creation). Both titles fill the first dword of the 0x28-byte create-parameter block with 0x1000a. The interface IIDs are unchanged (`IID_ID3D12Device` 189819f1-..., the PC GUID), the `D3D12XboxCreateDevice` parameter block is 0x28 bytes and NULL is rejected with E_INVALIDARG. The emulator therefore forwards Xbox One device creation to `d3d12_xs.dll` (Scarlett wrapper): PC slots 0-43 behave as on PC; any Xbox-only slot a title calls goes to the Scarlett slot of the same index, which may be a different method. `D3DMapEsramMemory(Flags, VA, NumPages, PageList)` (signature from the console stub, 0x18-byte driver packet) accepts flags 1 and 3 only and is mapped onto ordinary committed memory of NumPages x 64 KiB at the caller's VA.")
     w("")
     counts = {}
     for title, t in ti.items():
@@ -457,6 +531,37 @@ def library_map(summary, libs):
         w(f"| {lib} | {v['dir']} | {'yes' if v['pc_dll'] else 'no'} | {len(v['rows'])} | " + " | ".join(str(c[s]) for s in XORDER)
           + " | " + " | ".join(str(sum(1 for r in v["rows"] if t in r[2])) for t in tnames) + f" | {vers} |")
     w("")
+    nt_libs, tg_libs = not_targeted(libs)
+    nt_n = sum(len(libs[l]["rows"]) for l in nt_libs)
+    tg_n = sum(len(libs[l]["rows"]) for l in tg_libs)
+    w("### Not targeted (no analysed title references them)")
+    w("")
+    w(f"The console-library total above ({nt_n + tg_n} exports in {len(libs)} libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. "
+      f"{len(tg_libs)} libraries ({tg_n} exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; "
+      f"the {len(nt_libs)} below ({nt_n} exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. "
+      "They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. "
+      f"The earlier Xbox-only figure ({summary['all_including_pc']['xbox_only_exports']['total']} exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. "
+      f"Coverage inside the {len(tg_libs)} targeted libraries alone: {summary['extra']['console_exports_targeted']['done']}/{tg_n}.")
+    w("")
+    w("| Library | Folder | Same-named PC DLL | Console-only exports | Present in |")
+    w("|---|---|---|---|---|")
+    for lib in sorted(nt_libs, key=lambda l: (-len(libs[l]["rows"]), l.lower())):
+        v = libs[lib]
+        w(f"| {lib} | {v['dir']} | {'yes' if v['pc_dll'] else 'no'} | {len(v['rows'])} | {', '.join(v['versions'])} |")
+    w("")
+    w("### Evidence files")
+    w("")
+    w("`sync.py` copies these from TomBox `analysis/progress_evidence/` into `tools/progress/data/evidence/`; `gen.py` reads them, and a missing file changes nothing. Schema: `{\"title\": \"Fortnite\", \"source\": \"<log or test>\", \"modules\": {\"<Module.dll>\": {\"loaded\": true, \"resolved\": [\"<export>\", ...], \"unresolved\": []}}}`. "
+      "A module counts as loading and resolving only when `loaded` is true and `unresolved` is an empty list; a system-functions import flips to done only when its name is in `resolved`. `oshost.json` is `{\"file\": \"<crate path>\", \"hooks\": {\"<console or PC twin DLL>\": [\"<export>\", ...]}}`.")
+    w("")
+    w("| File | Used for | Present |")
+    w("|---|---|---|")
+    for f, use in (("chatprobe.json", "Fortnite GameChat2.dll / CONCRT140.dll leave the unverified lists; GameChat2 delay import in system functions"),
+                   ("media.json", "MFPlat.DLL x16 and MFReadWrite.dll x2 in system functions"),
+                   ("gameinput_ext.json", "GameInput.dll imports outside the EXE (TerrariaNative.dll)"),
+                   ("oshost.json", "PC-twin rows become `hooked` instead of `pc`")):
+        w(f"| `{f}` | {use} | {'yes' if evidence(f) is not None else 'no'} |")
+    w("")
     if len(tnames) > 1:
         w("### Exports not present in every title's console OS")
         w("")
@@ -484,10 +589,14 @@ def library_map(summary, libs):
     for lib, v in sorted(libs.items(), key=lambda kv: kv[0].lower()):
         w(f"<details><summary><b>{escape(lib)}</b>: {len(v['rows'])} console-only exports, {sum(1 for r in v['rows'] if r[1] in COVERED)} covered</summary>")
         w("")
-        w("| Function | Status | Imported by | Present in |")
-        w("|---|---|---|---|")
+        nt = v.get("notes", {})
+        if v.get("pc_twin"):
+            w(f"No PC DLL is named {lib}; its PC twin is {' / '.join(v['pc_twin'])}. Exports an analysed title imports and the twin exports by name are `pc` (or `hooked` where the emulator's OS host reports a hook): {len(nt)} rows. They are not implemented by the emulator; the other exports stay `missing`.")
+            w("")
+        w("| Function | Status | Imported by | Present in |" + (" Note |" if nt else ""))
+        w("|---|---|---|---|" + ("---|" if nt else ""))
         for r in sorted(v["rows"], key=lambda r: (XORDER.index(r[1]), r[0].lower())):
-            w(f"| `{r[0]}` | {r[1]} | {', '.join(sorted(r[2]))} | {', '.join(r[3])} |")
+            w(f"| `{r[0]}` | {r[1]} | {', '.join(sorted(r[2]))} | {', '.join(r[3])} |" + (f" {nt.get(r[0], '')} |" if nt else ""))
         w("")
         w("</details>")
         w("")
@@ -502,8 +611,19 @@ def library_map(summary, libs):
     w("")
     w("## Unverified")
     w("")
-    w("- Fortnite: GameChat2.dll (14 delay imports) and everything it imports: never seen loading. CONCRT140.dll (MSVCP140 delay import): not observed.")
-    w("- XAudio2_9 / GameInput ordinal imports are treated as PC-provided because the PC DLLs export those ordinals; that the console DLL uses the same ordinals was not checked. XAudio2 starts streaming in the Fortnite log, but there is no audio.")
+    ub, um = unverified_lists("Fortnite")
+    if "gamechat2.dll" in ub or "gamechat2.dll" in um:
+        w("- Fortnite: GameChat2.dll (14 delay imports) and everything it imports: never seen loading.")
+    else:
+        w("- Fortnite: GameChat2.dll loads and resolves (chatprobe evidence, `tools/progress/data/evidence/chatprobe.json`).")
+    if "concrt140.dll" in um:
+        w("- Fortnite: CONCRT140.dll (MSVCP140 delay import): not observed.")
+    else:
+        w("- Fortnite: CONCRT140.dll loads and resolves (chatprobe evidence).")
+    for mod, fs in cfg.get("ordinal_evidence", {}).items():
+        w(f"- {mod} ordinal imports: " + "; ".join(f"{f}: {e}" for f, e in fs.items()) + ".")
+    w("- XAudio2_9 ordinal imports are treated as PC-provided because the PC DLL exports those ordinals; that the console DLL uses the same ordinals was not checked here. XAudio2 starts streaming in the Fortnite log, but there is no audio.")
+    w("- PC-twin rows (minuserx -> user32, kernel32legacy -> kernel32 / kernelbase, advapi32legacy -> advapi32, minappmodelx -> twinapi.appcore / kernel.appcore) are export-name matches on the twin only; the console DLLs' own behaviour is not reproduced.")
     w("- PC-provided is an export-name match (ordinal match for ordinal-only exports) against this PC's System32; behaviour differences between console and PC system DLLs are not measured, and such exports are outside this map.")
     w("- Titles without run evidence are classified statically only.")
     w("- Milestones 14/19 and the RDNA2 instruction table are upstream's numbers (`progress.json`, `data/mnemonics.txt`); not re-measured here.")
@@ -512,6 +632,65 @@ def library_map(summary, libs):
     return counts
 
 
+def selftest():
+    global EVIDENCE_OVERRIDE
+    fails = []
+
+    def check(name, ok):
+        print(("ok   " if ok else "FAIL ") + name)
+        if not ok:
+            fails.append(name)
+    saved = EVIDENCE_OVERRIDE
+    EVIDENCE_OVERRIDE = {}
+    base = console(twins=False)
+    tw = console()
+    rows0 = [r for v in base.values() for r in v["rows"]]
+    rows1 = [r for v in tw.values() for r in v["rows"]]
+    check("twin mapping keeps the console denominator", len(rows0) == len(rows1))
+    check("twin mapping keeps the library set and pc_dll flags", {k: v["pc_dll"] for k, v in base.items()} == {k: v["pc_dll"] for k, v in tw.items()})
+    twl = [k for k, v in tw.items() if v.get("pc_twin")]
+    flips = [(k, a[0], b[1]) for k in twl for a, b in zip(base[k]["rows"], tw[k]["rows"]) if a[1] != b[1]]
+    check("twin libraries present", {k.lower() for k in twl} >= {"minuserx.dll", "kernel32legacy.dll", "advapi32legacy.dll", "minappmodelx.dll"})
+    check("only imported twin rows flip", all(next(r for r in tw[k]["rows"] if r[0] == n)[2] for k, n, _ in flips))
+    check("twin rows flip to pc only (no oshost evidence)", all(s == "pc" for _, _, s in flips))
+    check("no twin row is implemented", not any(r[1] == "implemented" for k in twl for r in tw[k]["rows"]))
+    check("every twin flip carries a note", all(n in tw[k]["notes"] for k, n, _ in flips))
+    check("35 twin rows flip", len(flips) == 35)
+    cov0 = sum(1 for r in rows0 if r[1] in COVERED)
+    cov1 = sum(1 for r in rows1 if r[1] in COVERED)
+    check("covered rises by exactly the twin flips", cov1 - cov0 == len(flips))
+    hk = next(n for k, n, _ in flips if k.lower() == "minuserx.dll")
+    EVIDENCE_OVERRIDE = {"oshost.json": {"file": "crates/compat/oshost/src/lib.rs", "hooks": {"user32.dll": [hk]}}}
+    h = console()
+    st = {r[0]: r[1] for k, v in h.items() if k.lower() == "minuserx.dll" for r in v["rows"]}
+    check("oshost hook on the PC twin makes the row hooked", st[hk] == "hooked")
+    EVIDENCE_OVERRIDE = {}
+    g = imports()
+    check("GameInput #1 done without touching XAudio2", g.get("GameInput") == ["done"] and g.get("XAudio2_9", []).count("partial") == 5)
+    check("GameChat2 stays none without chatprobe evidence", g.get("GameChat2") == ["none"])
+    check("MFPlat stays partial without media evidence", g.get("MFPlat", []).count("partial") == 16)
+    check("unverified lists unchanged without evidence", unverified_lists("Fortnite") == ({"gamechat2.dll"}, {"gamechat2.dll", "concrt140.dll"}))
+    exe = jload("fortnite_exe.json")
+    mf = next(m["functions"] for m in exe["imports"] if m["module"].lower() == "mfplat.dll")
+    EVIDENCE_OVERRIDE = {"media.json": {"modules": {"MFPlat.DLL": {"loaded": True, "resolved": mf[:-1], "unresolved": [mf[-1]]}}},
+                         "chatprobe.json": {"title": "Fortnite", "modules": {"GameChat2.dll": {"loaded": True, "unresolved": []},
+                                                                             "CONCRT140.dll": {"loaded": True, "unresolved": ["x"]}}}}
+    g = imports()
+    check("media evidence flips only resolved MFPlat imports", g["MFPlat"].count("done") == 15 and g["MFPlat"].count("partial") == 1)
+    check("chatprobe evidence flips the GameChat2 delay import", g["GameChat2"] == ["done"])
+    check("chatprobe evidence removes GameChat2 but keeps unresolved CONCRT140", unverified_lists("Fortnite") == (set(), {"concrt140.dll"}))
+    EVIDENCE_OVERRIDE = {"chatprobe.json": {"title": "Fortnite", "modules": {"GameChat2.dll": {"loaded": False, "unresolved": []}}}}
+    check("chatprobe with loaded false changes nothing", unverified_lists("Fortnite")[0] == {"gamechat2.dll"})
+    EVIDENCE_OVERRIDE = saved
+    nt, tg = not_targeted(tw)
+    check("not-targeted + targeted = console denominator", sum(len(tw[l]["rows"]) for l in nt + tg) == len(rows1))
+    check("not-targeted libraries have no title import", not any(r[2] for l in nt for r in tw[l]["rows"]))
+    print(f"{len(fails)} failed")
+    return not fails
+
+
+if "--selftest" in sys.argv:
+    sys.exit(0 if selftest() else 1)
 os.makedirs(img, exist_ok=True)
 o, y = [], 0
 y, a_done, a_n = section(o, y, "Imported system functions*", imports(), 300)
@@ -558,9 +737,10 @@ summary = {
 for title, t in ti_all.items():
     rows = [r for _, _, rs in title_rows(title, t) for r in rs]
     summary["extra"][f"title_imports_{title}"] = metric(sum(1 for r in rows if r[1] in COVERED), len(rows))
-tcounts = library_map(summary, libs)
-summary["title_import_status"] = tcounts
-summary["console_os_builds"] = {k: v["os_build"] for k, v in ti_all.items()}
+_nt, _tg = not_targeted(libs)
+_tgr = [r for l in _tg for r in libs[l]["rows"]]
+summary["extra"]["console_exports_targeted"] = metric(sum(1 for r in _tgr if r[1] in COVERED), len(_tgr))
+summary["extra"]["console_exports_not_targeted"] = {"done": None, "total": sum(len(libs[l]["rows"]) for l in _nt), "pct": None, "libraries": len(_nt)}
 old_libs = console(full=True)
 old_rows = [r for v in old_libs.values() for r in v["rows"]]
 old_xo = [r for v in old_libs.values() if not v["pc_dll"] for r in v["rows"]]
@@ -577,6 +757,9 @@ for title, t in ti_all.items():
     for r in rows:
         st[r[1]] = st.get(r[1], 0) + 1
     summary["all_including_pc"]["title_import_status"][title] = st
+tcounts = library_map(summary, libs)
+summary["title_import_status"] = tcounts
+summary["console_os_builds"] = {k: v["os_build"] for k, v in ti_all.items()}
 json.dump(summary, open(os.path.join(here, "summary.json"), "w", encoding="utf-8"), indent=1)
 print(f"imports {a_done}/{a_n}  d3d12x {b_done}/{b_n}  instructions {c_done}/{c_n}  stages {d_done}/{d_n}  "
       f"console {e_done}/{e_n}  titles {examined}  height {y:.0f}  bytes {len(svg)}")

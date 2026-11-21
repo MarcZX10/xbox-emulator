@@ -117,6 +117,20 @@ for line in src.split("\n"):
         groups[-1][1].append(n)
 json.dump(groups, open(os.path.join(data, "mnem_groups.json"), "w", encoding="utf-8"), indent=0)
 
+TWINS = {"minuserx.dll": ["user32.dll"], "kernel32legacy.dll": ["kernel32.dll", "kernelbase.dll"],
+         "advapi32legacy.dll": ["advapi32.dll"], "minappmodelx.dll": ["twinapi.appcore.dll", "kernel.appcore.dll"]}
+
+
+def twin_exports(key):
+    names, found = set(), []
+    for t in TWINS.get(key, ()):
+        pc = pc_exports(t)
+        if pc:
+            names |= pc[0]
+            found.append(t)
+    return names, found
+
+
 titles, console, skipped = {}, {}, []
 for t in cfg["titles_analysed"]:
     bdir = os.path.join(a.tombox, *t["binaries"].split("/"))
@@ -163,6 +177,10 @@ out = {}
 for key, lib in console.items():
     out[lib["name"]] = {"dir": lib["dir"], "pc_dll": lib["pc_dll"], "versions": lib["versions"],
                         "exports": [[k, v[0], v[1], v[2]] for k, v in lib["exports"].items()]}
+    if not lib["pc_dll"] and key in TWINS:
+        tn, found = twin_exports(key)
+        out[lib["name"]]["pc_twin"] = found
+        out[lib["name"]]["twin_has"] = sorted(k for k in lib["exports"] if k in tn)
 json.dump(out, open(os.path.join(data, "console_exports.json"), "w", encoding="utf-8"), separators=(",", ":"))
 json.dump(titles, open(os.path.join(data, "title_imports.json"), "w", encoding="utf-8"), indent=1)
 
@@ -186,6 +204,19 @@ for crate in sorted(os.listdir(cdir), key=str.lower):
     emu[dll] = {"file": f"crates/compat/{crate}/src/lib.rs", "functions": funcs, "notes": notes}
 json.dump(emu, open(os.path.join(data, "emulator_exports.json"), "w", encoding="utf-8"), indent=1)
 
+EVIDENCE = ["chatprobe.json", "media.json", "gameinput_ext.json", "oshost.json"]
+edir, odir = os.path.join(a.tombox, "analysis", "progress_evidence"), os.path.join(data, "evidence")
+os.makedirs(odir, exist_ok=True)
+copied = []
+for name in EVIDENCE:
+    p = os.path.join(edir, name)
+    if os.path.isfile(p):
+        json.load(open(p, encoding="utf-8"))
+        shutil.copyfile(p, os.path.join(odir, name))
+        copied.append(name)
+    elif os.path.isfile(os.path.join(odir, name)):
+        os.remove(os.path.join(odir, name))
+
 ords = {}
 for dll in ("XAudio2_9.dll", "GameInput.dll"):
     p = os.path.join(a.pc, dll)
@@ -196,4 +227,6 @@ json.dump(ords, open(os.path.join(data, "pc_ordinals.json"), "w", encoding="utf-
 print("titles", list(titles), "skipped", skipped, "console libraries", len(out),
       "console exports", sum(len(v["exports"]) for v in out.values()),
       "os builds", {k: v["os_build"] for k, v in titles.items()},
-      "emulator export tables", {k: len(v["functions"]) for k, v in emu.items()})
+      "emulator export tables", {k: len(v["functions"]) for k, v in emu.items()},
+      "twins", {k: (v.get("pc_twin"), len(v.get("twin_has", []))) for k, v in out.items() if "pc_twin" in v},
+      "evidence", copied)
