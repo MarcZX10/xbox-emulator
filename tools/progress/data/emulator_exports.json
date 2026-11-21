@@ -70,7 +70,7 @@
    "D3D12XboxSetProcessDebugFlags": "stores flags & 0x81f00001 like the console runtime",
    "D3D12XboxUnloadDriverModule": "S_OK; no xgs12 user-mode driver on PC",
    "D3DFlushEntireCpuCache": "no-op",
-   "D3DMapEsramMemory": "flags 1/3 only (else E_FAIL, as console); commits numPages x 64 KiB of ordinary memory at the caller VA; page list validated against 512 ESRAM pages"
+   "D3DMapEsramMemory": "flags 1/3 only (else E_FAIL, as console); one 32 MiB ESRAM section, each page-list entry maps that 64 KiB ESRAM page at VA+i*64K, so pages alias across VAs and keep contents across remaps; a caller reservation around the range is kept"
   }
  },
  "dxcompiler_x.dll": {
@@ -87,24 +87,24 @@
  "xfrontpaneldisplay.dll": {
   "file": "crates/compat/xfrontpaneldisplay/src/lib.rs",
   "functions": {
-   "XFrontPanelGetButtonStates": "stub",
-   "XFrontPanelGetLightStates": "stub",
+   "XFrontPanelGetButtonStates": "implemented",
+   "XFrontPanelGetLightStates": "implemented",
    "XFrontPanelGetScreenDimensions": "implemented",
-   "XFrontPanelGetScreenPixelFormat": "stub",
+   "XFrontPanelGetScreenPixelFormat": "implemented",
    "XFrontPanelIsSupported": "implemented",
-   "XFrontPanelPresentBuffer": "stub",
-   "XFrontPanelSetDisplayName": "stub",
-   "XFrontPanelSetLightStates": "stub"
+   "XFrontPanelPresentBuffer": "implemented",
+   "XFrontPanelSetDisplayName": "implemented",
+   "XFrontPanelSetLightStates": "implemented"
   },
   "notes": {
-   "XFrontPanelGetButtonStates": "none pressed",
-   "XFrontPanelGetLightStates": "all off",
+   "XFrontPanelGetButtonStates": "emulated panel buttons (F1-F5 = buttons 1-5, arrows, Enter = select while the panel window has focus)",
+   "XFrontPanelGetLightStates": "returns the 5 light bits last set",
    "XFrontPanelGetScreenDimensions": "64 x 256, E_INVALIDARG on null (matches console)",
-   "XFrontPanelGetScreenPixelFormat": "writes 0",
-   "XFrontPanelIsSupported": "false, as on a retail console",
-   "XFrontPanelPresentBuffer": "accepted, no-op",
-   "XFrontPanelSetDisplayName": "accepted, no-op",
-   "XFrontPanelSetLightStates": "accepted, no-op"
+   "XFrontPanelGetScreenPixelFormat": "DXGI_FORMAT_R8_UNORM (0x3d) as on console",
+   "XFrontPanelIsSupported": "true: the panel is emulated",
+   "XFrontPanelPresentBuffer": "console validation (size 0x4000 else E_INVALIDARG, null E_POINTER); frame kept and drawn in a 768x192 panel window (TOMBOX_FRONTPANEL=0 hides it)",
+   "XFrontPanelSetDisplayName": "E_INVALIDARG on null as on console; name logged and shown in the panel window title",
+   "XFrontPanelSetLightStates": "keeps lights & 0x1f, drawn under the panel, changes logged"
   }
  },
  "xg_x.dll": {

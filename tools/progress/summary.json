@@ -46,9 +46,9 @@
  },
  "extra": {
   "console_exports": {
-   "done": 173,
+   "done": 179,
    "total": 1901,
-   "pct": 9.1
+   "pct": 9.42
   },
   "shader_compile_lobby_frame": {
    "done": 139,
@@ -81,9 +81,9 @@
    "pct": 48.28
   },
   "title_imports_Terraria": {
-   "done": 14,
+   "done": 18,
    "total": 25,
-   "pct": 56.0
+   "pct": 72.0
   },
   "title_imports_Trackmania": {
    "done": 12,
@@ -91,9 +91,9 @@
    "pct": 66.67
   },
   "console_exports_targeted": {
-   "done": 173,
+   "done": 179,
    "total": 1009,
-   "pct": 17.15
+   "pct": 17.74
   },
   "console_exports_not_targeted": {
    "done": null,
@@ -105,14 +105,14 @@
  "all_including_pc": {
   "note": "previous definition, kept for history: every export of every console OS DLL and every title import, PC-provided ones included",
   "console_exports": {
-   "done": 21042,
+   "done": 21048,
    "total": 23489,
-   "pct": 89.58
+   "pct": 89.61
   },
   "xbox_only_exports": {
-   "done": 173,
+   "done": 179,
    "total": 1824,
-   "pct": 9.48
+   "pct": 9.81
   },
   "title_import_status": {
    "Fortnite": {
@@ -138,8 +138,8 @@
     "title": 877,
     "forwarded": 9,
     "hooked": 74,
-    "implemented": 12,
-    "stub": 11
+    "implemented": 16,
+    "stub": 7
    },
    "Trackmania": {
     "title": 241,
@@ -161,9 +161,9 @@
    "pct": 99.07
   },
   "title_imports_Terraria": {
-   "done": 3485,
+   "done": 3489,
    "total": 3496,
-   "pct": 99.69
+   "pct": 99.8
   },
   "title_imports_Trackmania": {
    "done": 1573,
@@ -184,8 +184,8 @@
    "forwarded": 1
   },
   "Terraria": {
-   "implemented": 12,
-   "stub": 11,
+   "implemented": 16,
+   "stub": 7,
    "forwarded": 2
   },
   "Trackmania": {

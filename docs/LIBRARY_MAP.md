@@ -29,23 +29,23 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 | shader_stages | 6 | 8 | 75.0 |
 | milestones | 14 | 19 | 73.68 |
 | titles_examined | 5 | - | - |
-| console_exports | 173 | 1901 | 9.1 |
+| console_exports | 179 | 1901 | 9.42 |
 | shader_compile_lobby_frame | 139 | 139 | 100.0 |
 | shader_compile_fixtures | 25 | 25 | 100.0 |
 | shader_compile_full_sweep | not published | 105506 | - |
 | milestones_verified_this_machine | 7 | 12 | 58.33 |
 | title_imports_Fortnite | 22 | 31 | 70.97 |
 | title_imports_XDefiant | 14 | 29 | 48.28 |
-| title_imports_Terraria | 14 | 25 | 56.0 |
+| title_imports_Terraria | 18 | 25 | 72.0 |
 | title_imports_Trackmania | 12 | 18 | 66.67 |
-| console_exports_targeted | 173 | 1009 | 17.15 |
+| console_exports_targeted | 179 | 1009 | 17.74 |
 | console_exports_not_targeted | not published | 892 | - |
 
 Shader compile: all 139 shaders of the lobby frame compile with DXC (TomBox `docs/DEVELOPMENT_LOG.md:894`); 25/25 fixtures compile (`:672`). The full-library compile sweep (`:706`) has no published final count, so no compile badge is shown.
 
 Direct3D 12.x: 160 / 128 are the table sizes the wrappers allocate (`d3d12_xs/src/device_wrap.rs`, `cmdlist_wrap.rs`), not documented interface sizes. Device: done = forwarded PC slots 0-43 plus intercepted Xbox slots 44, 48, 52 (SetDebugFlags_X, documented no-op), 55, 56/57 and 66/67 (graphics/compute PSO serialize/deserialize, emulator TBPS format only), 60-62, 73, 78-81, 87 (OpenExistingHeapFromAddress via ID3D12Device3); partial = logging S_OK stubs in 45-90, including 74 (RegisterPagePoolX, bookkeeping only). CommandList: done = 0-26, 32-52 (PC methods shifted by 4), 59, 67, 68, 83; 27-31 are Xbox-inserted stubs and 53-127 log-and-ignore probes, counted as not done.
 
-Direct3D 12.x on Xbox One (Terraria, Trackmania; `crates/compat/d3d12_x`): the console `d3d12_x.dll` is a 48 KB loader (export table identical in both dumps, 54 exports, ordinals 1-54) that loads a user-mode driver flavour (`xgs12.dll`, `xgs12_d.dll`, `xgs12_i.dll`) and calls its `UMDCreateDevice12`; Scarlett's `d3d12_xs.dll` loads `xgs12_10*.dll` instead. The COM vtables live in those drivers, not in `d3d12_x.dll`. Neither driver carries RTTI type names for the D3D12 classes. Tables found statically (a constructor `lea` of an `.rdata` table of code pointers, inside a `.pdata` function) number 109 in `xgs12.dll` and 67 in `xgs12_10.dll`; the only one tied to an interface IID through its QueryInterface is ID3D12CommandQueue: 34 slots on Xbox One, 35 on Scarlett. The ID3D12Device and ID3D12GraphicsCommandList tables were not identified by static analysis: both drivers hold long unattributed runs of static code pointers (about 480 entries in `xgs12.dll`, 520 in `xgs12_10.dll`) that may contain them, or the tables may be assembled at run time. So the Xbox One layout of the Xbox-specific slots (Device 44+, CommandList 27-31 and 53+) is unverified. The interface IIDs are unchanged (`IID_ID3D12Device` 189819f1-..., the PC GUID), the `D3D12XboxCreateDevice` parameter block is 0x28 bytes and NULL is rejected with E_INVALIDARG. The emulator therefore forwards Xbox One device creation to `d3d12_xs.dll` (Scarlett wrapper): PC slots 0-43 behave as on PC; any Xbox-only slot a title calls goes to the Scarlett slot of the same index, which may be a different method. `D3DMapEsramMemory(Flags, VA, NumPages, PageList)` (signature from the console stub, 0x18-byte driver packet) accepts flags 1 and 3 only and is mapped onto ordinary committed memory of NumPages x 64 KiB at the caller's VA.
+Direct3D 12.x on Xbox One (Terraria, Trackmania; `crates/compat/d3d12_x`): the console `d3d12_x.dll` is a 48 KB loader (export table identical in both dumps, 54 exports, ordinals 1-54) that loads a user-mode driver flavour (`xgs12.dll`, `xgs12_d.dll`, `xgs12_i.dll`) and calls its `UMDCreateDevice12`; Scarlett's `d3d12_xs.dll` loads `xgs12_10*.dll` instead. The COM vtables live in those drivers, not in `d3d12_x.dll`. Neither driver carries RTTI type names for the D3D12 classes. Tables found statically (a constructor `lea` of an `.rdata` table of code pointers, inside a `.pdata` function) number 109 in `xgs12.dll` and 67 in `xgs12_10.dll`; the only one tied to an interface IID through its QueryInterface is ID3D12CommandQueue: 34 slots on Xbox One, 35 on Scarlett. The ID3D12Device and ID3D12GraphicsCommandList tables were not identified by static analysis: both drivers hold long unattributed runs of static code pointers (about 480 entries in `xgs12.dll`, 520 in `xgs12_10.dll`) that may contain them, or the tables may be assembled at run time. So the Xbox One layout of the Xbox-specific slots (Device 44+, CommandList 27-31 and 53+) is unverified. From the titles' own call sites (device pointer traced from the `D3D12XboxCreateDevice` output: Trackmania `[renderer+0x3e80]`, Terraria a global; then `mov rax,[dev]; call [rax+8*n]`), the device slots the titles call are: Trackmania 2, 13, 15, 18-20, 52, 53, 59, 80; Terraria 0, 2, 9, 10, 13-16, 18, 19, 22, 25, 27-30, 36-38, 41, 48, 62, 64, 65, 68, 69, 73, 79-81. Xbox-range slots used by an Xbox One title are therefore 48, 52, 53, 59, 62, 64, 65, 68, 69, 73, 79, 80, 81; their meaning on Xbox One is not yet matched to the Scarlett slots of the same index (Trackmania calls 53 with no arguments and feeds its result to 52 right after creation). Both titles fill the first dword of the 0x28-byte create-parameter block with 0x1000a. The interface IIDs are unchanged (`IID_ID3D12Device` 189819f1-..., the PC GUID), the `D3D12XboxCreateDevice` parameter block is 0x28 bytes and NULL is rejected with E_INVALIDARG. The emulator therefore forwards Xbox One device creation to `d3d12_xs.dll` (Scarlett wrapper): PC slots 0-43 behave as on PC; any Xbox-only slot a title calls goes to the Scarlett slot of the same index, which may be a different method. `D3DMapEsramMemory(Flags, VA, NumPages, PageList)` (signature from the console stub, 0x18-byte driver packet) accepts flags 1 and 3 only and is mapped onto ordinary committed memory of NumPages x 64 KiB at the caller's VA.
 
 ## Fortnite imports (2.0.1461.7919)
 
@@ -321,16 +321,16 @@ Listed: imports from Xbox console libraries only. Not listed: 2594 imports a PC 
 
 </details>
 
-<details><summary><b>XFrontPanelDisplay.dll</b>: 6 functions; implemented 2, stub 4</summary>
+<details><summary><b>XFrontPanelDisplay.dll</b>: 6 functions; implemented 6</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
 | `XFrontPanelGetScreenDimensions` | implemented | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (64 x 256, E_INVALIDARG on null (matches console)) |
-| `XFrontPanelPresentBuffer` | stub | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (accepted, no-op) |
-| `XFrontPanelGetLightStates` | stub | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (all off) |
-| `XFrontPanelSetLightStates` | stub | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (accepted, no-op) |
-| `XFrontPanelGetButtonStates` | stub | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (none pressed) |
-| `XFrontPanelIsSupported` | implemented | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (false, as on a retail console) |
+| `XFrontPanelPresentBuffer` | implemented | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (console validation (size 0x4000 else E_INVALIDARG, null E_POINTER); frame kept and drawn in a 768x192 panel window (TOMBOX_FRONTPANEL=0 hides it)) |
+| `XFrontPanelGetLightStates` | implemented | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (returns the 5 light bits last set) |
+| `XFrontPanelSetLightStates` | implemented | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (keeps lights & 0x1f, drawn under the panel, changes logged) |
+| `XFrontPanelGetButtonStates` | implemented | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (emulated panel buttons (F1-F5 = buttons 1-5, arrows, Enter = select while the panel window has focus)) |
+| `XFrontPanelIsSupported` | implemented | [crates/compat/xfrontpaneldisplay/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xfrontpaneldisplay/src/lib.rs) (true: the panel is emulated) |
 
 </details>
 
@@ -348,26 +348,22 @@ Listed: imports from Xbox console libraries only. Not listed: 2594 imports a PC 
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `D3DMapEsramMemory` | implemented | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (flags 1/3 only (else E_FAIL, as console); commits numPages x 64 KiB of ordinary memory at the caller VA; page list validated against 512 ESRAM pages) |
+| `D3DMapEsramMemory` | implemented | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (flags 1/3 only (else E_FAIL, as console); one 32 MiB ESRAM section, each page-list entry maps that 64 KiB ESRAM page at VA+i*64K, so pages alias across VAs and keep contents across remaps; a caller reservation around the range is kept) |
 | `D3D12XboxSetProcessDebugFlags` | implemented | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (stores flags & 0x81f00001 like the console runtime) |
 | `D3D12XboxCreateDevice` | forwarded | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (Xbox One params (0x28 bytes) checked for null, then handed to the emulator's d3d12_xs.dll (Scarlett vtable wrapper, PC slots 0-43 only verified for Xbox One); host D3D12CreateDevice if d3d12_xs is absent) |
 | `D3D12SerializeRootSignature` | forwarded | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (host d3d12.dll) |
 
 </details>
 
-Terraria console-library import totals (26 binaries): implemented 12, forwarded 2, stub 11.
+Terraria console-library import totals (26 binaries): implemented 16, forwarded 2, stub 7.
 
-<details><summary><b>Terraria: imports not covered</b> (11; status not implemented or forwarded)</summary>
+<details><summary><b>Terraria: imports not covered</b> (7; status not implemented or forwarded)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
 | Terraria.exe | AcpHal.dll | `AcpHalAllocateShapeContexts` | stub | Fortnite, XDefiant |
 | Terraria.exe | AcpHal.dll | `AcpHalCreate` | stub | Fortnite, XDefiant |
 | Terraria.exe | AcpHal.dll | `ApuFree` | stub | Fortnite, XDefiant |
-| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelGetButtonStates` | stub | only Terraria |
-| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelGetLightStates` | stub | only Terraria |
-| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelPresentBuffer` | stub | only Terraria |
-| Terraria.exe | XFrontPanelDisplay.dll | `XFrontPanelSetLightStates` | stub | only Terraria |
 | Terraria.exe | xg_x.dll | `XGComputeOptimalTileMode` | stub | Trackmania |
 | Terraria.exe | xg_x.dll | `XGCreateTexture2DComputer` | stub | only Terraria |
 | Terraria.exe | xg_x.dll | `XGCreateTextureComputer` | stub | Trackmania |
@@ -393,7 +389,7 @@ Listed: imports from Xbox console libraries only. Not listed: 1320 imports a PC 
 |---|---|---|
 | `D3D12SerializeRootSignature` | forwarded | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (host d3d12.dll) |
 | `D3D12SerializeVersionedRootSignature` | forwarded | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (host d3d12.dll) |
-| `D3DMapEsramMemory` | implemented | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (flags 1/3 only (else E_FAIL, as console); commits numPages x 64 KiB of ordinary memory at the caller VA; page list validated against 512 ESRAM pages) |
+| `D3DMapEsramMemory` | implemented | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (flags 1/3 only (else E_FAIL, as console); one 32 MiB ESRAM section, each page-list entry maps that 64 KiB ESRAM page at VA+i*64K, so pages alias across VAs and keep contents across remaps; a caller reservation around the range is kept) |
 | `D3D12XboxCreateDevice` | forwarded | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (Xbox One params (0x28 bytes) checked for null, then handed to the emulator's d3d12_xs.dll (Scarlett vtable wrapper, PC slots 0-43 only verified for Xbox One); host D3D12CreateDevice if d3d12_xs is absent) |
 | `D3D12GetDebugInterface` | forwarded | [crates/compat/d3d12_x/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_x/src/lib.rs) (host d3d12.dll) |
 
@@ -523,7 +519,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | xdxr_d.dll | System32 | no | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | XDefiant None; Terraria None; Trackmania None |
 | xdxr_i.dll | System32 | no | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | XDefiant None; Terraria None; Trackmania None |
 | xfp_gc.dll | System32 | no | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| xfrontpaneldisplay.dll | System32 | no | 8 | 2 | 0 | 0 | 0 | 0 | 6 | 0 | 0 | 0 | 0 | 6 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| xfrontpaneldisplay.dll | System32 | no | 8 | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xg_x.dll | System32 | no | 21 | 0 | 0 | 0 | 0 | 0 | 21 | 0 | 0 | 0 | 0 | 3 | 4 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xg_xs.dll | System32 | no | 23 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 22 | 1 | 1 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xgs12.dll | System32 | no | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 17 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -548,7 +544,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 
 ### Not targeted (no analysed title references them)
 
-The console-library total above (1901 exports in 89 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 19 libraries (1009 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 70 below (892 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (1824 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 19 targeted libraries alone: 173/1009.
+The console-library total above (1901 exports in 89 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 19 libraries (1009 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 70 below (892 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (1824 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 19 targeted libraries alone: 179/1009.
 
 | Library | Folder | Same-named PC DLL | Console-only exports | Present in |
 |---|---|---|---|---|
@@ -3084,18 +3080,18 @@ No PC DLL is named minuserx.dll; its PC twin is user32.dll. Exports an analysed 
 
 </details>
 
-<details><summary><b>xfrontpaneldisplay.dll</b>: 8 console-only exports, 2 covered</summary>
+<details><summary><b>xfrontpaneldisplay.dll</b>: 8 console-only exports, 8 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
+| `XFrontPanelGetButtonStates` | implemented | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
+| `XFrontPanelGetLightStates` | implemented | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
 | `XFrontPanelGetScreenDimensions` | implemented | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
+| `XFrontPanelGetScreenPixelFormat` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `XFrontPanelIsSupported` | implemented | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `XFrontPanelGetButtonStates` | stub | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `XFrontPanelGetLightStates` | stub | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `XFrontPanelGetScreenPixelFormat` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XFrontPanelPresentBuffer` | stub | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
-| `XFrontPanelSetDisplayName` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XFrontPanelSetLightStates` | stub | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
+| `XFrontPanelPresentBuffer` | implemented | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
+| `XFrontPanelSetDisplayName` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XFrontPanelSetLightStates` | implemented | Terraria | Fortnite, XDefiant, Terraria, Trackmania |
 
 </details>
 
