@@ -6,6 +6,17 @@ Last update: 2026-11-21 (run 33: backdrop diag, 45 FPS lobby).
 
 ---
 
+## Online policy (user decision, 2026-11-21): offline, private sessions only
+- The user's words: "keep it offline, like its just going to be private lobbys and private games".
+- No external traffic, ever, for every title. Content that exists only online (VOD, CDN art) gets placeholders served in-process.
+- Matchmaking and ready-up land in private lobbies and private or custom matches, hosted by the in-process backend and the Party relay. Public queues are never used.
+- Party, Meet and session work targets private sessions between local or LAN clients.
+- Applied so far: a PlayFab matchmaking ticket resolves at once into a private match with the local tickets in its queue, and does not wait for strangers.
+- Not done yet:
+  - Nadeo Meet (Trackmania) is not implemented.
+  - The PlayFab Party relay and PubSub, which LAN play between clients needs, are not emulated.
+  - Each client process has its own backend, so LAN clients cannot yet see each other's lobbies. That needs a shared LAN backend or relay.
+
 ## Fortnite (Xbox Series X|S)
 
 ### 🟨 Lobby 3D backdrop: now drawn (run 35), detail missing
