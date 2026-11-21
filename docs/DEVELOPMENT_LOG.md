@@ -4,6 +4,25 @@ Reverse chronological. Each entry: what was done, evidence, blockers, next actio
 
 ---
 
+## 2026-11-21 — local backend, stuck at "Checking for updates"
+
+- Offline, login fails (`Unable to join the Fortnite login queue`). Added a local-backend mode
+  to `net_guard`: `TOMBOX_NET_REDIRECT=127.0.0.1` + `TOMBOX_NET_LOCAL_PORT=3551` sends every
+  WinHTTP connection to a local LawinServer, clears `WINHTTP_FLAG_SECURE` per request and the
+  secure-defaults session flags (UE's session otherwise refuses plain HTTP, error 5). No traffic
+  leaves the machine.
+- Result: waiting room and splash screen pass; `POST /account/api/oauth/token` answered 200;
+  the screen then sits at "CHECKING FOR UPDATES..." — the hotfix v2/dispatch check starts but
+  no cloudstorage request follows.
+- Added WinHTTP tracing (OpenRequest path, SendRequest, async REQUEST_ERROR, failed options).
+  Datarouter telemetry reaches the backend (204). Xbox Live `userstats` `/batch` never arrives
+  (client-cert option fails on plain HTTP) and times out after ~11 s.
+- Run 8 crashed in the first callback wrapper (events routed to the wrong owner); fixed with
+  per-handle parent tracking. Run 9 showed that reporting the client-cert option as successful
+  makes the stats request hang instead of failing; reverted.
+
+---
+
 ## 2026-11-21 — first boots on this machine
 
 **Done**
