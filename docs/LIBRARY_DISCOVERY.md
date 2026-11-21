@@ -2,6 +2,115 @@
 
 Console and title libraries found while mapping the Xbox Series system surface. Every dump stays read-only.
 
+## 2026-11-21 — Trackmania (Nadeo GBX engine, Xbox One GameCore) dump added
+
+- Package `Ubisoft.TrackmaniaNext` 1.6.2.0 (TitleId `700107ED`, StoreId `9N01MR5LF53S`). `GameData/ApplicationBuildId` is `2024-04-30_c8c94a9ed_s1389bfd3_d028b741f_XB1`.
+- Runtime: native C++ on Nadeo's GBX engine (ManiaPlanet lineage, `.pak`/`.Gbx` packs in `Mount/Packs`, including `GpuCache_XboxOne.zip`). The PDB path is `Release_Gaming.Xbox.XboxOne.x64`. UbiServices SDK 2020.Release.62.
+- `MicrosoftGame.Config` (`configVersion="1"`) declares `TargetDeviceFamily="XboxOne"`, so like Terraria this is an **Xbox One** GameCore build. A config comment says it was copied from `XBox\MicrosoftGame_XBoxOne.config`. The config has no GDK version field. The EXE carries the string `October 2022 GRDK`, and GameChat2/XCurl are 2210.0.0.0, which agrees. `appxmanifest.xml` lists `Microsoft.GameOs` 10.0.18362.0.
+- `Mount` modules: GbxGame.exe (44,931,072 bytes), GameChat2.dll, XCurl.dll, msvcp140 / vcruntime140 / vcruntime140_1 (MSVC 14.29).
+  - `Mount/aegir/aegir.dll` (36 MB) is a WebKit/JavaScriptCore build: 12,887 exports in `WebCore` / `JSC`, used as the UI engine.
+  - Neither GameChat2.dll nor aegir.dll is in GbxGame.exe's import table. aegir is loaded at run time (`aegir\loader\src\dllhelper.cpp` strings); how GameChat2 gets loaded was not confirmed. Both are classified like any shipped binary.
+- Imports:
+  - GbxGame.exe: 603 imports from 65 modules.
+  - All 7 binaries: 1,579 import rows (934 distinct module+function pairs from 79 modules).
+  - XGameRuntime is loaded by name (`xgameruntime.dll` string), not imported.
+- Classification (sync.py/gen.py method): 1,567 / 1,579 covered (99.24%): pc 1,284, title 241, hooked 36, implemented 6, stub 1, missing 11. Static analysis only.
+- Console OS (EmbeddedXvd System32): build **10.0.22621.1852**, the newest of the four dumps, with 251 export-bearing DLLs. Against XDefiant/Terraria (10.0.22000.4429):
+  - 1 new DLL: `CorePrivacySettingsStore.dll`, 26 exports.
+  - 107 new exports in shared DLLs. 230 shared DLLs carry a different file version.
+  - Against Fortnite: 19 new DLLs and 617 new exports.
+  - The console library map grows from 250 libraries / 23,356 exports to 251 / 23,489.
+
+### Missing or unhandled imports (all in GbxGame.exe)
+
+| module | functions | status | notes |
+|---|---|---|---|
+| `d3d12_x.dll` | D3D12XboxCreateDevice, D3D12SerializeRootSignature, D3DMapEsramMemory | missing | Xbox One D3D12.X; also needed by Terraria |
+| `d3d12_x.dll` | D3D12GetDebugInterface, D3D12SerializeVersionedRootSignature | missing | only Trackmania |
+| `xg_x.dll` | XGCreateTextureComputer, XGComputeOptimalTileMode | missing | also Terraria |
+| `xg_x.dll` | XGComputeOptimalDepthStencilTileModes, XGComputeTexture2DLayout | missing | only Trackmania |
+| `dxcompiler_x.dll` | DxcCreateInstance | missing | Xbox One DXC; emulator has `dxcompiler_xs.dll` (stub) only. Only Trackmania; it compiles shaders at run time. |
+| `xmem.dll` | XMemGetWin32HeapStatistics | missing | not exported by the emulator's xmem; only Trackmania |
+| `xmem.dll` | XMemGetWorkingSetStatistics | stub | shared with all titles |
+
+### Console OS: new in 10.0.22621.1852 versus 10.0.22000.4429
+
+| DLL | new exports | removed exports | new export names (truncated) |
+|---|---|---|---|
+| `CorePrivacySettingsStore.dll` | 26 (new DLL) | - | |
+| `advapi32.dll` | 7 | 2 | OpenTraceFromBufferStream, OpenTraceFromFile, OpenTraceFromRealTimeLogger, OpenTraceFromRealTimeLoggerWithAllocationOptions, ProcessTraceAddBufferToBufferStream, ProcessTraceBufferDecrementReference, ProcessTraceBufferIncrementReference |
+| `advapi32legacy.dll` | 0 | 6 |  |
+| `chad.dll` | 2 | 0 | XDspConnectWithMaximumStreamLimit, XDspSubmitCommandWithEnvelope |
+| `dbgeng.dll` | 2 | 0 | #501, #503 |
+| `dbghelp.dll` | 2 | 0 | StackWalk2, SymSetServiceManager |
+| `DiagnosticDataSettings.dll` | 3 | 0 | TelGetNumericPolicy, TelGetStringPolicy, TelIsRestrictivePolicySet |
+| `dnsapi.dll` | 6 | 0 | CreateSendBlob, DnsConnectionGetProxyInfoForHostUrlEx, DnsGetDdrInfo, DnsGetDdrInfoCancel, DnsGetDdrInfoInternal, Query_InProcSetCompletion |
+| `imagehlp.dll` | 2 | 0 | StackWalk2, SymSetServiceManager |
+| `kernel32.dll` | 1 | 7 | RtlCompareMemory |
+| `KernelBase.dll` | 19 | 0 | BuildIoRingFlushFile, BuildIoRingWriteFile, CommandLineToArgvW, GetPackageGraphRevisionId, GlobalFlags, GlobalHandle, GlobalLock, GlobalReAlloc, GlobalSize, GlobalUnlock, LocalFlags, LocalSize, LogStagedFeatureUsage, TestControlReporting, WilFailureN ... |
+| `MMDevAPI.dll` | 1 | 0 | #34 |
+| `npmproxy.dll` | 2 | 0 | NlmDiagSendWlanConnectionAttemptDiagnostics, NlmDiagSendWlanDisconnectionDiagnostics |
+| `ntdll.dll` | 17 | 0 | NtCopyFileChunk, NtCreateCpuPartition, NtOpenCpuPartition, NtQueryInformationCpuPartition, NtSetInformationCpuPartition, RtlCallEnclave, RtlInterlockedClearBitRunEx, RtlLengthCurrentClearRunBackwardEx, RtlLengthCurrentClearRunForwardEx, RtlOverwriteF ... |
+| `schannel.dll` | 1 | 0 | SslDeserializeCertificateStore |
+| `sechost.dll` | 8 | 0 | OpenTraceFromBufferStream, OpenTraceFromFile, OpenTraceFromRealTimeLogger, OpenTraceFromRealTimeLoggerWithAllocationOptions, ProcessTraceAddBufferToBufferStream, ProcessTraceBufferDecrementReference, ProcessTraceBufferIncrementReference, ReparseServi ... |
+| `TimeBrokerServer.dll` | 1 | 1 | SvchostPushServiceGlobalsEx |
+| `wer.dll` | 1 | 0 | WerpHasOobeCompleted |
+| `WerXboxGc.dll` | 1 | 0 | XerShouldWerManageRootDirectory |
+| `winhttp.dll` | 8 | 0 | WinHttpConnectionOnlyConvert, WinHttpConnectionOnlyReceive, WinHttpConnectionOnlySend, WinHttpFreeProxySettingsEx, WinHttpGetProxySettingsEx, WinHttpGetProxySettingsResultEx, WinHttpRegisterProxyChangeNotification, WinHttpUnregisterProxyChangeNotific ... |
+| `wldp.dll` | 8 | 0 | WldpCanExecuteBuffer, WldpCanExecuteFile, WldpCanExecuteStream, WldpChangeVulnerableDriverBlocklistState, WldpIsVulnerableDriverBlocklistDisabled, WldpIsVulnerableDriverBlocklistEligibleToDisable, WldpSendSmartAppControlBlockToast, WldpSendSmartAppCo ... |
+| `xcrdapi.dll` | 7 | 1 | XCrdGrowDynamicXvd, XCrdMoveSidecarFiles, XCrdSetTitleQuirks, XCrdStorageCreateDirectory, XCrdStorageDeleteDirectory, XCrdStorageMoveBlob, XCrdStorageSetConsoleAssociation |
+| `xpal.dll` | 8 | 2 | XpalGetConfiguration, XpalGetConsoleCertificate, XpalGetConsoleIdCch, XpalGetConsoleSerialNumberCch, XpalGetFactorySettings, XpalRequestCrashDump, XpalSetConfiguration, XpalSetInformation |
+
+### Modules imported by Trackmania but not by Fortnite, XDefiant or Terraria
+
+| module | functions |
+|---|---|
+| `api-ms-win-core-file-l1-2-2.dll` | AreFileApisANSI, GetTempPathA |
+| `api-ms-win-core-threadpool-l1-2-0.dll` | CloseThreadpoolWork, CreateThreadpoolWork, FreeLibraryWhenCallbackReturns, SubmitThreadpoolWork |
+| `api-ms-win-core-util-l1-1-0.dll` | DecodePointer, EncodePointer |
+| `dxcompiler_x.dll` | DxcCreateInstance |
+
+### Shared modules: functions Trackmania uses that no earlier title does
+
+| module | new functions |
+|---|---|
+| `api-ms-win-core-com-l1-1-0.dll` | StringFromCLSID |
+| `api-ms-win-core-fibers-l1-1-0.dll` | FlsGetValue |
+| `api-ms-win-core-file-l1-1-0.dll` | CompareFileTime, FileTimeToLocalFileTime, GetDiskFreeSpaceA, GetDiskFreeSpaceW, GetFileInformationByHandle, GetFileTime, GetFinalPathNameByHandleW, GetFullPathNameA, LockFile, LockFileEx, ReadFileEx, UnlockFile, WriteFileEx |
+| `api-ms-win-core-file-l1-2-0.dll` | GetTempPathW |
+| `api-ms-win-core-file-l2-1-0.dll` | CopyFile2, CreateHardLinkW, CreateSymbolicLinkW |
+| `api-ms-win-core-handle-l1-1-0.dll` | DuplicateHandle |
+| `api-ms-win-core-heap-l1-1-0.dll` | HeapCreate, HeapDestroy, HeapSize |
+| `api-ms-win-core-kernel32-legacy-l1-1-0.dll` | MoveFileW, RegisterWaitForSingleObject, UnregisterWait |
+| `api-ms-win-core-localization-l1-2-0.dll` | EnumSystemLocalesA, GetCPInfo, GetLocaleInfoA, LCMapStringEx |
+| `api-ms-win-core-memory-l1-1-0.dll` | CreateFileMappingW, MapViewOfFile, UnmapViewOfFile |
+| `api-ms-win-core-processthreads-l1-1-0.dll` | ExitThread, GetExitCodeThread, GetProcessTimes, GetThreadId, OpenThread |
+| `api-ms-win-core-processthreads-l1-1-1.dll` | GetThreadContext, GetThreadTimes, OpenProcess |
+| `api-ms-win-core-psapi-l1-1-0.dll` | K32QueryWorkingSet |
+| `api-ms-win-core-rtlsupport-l1-1-0.dll` | RtlPcToFileHeader, RtlUnwind, RtlUnwindEx |
+| `api-ms-win-core-string-l1-1-0.dll` | CompareStringEx, CompareStringW, GetStringTypeW |
+| `api-ms-win-core-synch-l1-2-0.dll` | InitOnceBeginInitialize, InitOnceComplete, InitOnceExecuteOnce, SleepConditionVariableSRW |
+| `api-ms-win-core-sysinfo-l1-1-0.dll` | GetSystemDirectoryW, GetVersionExW, GlobalMemoryStatusEx |
+| `api-ms-win-core-sysinfo-l1-2-0.dll` | GetSystemTimePreciseAsFileTime |
+| `api-ms-win-crt-convert-l1-1-0.dll` | _atoi_l, _itoa_s, _strtol_l, _strtoll_l, _strtoul_l, _strtoull_l |
+| `api-ms-win-crt-filesystem-l1-1-0.dll` | _access, _fstat64, _fstat64i32, _stat64, _unlink, _wstat64i32 |
+| `api-ms-win-crt-math-l1-1-0.dll` | _fdsign, acosh, asinh, atanh, cbrt, fmaf, lrint, lround, lroundf, nextafter, nextafterf, remainder |
+| `api-ms-win-crt-private-l1-1-0.dll` | __current_exception, __current_exception_context, _o__dclass, _o_abort, _o_sqrtf |
+| `api-ms-win-crt-runtime-l1-1-0.dll` | __sys_nerr, _fpreset, _getpid, _wassert |
+| `api-ms-win-crt-stdio-l1-1-0.dll` | _lseek, _lseeki64, _open, clearerr, getc |
+| `api-ms-win-crt-string-l1-1-0.dll` | wcspbrk |
+| `api-ms-win-crt-utility-l1-1-0.dll` | qsort_s |
+| `bcrypt.dll` | BCryptDecrypt, BCryptDestroyKey, BCryptEncrypt, BCryptExportKey, BCryptFinalizeKeyPair, BCryptGenerateKeyPair, BCryptImportKeyPair, BCryptSignHash, BCryptVerifySignature |
+| `d3d12_x.dll` | D3D12GetDebugInterface, D3D12SerializeVersionedRootSignature |
+| `ext-ms-win-rtcore-ntuser-cursor-l1-1-0.dll` | ShowCursor |
+| `ext-ms-win-rtcore-ntuser-message-l1-1-0.dll` | SetTimer |
+| `ext-ms-win-rtcore-ntuser-window-l1-1-0.dll` | UnregisterClassW |
+| `iphlpapi.dll` | NotifyAddrChange |
+| `msvcp140.dll` | ??0?$codecvt@_WDU_Mbstatet@@@std@@QEAA@_K@Z, ??1?$codecvt@_WDU_Mbstatet@@@std@@MEAA@XZ, ??4?$_Yarn@D@std@@QEAAAEAV01@PEBD@Z, ?_Locimp_Addfac@_Locimp@locale@std@@CAXPEAV123@PEAVfacet@23@_K@Z, ?_New_Locimp@_Locimp@locale@std@@CAPEAV123@AEBV123@@Z, ?clog@std@@3V?$basic_ostream@DU?$char_traits@D@std@@@1 ... (11 total) |
+| `xcurl.dll` | curl_easy_reset, curl_global_init_mem, curl_multi_setopt, curl_multi_wakeup, curl_version_info |
+| `xg_x.dll` | XGComputeOptimalDepthStencilTileModes, XGComputeTexture2DLayout |
+| `xmem.dll` | XMemGetWin32HeapStatistics |
+
 ## 2026-11-21 — Terraria (Unity IL2CPP, Xbox One GameCore) dump added
 
 - Package `505GAMESS.P.A.84240166-5fcf-4ee1-b892-f5ff6a6094e1` 4.4.14.1081 (505 Games, TitleId `1738CA2A`, StoreId `BTNPS60N3114`).
@@ -12,7 +121,7 @@ Console and title libraries found while mapping the Xbox Series system surface. 
 - `tools/progress/sync.py` now takes an optional per-title `binary_dirs`, so all three folders are scanned. Binaries outside `Mount` are keyed by relative path, e.g. `Data/Native/GameAssembly.dll`.
 - XGameRuntime is not in any import table. Terraria.exe loads `xgameruntime.dll` by name and resolves `QueryApiImpl`, the statically linked GDK pattern.
 - Classification (sync.py/gen.py method): 3,476 / 3,496 covered (99.43%). Counts: pc 2,513, title 877, hooked 74, forwarded 7, implemented 5, stub 4, missing 16. Static analysis only; the title has not been run.
-- Console OS (EmbeddedXvd System32): build 10.0.22000.4429, 262 DLLs. It is **byte-identical** to the XDefiant dump (same DLL set, 0 files differ). So there are no new console DLLs or exports beyond what XDefiant added. Against Fortnite (10.0.19041.3948) it shows the same delta already logged below: 18 new export-bearing DLLs and 534 new exports in shared DLLs. The console library map stays at 250 libraries / 23,356 exports.
+- Console OS (EmbeddedXvd System32): build 10.0.22000.4429, 262 DLLs. It is **byte-identical** to the XDefiant dump (same DLL set, 0 files differ). So there are no new console DLLs or exports beyond what XDefiant added. Against Fortnite (10.0.19041.3948) it shows the same delta already logged below: 18 new export-bearing DLLs and 534 new exports in shared DLLs. The console library map stays at 250 libraries / 23,356 exports (before Trackmania).
 
 ### Missing or unhandled imports (all in Terraria.exe)
 

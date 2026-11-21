@@ -32,27 +32,28 @@
    "pct": 73.68
   },
   "titles_examined": {
-   "done": 4,
+   "done": 5,
    "total": null,
    "pct": null,
    "titles": [
     "Fortnite",
     "Grand Theft Auto VI",
     "Terraria",
+    "Trackmania",
     "XDefiant"
    ]
   }
  },
  "extra": {
   "console_exports": {
-   "done": 20835,
-   "total": 23356,
-   "pct": 89.21
+   "done": 20936,
+   "total": 23489,
+   "pct": 89.13
   },
   "xbox_only_exports": {
    "done": 67,
-   "total": 1806,
-   "pct": 3.71
+   "total": 1824,
+   "pct": 3.67
   },
   "shader_compile_lobby_frame": {
    "done": 139,
@@ -88,6 +89,11 @@
    "done": 3476,
    "total": 3496,
    "pct": 99.43
+  },
+  "title_imports_Trackmania": {
+   "done": 1567,
+   "total": 1579,
+   "pct": 99.24
   }
  },
  "title_import_status": {
@@ -117,11 +123,20 @@
    "implemented": 5,
    "stub": 4,
    "missing": 16
+  },
+  "Trackmania": {
+   "title": 241,
+   "pc": 1284,
+   "hooked": 36,
+   "missing": 11,
+   "implemented": 6,
+   "stub": 1
   }
  },
  "console_os_builds": {
   "Fortnite": "10.0.19041.3948",
   "XDefiant": "10.0.22000.4429",
-  "Terraria": "10.0.22000.4429"
+  "Terraria": "10.0.22000.4429",
+  "Trackmania": "10.0.22621.1852"
  }
 }
