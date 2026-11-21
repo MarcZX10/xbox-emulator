@@ -46,9 +46,9 @@
  },
  "extra": {
   "console_exports": {
-   "done": 222,
+   "done": 223,
    "total": 1901,
-   "pct": 11.68
+   "pct": 11.73
   },
   "shader_compile_lobby_frame": {
    "done": 139,
@@ -76,9 +76,9 @@
    "pct": 90.32
   },
   "title_imports_XDefiant": {
-   "done": 17,
+   "done": 18,
    "total": 29,
-   "pct": 58.62
+   "pct": 62.07
   },
   "title_imports_Terraria": {
    "done": 21,
@@ -91,9 +91,9 @@
    "pct": 66.67
   },
   "console_exports_targeted": {
-   "done": 222,
+   "done": 223,
    "total": 1041,
-   "pct": 21.33
+   "pct": 21.42
   },
   "console_exports_not_targeted": {
    "done": null,
@@ -105,14 +105,14 @@
  "all_including_pc": {
   "note": "previous definition, kept for history: every export of every console OS DLL and every title import, PC-provided ones included",
   "console_exports": {
-   "done": 21091,
+   "done": 21092,
    "total": 23489,
-   "pct": 89.79
+   "pct": 89.8
   },
   "xbox_only_exports": {
-   "done": 218,
+   "done": 219,
    "total": 1824,
-   "pct": 11.95
+   "pct": 12.01
   },
   "title_import_status": {
    "Fortnite": {
@@ -124,9 +124,9 @@
     "title": 356
    },
    "XDefiant": {
-    "implemented": 16,
-    "missing": 12,
+    "implemented": 17,
     "title": 342,
+    "missing": 11,
     "pc": 1216,
     "hooked": 25,
     "forwarded": 1
@@ -154,9 +154,9 @@
    "pct": 99.81
   },
   "title_imports_XDefiant": {
-   "done": 1600,
+   "done": 1601,
    "total": 1612,
-   "pct": 99.26
+   "pct": 99.32
   },
   "title_imports_Terraria": {
    "done": 3492,
@@ -176,8 +176,8 @@
    "forwarded": 4
   },
   "XDefiant": {
-   "implemented": 16,
-   "missing": 12,
+   "implemented": 17,
+   "missing": 11,
    "forwarded": 1
   },
   "Terraria": {

@@ -268,3 +268,10 @@ elease`, the log shows one install and every interface is emulated.
 
 ## Not started
 - Keyboard input. The controller works through the virtual pad (`tools\dev\pad.ps1`).
+
+## Fortnite solo party and single-player path (2026-11-21, party agent)
+
+- Party state is real now (online/fortnite/party.rs): create, GET party, GET user current, party PATCH and member-meta PATCH with revision and a 409 stale_revision check, plus PARTY_UPDATED, MEMBER_STATE_UPDATED and MEMBER_JOINED pushed from xmpp-admin. The run36 lobby sequence is replayed by the test run36_lobby_party_replay, and the notifications arrive in well under 2 s. Not yet seen in game: every run so far (35 to 41) predates this code. Next run must show no "TIMING OUT TASK [UpdateParty]" and must show "[party] PATCH ... rev N->N+1 published 1".
+- The real PATCH body keys are not captured yet. Bodies are now logged as "[party] PATCH <path> body=..." in tombox_compat.log. If the client sends a revision the server does not expect, it gets 409, so check for "stale rev sent" lines.
+- Single player: every playlist, including Playlist_Tutorial_1, BattleLab and Playground, is logged as "(Server Only)". The XSX client has no offline or local-match path in its strings. The only way in with no server is the client as its own authority (NM_Standalone): the StartGameInstance command-line patch at RVA 0xB46800 plus a leading map URL (run_fortnite.ps1 -Match Map, os_host/fortnite_match.rs). Not yet run in game. Open: the game-mode class path, ReadyToStartMatch without a playlist, MCP and inventory loading when the frontend is skipped.
+- On user request, multiplayer matchmaking, MPSD, QoS and the LAN party work are paused. That code stays on disk, tested, but is not being extended.

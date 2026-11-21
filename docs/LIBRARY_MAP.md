@@ -24,23 +24,23 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 
 | Metric | Done | Total | % |
 |---|---|---|---|
-| system_functions | 658 | 671 | 98.06 |
-| d3d12x_methods | 113 | 288 | 39.24 |
+| system_functions | 669 | 671 | 99.7 |
+| d3d12x_methods | 135 | 200 | 67.5 |
 | rdna2_instructions | 272 | 494 | 55.06 |
 | shaders_translated | 105506 | 105506 | 100.0 |
 | shader_stages | 6 | 8 | 75.0 |
 | milestones | 14 | 19 | 73.68 |
 | titles_examined | 5 | - | - |
-| console_exports | 219 | 1901 | 11.52 |
+| console_exports | 223 | 1901 | 11.73 |
 | shader_compile_lobby_frame | 139 | 139 | 100.0 |
 | shader_compile_fixtures | 25 | 25 | 100.0 |
 | shader_compile_full_sweep | not published | 105506 | - |
 | milestones_verified_this_machine | 7 | 12 | 58.33 |
-| title_imports_Fortnite | 25 | 31 | 80.65 |
-| title_imports_XDefiant | 14 | 29 | 48.28 |
-| title_imports_Terraria | 18 | 25 | 72.0 |
+| title_imports_Fortnite | 28 | 31 | 90.32 |
+| title_imports_XDefiant | 18 | 29 | 62.07 |
+| title_imports_Terraria | 21 | 25 | 84.0 |
 | title_imports_Trackmania | 12 | 18 | 66.67 |
-| console_exports_targeted | 219 | 1041 | 21.04 |
+| console_exports_targeted | 223 | 1041 | 21.42 |
 | console_exports_not_targeted | not published | 860 | - |
 
 Shader compile: all 139 shaders of the lobby frame compile with DXC (TomBox `docs/DEVELOPMENT_LOG.md:894`); 25/25 fixtures compile (`:672`). The full-library compile sweep (`:706`) has no published final count, so no compile badge is shown.
@@ -119,14 +119,14 @@ Listed: imports from Xbox console libraries only. Not listed: 1187 imports a PC 
 
 </details>
 
-<details><summary><b>AcpHal.dll</b>: 6 functions; implemented 3, stub 3</summary>
+<details><summary><b>AcpHal.dll</b>: 6 functions; implemented 6</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `AcpHalCreate` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (returns an inert IAcpHal (no SHAPE DSP)) |
+| `AcpHalCreate` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (returns a console-layout IAcpHal driving the emulated SHAPE engine (XMA, SRC, DMA, flowgraphs, fences, message ring); see emulator acphal.dll notes) |
 | `ApuAlloc` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
-| `AcpHalAllocateShapeContexts` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (inert) |
-| `ApuFree` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (no-op free (bump allocator)) |
+| `AcpHalAllocateShapeContexts` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (allocates the six SHAPE context arrays from the APU heap with the console per-type sizes/alignments and fills the title's descriptor with VA + APU addresses) |
+| `ApuFree` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (returns the block to the heap's free list and coalesces neighbours; ApuHeapGetState free/used/overhead/largest/count return to their prior values (audio_titles tests/heap.rs)) |
 | `ApuCreateHeap` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 | `ApuHeapGetState` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 
@@ -153,15 +153,12 @@ Listed: imports from Xbox console libraries only. Not listed: 1187 imports a PC 
 
 </details>
 
-Fortnite console-library import totals (6 binaries): implemented 21, forwarded 4, stub 6.
+Fortnite console-library import totals (6 binaries): implemented 24, forwarded 4, stub 3.
 
-<details><summary><b>Fortnite: imports not covered</b> (6; status not implemented / forwarded / hooked / pc / title)</summary>
+<details><summary><b>Fortnite: imports not covered</b> (3; status not implemented / forwarded / hooked / pc / title)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
-| FortniteClient-XSX-Shipping.exe | AcpHal.dll | `AcpHalAllocateShapeContexts` | stub | Terraria, XDefiant |
-| FortniteClient-XSX-Shipping.exe | AcpHal.dll | `AcpHalCreate` | stub | Terraria, XDefiant |
-| FortniteClient-XSX-Shipping.exe | AcpHal.dll | `ApuFree` | stub | Terraria, XDefiant |
 | FortniteClient-XSX-Shipping.exe | xg_xs.dll | `XGCreateTextureComputer` | stub | only Fortnite |
 | FortniteClient-XSX-Shipping.exe | xmem.dll | `XMemFreePhysicalPages` | stub | Terraria, Trackmania |
 | FortniteClient-XSX-Shipping.exe | xmem.dll | `XMemTransferMemory` | stub | only Fortnite |
@@ -178,17 +175,17 @@ Listed: imports from Xbox console libraries only. Not listed: 1241 imports a PC 
 
 ### XDefiant: Rogue_scarlett_rtx.exe
 
-<details><summary><b>AcpHal.dll</b>: 9 functions; implemented 5, stub 3, missing 1</summary>
+<details><summary><b>AcpHal.dll</b>: 9 functions; implemented 9</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
 | `ApuAlloc` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
-| `ApuFree` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (no-op free (bump allocator)) |
+| `ApuFree` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (returns the block to the heap's free list and coalesces neighbours; ApuHeapGetState free/used/overhead/largest/count return to their prior values (audio_titles tests/heap.rs)) |
 | `ApuMapVirtualAddress` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
-| `AcpHalCreate` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (returns an inert IAcpHal (no SHAPE DSP)) |
-| `AcpHalAllocateShapeContexts` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (inert) |
+| `AcpHalCreate` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (returns a console-layout IAcpHal driving the emulated SHAPE engine (XMA, SRC, DMA, flowgraphs, fences, message ring); see emulator acphal.dll notes) |
+| `AcpHalAllocateShapeContexts` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (allocates the six SHAPE context arrays from the APU heap with the console per-type sizes/alignments and fills the title's descriptor with VA + APU addresses) |
 | `AcpHalReleaseShapeContexts` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
-| `ApuMapApuAddress` | missing | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (not exported by the emulator's AcpHal.dll) |
+| `ApuMapApuAddress` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 | `ApuIsVirtualAddressValid` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 | `ApuCreateHeap` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 
@@ -258,16 +255,12 @@ Listed: imports from Xbox console libraries only. Not listed: 1241 imports a PC 
 
 </details>
 
-XDefiant console-library import totals (11 binaries): implemented 13, forwarded 1, stub 3, missing 12.
+XDefiant console-library import totals (11 binaries): implemented 17, forwarded 1, missing 11.
 
-<details><summary><b>XDefiant: imports not covered</b> (15; status not implemented / forwarded / hooked / pc / title)</summary>
+<details><summary><b>XDefiant: imports not covered</b> (11; status not implemented / forwarded / hooked / pc / title)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
-| Rogue_scarlett_rtx.exe | AcpHal.dll | `AcpHalAllocateShapeContexts` | stub | Fortnite, Terraria |
-| Rogue_scarlett_rtx.exe | AcpHal.dll | `AcpHalCreate` | stub | Fortnite, Terraria |
-| Rogue_scarlett_rtx.exe | AcpHal.dll | `ApuFree` | stub | Fortnite, Terraria |
-| Rogue_scarlett_rtx.exe | AcpHal.dll | `ApuMapApuAddress` | missing | only XDefiant |
 | Rogue_scarlett_rtx.exe | chad.dll | `XDspActivate` | missing | only XDefiant |
 | Rogue_scarlett_rtx.exe | chad.dll | `XDspConnect` | missing | only XDefiant |
 | Rogue_scarlett_rtx.exe | chad.dll | `XDspDeactivate` | missing | only XDefiant |
@@ -294,17 +287,17 @@ Listed: imports from Xbox console libraries only. Not listed: 2594 imports a PC 
 
 ### Terraria: Terraria.exe
 
-<details><summary><b>AcpHal.dll</b>: 7 functions; implemented 4, stub 3</summary>
+<details><summary><b>AcpHal.dll</b>: 7 functions; implemented 7</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
 | `ApuAlloc` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
-| `ApuFree` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (no-op free (bump allocator)) |
+| `ApuFree` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (returns the block to the heap's free list and coalesces neighbours; ApuHeapGetState free/used/overhead/largest/count return to their prior values (audio_titles tests/heap.rs)) |
 | `ApuMapVirtualAddress` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
 | `ApuIsVirtualAddressValid` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
-| `AcpHalCreate` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (returns an inert IAcpHal (no SHAPE DSP)) |
+| `AcpHalCreate` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (returns a console-layout IAcpHal driving the emulated SHAPE engine (XMA, SRC, DMA, flowgraphs, fences, message ring); see emulator acphal.dll notes) |
 | `AcpHalReleaseShapeContexts` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) |
-| `AcpHalAllocateShapeContexts` | stub | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (inert) |
+| `AcpHalAllocateShapeContexts` | implemented | [crates/compat/acphal/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/acphal/src/lib.rs) (allocates the six SHAPE context arrays from the APU heap with the console per-type sizes/alignments and fills the title's descriptor with VA + APU addresses) |
 
 </details>
 
@@ -354,15 +347,12 @@ Listed: imports from Xbox console libraries only. Not listed: 2594 imports a PC 
 
 </details>
 
-Terraria console-library import totals (26 binaries): implemented 16, forwarded 2, stub 7.
+Terraria console-library import totals (26 binaries): implemented 19, forwarded 2, stub 4.
 
-<details><summary><b>Terraria: imports not covered</b> (7; status not implemented / forwarded / hooked / pc / title)</summary>
+<details><summary><b>Terraria: imports not covered</b> (4; status not implemented / forwarded / hooked / pc / title)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
-| Terraria.exe | AcpHal.dll | `AcpHalAllocateShapeContexts` | stub | Fortnite, XDefiant |
-| Terraria.exe | AcpHal.dll | `AcpHalCreate` | stub | Fortnite, XDefiant |
-| Terraria.exe | AcpHal.dll | `ApuFree` | stub | Fortnite, XDefiant |
 | Terraria.exe | xg_x.dll | `XGComputeOptimalTileMode` | stub | Trackmania |
 | Terraria.exe | xg_x.dll | `XGCreateTexture2DComputer` | stub | only Terraria |
 | Terraria.exe | xg_x.dll | `XGCreateTextureComputer` | stub | Trackmania |
@@ -451,7 +441,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 
 | Library | Folder | Same-named PC DLL | Console-only exports | implemented | forwarded | hooked | pc | title | stub | unverified | missing | Fortnite imports | XDefiant imports | Terraria imports | Trackmania imports | Versions |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| AcpHal.dll | System32 | no | 10 | 6 | 0 | 0 | 0 | 0 | 3 | 0 | 1 | 6 | 9 | 7 | 0 | Fortnite None; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| AcpHal.dll | System32 | no | 10 | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 9 | 7 | 0 | Fortnite None; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | advapi32.dll | System32/forwarders | yes | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 13 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | advapi32legacy.dll | System32 | no | 207 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 206 | 1 | 1 | 1 | 1 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | AudioHALWrapper.dll | System32 | no | 32 | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -543,7 +533,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 
 ### Not targeted (no analysed title references them)
 
-The console-library total above (1901 exports in 89 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 20 libraries (1041 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 69 below (860 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (1824 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 20 targeted libraries alone: 219/1041.
+The console-library total above (1901 exports in 89 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 20 libraries (1041 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 69 below (860 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (1824 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 20 targeted libraries alone: 223/1041.
 
 | Library | Folder | Same-named PC DLL | Console-only exports | Present in |
 |---|---|---|---|---|
@@ -1046,20 +1036,20 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 ### Xbox console libraries, per function
 
-<details><summary><b>AcpHal.dll</b>: 10 console-only exports, 6 covered</summary>
+<details><summary><b>AcpHal.dll</b>: 10 console-only exports, 10 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
+| `AcpHalAllocateShapeContexts` | implemented | Fortnite, Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+| `AcpHalCreate` | implemented | Fortnite, Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `AcpHalReleaseShapeContexts` | implemented | Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `ApuAlloc` | implemented | Fortnite, Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `ApuCreateHeap` | implemented | Fortnite, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+| `ApuFree` | implemented | Fortnite, Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `ApuHeapGetState` | implemented | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
 | `ApuIsVirtualAddressValid` | implemented | Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+| `ApuMapApuAddress` | implemented | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `ApuMapVirtualAddress` | implemented | Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `AcpHalAllocateShapeContexts` | stub | Fortnite, Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `AcpHalCreate` | stub | Fortnite, Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `ApuFree` | stub | Fortnite, Terraria, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `ApuMapApuAddress` | missing | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 
 </details>
 
