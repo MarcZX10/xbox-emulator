@@ -8,8 +8,8 @@
 8 UMDPresentArray implemented | console returns DXGI_ERROR_UNSUPPORTED unconditionally; same here
 9 UMDSetNullGpuMode implemented | stores the mode like the console driver global
 10 OpenAdapter12 implemented | console returns E_NOTIMPL unconditionally; same here
-11 UMDCreateBlob implemented | native ID3D10Blob (IUnknown/ID3D10Blob QI, underflow-safe Release), object and buffer from XMemAlloc/XMemFree (emulator xmem.dll) with the console XMem attributes 0x4800040/0x4800078
-12 UMDCreateDevice12 implemented | console checks (null params/out -> E_INVALIDARG, version 0x1000a or <= 0x10009, 5 accepted device IIDs else E_NOINTERFACE), then the emulator d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded
+11 UMDCreateBlob implemented | native ID3D10Blob (IUnknown/ID3D10Blob QI, underflow-safe Release), object and buffer from XMemAlloc/XMemFree (runtime xmem.dll) with the console XMem attributes 0x4800040/0x4800078
+12 UMDCreateDevice12 implemented | console checks (null params/out -> E_INVALIDARG, version 0x1000a or <= 0x10009, 5 accepted device IIDs else E_NOINTERFACE), then the runtime d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded
 13 UMDCreateRootSignatureDeserializer forwarded | host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check
 14 UMDCreateVersionedRootSignatureDeserializer forwarded | host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check
 15 UMDGetDebugInterface implemented | IID d67441c7 (IDXGIInfoQueue) -> process singleton AddRef + S_OK, other IIDs E_NOTIMPL; native 40-slot IDXGIInfoQueue decoded from xgs12_d: per-producer queues (default limit 0x400, ALL/DX limit rejected with the console DXGI WARNING message + E_INVALIDARG), storage/retrieval filter stacks (newest push among own/DX/ALL wins, APP exempt from DX), size-query S_FALSE, console OutputDebugStringA text, break sets raising exception 0x87a {severity, &id, text}, mute; no PC dxgidebug/SDK layer on this machine to forward to

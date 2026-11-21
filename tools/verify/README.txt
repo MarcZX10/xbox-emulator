@@ -1,6 +1,6 @@
 tombox-probe: load and resolve evidence for title-shipped modules on PC
 
-Build: set CARGO_TARGET_DIR=D:\xbox-pc-port\emulator\target-wf-3 and RUSTFLAGS=-C target-feature=+crt-static, then
+Build: set CARGO_TARGET_DIR=target-wf-3 and RUSTFLAGS=-C target-feature=+crt-static, then
        cargo build -p tombox-probe --release -j 2   (static CRT so the probe never preloads a host VCRUNTIME140.dll;
        result.preloaded_by_probe_host lists any staged name that was already loaded before the title module)
 Run:   powershell -File tools\verify\run_chatprobe.ps1   (writes tools\verify\evidence\*.json; staging goes to

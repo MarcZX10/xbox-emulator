@@ -51,5 +51,5 @@
 51 IID_IDXGISwapChain implemented data
 52 IID_IDXGISwapChain1 implemented data
 53 IID_IGraphicsUnknown implemented data
-54 InternalDriverCallX implemented | src/driver_state.rs: tail-calls the loaded emulator xgs12 driver UMDInternalDriverCallX (xgs12_10/_10i/_10d/xgs12/_i/_d, else sibling xgs12_10.dll), as the console d3d12_xs does; E_NOINTERFACE with no driver; per-object driver state shared via TomBoxDriverStateWrite/Read/Remove
+54 InternalDriverCallX implemented | src/driver_state.rs: tail-calls the loaded runtime xgs12 driver UMDInternalDriverCallX (xgs12_10/_10i/_10d/xgs12/_i/_d, else sibling xgs12_10.dll), as the console d3d12_xs does; E_NOINTERFACE with no driver; per-object driver state shared via TomBoxDriverStateWrite/Read/Remove
 55 WKPDID_D3DDebugObjectNameW implemented data

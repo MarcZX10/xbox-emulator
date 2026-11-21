@@ -9,7 +9,7 @@
 9 SymbolServerIsStore implemented | ANSI to wide, then IsStoreW
 10 SymbolServerIsStoreW implemented | TRUE for '*' paths and http(s) prefixes, else pingme.txt in the file store; 87 on null/empty
 11 SymbolServerPing implemented | ANSI to wide, then PingW
-12 SymbolServerPingW implemented | first store's IsStore; http stores fail with 12029 because the emulator is offline
+12 SymbolServerPingW implemented | first store's IsStore; http stores fail with 12029 because the runtime is offline
 13 SymbolServerPingWEx implemented | TRUE when DISABLE_PING_HOST is set, else PingW
 14 SymbolServerSetOptionsW implemented | every SSRVOPT bit with its side state (callback, TLS context, param type with 87 on a bad type, parent hwnd, proxy, downstream store, RESETTOU, ping/timeout/comm flags)
 15 SymbolServerStoreFile implemented | ANSI to wide, then StoreFileW
@@ -27,6 +27,6 @@
 27 SymbolServerSetOptions implemented | DOWNSTREAM_STORE string converted ANSI to wide, then SetOptionsW
 28 httpCloseHandle forwarded | InternetCloseHandle or WinHttpCloseHandle chosen as the console does (WININET bit, WINHTTP bit, or service token), last error preserved
 29 httpOpenFileHandle implemented | ANSI to wide (0x410 chars), then httpOpenFileHandleW
-30 httpOpenFileHandleW implemented | site/file split, '\' to '/', 87 for non-http sites or bad URLs; any valid URL fails with 12029 because the emulator never reaches the network
+30 httpOpenFileHandleW implemented | site/file split, '\' to '/', 87 for non-http sites or bad URLs; any valid URL fails with 12029 because the runtime never reaches the network
 31 httpQueryDataAvailable forwarded | InternetQueryDataAvailable or WinHttpQueryDataAvailable by the same engine choice
 32 httpReadFile forwarded | InternetReadFile or WinHttpReadData by the same engine choice

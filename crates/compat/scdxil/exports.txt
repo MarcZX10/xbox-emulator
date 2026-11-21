@@ -1,4 +1,4 @@
-1 SCDxil_DxcCreateInstance forwarded | console calls its embedded DxcCreateInstance2(NULL malloc); mapped to the emulator dxcompiler_xs DxcCreateInstance2 (host DXC or native IDxcUtils)
+1 SCDxil_DxcCreateInstance forwarded | console calls its embedded DxcCreateInstance2(NULL malloc); mapped to the runtime dxcompiler_xs DxcCreateInstance2 (host DXC or native IDxcUtils)
 2 SCDxil_GetDriverShaderCode implemented | console DXBC container validation (v1, contiguous in-order parts, size <= 2 GiB) then the DXIL part data; 0 on success, 3 otherwise
 3 SCDxil_GetExternalILInterface forwarded | console scdxil.dll from the title dump (newbe.dll preloaded); fills its 3 IL-builder entry points into out and returns out; no console module -> NULL
 4 SCDxil_GetOriginalShader implemented | console DXIL program-header check, XDAT part 7 (original) then its part 11 (replacement) lookup, {pointer, size} result; an invalid part 11 (console throws) returns {NULL, 0}

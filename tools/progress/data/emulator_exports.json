@@ -460,7 +460,7 @@
    "SvchostPushServiceGlobals": "implemented"
   },
   "notes": {
-   "ServiceMain": "runs the console's own bootshsvc.dll ServiceMain (TOMBOX_BOOTSHSVC_CONSOLE, bootshsvc_console.dll beside this DLL, or the newest title EmbeddedXvd dump) with every OS import routed to console-sandbox: emulated registry persisted under the emulator data dir (console\\\\registry.txt), emulated hostname (ComputerName/ActiveComputerName/Tcpip Hostname), console C: drive under console\\\\fs, in-process service host (RegisterServiceCtrlHandlerExW/SetServiceStatus/stop-callback/SCM queries), emulated service-process environment and priority; startup.bsc sethostname/copy verified on 19041, 22000 and 22621 builds; the PC registry, hostname, files and SCM are never touched; the script 'start' command cannot launch a second console process in-process (ERROR_NOT_SUPPORTED when the image exists in the sandbox, ERROR_FILE_NOT_FOUND otherwise)",
+   "ServiceMain": "runs the console's own bootshsvc.dll ServiceMain (TOMBOX_BOOTSHSVC_CONSOLE, bootshsvc_console.dll beside this DLL, or the newest title EmbeddedXvd dump) with every OS import routed to console-sandbox: emulated registry persisted under the runtime data dir (console\\\\registry.txt), emulated hostname (ComputerName/ActiveComputerName/Tcpip Hostname), console C: drive under console\\\\fs, in-process service host (RegisterServiceCtrlHandlerExW/SetServiceStatus/stop-callback/SCM queries), emulated service-process environment and priority; startup.bsc sethostname/copy verified on 19041, 22000 and 22621 builds; the PC registry, hostname, files and SCM are never touched; the script 'start' command cannot launch a second console process in-process (ERROR_NOT_SUPPORTED when the image exists in the sandbox, ERROR_FILE_NOT_FOUND otherwise)",
    "SvchostPushServiceGlobals": "console 0x1020: stores the svchost global data pointer in the module global (console 0x75e0) that the service main reads; no other effect"
   }
  },
@@ -549,7 +549,7 @@
    "D3D12GetDebugInterface": "host d3d12.dll",
    "D3D12SerializeRootSignature": "host d3d12.dll",
    "D3D12SerializeVersionedRootSignature": "host d3d12.dll",
-   "D3D12XboxCreateDevice": "Xbox One params (0x28 bytes) checked for null, then handed to the emulator's d3d12_xs.dll (Scarlett vtable wrapper, PC slots 0-43 only verified for Xbox One); host D3D12CreateDevice if d3d12_xs is absent",
+   "D3D12XboxCreateDevice": "Xbox One params (0x28 bytes) checked for null, then handed to the runtime's d3d12_xs.dll (Scarlett vtable wrapper, PC slots 0-43 only verified for Xbox One); host D3D12CreateDevice if d3d12_xs is absent",
    "D3D12XboxGetProcessDebugFlags": "returns the stored flags",
    "D3D12XboxSetProcessDebugFlags": "stores flags & 0x81f00001 like the console runtime",
    "D3D12XboxUnloadDriverModule": "console 0x16b0: if the driver module is loaded, FreeLibrary it and zero the driver state; devices here are created by the d3d12_xs runtime, which owns that state, so this runs its D3D12XboxUnloadDriverModule when d3d12_xs.dll is loaded",
@@ -645,7 +645,7 @@
    "DXGIXPresentArray": "console returns DXGI_ERROR_UNSUPPORTED (0x887a0004) unconditionally",
    "DXGIXSetFrameNotification": "console returns DXGI_ERROR_UNSUPPORTED (0x887a0004) unconditionally",
    "DXGIXSetVLineNotification": "console returns DXGI_ERROR_UNSUPPORTED (0x887a0004) unconditionally",
-   "InternalDriverCallX": "src/driver_state.rs: tail-calls the loaded emulator xgs12 driver UMDInternalDriverCallX (xgs12_10/_10i/_10d/xgs12/_i/_d, else sibling xgs12_10.dll), as the console d3d12_xs does; E_NOINTERFACE with no driver; per-object driver state shared via TomBoxDriverStateWrite/Read/Remove"
+   "InternalDriverCallX": "src/driver_state.rs: tail-calls the loaded runtime xgs12 driver UMDInternalDriverCallX (xgs12_10/_10i/_10d/xgs12/_i/_d, else sibling xgs12_10.dll), as the console d3d12_xs does; E_NOINTERFACE with no driver; per-object driver state shared via TomBoxDriverStateWrite/Read/Remove"
   }
  },
  "dab.dll": {
@@ -698,7 +698,7 @@
    "DxcCreateInstance2": "forwarded"
   },
   "notes": {
-   "DxcCreateInstance": "official DXC 1.9.2609 (Microsoft-signed dxcompiler.dll + dxil.dll): next to dxcompiler_x, TOMBOX_DXC_DIR, or emulator third_party/dxc; compiles SM 6.0 HLSL to signed DXIL",
+   "DxcCreateInstance": "official DXC 1.9.2609 (Microsoft-signed dxcompiler.dll + dxil.dll): next to dxcompiler_x, TOMBOX_DXC_DIR, or runtime third_party/dxc; compiles SM 6.0 HLSL to signed DXIL",
    "DxcCreateInstance2": "as DxcCreateInstance"
   }
  },
@@ -709,7 +709,7 @@
    "FwpmBitmapIndexGet0": "implemented"
   },
   "notes": {
-   "FwpmBitmapIndexFree0": "client port of console FWPUCLNT 0x9bf0: NULL engine returns FWP_E_NULL_POINTER 0x8032001C (direct, no RPC); a title process has no bfe.dll loaded, so the console takes the NdrClientCall3 opnum 0xc2 path (FwpmEngineOpen0 sets engine+0x70 to the direct dispatch only when GetModuleHandleExW(bfe.dll) succeeds), whose format string (no comm/fault status, ref GUID + in ref UINT8) makes a NULL mapId/index raise RPC_X_NULL_REF_POINTER 1780 in the caller; service = console BFE.DLL 0x3e950 reached via BfeGetDirectDispatchTable+0x70 -> 0x3bd4c: *index >= 0x40 or a map GUID other than FWPM_CONDITION_IP_LOCAL_ADDRESS / IP_LOCAL_PORT / IP_REMOTE_ADDRESS / IP_REMOTE_PORT gives STATUS_INVALID_PARAMETER, which the RPC server stub raises (0x47e8 RpcRaiseException for user-mode callers) and the client re-raises noncontinuable 0xC000000D (no SEH in the console client); otherwise btr of the bit in that map's 64-bit bitmap under the service lock, no double-free check, returns 0; the four bitmaps are BFE-global (one per service, zeroed at BFE start), emulated process-global; engine identity is not checked beyond NULL because the emulator has no emulated FwpmEngineOpen0 (titles get PC FWPUCLNT engines) and the console checks it only as an RPC context handle inside the host-side BFE, which this crate must not contact; the BFE session-entry lock (0xc800, transaction wait) is not modelled since emulated callers have no BFE transactions",
+   "FwpmBitmapIndexFree0": "client port of console FWPUCLNT 0x9bf0: NULL engine returns FWP_E_NULL_POINTER 0x8032001C (direct, no RPC); a title process has no bfe.dll loaded, so the console takes the NdrClientCall3 opnum 0xc2 path (FwpmEngineOpen0 sets engine+0x70 to the direct dispatch only when GetModuleHandleExW(bfe.dll) succeeds), whose format string (no comm/fault status, ref GUID + in ref UINT8) makes a NULL mapId/index raise RPC_X_NULL_REF_POINTER 1780 in the caller; service = console BFE.DLL 0x3e950 reached via BfeGetDirectDispatchTable+0x70 -> 0x3bd4c: *index >= 0x40 or a map GUID other than FWPM_CONDITION_IP_LOCAL_ADDRESS / IP_LOCAL_PORT / IP_REMOTE_ADDRESS / IP_REMOTE_PORT gives STATUS_INVALID_PARAMETER, which the RPC server stub raises (0x47e8 RpcRaiseException for user-mode callers) and the client re-raises noncontinuable 0xC000000D (no SEH in the console client); otherwise btr of the bit in that map's 64-bit bitmap under the service lock, no double-free check, returns 0; the four bitmaps are BFE-global (one per service, zeroed at BFE start), emulated process-global; engine identity is not checked beyond NULL because the runtime has no emulated FwpmEngineOpen0 (titles get PC FWPUCLNT engines) and the console checks it only as an RPC context handle inside the host-side BFE, which this crate must not contact; the BFE session-entry lock (0xc800, transaction wait) is not modelled since emulated callers have no BFE transactions",
    "FwpmBitmapIndexGet0": "client port of console FWPUCLNT 0x9cb0: NULL engine returns FWP_E_NULL_POINTER 0x8032001C; RPC path NdrClientCall3 opnum 0xc1 (ref GUID in, simple-ref UINT8 out), NULL mapId/index raise RPC_X_NULL_REF_POINTER 1780; service = console BFE.DLL 0x3eba0 via BfeGetDirectDispatchTable+0x68 -> 0x3bdf0: for the four maps (IP_LOCAL_ADDRESS, IP_LOCAL_PORT, IP_REMOTE_ADDRESS, IP_REMOTE_PORT, GUIDs read from BFE .rdata 0xa2ce0/0xa2f00/0xa2cf0/0xa2f10) sets and returns the lowest clear bit of that map's 64-bit bitmap, a full bitmap or any other GUID writes 0xFF and still returns 0 (the service always returns STATUS_SUCCESS); BFE-global state emulated process-global; engine handle and session-lock limits as for FwpmBitmapIndexFree0"
   }
  },
@@ -1522,9 +1522,9 @@
    "RemovePackageFromFamilyXref": "missing"
   },
   "notes": {
-   "AddPackageToFamilyXref": "console KernelBase deployment internal: creates ACL-protected HKEY_USERS\\<sid>\\...\\AppModel\\Repository\\Families\\<family>\\<fullname> keys with an InstallTime qword and a dword under a built security descriptor; doing it for real would write restricted keys into the user's real hive and there is no emulator package repository to back it; no title imports it",
+   "AddPackageToFamilyXref": "console KernelBase deployment internal: creates ACL-protected HKEY_USERS\\<sid>\\...\\AppModel\\Repository\\Families\\<family>\\<fullname> keys with an InstallTime qword and a dword under a built security descriptor; doing it for real would write restricted keys into the user's real hive and there is no runtime package repository to back it; no title imports it",
    "GetPackageInstallTime": "console KernelBase 0xe9b70 (19041): NULL arg 0x57, family from full name, HKCU (RtlOpenCurrentUser KEY_READ) ...\\AppModel\\Repository\\Families\\<family>\\<fullname> into a 0x128-char buffer (overflow 0x57), open error 2 becomes 0x490, InstallTime value query error returned as is, type other than REG_QWORD 0x3d55, else FILETIME and 0",
-   "RemovePackageFromFamilyXref": "console KernelBase deployment internal paired with AddPackageToFamilyXref: deletes the ACL-protected Families\\<family>\\<fullname> key under HKEY_USERS\\<sid>; same reason, needs a package repository the emulator does not have and would modify the real user hive; no title imports it"
+   "RemovePackageFromFamilyXref": "console KernelBase deployment internal paired with AddPackageToFamilyXref: deletes the ACL-protected Families\\<family>\\<fullname> key under HKEY_USERS\\<sid>; same reason, needs a package repository the runtime does not have and would modify the real user hive; no title imports it"
   }
  },
  "KernelTraceControl.dll": {
@@ -1554,7 +1554,7 @@
    "LsapAdtInitParametersArray": "implemented"
   },
   "notes": {
-   "LsaIUserProfileLoaded": "console body (rva 0xcfaa0) locates the current LSA call's logon session and returns TRUE only when its profile-loaded byte (+0x134) is 1; outside lsass the LSA-initialized global (0x1640f0) is clear, so the lookup fails with STATUS_NO_SUCH_LOGON_SESSION and the result is FALSE; the emulator process never hosts an LSA call, so it returns FALSE by the same path",
+   "LsaIUserProfileLoaded": "console body (rva 0xcfaa0) locates the current LSA call's logon session and returns TRUE only when its profile-loaded byte (+0x134) is 1; outside lsass the LSA-initialized global (0x1640f0) is clear, so the lookup fails with STATUS_NO_SUCH_LOGON_SESSION and the result is FALSE; the runtime process never hosts an LSA call, so it returns FALSE by the same path",
    "LsapAdtAuditingEnabledByLogonId": "port of lsaadt ordinal 1 (console lsasrv jumps to it): system policy tables (64 subcategories from id 100) and the per-user LUID table, both empty outside lsass as in the console image (.bss); STATUS_SUCCESS with *Enabled",
    "LsapAdtAuditingEnabledBySubCategory": "port of lsaadt ordinal 2: bit 0 of the policy word for success (8), bit 1 for failure (0x10), FALSE for any other audit type",
    "LsapAdtAuditingEnabledHint": "port of lsaadt ordinal 3: policy byte, or 3 when a per-user count is set, masked by 1 (success) or 2 (other types)",
@@ -1986,7 +1986,7 @@
    "PixDllInitializeToolMemory": "implemented"
   },
   "notes": {
-   "PixDllInitialize": "console guard reproduced: the lazy tooling-memory state (\\.\\xvcmgmt IOCTL 0x150068 overflow bit, XMemCreateWin32Heap(0x8001) tools heap, XMemGetWorkingSetStatistics tools size, the console's PIX OutputDebugString lines) gates every call; with no tools heap and overflow disabled, as under the emulator's xmem and on a console without tooling memory, it returns E_OUTOFMEMORY (0x8007000E) like the console; the D3D12 capture runtime behind a passing guard is not reproduced and returns E_NOTIMPL (docs/BLOCKERS.md)",
+   "PixDllInitialize": "console guard reproduced: the lazy tooling-memory state (\\.\\xvcmgmt IOCTL 0x150068 overflow bit, XMemCreateWin32Heap(0x8001) tools heap, XMemGetWorkingSetStatistics tools size, the console's PIX OutputDebugString lines) gates every call; with no tools heap and overflow disabled, as under the runtime's xmem and on a console without tooling memory, it returns E_OUTOFMEMORY (0x8007000E) like the console; the D3D12 capture runtime behind a passing guard is not reproduced and returns E_NOTIMPL (docs/BLOCKERS.md)",
    "PixDllInitializeFromTitle": "same tooling-memory guard as the console, E_OUTOFMEMORY without a tools heap or overflow; the 15-slot title table of the capture runtime behind a passing guard is not reproduced and returns E_NOTIMPL (docs/BLOCKERS.md)",
    "PixDllInitializeToolMemory": "same guard (E_OUTOFMEMORY); past it copies the console's two-entry allocator table (tools heap block tag 1, XMemAlloc 0x8e0000 overflow tag 2, CRT malloc tag 3; free by tag) into the caller's buffer and returns S_OK with no magic/version check, like the console"
   }
@@ -2034,7 +2034,7 @@
    "IsCurrentProcessExemptFromSuspend": "GetCurrentPackageFullName into a 127-char zeroed buffer (result ignored as on console), then IsPackagedAppExemptFromSuspend",
    "IsPackagedAppExemptFromSuspend": "enumerates HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SuspendExemptions subkeys (KEY_ENUMERATE_SUB_KEYS), TRUE on an exact case-sensitive name match, FALSE when the key is absent",
    "IsProcessRestrictedToSingleApartment": "returns 1: console body is mov eax,1 (shared with ordinals 12 and 15)",
-   "OnInitializationOfSingleThreadedApartment": "console reports wil feature 0x15019a4 then fail-fasts with E_FAIL (remotewinrt.cxx line 0xa2); the emulator fail-fasts the process the same way (__fastfail FAST_FAIL_FATAL_APP_EXIT, exit 0xC0000409)",
+   "OnInitializationOfSingleThreadedApartment": "console reports wil feature 0x15019a4 then fail-fasts with E_FAIL (remotewinrt.cxx line 0xa2); the runtime fail-fasts the process the same way (__fastfail FAST_FAIL_FATAL_APP_EXIT, exit 0xC0000409)",
    "RemoteWinRTActivation": "returns 1: console shared body mov eax,1",
    "ValidateRemoteVmNamedPipeEndpoint": "returns 0: console body xor eax,eax",
    "WaitRemotePipe": "port of the console body: only \\\\.\\<device>\\<name> paths (else FALSE, ERROR_INVALID_NAME 123), NtOpenFile \\DosDevices\\<device>\\ then FSCTL_PIPE_WAIT 0x110018 with the console timeout encoding (0 default, 0xFFFFFFFF forever, else -10000*ms); NTSTATUS failures go through RtlSetLastWin32ErrorAndNtStatusFromNtStatus",
@@ -2194,7 +2194,7 @@
    "SCDxil_SCSimpleCompileShader": "forwarded"
   },
   "notes": {
-   "SCDxil_DxcCreateInstance": "console calls its embedded DxcCreateInstance2(NULL malloc); mapped to the emulator dxcompiler_xs DxcCreateInstance2 (host DXC or native IDxcUtils)",
+   "SCDxil_DxcCreateInstance": "console calls its embedded DxcCreateInstance2(NULL malloc); mapped to the runtime dxcompiler_xs DxcCreateInstance2 (host DXC or native IDxcUtils)",
    "SCDxil_GetDriverShaderCode": "console DXBC container validation (v1, contiguous in-order parts, size <= 2 GiB) then the DXIL part data; 0 on success, 3 otherwise",
    "SCDxil_GetExternalILInterface": "console scdxil.dll from the title dump (newbe.dll preloaded); fills its 3 IL-builder entry points into out and returns out; no console module -> NULL",
    "SCDxil_GetOriginalShader": "console DXIL program-header check, XDAT part 7 (original) then its part 11 (replacement) lookup, {pointer, size} result; an invalid part 11 (console throws) returns {NULL, 0}",
@@ -2225,10 +2225,10 @@
    "#227": "implemented"
   },
   "notes": {
-   "RevokeScaleChangeNotifications": "console SHCore 0x5a630: manager item[kind] slot 11 removes the cookie from the window list or the COM handler list (shared cookie counter), E_INVALIDARG when not found; the emulator backs every #227 handler with a PC RegisterScaleChangeNotifications window registration, so this revokes through the PC call and releases the #227 handler with that cookie",
+   "RevokeScaleChangeNotifications": "console SHCore 0x5a630: manager item[kind] slot 11 removes the cookie from the window list or the COM handler list (shared cookie counter), E_INVALIDARG when not found; the runtime backs every #227 handler with a PC RegisterScaleChangeNotifications window registration, so this revokes through the PC call and releases the #227 handler with that cookie",
    "#225": "console SHCore 0x59f70 (19041, ordinal only): SystemParametersInfoW(0xa7, 12, {0, 0, 0}, 0) and returns the BOOLEAN third dword > 0; same SPI call on the PC user32",
    "#226": "console SHCore 0x5a140 (19041, ordinal only): *out = FALSE, SystemParametersInfoW(SPI_GETLOGICALDPIOVERRIDE 0x9e, 0, &value, 0); S_OK with *out = value > 0, else HRESULT_FROM_WIN32(GetLastError()) or E_FAIL",
-   "#227": "console SHCore 0x5a3e0 (19041, ordinal only): HRESULT (DISPLAY_DEVICE_TYPE kind, IUnknown *handler, DWORD *cookie), the COM twin of RegisterScaleChangeNotifications: *cookie = 0, manager (6ded55f9) item[kind] queried for interface c5e806e1, slot 10: an IAgileObject handler is kept as is, otherwise RoGetAgileReference(DEFAULT, abadfe7f) (its error returned); cookie from the kind's counter shared with RegisterScaleChangeNotifications; on a scale change (update flag bit 0) every handler gets slot 3 Invoke(GetScaleFactorForDevice(kind)) on an MTA thread; emulator gets the change and the cookie from a PC RegisterScaleChangeNotifications registration on its own message window"
+   "#227": "console SHCore 0x5a3e0 (19041, ordinal only): HRESULT (DISPLAY_DEVICE_TYPE kind, IUnknown *handler, DWORD *cookie), the COM twin of RegisterScaleChangeNotifications: *cookie = 0, manager (6ded55f9) item[kind] queried for interface c5e806e1, slot 10: an IAgileObject handler is kept as is, otherwise RoGetAgileReference(DEFAULT, abadfe7f) (its error returned); cookie from the kind's counter shared with RegisterScaleChangeNotifications; on a scale change (update flag bit 0) every handler gets slot 3 Invoke(GetScaleFactorForDevice(kind)) on an MTA thread; runtime gets the change and the cookie from a PC RegisterScaleChangeNotifications registration on its own message window"
   }
  },
  "symsrv.dll": {
@@ -2279,7 +2279,7 @@
    "SymbolServerIsStore": "ANSI to wide, then IsStoreW",
    "SymbolServerIsStoreW": "TRUE for '*' paths and http(s) prefixes, else pingme.txt in the file store; 87 on null/empty",
    "SymbolServerPing": "ANSI to wide, then PingW",
-   "SymbolServerPingW": "first store's IsStore; http stores fail with 12029 because the emulator is offline",
+   "SymbolServerPingW": "first store's IsStore; http stores fail with 12029 because the runtime is offline",
    "SymbolServerPingWEx": "TRUE when DISABLE_PING_HOST is set, else PingW",
    "SymbolServerSetOptionsW": "every SSRVOPT bit with its side state (callback, TLS context, param type with 87 on a bad type, parent hwnd, proxy, downstream store, RESETTOU, ping/timeout/comm flags)",
    "SymbolServerStoreFile": "ANSI to wide, then StoreFileW",
@@ -2297,7 +2297,7 @@
    "SymbolServerSetOptions": "DOWNSTREAM_STORE string converted ANSI to wide, then SetOptionsW",
    "httpCloseHandle": "InternetCloseHandle or WinHttpCloseHandle chosen as the console does (WININET bit, WINHTTP bit, or service token), last error preserved",
    "httpOpenFileHandle": "ANSI to wide (0x410 chars), then httpOpenFileHandleW",
-   "httpOpenFileHandleW": "site/file split, '\\' to '/', 87 for non-http sites or bad URLs; any valid URL fails with 12029 because the emulator never reaches the network",
+   "httpOpenFileHandleW": "site/file split, '\\' to '/', 87 for non-http sites or bad URLs; any valid URL fails with 12029 because the runtime never reaches the network",
    "httpQueryDataAvailable": "InternetQueryDataAvailable or WinHttpQueryDataAvailable by the same engine choice",
    "httpReadFile": "InternetReadFile or WinHttpReadData by the same engine choice"
   }
@@ -2455,18 +2455,18 @@
   },
   "notes": {
    "WldpQueryPolicySettingEnabledInternal": "console body: NULL out -> 0xD000000D; *out = 0; index 0-5 and 1000 select a setting name from the console .rdata table (VerifiedAndReputableUI, DisableMshtmlUmci, ShellSmartscreenSuppressed, BrowserSmartscreenSuppressed, WcosOOBELogCollection, LegacyWhqlFlighting; 1000 VerifiedAndReputablePerfMode) and tail-call WldpQueryPolicySettingEnabled2, here the PC wldp export of that name loaded from System32 by full path; other indexes 0xD000000D (negative ids read before the console table, rejected here)",
-   "WldpCheckSecurityWatermarkState": "Fortnite console RVA 0x14ab0. The emulator side it needs exists (security store: emulated %SystemDrive%\\DPP watermark files, manufacturing-mode flag, Non-Production Errors.txt path; DMCfgUtils.dll SyncGetDeviceUniqueID used for the hashes at 0x1443c is not shipped in the console image, so the console path is LoadLibraryExW failure -> 1 with all-zero hashes). Still unported, so not exported: the HSTI verification tree (0x15b1c -> 0x16a7c KdDebuggerEnabled override, 0x16b60 NtQuerySystemInformation 0xA6, 0x15bd0 result-blob parser), the Secure Boot tree (0x12714: GetVersionExW, 0x11ed4, NtQuerySystemInformation 0x91 and 0x8F, three 0x123c0 policy-table checks over .data 0x25020, 0x1586c), FVEAPI FveGetSecureBootBindingState/FveQuery (0x14130), the ZwFilterBootOption test-boot-option scan (0x14258, tables 0x1f450/0x1f160), and the Non-Production Errors.txt writer (0x146b8/0x1479c/0x148c8). The console HSTI, Secure Boot and FVE state those trees read is not yet modelled in the store.",
-   "WldpSendSmartAppControlBlockToast": "Trackmania console RVA 0x1c010. A wil feature-staging check (feature 0x259f533, state at .data 0x41230, 0x1c0bc) picks one of two toasthelper.cpp builders, 0x1b80c or 0x1b9f4. Each loads a fixed toast XML template (0x31a50 / 0x31d10) into Windows.Data.Xml.Dom.XmlDocument, fills text and action nodes by XPath with wldp.dll.mui strings (ids 2000/3000/4000 or IDS_TOASTTITLE_BLOCK/IDS_TOASTBODY_BLOCK) formatted by FormatMessageW over the two arguments (0x1ae3c, 0x1b1a0, 0x1a018), then shows it with a ToastNotifier for Windows.Defender.SecurityCenter (0x1ac64). That ~700-line XML/resource/format tree, the feature-staging state and the en-US mui string table are not ported yet. The emulator log line with the console text and identical HRESULTs cannot be produced, and a log line returning S_OK would be fake success.",
+   "WldpCheckSecurityWatermarkState": "Fortnite console RVA 0x14ab0. The runtime side it needs exists (security store: emulated %SystemDrive%\\DPP watermark files, manufacturing-mode flag, Non-Production Errors.txt path; DMCfgUtils.dll SyncGetDeviceUniqueID used for the hashes at 0x1443c is not shipped in the console image, so the console path is LoadLibraryExW failure -> 1 with all-zero hashes). Still unported, so not exported: the HSTI verification tree (0x15b1c -> 0x16a7c KdDebuggerEnabled override, 0x16b60 NtQuerySystemInformation 0xA6, 0x15bd0 result-blob parser), the Secure Boot tree (0x12714: GetVersionExW, 0x11ed4, NtQuerySystemInformation 0x91 and 0x8F, three 0x123c0 policy-table checks over .data 0x25020, 0x1586c), FVEAPI FveGetSecureBootBindingState/FveQuery (0x14130), the ZwFilterBootOption test-boot-option scan (0x14258, tables 0x1f450/0x1f160), and the Non-Production Errors.txt writer (0x146b8/0x1479c/0x148c8). The console HSTI, Secure Boot and FVE state those trees read is not yet modelled in the store.",
+   "WldpSendSmartAppControlBlockToast": "Trackmania console RVA 0x1c010. A wil feature-staging check (feature 0x259f533, state at .data 0x41230, 0x1c0bc) picks one of two toasthelper.cpp builders, 0x1b80c or 0x1b9f4. Each loads a fixed toast XML template (0x31a50 / 0x31d10) into Windows.Data.Xml.Dom.XmlDocument, fills text and action nodes by XPath with wldp.dll.mui strings (ids 2000/3000/4000 or IDS_TOASTTITLE_BLOCK/IDS_TOASTBODY_BLOCK) formatted by FormatMessageW over the two arguments (0x1ae3c, 0x1b1a0, 0x1a018), then shows it with a ToastNotifier for Windows.Defender.SecurityCenter (0x1ac64). That ~700-line XML/resource/format tree, the feature-staging state and the en-US mui string table are not ported yet. The runtime log line with the console text and identical HRESULTs cannot be produced, and a log line returning S_OK would be fake success.",
    "WldpTraceLoggingWDACBlockDialogShown": "console RVA 0x7570 (Trackmania 10.0.22621.1852): args (PCWSTR FileName, DWORD hResult, GUID* DialogGuid, PCWSTR UserActionsTaken), no return value; FileName and the QueryFullProcessImageNameW image of the current process go through the console 0x739c rewrite (case-insensitive \"\\Users\\<name>\" prefix -> \"%USERPROFILE%\", ntdll RtlFindUnicodeSubstring), a failed rewrite drops the event, a failed image query uses L\"\"; written only when provider LevelPlus1 > 5 and keyword 0x400000000000 matches (port of the tlg enable callback 0x2a40 and keyword test 0x26a2c) on the provider at console .data 0x40238 (not 0x40270, which is the State provider used by ordinal 30): Microsoft.Windows.Security.CodeIntegrity.Activity {28dcc28b-3e31-527b-efd6-b4cc4d73d157}, registered with EventRegister + EventSetInformation(EventProviderSetTraits) like console 0x24980; EventWriteTransfer channel 11, level 5, opcode 0, keyword 0x400000000000 with the provider and event metadata blobs extracted byte-for-byte from the console image (data\\*.bin, re-checked against the dump by the test); fields PartA_PrivTags u64 0x2000000, FileName, CurrentProcess, hResult, DialogGuid, UserActionsTaken (NULL strings -> L\"\")",
-   "WldpChangeVulnerableDriverBlocklistState": "console RVA 0x19360: calls WldpIsVulnerableDriverBlocklistEligibleToDisable (ordinal 32); not eligible -> 0x80070032, nothing written; eligible -> stores the DWORD arg as the emulated console value HKLM\\System\\CurrentControlSet\\Control\\CI\\Config VulnerableDriverBlocklistEnable (console RegSetKeyValueW REG_DWORD) in the emulator security store (%LOCALAPPDATA%\\XboxEmulator\\wldp\\state.txt, TOMBOX_GDK_ROOT override), S_OK, store write error -> HRESULT_FROM_WIN32; then the console VulnerableDriverBlocklistStateChanged TraceLogging event (State, ElligibleToDisable, Succeeded, PartA_PrivTags 0x1000000; level 5, keyword 0x800000000000) on Microsoft.Windows.Security.CodeIntegrity.State {a3064fc9-4d22-54c9-0003-1f90594554d3}, metadata extracted from the console image; host registry never touched",
+   "WldpChangeVulnerableDriverBlocklistState": "console RVA 0x19360: calls WldpIsVulnerableDriverBlocklistEligibleToDisable (ordinal 32); not eligible -> 0x80070032, nothing written; eligible -> stores the DWORD arg as the emulated console value HKLM\\System\\CurrentControlSet\\Control\\CI\\Config VulnerableDriverBlocklistEnable (console RegSetKeyValueW REG_DWORD) in the runtime security store (%LOCALAPPDATA%\\XboxEmulator\\wldp\\state.txt, TOMBOX_GDK_ROOT override), S_OK, store write error -> HRESULT_FROM_WIN32; then the console VulnerableDriverBlocklistStateChanged TraceLogging event (State, ElligibleToDisable, Succeeded, PartA_PrivTags 0x1000000; level 5, keyword 0x800000000000) on Microsoft.Windows.Security.CodeIntegrity.State {a3064fc9-4d22-54c9-0003-1f90594554d3}, metadata extracted from the console image; host registry never touched",
    "WldpCheckRetailConfiguration": "console body: *arg2 = 1, *arg4 = 0, *arg3 = 0, return S_OK; arg1 unused",
-   "WldpDisableDeveloperMode": "console RVA 0x25b10: gate = console 0x26818 (WldpQueryWindowsLockdownMode on the emulated CI policy options: & 0x24000000 -> 2 else bit 31; or state separation) from the emulator security store, retail options 0x24000000 -> gate on; gate off -> S_OK no-op; gate on -> deletes the emulated HKLM\\SYSTEM\\CurrentControlSet\\Control\\CI\\Developer\\DeveloperUnlock key; as on the console (RegDeleteKeyExW LSTATUS is positive) a missing key or write error still returns S_OK; host registry never touched",
-   "WldpEnableDeveloperMode": "console RVA 0x25bf0: same CI gate as ordinal 23 (gate off -> S_OK no-op); converts the console SDDL (O:BAG:BAD:(A;CIID;KA;;;SY)(A;CIID;KA;;;BA)(A;CIID;KR;;;WD)(A;CIID;KR;;;RC)(A;;KR;;;AC)(A;;KR;;;S-1-15-3-1024-...)) with ConvertStringSecurityDescriptorToSecurityDescriptorW (failure -> HRESULT_FROM_WIN32(GetLastError())), then creates the emulated DeveloperUnlock key carrying that SDDL in the emulator security store (an existing key is opened unchanged, like RegCreateKeyExW), S_OK, store write error -> HRESULT_FROM_WIN32; host registry never touched",
+   "WldpDisableDeveloperMode": "console RVA 0x25b10: gate = console 0x26818 (WldpQueryWindowsLockdownMode on the emulated CI policy options: & 0x24000000 -> 2 else bit 31; or state separation) from the runtime security store, retail options 0x24000000 -> gate on; gate off -> S_OK no-op; gate on -> deletes the emulated HKLM\\SYSTEM\\CurrentControlSet\\Control\\CI\\Developer\\DeveloperUnlock key; as on the console (RegDeleteKeyExW LSTATUS is positive) a missing key or write error still returns S_OK; host registry never touched",
+   "WldpEnableDeveloperMode": "console RVA 0x25bf0: same CI gate as ordinal 23 (gate off -> S_OK no-op); converts the console SDDL (O:BAG:BAD:(A;CIID;KA;;;SY)(A;CIID;KA;;;BA)(A;CIID;KR;;;WD)(A;CIID;KR;;;RC)(A;;KR;;;AC)(A;;KR;;;S-1-15-3-1024-...)) with ConvertStringSecurityDescriptorToSecurityDescriptorW (failure -> HRESULT_FROM_WIN32(GetLastError())), then creates the emulated DeveloperUnlock key carrying that SDDL in the runtime security store (an existing key is opened unchanged, like RegCreateKeyExW), S_OK, store write error -> HRESULT_FROM_WIN32; host registry never touched",
    "WldpIsProductionConfigurationInProc": "Trackmania console RVA 0x14f10. Its first helper, 0x7c08, decodes an obfuscated in-image table (0x343a2, multi-round hash on a 0x1290-byte frame) that selects which checks apply. The body then reads %SystemRoot%\\System32\\CodeIntegrity\\Data\\WatermarkHSTITestComplete.bin and WatermarkSecurityTestComplete.bin, hashes the HSTI and Security results (0x13f70, 0x14210), compares and rewrites them (0x147c8), can raise a WinSta0\\Default desktop warning, and writes a State-provider TraceLogging event (metadata 0x35e9b, provider .data 0x40270). The helper tree is about 12,000 disassembly lines and is not ported. The store paths and the tlg provider infrastructure are ready for it, but a partial port would fake the retail result.",
-   "WldpIsVulnerableDriverBlocklistDisabled": "console RVA 0x19400: RegGetValueW(HKLM, System\\CurrentControlSet\\Control\\CI\\Config, VulnerableDriverBlocklistEnable, RRF_RT_REG_DWORD) read against the emulated console value in the emulator security store (shared with ordinal 19); present -> *out = (value != 1), S_OK; absent (retail default: the console image carries no such value) -> *out = 0, 0x80070002",
+   "WldpIsVulnerableDriverBlocklistDisabled": "console RVA 0x19400: RegGetValueW(HKLM, System\\CurrentControlSet\\Control\\CI\\Config, VulnerableDriverBlocklistEnable, RRF_RT_REG_DWORD) read against the emulated console value in the runtime security store (shared with ordinal 19); present -> *out = (value != 1), S_OK; absent (retail default: the console image carries no such value) -> *out = 0, 0x80070002",
    "WldpIsVulnerableDriverBlocklistEligibleToDisable": "console body: NtQuerySystemInformation(0xA5, 16 bytes) flag 2 -> not eligible; otherwise eligible when the CI policy query (class 0xA4, 32 bytes: 0x24000000 -> 2, else bit 31) fails or reports 0; read-only, S_OK",
    "WldpSetDynamicCodeTrust2": "console body: NtSetSystemInformation(0xC7, {file handle, 0, 0}, 0x18), failure status | 0x10000000, else S_OK; byte-identical to the PC WldpSetDynamicCodeTrust body",
-   "WldpResetSecurityWatermarkState": "Fortnite console only (RVA 0x14e80; its ordinal 19 collides with the newer WldpChangeVulnerableDriverBlocklistState, renumbered here); console body: delete %SystemDrive%\\DPP\\WatermarkHSTITestComplete.bin (negative HRESULT returned at once), then WatermarkSBTestComplete.bin; file-not-found counts as success (console 0x14364), any other DeleteFileW error -> HRESULT_FROM_WIN32 (e.g. missing DPP directory 0x80070003); %SystemDrive% is the emulated console drive in the emulator security store (wldp\\SystemDrive), never the host drive"
+   "WldpResetSecurityWatermarkState": "Fortnite console only (RVA 0x14e80; its ordinal 19 collides with the newer WldpChangeVulnerableDriverBlocklistState, renumbered here); console body: delete %SystemDrive%\\DPP\\WatermarkHSTITestComplete.bin (negative HRESULT returned at once), then WatermarkSBTestComplete.bin; file-not-found counts as success (console 0x14364), any other DeleteFileW error -> HRESULT_FROM_WIN32 (e.g. missing DPP directory 0x80070003); %SystemDrive% is the emulated console drive in the runtime security store (wldp\\SystemDrive), never the host drive"
   }
  },
  "xapu.dll": {
@@ -2594,13 +2594,13 @@
   },
   "notes": {
    "XbCreatePartitionHeap": "console 0x2ab0/0x17ac: partition 0-2 else ERROR_INVALID_PARAMETER, unopened partition ERROR_PARTITION_NOT_FOUND (0x10d8); RtlCreateHeap(flags 0x100 | 0x102, reserve and commit dropped as the console does when it builds the parameters) with the console's version-3 segment-heap parameters (memory type mask 1 << type, | 8 for type 4, partition handle for type >= 2); ERROR_BAD_ARGUMENTS when the heap cannot be created; console memory types 1-3 have no host segment-heap type, so on a stand-in partition they fall back to type 0 (cacheable)",
-   "XbGetPartitionHandleAndId": "console 0x2ec0: DuplicateHandle of the partition handle (same access) and its id; partitions opened as the emulator xmem does (\\KernelObjects\\MemoryPartition0, \\GLOBAL??\\MemoryPartitionXboxTitle, \\GLOBAL??\\MemoryPartitionXboxTools), title partition stood in by the process",
+   "XbGetPartitionHandleAndId": "console 0x2ec0: DuplicateHandle of the partition handle (same access) and its id; partitions opened as the runtime xmem does (\\KernelObjects\\MemoryPartition0, \\GLOBAL??\\MemoryPartitionXboxTitle, \\GLOBAL??\\MemoryPartitionXboxTools), title partition stood in by the process",
    "XbGetPartitionHeap": "console 0x2fa0/0x18d4: one heap per partition created once (RtlRunOnce) with memory type 2/0/2 for partitions 0/1/2",
    "XbRegisterXMemCallback": "console 0x36c0: stores the XMem notification callback; the redirected heap and virtual-memory thunks call it with (op, 5-qword record): 1 alloc {heap, flags, size, result, 0}, 2 realloc {heap, flags, size, result, old}, 3 free {heap, flags, ptr, 0, 0}, 4 VirtualFree {addr, size, type}, 5 VirtualAlloc {result, size, type | protect << 32}",
    "XbRegisterXMemOperationCallback": "console 0x36d0: stores the operation callback; the file, event, semaphore and VirtualAlloc(Ex) thunks call it as (1, &&allowed) and fail without SetLastError when it clears allowed (NULL, or INVALID_HANDLE_VALUE for files)",
-   "XbReportUnknownNtAvmError": "console 0x1e00: the console writes a TraceLogging event (status, two pointers, size, extra, the process image name); the emulator writes the same fields to the compat log",
+   "XbReportUnknownNtAvmError": "console 0x1e00: the console writes a TraceLogging event (status, two pointers, size, extra, the process image name); the runtime writes the same fields to the compat log",
    "XbSetCallHeapFreeCallbackForRealloc": "console 0x3af0: stores the flag; when set and an XMem callback is registered, HeapReAlloc/RtlReAllocateHeap report a free of the old block before reallocating",
-   "XbSetWinHttpHooks": "console 0x3b00: copies the 7-pointer hook table; also handed to the emulator xmem.dll (XMemSetWinHttpHooks, which the console forwards here) so its WinHttp hooks see it",
+   "XbSetWinHttpHooks": "console 0x3b00: copies the 7-pointer hook table; also handed to the runtime xmem.dll (XMemSetWinHttpHooks, which the console forwards here) so its WinHttp hooks see it",
    "__RedirectionInformation__": "console 0x5bb0: {1, 74, table of (module, function, thunk)} with the console's 74 rows and their 48 thunks ported (redirect.rs): GetProcessHeap = partition-1 heap, HeapCreate/RtlCreateHeap on the system partition with type 2 and the console flags and heap name, CreateThread created suspended then given the JobObjectXboxSystem affinity, CreateFileMapping with the console protection-to-access table and d:\\ (TOMBOX_XBTHUNK_TITLE_ROOT) rule for writable file mappings, CoGetMalloc static IMalloc on the partition-1 heap, CoCreateGuid = UuidCreateSequential, WinHttp hooks, call counters; the console's WPP/TraceLogging events are not emitted",
    "__ShouldApplyRedirectionToFunction__": "console 0x42a0: index < 0x4a, never for xmem.dll, per-function module override (pgort140.dll, dbghelp.dll), else the console flag byte tested with 2 (ucrtbase.dll, d3dcompiler_47/dxcompiler/hix/mwdbgsrv/newbe/scdxil/sc_dll/webio), 1 (paths under C:\\) or 2",
    "__ShouldApplyRedirection__": "console 0x43f0: returns TRUE"
@@ -3132,7 +3132,7 @@
    "XDXRCreateDevice": "forwarded"
   },
   "notes": {
-   "XDXRCreateDevice": "forwarded to the console's own xdxr.dll (TOMBOX_XDXR_CONSOLE, xdxr_console.dll beside this DLL, or the title EmbeddedXvd dump with the newest console OS build) with the emulator xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL (init builds its BVH root signatures and pipelines on the given console ID3D12Device); without the console DLL returns the console failure value NULL"
+   "XDXRCreateDevice": "forwarded to the console's own xdxr.dll (TOMBOX_XDXR_CONSOLE, xdxr_console.dll beside this DLL, or the title EmbeddedXvd dump with the newest console OS build) with the runtime xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL (init builds its BVH root signatures and pipelines on the given console ID3D12Device); without the console DLL returns the console failure value NULL"
   }
  },
  "xdxr_d.dll": {
@@ -3141,7 +3141,7 @@
    "XDXRCreateDevice": "forwarded"
   },
   "notes": {
-   "XDXRCreateDevice": "forwarded to the console's own xdxr_d.dll (TOMBOX_XDXR_D_CONSOLE, xdxr_d_console.dll beside this DLL, or the title EmbeddedXvd dump with the newest console OS build) with the emulator xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL (init builds its BVH root signatures and pipelines on the given console ID3D12Device); without the console DLL returns the console failure value NULL"
+   "XDXRCreateDevice": "forwarded to the console's own xdxr_d.dll (TOMBOX_XDXR_D_CONSOLE, xdxr_d_console.dll beside this DLL, or the title EmbeddedXvd dump with the newest console OS build) with the runtime xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL (init builds its BVH root signatures and pipelines on the given console ID3D12Device); without the console DLL returns the console failure value NULL"
   }
  },
  "xdxr_i.dll": {
@@ -3150,7 +3150,7 @@
    "XDXRCreateDevice": "forwarded"
   },
   "notes": {
-   "XDXRCreateDevice": "forwarded to the console's own xdxr_i.dll (TOMBOX_XDXR_I_CONSOLE, xdxr_i_console.dll beside this DLL, or the title EmbeddedXvd dump with the newest console OS build) with the emulator xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL (init builds its BVH root signatures and pipelines on the given console ID3D12Device); without the console DLL returns the console failure value NULL"
+   "XDXRCreateDevice": "forwarded to the console's own xdxr_i.dll (TOMBOX_XDXR_I_CONSOLE, xdxr_i_console.dll beside this DLL, or the title EmbeddedXvd dump with the newest console OS build) with the runtime xmem.dll preloaded for its XMemAlloc/XMemFree imports; ({ctx, alloc, free}, UMD device, 0x28-byte desc) -> device or NULL (init builds its BVH root signatures and pipelines on the given console ID3D12Device); without the console DLL returns the console failure value NULL"
   }
  },
  "xfp_gc.dll": {
@@ -3314,8 +3314,8 @@
    "UMDPresentArray": "console returns DXGI_ERROR_UNSUPPORTED unconditionally; same here",
    "UMDSetNullGpuMode": "stores the mode like the console driver global",
    "OpenAdapter12": "console returns E_NOTIMPL unconditionally; same here",
-   "UMDCreateBlob": "native ID3D10Blob (IUnknown/ID3D10Blob QI, underflow-safe Release), object and buffer from XMemAlloc/XMemFree (emulator xmem.dll) with the console XMem attributes 0x4800040/0x4800078",
-   "UMDCreateDevice12": "console checks (null params/out -> E_INVALIDARG, version 0x1000a or <= 0x10009, 5 accepted device IIDs else E_NOINTERFACE), then the emulator d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded",
+   "UMDCreateBlob": "native ID3D10Blob (IUnknown/ID3D10Blob QI, underflow-safe Release), object and buffer from XMemAlloc/XMemFree (runtime xmem.dll) with the console XMem attributes 0x4800040/0x4800078",
+   "UMDCreateDevice12": "console checks (null params/out -> E_INVALIDARG, version 0x1000a or <= 0x10009, 5 accepted device IIDs else E_NOINTERFACE), then the runtime d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded",
    "UMDCreateRootSignatureDeserializer": "host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check",
    "UMDCreateVersionedRootSignatureDeserializer": "host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check",
    "UMDGetDebugInterface": "console release/instrumented driver returns E_NOINTERFACE unconditionally; same here",
@@ -3361,10 +3361,10 @@
    "UMDSetNullGpuMode": "stores the mode like the console driver global",
    "CpuMemAlloc": "console algorithm: align=max(align,8), _aligned_malloc(size+align,16), round up, raw pointer stored at p-8",
    "CpuMemFree": "_aligned_free of the raw pointer at p-8, null ignored",
-   "GMemSetAllocationHooks": "null alloc restores XMemAlloc/XMemFree (emulator xmem.dll), else both hooks replaced; UMDCreateBlob allocates through them",
+   "GMemSetAllocationHooks": "null alloc restores XMemAlloc/XMemFree (runtime xmem.dll), else both hooks replaced; UMDCreateBlob allocates through them",
    "OpenAdapter12": "console returns E_NOTIMPL unconditionally; same here",
    "UMDCreateBlob": "native ID3D10Blob (IUnknown/ID3D10Blob QI, underflow-safe Release), object and buffer from the GMemSetAllocationHooks hooks (default XMemAlloc/XMemFree) with the console XMem attributes 0x4800040/0x4800078",
-   "UMDCreateDevice12": "console checks (null params/out -> E_INVALIDARG, version >= 0x20001 unless D3D_suppressSdkVersionCheck exists, with the console debug string, 9 accepted device IIDs else E_NOINTERFACE), then the emulator d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded",
+   "UMDCreateDevice12": "console checks (null params/out -> E_INVALIDARG, version >= 0x20001 unless D3D_suppressSdkVersionCheck exists, with the console debug string, 9 accepted device IIDs else E_NOINTERFACE), then the runtime d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded",
    "UMDCreateRootSignatureDeserializer": "host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check",
    "UMDCreateVersionedRootSignatureDeserializer": "host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check",
    "UMDGetDebugInterface": "console release/instrumented driver returns E_NOINTERFACE unconditionally; same here",
@@ -3410,10 +3410,10 @@
    "UMDSetNullGpuMode": "stores the mode like the console driver global",
    "CpuMemAlloc": "console algorithm: align=max(align,8), _aligned_malloc(size+align,16), round up, raw pointer stored at p-8",
    "CpuMemFree": "_aligned_free of the raw pointer at p-8, null ignored",
-   "GMemSetAllocationHooks": "null alloc restores XMemAlloc/XMemFree (emulator xmem.dll), else both hooks replaced; UMDCreateBlob allocates through them",
+   "GMemSetAllocationHooks": "null alloc restores XMemAlloc/XMemFree (runtime xmem.dll), else both hooks replaced; UMDCreateBlob allocates through them",
    "OpenAdapter12": "console returns E_NOTIMPL unconditionally; same here",
    "UMDCreateBlob": "native ID3D10Blob (IUnknown/ID3D10Blob QI, underflow-safe Release), object and buffer from the GMemSetAllocationHooks hooks (default XMemAlloc/XMemFree) with the console XMem attributes 0x4800040/0x4800078",
-   "UMDCreateDevice12": "console checks (null params/out -> E_INVALIDARG, version >= 0x20001 unless D3D_suppressSdkVersionCheck exists, with the console debug string, 9 accepted device IIDs else E_NOINTERFACE), then the emulator d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded",
+   "UMDCreateDevice12": "console checks (null params/out -> E_INVALIDARG, version >= 0x20001 unless D3D_suppressSdkVersionCheck exists, with the console debug string, 9 accepted device IIDs else E_NOINTERFACE), then the runtime d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded",
    "UMDCreateRootSignatureDeserializer": "host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check",
    "UMDCreateVersionedRootSignatureDeserializer": "host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check",
    "UMDGetDebugInterface": "IID d67441c7 (IDXGIInfoQueue) -> process singleton AddRef + S_OK, other IIDs E_NOTIMPL; native 40-slot IDXGIInfoQueue decoded from xgs12_d: per-producer queues (default limit 0x400, ALL/DX limit rejected with the console DXGI WARNING message + E_INVALIDARG), storage/retrieval filter stacks (newest push among own/DX/ALL wins, APP exempt from DX), size-query S_FALSE, console OutputDebugStringA text, break sets raising exception 0x87a {severity, &id, text}, mute; no PC dxgidebug/SDK layer on this machine to forward to",
@@ -3459,10 +3459,10 @@
    "UMDSetNullGpuMode": "stores the mode like the console driver global",
    "CpuMemAlloc": "console algorithm: align=max(align,8), _aligned_malloc(size+align,16), round up, raw pointer stored at p-8",
    "CpuMemFree": "_aligned_free of the raw pointer at p-8, null ignored",
-   "GMemSetAllocationHooks": "null alloc restores XMemAlloc/XMemFree (emulator xmem.dll), else both hooks replaced; UMDCreateBlob allocates through them",
+   "GMemSetAllocationHooks": "null alloc restores XMemAlloc/XMemFree (runtime xmem.dll), else both hooks replaced; UMDCreateBlob allocates through them",
    "OpenAdapter12": "console returns E_NOTIMPL unconditionally; same here",
    "UMDCreateBlob": "native ID3D10Blob (IUnknown/ID3D10Blob QI, underflow-safe Release), object and buffer from the GMemSetAllocationHooks hooks (default XMemAlloc/XMemFree) with the console XMem attributes 0x4800040/0x4800078",
-   "UMDCreateDevice12": "console checks (null params/out -> E_INVALIDARG, version >= 0x20001 unless D3D_suppressSdkVersionCheck exists, with the console debug string, 9 accepted device IIDs else E_NOINTERFACE), then the emulator d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded",
+   "UMDCreateDevice12": "console checks (null params/out -> E_INVALIDARG, version >= 0x20001 unless D3D_suppressSdkVersionCheck exists, with the console debug string, 9 accepted device IIDs else E_NOINTERFACE), then the runtime d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded",
    "UMDCreateRootSignatureDeserializer": "host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check",
    "UMDCreateVersionedRootSignatureDeserializer": "host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check",
    "UMDGetDebugInterface": "console release/instrumented driver returns E_NOINTERFACE unconditionally; same here",
@@ -3502,8 +3502,8 @@
    "UMDPresentArray": "console returns DXGI_ERROR_UNSUPPORTED unconditionally; same here",
    "UMDSetNullGpuMode": "stores the mode like the console driver global",
    "OpenAdapter12": "console returns E_NOTIMPL unconditionally; same here",
-   "UMDCreateBlob": "native ID3D10Blob (IUnknown/ID3D10Blob QI, underflow-safe Release), object and buffer from XMemAlloc/XMemFree (emulator xmem.dll) with the console XMem attributes 0x4800040/0x4800078",
-   "UMDCreateDevice12": "console checks (null params/out -> E_INVALIDARG, version 0x1000a or <= 0x10009, 5 accepted device IIDs else E_NOINTERFACE), then the emulator d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded",
+   "UMDCreateBlob": "native ID3D10Blob (IUnknown/ID3D10Blob QI, underflow-safe Release), object and buffer from XMemAlloc/XMemFree (runtime xmem.dll) with the console XMem attributes 0x4800040/0x4800078",
+   "UMDCreateDevice12": "console checks (null params/out -> E_INVALIDARG, version 0x1000a or <= 0x10009, 5 accepted device IIDs else E_NOINTERFACE), then the runtime d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded",
    "UMDCreateRootSignatureDeserializer": "host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check",
    "UMDCreateVersionedRootSignatureDeserializer": "host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check",
    "UMDGetDebugInterface": "IID d67441c7 (IDXGIInfoQueue) -> process singleton AddRef + S_OK, other IIDs E_NOTIMPL; native 40-slot IDXGIInfoQueue decoded from xgs12_d: per-producer queues (default limit 0x400, ALL/DX limit rejected with the console DXGI WARNING message + E_INVALIDARG), storage/retrieval filter stacks (newest push among own/DX/ALL wins, APP exempt from DX), size-query S_FALSE, console OutputDebugStringA text, break sets raising exception 0x87a {severity, &id, text}, mute; no PC dxgidebug/SDK layer on this machine to forward to",
@@ -3543,8 +3543,8 @@
    "UMDPresentArray": "console returns DXGI_ERROR_UNSUPPORTED unconditionally; same here",
    "UMDSetNullGpuMode": "stores the mode like the console driver global",
    "OpenAdapter12": "console returns E_NOTIMPL unconditionally; same here",
-   "UMDCreateBlob": "native ID3D10Blob (IUnknown/ID3D10Blob QI, underflow-safe Release), object and buffer from XMemAlloc/XMemFree (emulator xmem.dll) with the console XMem attributes 0x4800040/0x4800078",
-   "UMDCreateDevice12": "console checks (null params/out -> E_INVALIDARG, version 0x1000a or <= 0x10009, 5 accepted device IIDs else E_NOINTERFACE), then the emulator d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded",
+   "UMDCreateBlob": "native ID3D10Blob (IUnknown/ID3D10Blob QI, underflow-safe Release), object and buffer from XMemAlloc/XMemFree (runtime xmem.dll) with the console XMem attributes 0x4800040/0x4800078",
+   "UMDCreateDevice12": "console checks (null params/out -> E_INVALIDARG, version 0x1000a or <= 0x10009, 5 accepted device IIDs else E_NOINTERFACE), then the runtime d3d12_xs D3D12XboxCreateDevice; host D3D12CreateDevice when d3d12_xs.dll is not loaded",
    "UMDCreateRootSignatureDeserializer": "host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check",
    "UMDCreateVersionedRootSignatureDeserializer": "host d3d12.dll with the console E_FAIL -> E_INVALIDARG mapping and null-out check",
    "UMDGetDebugInterface": "console release/instrumented driver returns E_NOINTERFACE unconditionally; same here",
@@ -3660,7 +3660,7 @@
    "XpalGetServerType": "same entry as XGetServerType",
    "XpalGetSystemType": "same entry as XGetSystemType",
    "XpalGetVmType": "same entry as XGetVmType",
-   "XpalInitiateDump": "XVmCtrl IOCTL 0x15019C: writes a real minidump of the title process (MINIDUMP_TYPE argument) to the emulator data root",
+   "XpalInitiateDump": "XVmCtrl IOCTL 0x15019C: writes a real minidump of the title process (MINIDUMP_TYPE argument) to the runtime data root",
    "XpalInitiatePowerStateToggle": "XVmCtrl IOCTL 0x150140: toggles the emulated host power state On <-> connected standby, records the source; never touches the PC",
    "XpalInitiateSystemShutdown": "XVmCtrl IOCTL 0x150120: records reason/reboot on the emulated host, terminates the title VM, sets reboot-requested; never shuts down the PC",
    "XpalIsCapabilityEnabled": "same entry as XIsCapabilityEnabled",

@@ -19,7 +19,7 @@
 19 XpalGetServerType implemented | same entry as XGetServerType
 20 XpalGetSystemType implemented | same entry as XGetSystemType
 21 XpalGetVmType implemented | same entry as XGetVmType
-22 XpalInitiateDump implemented | XVmCtrl IOCTL 0x15019C: writes a real minidump of the title process (MINIDUMP_TYPE argument) to the emulator data root
+22 XpalInitiateDump implemented | XVmCtrl IOCTL 0x15019C: writes a real minidump of the title process (MINIDUMP_TYPE argument) to the runtime data root
 23 XpalInitiatePowerStateToggle implemented | XVmCtrl IOCTL 0x150140: toggles the emulated host power state On <-> connected standby, records the source; never touches the PC
 24 XpalInitiateSystemShutdown implemented | XVmCtrl IOCTL 0x150120: records reason/reboot on the emulated host, terminates the title VM, sets reboot-requested; never shuts down the PC
 25 XpalIsCapabilityEnabled implemented | same entry as XIsCapabilityEnabled

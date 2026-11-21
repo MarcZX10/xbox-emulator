@@ -7,7 +7,7 @@
 7 D3D12GetDebugInterface forwarded | host d3d12.dll
 8 D3D12SerializeRootSignature forwarded | host d3d12.dll
 9 D3D12SerializeVersionedRootSignature forwarded | host d3d12.dll
-10 D3D12XboxCreateDevice forwarded | Xbox One params (0x28 bytes) checked for null, then handed to the emulator's d3d12_xs.dll (Scarlett vtable wrapper, PC slots 0-43 only verified for Xbox One); host D3D12CreateDevice if d3d12_xs is absent
+10 D3D12XboxCreateDevice forwarded | Xbox One params (0x28 bytes) checked for null, then handed to the runtime's d3d12_xs.dll (Scarlett vtable wrapper, PC slots 0-43 only verified for Xbox One); host D3D12CreateDevice if d3d12_xs is absent
 11 D3D12XboxGetProcessDebugFlags implemented | returns the stored flags
 12 D3D12XboxSetProcessDebugFlags implemented | stores flags & 0x81f00001 like the console runtime
 13 D3D12XboxUnloadDriverModule implemented | console 0x16b0: if the driver module is loaded, FreeLibrary it and zero the driver state; devices here are created by the d3d12_xs runtime, which owns that state, so this runs its D3D12XboxUnloadDriverModule when d3d12_xs.dll is loaded
