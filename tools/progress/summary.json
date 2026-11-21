@@ -7,9 +7,9 @@
    "pct": 100.0
   },
   "d3d12x_methods": {
-   "done": 188,
+   "done": 189,
    "total": 200,
-   "pct": 94.0
+   "pct": 94.5
   },
   "rdna2_instructions": {
    "done": 573,
@@ -46,9 +46,9 @@
  },
  "extra": {
   "console_exports": {
-   "done": 2074,
+   "done": 2076,
    "total": 2141,
-   "pct": 96.87
+   "pct": 96.96
   },
   "shader_compile_lobby_frame": {
    "done": 139,
@@ -91,23 +91,23 @@
    "pct": 100.0
   },
   "console_exports_targeted": {
-   "done": 2074,
-   "total": 2130,
-   "pct": 97.37
+   "done": 2076,
+   "total": 2134,
+   "pct": 97.28
   },
   "console_exports_not_targeted": {
    "done": null,
-   "total": 11,
+   "total": 7,
    "pct": null,
-   "libraries": 7
+   "libraries": 5
   }
  },
  "all_including_pc": {
   "note": "previous definition, kept for history: every export of every console OS DLL and every title import, PC-provided ones included",
   "console_exports": {
-   "done": 22246,
+   "done": 21970,
    "total": 23729,
-   "pct": 93.75
+   "pct": 92.59
   },
   "xbox_only_exports": {
    "done": 2012,

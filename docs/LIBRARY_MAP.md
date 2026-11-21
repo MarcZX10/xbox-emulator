@@ -25,13 +25,13 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 | Metric | Done | Total | % |
 |---|---|---|---|
 | system_functions | 671 | 671 | 100.0 |
-| d3d12x_methods | 188 | 200 | 94.0 |
+| d3d12x_methods | 189 | 200 | 94.5 |
 | rdna2_instructions | 573 | 721 | 79.47 |
 | shaders_translated | 105506 | 105506 | 100.0 |
 | shader_stages | 6 | 8 | 75.0 |
 | milestones | 9 | 18 | 50.0 |
 | titles_examined | 5 | - | - |
-| console_exports | 2074 | 2141 | 96.87 |
+| console_exports | 2076 | 2141 | 96.96 |
 | shader_compile_lobby_frame | 139 | 139 | 100.0 |
 | shader_compile_fixtures | 25 | 25 | 100.0 |
 | shader_compile_full_sweep | not published | 105506 | - |
@@ -40,8 +40,8 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 | title_imports_XDefiant | 29 | 29 | 100.0 |
 | title_imports_Terraria | 25 | 25 | 100.0 |
 | title_imports_Trackmania | 18 | 18 | 100.0 |
-| console_exports_targeted | 2074 | 2130 | 97.37 |
-| console_exports_not_targeted | not published | 11 | - |
+| console_exports_targeted | 2076 | 2134 | 97.28 |
+| console_exports_not_targeted | not published | 7 | - |
 
 Shader compile: all 139 shaders of the lobby frame compile with DXC (TomBox `docs/DEVELOPMENT_LOG.md:894`); 25/25 fixtures compile (`:672`). The full-library compile sweep (`:706`) has no published final count, so no compile badge is shown.
 
@@ -405,7 +405,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | dxcompiler_x.dll | System32 | no | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | Fortnite 2020.11015.12200.10000; XDefiant 2206.2209.12105.11142; Terraria 2206.2209.12105.11142; Trackmania 2210.2210.12006.15549 |
 | dxcompiler_xs.dll | System32 | no | 4 | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | Fortnite 2020.11015.12200.10000; XDefiant 2206.2209.12105.11142; Terraria 2206.2209.12105.11142; Trackmania 2210.2210.12006.15549 |
 | EventAggregation.dll | System32 | yes | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| FWPUCLNT.DLL | System32 | yes | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| FWPUCLNT.DLL | System32 | yes | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | gamecoreclient.dll | System32 | no | 3 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | gamecorecomproxy.dll | System32 | no | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | gamingtelemetry.dll | System32 | no | 38 | 38 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -501,13 +501,11 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 
 ### Not targeted (no analysed title references them)
 
-The console-library total above (2141 exports in 109 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 102 libraries (2130 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 7 below (11 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (2064 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 102 targeted libraries alone: 2074/2130.
+The console-library total above (2141 exports in 109 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 104 libraries (2134 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 5 below (7 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (2064 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 104 targeted libraries alone: 2076/2134.
 
 | Library | Folder | Same-named PC DLL | Console-only exports | Present in |
 |---|---|---|---|---|
-| FWPUCLNT.DLL | System32 | yes | 2 | Fortnite, XDefiant, Terraria, Trackmania |
 | xtfconsolecontrol.dll | System32 | no | 2 | Fortnite, XDefiant, Terraria, Trackmania |
-| xtfdebugmonitor.dll | System32 | no | 2 | Fortnite, XDefiant, Terraria, Trackmania |
 | xtfremoterun.dll | System32 | no | 2 | Fortnite, XDefiant, Terraria, Trackmania |
 | ConIoSrv.dll | System32 | no | 1 | Fortnite, XDefiant, Terraria, Trackmania |
 | EventAggregation.dll | System32 | yes | 1 | Fortnite, XDefiant, Terraria, Trackmania |
@@ -617,8 +615,8 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 | Function | Present in | Status |
 |---|---|---|
-| `FwpmBitmapIndexFree0` | Fortnite | missing |
-| `FwpmBitmapIndexGet0` | Fortnite | missing |
+| `FwpmBitmapIndexFree0` | Fortnite | implemented |
+| `FwpmBitmapIndexGet0` | Fortnite | implemented |
 
 </details>
 
@@ -1453,12 +1451,12 @@ No PC DLL is named advapi32legacy.dll; it is emulated by its compat crate, so no
 
 </details>
 
-<details><summary><b>FWPUCLNT.DLL</b>: 2 console-only exports, 0 covered</summary>
+<details><summary><b>FWPUCLNT.DLL</b>: 2 console-only exports, 2 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
-| `FwpmBitmapIndexFree0` | missing |  | Fortnite |
-| `FwpmBitmapIndexGet0` | missing |  | Fortnite |
+| `FwpmBitmapIndexFree0` | implemented |  | Fortnite |
+| `FwpmBitmapIndexGet0` | implemented |  | Fortnite |
 
 </details>
 
