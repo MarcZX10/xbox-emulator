@@ -668,14 +668,15 @@ def selftest():
     check("no twin row is implemented", not any(r[1] == "implemented" for k in twl for r in tw[k]["rows"]))
     check("every twin flip carries a note", all(n in tw[k]["notes"] for k, n, _ in flips))
     _emu_twins = {"kernel32legacy.dll", "advapi32legacy.dll"} & {e.lower() for e in cfg["emulator"]}
-    check("35 twin rows flip (25 once kernel32legacy and advapi32legacy are emulated)", len(flips) == (25 if len(_emu_twins) == 2 else 35))
+    _mux_emu = "minuserx.dll" in {e.lower() for e in cfg["emulator"]}
+    check("35 twin rows flip (25 once kernel32legacy and advapi32legacy are emulated, 21 fewer once minuserx is)", len(flips) == (25 if len(_emu_twins) == 2 else 35) - (21 if _mux_emu else 0))
     cov0 = sum(1 for r in rows0 if r[1] in COVERED)
     cov1 = sum(1 for r in rows1 if r[1] in COVERED)
     check("covered rises by exactly the twin flips", cov1 - cov0 == len(flips))
-    hk = next(n for k, n, _ in flips if k.lower() == "minuserx.dll")
-    EVIDENCE_OVERRIDE = {"oshost.json": {"file": "crates/compat/oshost/src/lib.rs", "hooks": {"user32.dll": [hk]}}}
+    hl, hk = next((k, n) for k, n, _ in sorted(flips, key=lambda f: f[0].lower() != "minuserx.dll"))
+    EVIDENCE_OVERRIDE = {"oshost.json": {"file": "crates/compat/oshost/src/lib.rs", "hooks": {tw[hl]["pc_twin"][0].lower(): [hk]}}}
     h = console()
-    st = {r[0]: r[1] for k, v in h.items() if k.lower() == "minuserx.dll" for r in v["rows"]}
+    st = {r[0]: r[1] for k, v in h.items() if k == hl for r in v["rows"]}
     check("oshost hook on the PC twin makes the row hooked", st[hk] == "hooked")
     EVIDENCE_OVERRIDE = {}
     g = imports()
