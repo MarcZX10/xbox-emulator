@@ -55,7 +55,7 @@ XCOL = {"implemented": "#2ea043", "forwarded": "#388bfd", "hooked": "#a371f7", "
         "title": "#56b6c2", "stub": "#d29922", "unverified": "#3d444d", "missing": "#6e7681"}
 XORDER = ["implemented", "forwarded", "hooked", "pc", "title", "stub", "unverified", "missing"]
 COVERED = {"implemented", "forwarded", "hooked", "pc", "title"}
-PC_SUPPLEMENT = {"kernel32.dll", "advapi32.dll"}
+PC_SUPPLEMENT = {"kernel32.dll", "advapi32.dll", "ntdll.dll", "kernelbase.dll", "shcore.dll", "ole32.dll"}
 LABEL = {"implemented": "implemented in emulator", "forwarded": "forwarded by emulator to PC",
          "hooked": "PC system DLL, hooked by emulator", "pc": "PC system DLL (name match)",
          "title": "shipped with the title", "stub": "emulator stub", "unverified": "unverified",
@@ -253,7 +253,7 @@ def console(full=False, twins=True):
         if not rows:
             continue
         libs[lib] = {"rows": rows, "pc_dll": v["pc_dll"], "dir": v["dir"], "versions": v["versions"],
-                     "pc_twin": v.get("pc_twin", []), "notes": notes}
+                     "pc_twin": v.get("pc_twin", []), "notes": notes, "emulated": low in emu}
     for g, v in cfg["gdk_linked"].items():
         tt = v.get("titles", {})
         st = v.get("status", {})
@@ -424,7 +424,7 @@ def library_map(summary, libs):
     w("")
     w("## Scope: Xbox console libraries only")
     w("")
-    w("The map counts only what the console provides and a PC does not. A console export is console-related when this PC's `C:\\Windows\\System32` has no DLL of the same name, or has one that does not export that name (for an export by ordinal only: that ordinal). A console DLL that is a modified PC DLL (kernel32, advapi32, mfplat, wldp, ...) therefore counts only for the exports the PC DLL lacks; console DLLs whose every export exists in the PC DLL of the same name (ntdll, msvcrt, ucrtbase, combase, xgameruntime, GameInput, ...) are left out. Title imports are counted the same way: imports that a PC System32 DLL or PC API set provides, and imports from DLLs shipped with the title, are excluded from both done and total. Absence from System32 is the only test, so a few non-Xbox components that happen not to ship with desktop Windows (symsrv, ConIoSrv, KernelTraceControl, the Media Foundation H.264/HEVC decoder DLLs) are counted. Four console host DLLs have no same-named PC DLL but a differently named PC twin (minuserx -> user32, kernel32legacy -> kernel32 / kernelbase, advapi32legacy -> advapi32, minappmodelx -> twinapi.appcore / kernel.appcore); they stay counted in full, and only their title-imported exports that the twin exports by name are marked `pc` (or `hooked`), so the denominator does not change.")
+    w("The map counts only what the console provides and a PC does not. A console export is console-related when this PC's `C:\\Windows\\System32` has no DLL of the same name, or has one that does not export that name (for an export by ordinal only: that ordinal). A console DLL that is a modified PC DLL (kernel32, advapi32, mfplat, wldp, ...) therefore counts only for the exports the PC DLL lacks; console DLLs whose every export exists in the PC DLL of the same name (ntdll, msvcrt, ucrtbase, combase, xgameruntime, GameInput, ...) are left out. Title imports are counted the same way: imports that a PC System32 DLL or PC API set provides, and imports from DLLs shipped with the title, are excluded from both done and total. Absence from System32 is the only test, so a few non-Xbox components that happen not to ship with desktop Windows (symsrv, ConIoSrv, KernelTraceControl, the Media Foundation H.264/HEVC decoder DLLs) are counted. Four console host DLLs have no same-named PC DLL but a differently named PC twin (minuserx -> user32, kernel32legacy -> kernel32 / kernelbase, advapi32legacy -> advapi32, minappmodelx -> twinapi.appcore / kernel.appcore); they stay counted in full, and while one is not emulated only its title-imported exports that the twin exports by name are marked `pc` (or `hooked`), so the denominator does not change. kernel32legacy is not treated as a twin: it is emulated by its own compat DLL (crates/compat/kernel32legacy, console ordinals, kernel32-legacy API-set imports routed to it), and every row takes its status from that crate's exports.txt.")
     w("")
     w("## Statuses")
     w("")
@@ -433,7 +433,7 @@ def library_map(summary, libs):
     w("| implemented | the emulator provides its own implementation |")
     w("| forwarded | an emulator DLL exports it and forwards to a PC system component (D3D12, Media Foundation, DirectStorage) |")
     w("| hooked | PC-twin row (below) that the emulator's OS host also hooks |")
-    w("| pc | console host DLL with no same-named PC DLL (minuserx, kernel32legacy, advapi32legacy, minappmodelx): a title imports the export and its PC twin exports the same name; not implemented by the emulator |")
+    w("| pc | console host DLL with no same-named PC DLL and no emulator crate (minuserx, advapi32legacy, minappmodelx when not emulated): a title imports the export and its PC twin exports the same name; not implemented by the emulator |")
     w("| stub | the emulator exports it but returns a fixed result (E_NOTIMPL / S_OK / inert object) |")
     w("| unverified | imported by a binary or module that was never observed loading |")
     w("| missing | no emulator export, and no PC System32 export of that name |")
@@ -599,7 +599,10 @@ def library_map(summary, libs):
         w(f"<details><summary><b>{escape(lib)}</b>: {len(v['rows'])} console-only exports, {sum(1 for r in v['rows'] if r[1] in COVERED)} covered</summary>")
         w("")
         nt = v.get("notes", {})
-        if v.get("pc_twin"):
+        if v.get("pc_twin") and v.get("emulated"):
+            w(f"No PC DLL is named {lib}; it is emulated by its compat crate, so no row is a PC-twin name match: every status comes from the crate's exports.txt.")
+            w("")
+        elif v.get("pc_twin"):
             w(f"No PC DLL is named {lib}; its PC twin is {' / '.join(v['pc_twin'])}. Exports an analysed title imports and the twin exports by name are `pc` (or `hooked` where the emulator's OS host reports a hook): {len(nt)} rows. They are not implemented by the emulator; the other exports stay `missing`.")
             w("")
         w("| Function | Status | Imported by | Present in |" + (" Note |" if nt else ""))
@@ -632,7 +635,7 @@ def library_map(summary, libs):
     for mod, fs in cfg.get("ordinal_evidence", {}).items():
         w(f"- {mod} ordinal imports: " + "; ".join(f"{f}: {e}" for f, e in fs.items()) + ".")
     w("- XAudio2_9 ordinal imports are treated as PC-provided because the PC DLL exports those ordinals; that the console DLL uses the same ordinals was not checked here. XAudio2 starts streaming in the Fortnite log, but there is no audio.")
-    w("- PC-twin rows (minuserx -> user32, kernel32legacy -> kernel32 / kernelbase, advapi32legacy -> advapi32, minappmodelx -> twinapi.appcore / kernel.appcore) are export-name matches on the twin only; the console DLLs' own behaviour is not reproduced.")
+    w("- PC-twin rows (minuserx -> user32, advapi32legacy -> advapi32, minappmodelx -> twinapi.appcore / kernel.appcore, for whichever of them has no emulator crate) are export-name matches on the twin only; the console DLLs' own behaviour is not reproduced. kernel32legacy is emulated by crates/compat/kernel32legacy and has no PC-twin rows.")
     w("- PC-provided is an export-name match (ordinal match for ordinal-only exports) against this PC's System32; behaviour differences between console and PC system DLLs are not measured, and such exports are outside this map.")
     w("- Titles without run evidence are classified statically only.")
     w("- Milestones 14/19 and the RDNA2 instruction table are upstream's numbers (`progress.json`, `data/mnemonics.txt`); not re-measured here.")

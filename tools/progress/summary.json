@@ -7,14 +7,14 @@
    "pct": 100.0
   },
   "d3d12x_methods": {
-   "done": 165,
+   "done": 183,
    "total": 200,
-   "pct": 82.5
+   "pct": 91.5
   },
   "rdna2_instructions": {
-   "done": 526,
+   "done": 545,
    "total": 549,
-   "pct": 95.81
+   "pct": 99.27
   },
   "shaders_translated": {
    "done": 105506,
@@ -46,9 +46,9 @@
  },
  "extra": {
   "console_exports": {
-   "done": 1291,
+   "done": 1861,
    "total": 2141,
-   "pct": 60.3
+   "pct": 86.92
   },
   "shader_compile_lobby_frame": {
    "done": 139,
@@ -71,14 +71,14 @@
    "pct": 58.33
   },
   "title_imports_Fortnite": {
-   "done": 30,
+   "done": 31,
    "total": 31,
-   "pct": 96.77
+   "pct": 100.0
   },
   "title_imports_XDefiant": {
-   "done": 28,
+   "done": 29,
    "total": 29,
-   "pct": 96.55
+   "pct": 100.0
   },
   "title_imports_Terraria": {
    "done": 25,
@@ -91,44 +91,42 @@
    "pct": 100.0
   },
   "console_exports_targeted": {
-   "done": 1291,
-   "total": 1626,
-   "pct": 79.4
+   "done": 1861,
+   "total": 2070,
+   "pct": 89.9
   },
   "console_exports_not_targeted": {
    "done": null,
-   "total": 515,
+   "total": 71,
    "pct": null,
-   "libraries": 52
+   "libraries": 22
   }
  },
  "all_including_pc": {
   "note": "previous definition, kept for history: every export of every console OS DLL and every title import, PC-provided ones included",
   "console_exports": {
-   "done": 22160,
+   "done": 22033,
    "total": 23729,
-   "pct": 93.39
+   "pct": 92.85
   },
   "xbox_only_exports": {
-   "done": 1265,
+   "done": 1807,
    "total": 2064,
-   "pct": 61.29
+   "pct": 87.55
   },
   "title_import_status": {
    "Fortnite": {
     "pc": 1136,
     "hooked": 36,
     "forwarded": 19,
-    "implemented": 26,
-    "stub": 1,
+    "implemented": 27,
     "title": 356
    },
    "XDefiant": {
-    "implemented": 27,
+    "implemented": 28,
     "title": 342,
     "pc": 1216,
     "hooked": 25,
-    "missing": 1,
     "forwarded": 1
    },
    "Terraria": {
@@ -147,14 +145,14 @@
    }
   },
   "title_imports_Fortnite": {
-   "done": 1573,
+   "done": 1574,
    "total": 1574,
-   "pct": 99.94
+   "pct": 100.0
   },
   "title_imports_XDefiant": {
-   "done": 1611,
+   "done": 1612,
    "total": 1612,
-   "pct": 99.94
+   "pct": 100.0
   },
   "title_imports_Terraria": {
    "done": 3496,
@@ -169,13 +167,11 @@
  },
  "title_import_status": {
   "Fortnite": {
-   "implemented": 26,
-   "stub": 1,
+   "implemented": 27,
    "forwarded": 4
   },
   "XDefiant": {
-   "implemented": 27,
-   "missing": 1,
+   "implemented": 28,
    "forwarded": 1
   },
   "Terraria": {
