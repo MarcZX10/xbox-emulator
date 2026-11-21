@@ -1,0 +1,111 @@
+{
+ "updated": "2026-11-21",
+ "headline": {
+  "system_functions": {
+   "done": 637,
+   "total": 671,
+   "pct": 94.93
+  },
+  "d3d12x_methods": {
+   "done": 107,
+   "total": 288,
+   "pct": 37.15
+  },
+  "rdna2_instructions": {
+   "done": 272,
+   "total": 419,
+   "pct": 64.92
+  },
+  "shaders_translated": {
+   "done": 105506,
+   "total": 105506,
+   "pct": 100.0
+  },
+  "shader_stages": {
+   "done": 6,
+   "total": 8,
+   "pct": 75.0
+  },
+  "milestones": {
+   "done": 14,
+   "total": 19,
+   "pct": 73.68
+  },
+  "titles_examined": {
+   "done": 3,
+   "total": null,
+   "pct": null,
+   "titles": [
+    "Fortnite",
+    "Grand Theft Auto VI",
+    "XDefiant"
+   ]
+  }
+ },
+ "extra": {
+  "console_exports": {
+   "done": 20835,
+   "total": 23356,
+   "pct": 89.21
+  },
+  "xbox_only_exports": {
+   "done": 67,
+   "total": 1806,
+   "pct": 3.71
+  },
+  "shader_compile_lobby_frame": {
+   "done": 139,
+   "total": 139,
+   "pct": 100.0
+  },
+  "shader_compile_fixtures": {
+   "done": 25,
+   "total": 25,
+   "pct": 100.0
+  },
+  "shader_compile_full_sweep": {
+   "done": null,
+   "total": 105506,
+   "pct": null
+  },
+  "milestones_verified_this_machine": {
+   "done": 7,
+   "total": 12,
+   "pct": 58.33
+  },
+  "title_imports_Fortnite": {
+   "done": 1331,
+   "total": 1574,
+   "pct": 84.56
+  },
+  "title_imports_XDefiant": {
+   "done": 1592,
+   "total": 1612,
+   "pct": 98.76
+  }
+ },
+ "title_import_status": {
+  "Fortnite": {
+   "pc": 926,
+   "hooked": 27,
+   "forwarded": 19,
+   "stub": 10,
+   "implemented": 17,
+   "title": 342,
+   "unverified": 233
+  },
+  "XDefiant": {
+   "implemented": 8,
+   "stub": 4,
+   "missing": 16,
+   "title": 342,
+   "pc": 1216,
+   "hooked": 25,
+   "forwarded": 1
+  }
+ },
+ "console_os_builds": {
+  "Fortnite": "10.0.19041.3948",
+  "XDefiant": "10.0.22000.4429"
+ }
+}

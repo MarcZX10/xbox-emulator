@@ -1,0 +1,9100 @@
+{
+ "Fortnite": {
+  "exe": "FortniteClient-XSX-Shipping.exe",
+  "binaries": {
+   "EOSSDK-XboxOneGDK-Shipping.dll": [
+    {
+     "module": "WS2_32.dll",
+     "kind": "import",
+     "functions": [
+      "sendto",
+      "send",
+      "recvfrom",
+      "recv",
+      "listen",
+      "setsockopt",
+      "getsockname",
+      "getpeername",
+      "ioctlsocket",
+      "connect",
+      "closesocket",
+      "bind",
+      "accept",
+      "ntohs",
+      "ntohl",
+      "htons",
+      "socket",
+      "WSAGetLastError",
+      "WSACloseEvent",
+      "WSACreateEvent",
+      "WSAEnumNetworkEvents",
+      "WSAEventSelect",
+      "WSAResetEvent",
+      "WSAWaitForMultipleEvents",
+      "getaddrinfo",
+      "freeaddrinfo",
+      "WSAStartup",
+      "WSACleanup",
+      "WSASetLastError",
+      "htonl",
+      "getsockopt",
+      "WSASetEvent"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "KERNEL32.dll",
+     "kind": "import",
+     "functions": [
+      "UnhandledExceptionFilter",
+      "RtlVirtualUnwind",
+      "GetModuleHandleW",
+      "RtlLookupFunctionEntry",
+      "RtlCaptureContext",
+      "SetUnhandledExceptionFilter",
+      "TerminateProcess",
+      "IsProcessorFeaturePresent",
+      "InitializeSListHead",
+      "IsDebuggerPresent",
+      "ConvertThreadToFiber",
+      "ConvertFiberToThread",
+      "GetFileType",
+      "CreateFiber",
+      "DeleteFiber",
+      "SwitchToFiber",
+      "InitializeCriticalSectionAndSpinCount",
+      "LocaleNameToLCID",
+      "LCIDToLocaleName",
+      "GetUserGeoID",
+      "GetGeoInfoW",
+      "GetDynamicTimeZoneInformation",
+      "GetCurrencyFormatEx",
+      "GetNumberFormatEx",
+      "ResolveLocaleName",
+      "GetDateFormatEx",
+      "GetTimeFormatEx",
+      "GetTimeZoneInformation",
+      "GetFullPathNameW",
+      "QueryPerformanceCounter",
+      "DeleteCriticalSection",
+      "EnterCriticalSection",
+      "LeaveCriticalSection",
+      "InitializeCriticalSection",
+      "SetCriticalSectionSpinCount",
+      "GetCurrentThreadId",
+      "GetLastError",
+      "WaitForSingleObject",
+      "CloseHandle",
+      "CreateFileW",
+      "GetProcAddress",
+      "GetCurrentProcessId",
+      "GetCurrentProcess",
+      "CreateEventW",
+      "ResetEvent",
+      "ReadFile",
+      "GetOverlappedResult",
+      "CreateFile2",
+      "SetFilePointer",
+      "GetFileSizeEx",
+      "FileTimeToSystemTime",
+      "SystemTimeToFileTime",
+      "WriteFile",
+      "FlushFileBuffers",
+      "SetEndOfFile",
+      "GetFileAttributesExW",
+      "DeleteFileW",
+      "MoveFileExW",
+      "SetFileAttributesW",
+      "SetFileTime",
+      "FindFirstFileW",
+      "FindClose",
+      "CreateDirectoryW",
+      "RemoveDirectoryW",
+      "FindFirstFileExW",
+      "FindNextFileW",
+      "SetEvent",
+      "OutputDebugStringW",
+      "FormatMessageW",
+      "GetSystemInfo",
+      "RaiseException",
+      "GetUserDefaultLocaleName",
+      "LoadLibraryW",
+      "GetEnvironmentVariableW",
+      "SetEnvironmentVariableW",
+      "FreeLibrary",
+      "GetModuleFileNameW",
+      "Sleep",
+      "SetThreadPriority",
+      "SuspendThread",
+      "ResumeThread",
+      "GetCurrentThread",
+      "CreateThread",
+      "GetCurrentProcessorNumber",
+      "SetThreadAffinityMask",
+      "QueryPerformanceFrequency",
+      "GetLocalTime",
+      "GetSystemTime",
+      "TlsGetValue",
+      "TlsSetValue",
+      "VirtualFree",
+      "RtlCaptureStackBackTrace",
+      "TlsAlloc",
+      "TlsFree",
+      "AcquireSRWLockShared",
+      "ReleaseSRWLockShared",
+      "AcquireSRWLockExclusive",
+      "ReleaseSRWLockExclusive",
+      "InitializeSRWLock",
+      "OutputDebugStringA",
+      "TryEnterCriticalSection",
+      "WideCharToMultiByte",
+      "OpenThread",
+      "GetStdHandle",
+      "SetLastError",
+      "SleepEx",
+      "QueueUserAPC",
+      "GetTickCount",
+      "MultiByteToWideChar",
+      "InitializeConditionVariable",
+      "WakeAllConditionVariable",
+      "SleepConditionVariableCS",
+      "InitOnceExecuteOnce",
+      "GetNativeSystemInfo",
+      "ReleaseSemaphore",
+      "WaitForSingleObjectEx",
+      "CreateSemaphoreW",
+      "SetFilePointerEx",
+      "GetSystemTimeAsFileTime",
+      "GetACP",
+      "GetLocaleInfoEx",
+      "SystemTimeToTzSpecificLocalTime"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "ole32.dll",
+     "kind": "import",
+     "functions": [
+      "CoUninitialize",
+      "PropVariantClear",
+      "CoCreateGuid",
+      "CoTaskMemFree",
+      "CoCreateInstance"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "IPHLPAPI.DLL",
+     "kind": "import",
+     "functions": [
+      "CancelMibChangeNotify2",
+      "NotifyNetworkConnectivityHintChange"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "WINHTTP.dll",
+     "kind": "import",
+     "functions": [
+      "WinHttpQueryDataAvailable",
+      "WinHttpConnect",
+      "WinHttpSetStatusCallback",
+      "WinHttpSetTimeouts",
+      "WinHttpWebSocketQueryCloseStatus",
+      "WinHttpWebSocketSend",
+      "WinHttpWebSocketReceive",
+      "WinHttpWebSocketShutdown",
+      "WinHttpWebSocketCompleteUpgrade",
+      "WinHttpReceiveResponse",
+      "WinHttpOpen",
+      "WinHttpWriteData",
+      "WinHttpAddRequestHeaders",
+      "WinHttpQueryHeaders",
+      "WinHttpReadData",
+      "WinHttpOpenRequest",
+      "WinHttpSetOption",
+      "WinHttpSendRequest",
+      "WinHttpCloseHandle"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "XAudio2_9.dll",
+     "kind": "import",
+     "functions": [
+      "#1"
+     ],
+     "pc": [
+      2
+     ]
+    },
+    {
+     "module": "bcrypt.dll",
+     "kind": "import",
+     "functions": [
+      "BCryptGenRandom"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-libraryloader-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "LoadLibraryExA"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "xmem.dll",
+     "kind": "import",
+     "functions": [
+      "XMemGetWorkingSetStatistics",
+      "XMemVirtualAlloc",
+      "XMemAllocDefault",
+      "XMemFreeDefault"
+     ],
+     "pc": [
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "module": "AcpHal.dll",
+     "kind": "import",
+     "functions": [
+      "ApuHeapGetState"
+     ],
+     "pc": [
+      0
+     ]
+    },
+    {
+     "module": "MSVCP140.dll",
+     "kind": "import",
+     "functions": [
+      "?cerr@std@@3V?$basic_ostream@DU?$char_traits@D@std@@@1@A",
+      "?_Xbad_function_call@std@@YAXXZ",
+      "??0?$basic_iostream@DU?$char_traits@D@std@@@std@@QEAA@PEAV?$basic_streambuf@DU?$char_traits@D@std@@@1@@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@I@Z",
+      "??1?$basic_iostream@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "?_Xout_of_range@std@@YAXPEBD@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@G@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@P6AAEAVios_base@1@AEAV21@@Z@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@J@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@K@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@_J@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@N@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@O@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@PEBX@Z",
+      "??_D?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAXXZ",
+      "?setw@std@@YA?AU?$_Smanip@_J@1@_J@Z",
+      "?pbackfail@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAHH@Z",
+      "??0?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAA@XZ",
+      "?seekoff@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA?AV?$fpos@U_Mbstatet@@@2@_JHH@Z",
+      "?seekpos@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA?AV?$fpos@U_Mbstatet@@@2@V32@H@Z",
+      "?underflow@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAHXZ",
+      "?setprecision@std@@YA?AU?$_Smanip@_J@1@_J@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@F@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@M@Z",
+      "_Mtx_init_in_situ",
+      "_Mtx_destroy_in_situ",
+      "_Mtx_lock",
+      "_Mtx_unlock",
+      "??0?$basic_ios@DU?$char_traits@D@std@@@std@@IEAA@XZ",
+      "??1?$basic_ios@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "??0?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@PEAV?$basic_streambuf@DU?$char_traits@D@std@@@1@_N@Z",
+      "??1?$basic_ostream@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "?showmanyc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JXZ",
+      "?uflow@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAHXZ",
+      "?xsgetn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JPEAD_J@Z",
+      "?setbuf@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAPEAV12@PEAD_J@Z",
+      "?imbue@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAXAEBVlocale@2@@Z",
+      "??1?$basic_streambuf@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "_Cnd_init_in_situ",
+      "_Cnd_destroy_in_situ",
+      "_Cnd_wait",
+      "_Cnd_broadcast",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@H@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@P6AAEAV01@AEAV01@@Z@Z",
+      "?xsputn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JPEBD_J@Z",
+      "?sputn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAA_JPEBD_J@Z",
+      "?_Pninc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAPEADXZ",
+      "?sputc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAAHD@Z",
+      "?put@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@D@Z",
+      "?widen@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBADD@Z",
+      "?_Lock@?$basic_streambuf@DU?$char_traits@D@std@@@std@@UEAAXXZ",
+      "?_Throw_C_error@std@@YAXH@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@_K@Z",
+      "?_Xbad_alloc@std@@YAXXZ",
+      "?_Xlength_error@std@@YAXPEBD@Z",
+      "?flush@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@XZ",
+      "?setstate@?$basic_ios@DU?$char_traits@D@std@@@std@@QEAAXH_N@Z",
+      "?sync@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAHXZ",
+      "?_Osfx@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAXXZ",
+      "?uncaught_exception@std@@YA_NXZ",
+      "?_Unlock@?$basic_streambuf@DU?$char_traits@D@std@@@std@@UEAAXXZ"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140_1.dll",
+     "kind": "import",
+     "functions": [
+      "__CxxFrameHandler4"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140.dll",
+     "kind": "import",
+     "functions": [
+      "strchr",
+      "longjmp",
+      "__RTtypeid",
+      "__std_type_info_compare",
+      "__std_type_info_name",
+      "__RTDynamicCast",
+      "__current_exception",
+      "__current_exception_context",
+      "__intrinsic_setjmp",
+      "memset",
+      "__std_type_info_destroy_list",
+      "memmove",
+      "memcpy",
+      "__CxxFrameHandler3",
+      "__std_exception_copy",
+      "__std_exception_destroy",
+      "strstr",
+      "strrchr",
+      "wcsstr",
+      "wcschr",
+      "__C_specific_handler",
+      "__std_terminate",
+      "_purecall",
+      "memchr",
+      "memcmp",
+      "_CxxThrowException"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "wcsncmp",
+      "iswdigit",
+      "strncmp",
+      "iswspace",
+      "_strnicmp",
+      "tolower",
+      "toupper",
+      "wcsncpy",
+      "iswalnum",
+      "strncpy",
+      "isalnum",
+      "iswxdigit",
+      "strnlen",
+      "strcspn",
+      "iswalpha",
+      "isspace",
+      "isdigit",
+      "strncpy_s",
+      "strcmp",
+      "islower",
+      "_stricmp",
+      "strspn"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-convert-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "strtod",
+      "wcstoul",
+      "_wtoi",
+      "strtol",
+      "_wtof",
+      "_wtoi64",
+      "_wcstoi64",
+      "wcstod",
+      "_wcstoui64",
+      "strtoll",
+      "strtoull",
+      "strtoul",
+      "_strtoi64",
+      "atoi"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-math-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "log2f",
+      "fmod",
+      "expm1",
+      "ceilf",
+      "tanh",
+      "roundf",
+      "asin",
+      "modf",
+      "_isnan",
+      "ldexp",
+      "_dsign",
+      "atanf",
+      "logf",
+      "acos",
+      "atan",
+      "ceil",
+      "_fdopen",
+      "cos",
+      "sqrtf",
+      "sinf",
+      "powf",
+      "expf",
+      "cosf",
+      "floorf",
+      "atan2",
+      "log10f",
+      "tan",
+      "sin",
+      "exp",
+      "floor",
+      "sqrt",
+      "trunc",
+      "_finite",
+      "_dclass",
+      "copysignf",
+      "_dtest",
+      "tanf",
+      "round",
+      "log10",
+      "pow",
+      "log"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-utility-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "qsort",
+      "srand",
+      "div",
+      "rand"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "calloc",
+      "realloc",
+      "free",
+      "malloc"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "__stdio_common_vsnprintf_s",
+      "fwrite",
+      "fseek",
+      "fopen",
+      "fread",
+      "fclose",
+      "ftell",
+      "_fileno",
+      "_open_osfhandle",
+      "feof",
+      "_setmode",
+      "ferror",
+      "__stdio_common_vsscanf",
+      "_write",
+      "fgets",
+      "fflush",
+      "__stdio_common_vfprintf",
+      "_wfopen",
+      "__stdio_common_vsprintf",
+      "__stdio_common_vswprintf",
+      "__acrt_iob_func"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "abort",
+      "_initterm_e",
+      "exit",
+      "strerror_s",
+      "_initterm",
+      "_exit",
+      "_invalid_parameter_noinfo_noreturn",
+      "raise",
+      "_seh_filter_dll",
+      "terminate",
+      "_cexit",
+      "_configure_narrow_argv",
+      "_crt_atexit",
+      "_execute_onexit_table",
+      "_initialize_narrow_environment",
+      "_errno",
+      "_register_onexit_function",
+      "_initialize_onexit_table",
+      "strerror"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-time-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_ftime64",
+      "_localtime64_s",
+      "_tzset",
+      "__tzname",
+      "__timezone",
+      "_time32",
+      "_gmtime64_s",
+      "_time64"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_stat64i32"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-environment-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "getenv"
+     ],
+     "pc": [
+      1
+     ]
+    }
+   ],
+   "FortniteClient-XSX-Shipping.exe": [
+    {
+     "module": "WS2_32.dll",
+     "kind": "import",
+     "functions": [
+      "__WSAFDIsSet",
+      "WSAIoctl",
+      "inet_addr",
+      "WSASetLastError",
+      "getsockopt",
+      "inet_pton",
+      "freeaddrinfo",
+      "getaddrinfo",
+      "socket",
+      "select",
+      "getpeername",
+      "getsockname",
+      "recv",
+      "recvfrom",
+      "send",
+      "sendto",
+      "accept",
+      "ioctlsocket",
+      "listen",
+      "connect",
+      "bind",
+      "closesocket",
+      "shutdown",
+      "getnameinfo",
+      "ntohs",
+      "htons",
+      "htonl",
+      "ntohl",
+      "WSAGetLastError",
+      "WSACleanup",
+      "WSAStartup",
+      "setsockopt",
+      "gethostname"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-synch-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "WaitForSingleObject",
+      "InitializeCriticalSectionAndSpinCount",
+      "ReleaseMutex",
+      "LeaveCriticalSection",
+      "EnterCriticalSection",
+      "CreateMutexW",
+      "ReleaseSRWLockExclusive",
+      "AcquireSRWLockExclusive",
+      "SetEvent",
+      "InitializeSRWLock",
+      "CreateEventExW",
+      "ResetEvent",
+      "TryEnterCriticalSection",
+      "CreateEventW",
+      "ReleaseSRWLockShared",
+      "WaitForSingleObjectEx",
+      "InitializeCriticalSection",
+      "DeleteCriticalSection",
+      "AcquireSRWLockShared"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-errorhandling-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "RaiseException",
+      "SetLastError",
+      "GetLastError",
+      "SetUnhandledExceptionFilter",
+      "UnhandledExceptionFilter"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-file-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetFileAttributesExW",
+      "FindClose",
+      "ReadFile",
+      "FindFirstFileExW",
+      "CreateDirectoryW",
+      "CreateFileW",
+      "FindFirstFileW",
+      "FindNextFileW",
+      "SetFileTime",
+      "SetFileAttributesW",
+      "GetFileType",
+      "DeleteFileW",
+      "SetFilePointer",
+      "GetFileSizeEx",
+      "WriteFile",
+      "FlushFileBuffers",
+      "SetEndOfFile",
+      "RemoveDirectoryW"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-file-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "CreateFile2"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-handle-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "CloseHandle"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processenvironment-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetCommandLineW",
+      "GetCommandLineA",
+      "SetEnvironmentVariableW",
+      "GetEnvironmentVariableW",
+      "GetStdHandle"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-synch-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "Sleep"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-profile-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "QueryPerformanceFrequency",
+      "QueryPerformanceCounter"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processthreads-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "SuspendThread",
+      "SetThreadPriority",
+      "TerminateProcess",
+      "SwitchToThread",
+      "GetCurrentProcessId",
+      "GetCurrentThreadId",
+      "TlsSetValue",
+      "GetCurrentProcess",
+      "TlsGetValue",
+      "CreateThread",
+      "ResumeThread",
+      "GetStartupInfoW",
+      "TlsFree",
+      "GetCurrentThread",
+      "TlsAlloc"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "MFPlat.DLL",
+     "kind": "import",
+     "functions": [
+      "MFInvokeCallback",
+      "MFCreateAsyncResult",
+      "MFPutWorkItem2",
+      "MFCreateMediaType",
+      "MFResetDXGIDeviceManagerX",
+      "MFCreateDXGIDeviceManager",
+      "MFCreateSample",
+      "MFCreateFile",
+      "MFStartup",
+      "MFShutdown",
+      "MFllMulDiv",
+      "MFCreateAlignedMemoryBuffer",
+      "MFCreateMemoryBuffer",
+      "MFCreateWaveFormatExFromMFMediaType",
+      "MFCreateAttributes",
+      "MFCreateSourceResolver"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-localization-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetLocaleInfoEx",
+      "GetUserDefaultLocaleName",
+      "ResolveLocaleName",
+      "GetGeoInfoW",
+      "GetUserGeoID",
+      "FormatMessageW",
+      "GetACP",
+      "LocaleNameToLCID"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-com-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "CoTaskMemAlloc",
+      "CoUninitialize",
+      "StringFromGUID2",
+      "CoCreateGuid",
+      "CoTaskMemFree",
+      "CoCreateInstance",
+      "PropVariantClear"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "MFReadWrite.dll",
+     "kind": "import",
+     "functions": [
+      "MFCreateSourceReaderFromMediaSource",
+      "MFCreateSourceReaderFromByteStream"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "XAudio2_9.dll",
+     "kind": "import",
+     "functions": [
+      "#2",
+      "#6",
+      "#4",
+      "#1",
+      "#5"
+     ],
+     "pc": [
+      2,
+      2,
+      2,
+      2,
+      2
+     ]
+    },
+    {
+     "module": "api-ms-win-core-libraryloader-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetProcAddress",
+      "GetModuleHandleW",
+      "LoadLibraryExA",
+      "GetModuleHandleA",
+      "GetModuleFileNameW",
+      "FreeLibrary"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-io-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetOverlappedResult"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-timezone-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetTimeZoneInformation",
+      "SystemTimeToTzSpecificLocalTime",
+      "GetDynamicTimeZoneInformation",
+      "SystemTimeToFileTime",
+      "FileTimeToSystemTime"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-file-l2-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "MoveFileExW"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-debug-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "OutputDebugStringW",
+      "OutputDebugStringA",
+      "IsDebuggerPresent"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-sysinfo-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetLocalTime",
+      "GetSystemTime",
+      "GetSystemInfo",
+      "GetSystemTimeAsFileTime"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-libraryloader-l1-2-1.dll",
+     "kind": "import",
+     "functions": [
+      "LoadLibraryW",
+      "LoadLibraryA"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processtopology-obsolete-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "SetThreadAffinityMask",
+      "GetProcessAffinityMask"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processthreads-l1-1-1.dll",
+     "kind": "import",
+     "functions": [
+      "GetCurrentProcessorNumber",
+      "IsProcessorFeaturePresent"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-windowserrorreporting-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "WerRegisterFile"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-memory-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "VirtualAlloc",
+      "VirtualProtect",
+      "VirtualFree",
+      "VirtualQuery"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-rtlsupport-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "RtlVirtualUnwind",
+      "RtlCaptureContext",
+      "RtlLookupFunctionEntry",
+      "RtlCaptureStackBackTrace"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "ext-ms-win-rtcore-ntuser-window-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "CreateWindowExW",
+      "RegisterClassW",
+      "DestroyWindow",
+      "ShowWindow",
+      "DefWindowProcW"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-psm-appnotify-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "UnregisterAppStateChangeNotification",
+      "RegisterAppStateChangeNotification"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-psm-appnotify-l1-1-1.dll",
+     "kind": "import",
+     "functions": [
+      "UnregisterAppConstrainedChangeNotification",
+      "RegisterAppConstrainedChangeNotification"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "ext-ms-win-rtcore-ntuser-message-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "TranslateMessage",
+      "PostMessageW",
+      "PeekMessageW",
+      "DispatchMessageW"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "GameInput.dll",
+     "kind": "import",
+     "functions": [
+      "#1"
+     ],
+     "pc": [
+      2
+     ]
+    },
+    {
+     "module": "WINHTTP.dll",
+     "kind": "import",
+     "functions": [
+      "WinHttpConnect",
+      "WinHttpOpenRequest",
+      "WinHttpAddRequestHeaders",
+      "WinHttpSendRequest",
+      "WinHttpWriteData",
+      "WinHttpReceiveResponse",
+      "WinHttpQueryHeaders",
+      "WinHttpQueryDataAvailable",
+      "WinHttpSetStatusCallback",
+      "WinHttpCloseHandle",
+      "WinHttpOpen",
+      "WinHttpSetOption",
+      "WinHttpSetTimeouts",
+      "WinHttpWebSocketShutdown",
+      "WinHttpWebSocketReceive",
+      "WinHttpWebSocketSend",
+      "WinHttpWebSocketCompleteUpgrade",
+      "WinHttpWebSocketQueryCloseStatus",
+      "WinHttpReadData",
+      "WinHttpQueryOption"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "HeapFree",
+      "GetProcessHeap",
+      "HeapAlloc"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "bcrypt.dll",
+     "kind": "import",
+     "functions": [
+      "BCryptCloseAlgorithmProvider",
+      "BCryptGenRandom"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-registry-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "RegEnumKeyExA",
+      "RegQueryValueExW",
+      "RegOpenKeyExA",
+      "RegQueryValueExA",
+      "RegQueryInfoKeyA",
+      "RegCloseKey"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-registry-l2-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "RegOpenKeyW"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "xmem.dll",
+     "kind": "import",
+     "functions": [
+      "XMemFreePhysicalPages",
+      "XMemGetWorkingSetStatistics",
+      "XMemTransferMemory",
+      "XMemMapPhysicalPages",
+      "XMemAllocatePhysicalPages",
+      "XMemFree",
+      "XMemVirtualAlloc",
+      "XMemFreeDefault",
+      "XMemAllocDefault",
+      "XMemAlloc"
+     ],
+     "pc": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "module": "xg_xs.dll",
+     "kind": "import",
+     "functions": [
+      "XGCreateTextureComputer"
+     ],
+     "pc": [
+      0
+     ]
+    },
+    {
+     "module": "d3d12_xs.dll",
+     "kind": "import",
+     "functions": [
+      "D3D12XboxCreateDevice",
+      "D3D12CreateDevice",
+      "IID_ID3D12Device",
+      "D3D12SerializeRootSignature",
+      "D3D12SerializeVersionedRootSignature",
+      "D3D12XboxSetProcessDebugFlags"
+     ],
+     "pc": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "module": "XCRDAPI.dll",
+     "kind": "import",
+     "functions": [
+      "DStorageGetFactory"
+     ],
+     "pc": [
+      0
+     ]
+    },
+    {
+     "module": "CRYPT32.dll",
+     "kind": "import",
+     "functions": [
+      "CertCloseStore",
+      "CertFreeCertificateChain",
+      "CertFindChainInStore",
+      "CertOpenSystemStoreW"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "EOSSDK-XboxOneGDK-Shipping.dll",
+     "kind": "import",
+     "functions": [
+      "EOS_RTC_BlockParticipant",
+      "EOS_RTC_UpdateAudioOutput",
+      "EOS_RTC_UpdateAudioInput",
+      "EOS_RTC_JoinRoom",
+      "EOS_RTC_UpdateReceiving",
+      "EOS_EpicAccountId_IsValid",
+      "EOS_EpicAccountId_FromString",
+      "EOS_RTC_QueryAudioOutputDevicesInfo_Release",
+      "EOS_RTC_QueryAudioOutputDevices",
+      "EOS_RTC_UpdateSending",
+      "EOS_RTC_QueryAudioInputDevices",
+      "EOS_RTC_RemoveNotifyAudioDevicesChanged",
+      "EOS_RTC_AddNotifyAudioDevicesChanged",
+      "EOS_Platform_GetRTCInterface",
+      "EOS_Platform_Tick",
+      "EOS_EResult_ToString",
+      "EOS_RTC_AddNotifyParticipantLeft",
+      "EOS_Initialize",
+      "EOS_Platform_Release",
+      "EOS_Shutdown",
+      "EOS_Logging_SetLogLevel",
+      "EOS_Logging_SetCallback",
+      "EOS_GetVersion",
+      "EOS_RTC_UnblockParticipant",
+      "EOS_RTC_AddNotifyDisconnected",
+      "EOS_RTC_AddNotifyConnectionState",
+      "EOS_RTC_QueryAudioInputDevicesInfo_Release",
+      "EOS_RTC_AddNotifyParticipantJoined",
+      "EOS_RTC_RemoveNotifyParticipantLeft",
+      "EOS_RTC_RemoveNotifyParticipantUpdated",
+      "EOS_RTC_RemoveNotifyAudioBeforeSend",
+      "EOS_RTC_RemoveNotifyAudioBeforeRender",
+      "EOS_RTC_RemoveNotifyAudioInputState",
+      "EOS_RTC_RemoveNotifyDataReceived",
+      "EOS_RTC_LeaveRoom",
+      "EOS_RTC_RemoveNotifyVideoReceived",
+      "EOS_RTC_SetVideoReleaseCallback",
+      "EOS_RTC_AddNotifyVideoReceived",
+      "EOS_RTC_SetVideoAllocationCallback",
+      "EOS_RTC_AddNotifyParticipantUpdated",
+      "EOS_RTC_AddNotifyAudioBeforeSend",
+      "EOS_RTC_AddNotifyAudioBeforeRender",
+      "EOS_RTC_AddNotifyAudioInputState",
+      "EOS_RTC_AddNotifyDataReceived",
+      "EOS_RTC_RemoveNotifyConnectionState",
+      "EOS_RTC_RemoveNotifyDisconnected",
+      "EOS_Platform_Create",
+      "EOS_RTC_RemoveNotifyParticipantJoined"
+     ],
+     "pc": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "module": "dxcompiler_xs.dll",
+     "kind": "import",
+     "functions": [
+      "DxcCreateInstance"
+     ],
+     "pc": [
+      0
+     ]
+    },
+    {
+     "module": "AcpHal.dll",
+     "kind": "import",
+     "functions": [
+      "AcpHalCreate",
+      "ApuAlloc",
+      "AcpHalAllocateShapeContexts",
+      "ApuFree",
+      "ApuCreateHeap",
+      "ApuHeapGetState"
+     ],
+     "pc": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "module": "MSVCP140.dll",
+     "kind": "import",
+     "functions": [
+      "?tellp@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA?AV?$fpos@U_Mbstatet@@@2@XZ",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@P6AAEAVios_base@1@AEAV21@@Z@Z",
+      "?setf@ios_base@std@@QEAAHHH@Z",
+      "??5?$basic_istream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@AEAH@Z",
+      "?_Ipfx@?$basic_istream@DU?$char_traits@D@std@@@std@@QEAA_N_N@Z",
+      "??5?$basic_istream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV01@AEAH@Z",
+      "??1?$basic_istream@_WU?$char_traits@_W@std@@@std@@UEAA@XZ",
+      "??0?$basic_istream@_WU?$char_traits@_W@std@@@std@@QEAA@PEAV?$basic_streambuf@_WU?$char_traits@_W@std@@@1@_N@Z",
+      "??6?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV01@H@Z",
+      "?sbumpc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAAHXZ",
+      "?getloc@ios_base@std@@QEBA?AVlocale@2@XZ",
+      "?widen@?$ctype@_W@std@@QEBA_WD@Z",
+      "?id@?$ctype@_W@std@@2V0locale@2@A",
+      "_Xtime_get_ticks",
+      "?tellg@?$basic_istream@DU?$char_traits@D@std@@@std@@QEAA?AV?$fpos@U_Mbstatet@@@2@XZ",
+      "??1?$basic_istream@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "??0?$basic_istream@DU?$char_traits@D@std@@@std@@QEAA@PEAV?$basic_streambuf@DU?$char_traits@D@std@@@1@_N@Z",
+      "?_Getcat@?$ctype@_W@std@@SA_KPEAPEBVfacet@locale@2@PEBV42@@Z",
+      "?flush@?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV12@XZ",
+      "?seekg@?$basic_istream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@V?$fpos@U_Mbstatet@@@2@@Z",
+      "?_Osfx@?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAXXZ",
+      "??1?$basic_ostream@_WU?$char_traits@_W@std@@@std@@UEAA@XZ",
+      "??0?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAA@PEAV?$basic_streambuf@_WU?$char_traits@_W@std@@@1@_N@Z",
+      "?fill@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEBA_WXZ",
+      "?tolower@?$ctype@D@std@@QEBADD@Z",
+      "?rdbuf@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEBAPEAV?$basic_streambuf@_WU?$char_traits@_W@std@@@2@XZ",
+      "??6?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV01@G@Z",
+      "?tie@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEBAPEAV?$basic_ostream@_WU?$char_traits@_W@std@@@2@XZ",
+      "?setstate@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEAAXH_N@Z",
+      "?sputn@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@QEAA_JPEB_W_J@Z",
+      "_Cnd_broadcast",
+      "??0_Lockit@std@@QEAA@H@Z",
+      "?_Getcat@?$ctype@D@std@@SA_KPEAPEBVfacet@locale@2@PEBV42@@Z",
+      "_Mtx_init_in_situ",
+      "?width@ios_base@std@@QEBA_JXZ",
+      "?flags@ios_base@std@@QEBAHXZ",
+      "??1_Lockit@std@@QEAA@XZ",
+      "?_Getgloballocale@locale@std@@CAPEAV_Locimp@12@XZ",
+      "?_Xout_of_range@std@@YAXPEBD@Z",
+      "_Query_perf_frequency",
+      "_Query_perf_counter",
+      "?_Throw_C_error@std@@YAXH@Z",
+      "_Mtx_destroy_in_situ",
+      "?sputc@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@QEAAG_W@Z",
+      "?_Winerror_message@std@@YAKKPEADK@Z",
+      "?_Winerror_map@std@@YAHH@Z",
+      "?classic@locale@std@@SAAEBV12@XZ",
+      "_Mtx_lock",
+      "_Mtx_unlock",
+      "?_Xlength_error@std@@YAXPEBD@Z",
+      "?uncaught_exception@std@@YA_NXZ",
+      "?xsputn@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAA_JPEB_W_J@Z",
+      "?xsgetn@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAA_JPEA_W_J@Z",
+      "?uflow@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAGXZ",
+      "?sync@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAHXZ",
+      "?showmanyc@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAA_JXZ",
+      "?setbuf@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAPEAV12@PEA_W_J@Z",
+      "?imbue@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAXAEBVlocale@2@@Z",
+      "?_Unlock@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@UEAAXXZ",
+      "?_Lock@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@UEAAXXZ",
+      "??1?$basic_iostream@_WU?$char_traits@_W@std@@@std@@UEAA@XZ",
+      "??0?$basic_iostream@_WU?$char_traits@_W@std@@@std@@QEAA@PEAV?$basic_streambuf@_WU?$char_traits@_W@std@@@1@@Z",
+      "??6?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV01@_K@Z",
+      "??0?$basic_ios@_WU?$char_traits@_W@std@@@std@@IEAA@XZ",
+      "??1?$basic_ios@_WU?$char_traits@_W@std@@@std@@UEAA@XZ",
+      "?_Pninc@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAAPEA_WXZ",
+      "?setp@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAAXPEA_W00@Z",
+      "?setp@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAAXPEA_W0@Z",
+      "?epptr@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEBAPEA_WXZ",
+      "?setg@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAAXPEA_W00@Z",
+      "?gbump@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAAXH@Z",
+      "?egptr@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEBAPEA_WXZ",
+      "?pptr@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEBAPEA_WXZ",
+      "??6?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV01@I@Z",
+      "?pbase@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEBAPEA_WXZ",
+      "?gptr@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEBAPEA_WXZ",
+      "?id@?$ctype@D@std@@2V0locale@2@A",
+      "?eback@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEBAPEA_WXZ",
+      "??1?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@UEAA@XZ",
+      "??0?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAA@XZ",
+      "?_Syserror_map@std@@YAPEBDH@Z",
+      "?_Execute_once@std@@YAHAEAUonce_flag@1@P6AHPEAX1PEAPEAX@Z1@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@I@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@J@Z",
+      "??1?$basic_iostream@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "?_Fiopen@std@@YAPEAU_iobuf@@PEBDHH@Z",
+      "??0?$basic_iostream@DU?$char_traits@D@std@@@std@@QEAA@PEAV?$basic_streambuf@DU?$char_traits@D@std@@@1@@Z",
+      "_Cnd_wait",
+      "_Cnd_destroy_in_situ",
+      "_Cnd_init_in_situ",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@_K@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@H@Z",
+      "?id@?$codecvt@DDU_Mbstatet@@@std@@2V0locale@2@A",
+      "?widen@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBADD@Z",
+      "?put@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@D@Z",
+      "?cerr@std@@3V?$basic_ostream@DU?$char_traits@D@std@@@1@A",
+      "??_D?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAXXZ",
+      "?_Xbad_alloc@std@@YAXXZ",
+      "?imbue@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAXAEBVlocale@2@@Z",
+      "?sync@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAHXZ",
+      "?setbuf@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAPEAV12@PEAD_J@Z",
+      "?uflow@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAHXZ",
+      "?_Unlock@?$basic_streambuf@DU?$char_traits@D@std@@@std@@UEAAXXZ",
+      "?_Lock@?$basic_streambuf@DU?$char_traits@D@std@@@std@@UEAAXXZ",
+      "?setp@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXPEAD00@Z",
+      "?pbase@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ",
+      "??Bid@locale@std@@QEAA_KXZ",
+      "?always_noconv@codecvt_base@std@@QEBA_NXZ",
+      "?good@ios_base@std@@QEBA_NXZ",
+      "?fail@ios_base@std@@QEBA_NXZ",
+      "?bad@ios_base@std@@QEBA_NXZ",
+      "?_Xbad_function_call@std@@YAXXZ",
+      "?_Getcat@?$codecvt@DDU_Mbstatet@@@std@@SA_KPEAPEBVfacet@locale@2@PEBV42@@Z",
+      "?fill@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBADXZ",
+      "??0?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAA@XZ",
+      "?getloc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEBA?AVlocale@2@XZ",
+      "?sputc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAAHD@Z",
+      "?setp@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXPEAD0@Z",
+      "?unshift@?$codecvt@DDU_Mbstatet@@@std@@QEBAHAEAU_Mbstatet@@PEAD1AEAPEAD@Z",
+      "?setg@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXPEAD00@Z",
+      "?_Init@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXXZ",
+      "?_Init@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXPEAPEAD0PEAH001@Z",
+      "?tie@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBAPEAV?$basic_ostream@DU?$char_traits@D@std@@@2@XZ",
+      "??0?$basic_ios@DU?$char_traits@D@std@@@std@@IEAA@XZ",
+      "??0?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@PEAV?$basic_streambuf@DU?$char_traits@D@std@@@1@_N@Z",
+      "?_Osfx@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAXXZ",
+      "?flush@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@XZ",
+      "?in@?$codecvt@DDU_Mbstatet@@@std@@QEBAHAEAU_Mbstatet@@PEBD1AEAPEBDPEAD3AEAPEAD@Z",
+      "?out@?$codecvt@DDU_Mbstatet@@@std@@QEBAHAEAU_Mbstatet@@PEBD1AEAPEBDPEAD3AEAPEAD@Z",
+      "?sputn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAA_JPEBD_J@Z",
+      "?eback@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ",
+      "?gptr@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ",
+      "?pptr@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ",
+      "?egptr@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ",
+      "?gbump@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXH@Z",
+      "?epptr@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBAPEADXZ",
+      "?_Gndec@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAPEADXZ",
+      "?_Gninc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAPEADXZ",
+      "?_Gnavail@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBA_JXZ",
+      "?pbump@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXH@Z",
+      "?_Pninc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAPEADXZ",
+      "?_Pnavail@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEBA_JXZ",
+      "?setstate@?$basic_ios@DU?$char_traits@D@std@@@std@@QEAAXH_N@Z",
+      "?rdbuf@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBAPEAV?$basic_streambuf@DU?$char_traits@D@std@@@2@XZ",
+      "??1?$basic_streambuf@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "?showmanyc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JXZ",
+      "?xsgetn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JPEAD_J@Z",
+      "?xsputn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JPEBD_J@Z",
+      "??1?$basic_ios@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "??1?$basic_ostream@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@P6AAEAV01@AEAV01@@Z@Z",
+      "?write@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@PEBD_J@Z",
+      "?read@?$basic_istream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@PEAD_J@Z",
+      "?imbue@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEAA?AVlocale@2@AEBV32@@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@PEBX@Z",
+      "?width@ios_base@std@@QEAA_J_J@Z"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140_1.dll",
+     "kind": "import",
+     "functions": [
+      "__CxxFrameHandler4"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140.dll",
+     "kind": "import",
+     "functions": [
+      "__current_exception_context",
+      "__current_exception",
+      "__std_type_info_name",
+      "__RTtypeid",
+      "__RTDynamicCast",
+      "__std_type_info_compare",
+      "memchr",
+      "memmove",
+      "__intrinsic_setjmp",
+      "_CxxThrowException",
+      "memcpy",
+      "memcmp",
+      "memset",
+      "strchr",
+      "longjmp",
+      "strstr",
+      "strrchr",
+      "_set_purecall_handler",
+      "__CxxFrameHandler3",
+      "wcschr",
+      "__std_terminate",
+      "__std_exception_destroy",
+      "__C_specific_handler",
+      "_purecall",
+      "wcsstr",
+      "wcsrchr",
+      "__std_exception_copy"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_seh_filter_exe",
+      "_cexit",
+      "_crt_atexit",
+      "_set_invalid_parameter_handler",
+      "_set_app_type",
+      "_register_thread_local_exe_atexit_callback",
+      "_register_onexit_function",
+      "_initialize_onexit_table",
+      "_initialize_narrow_environment",
+      "_configure_narrow_argv",
+      "_initterm",
+      "raise",
+      "_exit",
+      "_invalid_parameter_noinfo_noreturn",
+      "strerror_s",
+      "exit",
+      "_initterm_e",
+      "_errno",
+      "abort",
+      "__p___argv",
+      "_c_exit",
+      "_Exit",
+      "terminate",
+      "_invalid_parameter_noinfo",
+      "_get_narrow_winmain_command_line"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_strnicmp",
+      "strtok_s",
+      "strspn",
+      "strcmp",
+      "toupper",
+      "wcstok_s",
+      "strcpy_s",
+      "_stricmp",
+      "strcspn",
+      "strnlen",
+      "iswlower",
+      "iswxdigit",
+      "isspace",
+      "wcsncmp",
+      "iswupper",
+      "isdigit",
+      "isalpha",
+      "wcscmp",
+      "iswalnum",
+      "iswpunct",
+      "strncmp",
+      "iswdigit",
+      "iswalpha",
+      "iswspace",
+      "wcsncpy",
+      "wcscpy_s",
+      "strncpy",
+      "tolower"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "fgetpos",
+      "_fseeki64",
+      "fsetpos",
+      "fread",
+      "_get_stream_buffer_pointers",
+      "feof",
+      "ungetc",
+      "fputc",
+      "fgetc",
+      "fclose",
+      "_wfsopen",
+      "__stdio_common_vfwprintf",
+      "_set_fmode",
+      "fgets",
+      "fseek",
+      "fopen",
+      "ferror",
+      "_fileno",
+      "_setmode",
+      "__stdio_common_vsscanf",
+      "puts",
+      "_wfopen",
+      "__stdio_common_vswprintf",
+      "ftell",
+      "__stdio_common_vsprintf_s",
+      "setvbuf",
+      "__stdio_common_vswscanf",
+      "__p__commode",
+      "fwrite",
+      "fflush",
+      "__acrt_iob_func",
+      "__stdio_common_vfprintf",
+      "__stdio_common_vsprintf"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-utility-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "div",
+      "qsort",
+      "rand",
+      "bsearch",
+      "srand"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-math-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "trunc",
+      "modf",
+      "_dsign",
+      "fmod",
+      "frexp",
+      "ldexp",
+      "modff",
+      "log2f",
+      "_finite",
+      "cosf",
+      "atanf",
+      "roundf",
+      "fmodf",
+      "acos",
+      "sqrt",
+      "exp",
+      "exp2",
+      "exp2f",
+      "ceil",
+      "atan",
+      "log10f",
+      "expf",
+      "sinhf",
+      "_dclass",
+      "fminl",
+      "log",
+      "atan2f",
+      "floorf",
+      "cos",
+      "sin",
+      "round",
+      "asin",
+      "atan2",
+      "floor",
+      "powf",
+      "pow",
+      "tanf",
+      "tan",
+      "logf",
+      "acosf",
+      "asinf",
+      "log10",
+      "sqrtf",
+      "_isnan",
+      "__setusermatherr",
+      "truncf",
+      "sinf",
+      "_dtest"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-convert-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_wcstoui64",
+      "wcstoul",
+      "atoi",
+      "strtod",
+      "_strtoi64",
+      "_wcstoi64",
+      "atof",
+      "strtoll",
+      "_wtof",
+      "_wtoi",
+      "strtol",
+      "_wtoi64",
+      "strtoull",
+      "wcstod",
+      "strtoul"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "remove",
+      "_stat64i32",
+      "_unlock_file",
+      "_lock_file"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "calloc",
+      "free",
+      "_set_new_mode",
+      "malloc",
+      "realloc"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-time-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_time64",
+      "__timezone",
+      "_localtime64_s",
+      "__tzname",
+      "clock",
+      "_gmtime64",
+      "_gmtime64_s",
+      "_tzset"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-locale-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_configthreadlocale"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-environment-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "getenv"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "MultiByteToWideChar",
+      "WideCharToMultiByte"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-eventing-provider-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "EventUnregister",
+      "EventSetInformation",
+      "EventRegister"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-datetime-l1-1-1.dll",
+     "kind": "import",
+     "functions": [
+      "GetDateFormatEx",
+      "GetTimeFormatEx"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-heap-l2-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GlobalFree"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-localization-l2-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetCurrencyFormatEx",
+      "GetNumberFormatEx"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-localization-l1-2-2.dll",
+     "kind": "import",
+     "functions": [
+      "LCIDToLocaleName"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-fibers-l2-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "SwitchToFiber",
+      "ConvertFiberToThread",
+      "ConvertThreadToFiber",
+      "CreateFiber",
+      "DeleteFiber"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-interlocked-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "InitializeSListHead"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "GameChat2.dll",
+     "kind": "delay",
+     "functions": [
+      "GameChatFailFastWithInform",
+      "ChatManagerInitialize",
+      "ChatManagerCleanup",
+      "ChatManagerSetAudioEncodingBitrate",
+      "ChatManagerStartProcessingDataFrames",
+      "ChatManagerFinishProcessingDataFrames",
+      "ChatManagerAddLocalUser",
+      "ChatManagerAddRemoteUser",
+      "ChatManagerRemoveUser",
+      "ChatManagerProcessIncomingPacket",
+      "ChatUserSetMicrophoneMuted",
+      "ChatUserGetRemoteUserMuted",
+      "ChatUserSetRemoteUserMuted",
+      "ChatUserGetIsLocal"
+     ],
+     "pc": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    }
+   ],
+   "GameChat2.dll": [
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_initterm",
+      "_initterm_e"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-private-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_o__dtest",
+      "_o__errno",
+      "_o__execute_onexit_table",
+      "_o__free_locale",
+      "_o__i64toa_s",
+      "_o__i64tow_s",
+      "_o__initialize_narrow_environment",
+      "_o__initialize_onexit_table",
+      "_o__invalid_parameter_noinfo",
+      "_o__invalid_parameter_noinfo_noreturn",
+      "_o__purecall",
+      "_o__register_onexit_function",
+      "_o__seh_filter_dll",
+      "_o__stricmp",
+      "_o__strnicmp",
+      "_o__ui64toa_s",
+      "_o__ui64tow_s",
+      "memcmp",
+      "_o__wcsicmp",
+      "_o__wcstod_l",
+      "_o__wcstoui64",
+      "_o_atan2",
+      "_o_cos",
+      "_o_exp",
+      "_o_floor",
+      "_o_free",
+      "_o_iswspace",
+      "_o_localeconv",
+      "_o_log",
+      "_o_log10",
+      "_o_lrintf",
+      "_o_malloc",
+      "_o_memcpy_s",
+      "_o_pow",
+      "_o_rand",
+      "_o_sqrt",
+      "_o_srand",
+      "_o_strncpy_s",
+      "_o_strtod",
+      "_o_strtoll",
+      "_o_strtoull",
+      "_o_terminate",
+      "_o_wcscpy_s",
+      "_o_wcstok_s",
+      "_o_wcstoul",
+      "__C_specific_handler",
+      "_o__crt_atexit",
+      "_o__create_locale",
+      "_o__configure_narrow_argv",
+      "_o___stdio_common_vswscanf",
+      "_o___stdio_common_vswprintf_s",
+      "_o___stdio_common_vswprintf",
+      "_o___stdio_common_vsprintf_s",
+      "_o___stdio_common_vsprintf",
+      "_o___stdio_common_vsnwprintf_s",
+      "_o___std_type_info_destroy_list",
+      "_o___std_exception_destroy",
+      "_o___std_exception_copy",
+      "_o__cexit",
+      "_o___pctype_func",
+      "__std_terminate",
+      "__CxxFrameHandler3",
+      "_CxxThrowException",
+      "strstr",
+      "memcpy",
+      "memmove",
+      "wcsstr"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "memset",
+      "strnlen",
+      "wcsnlen",
+      "wcscmp"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-eventing-classicprovider-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetTraceLoggerHandle",
+      "GetTraceEnableLevel",
+      "GetTraceEnableFlags",
+      "RegisterTraceGuidsW",
+      "UnregisterTraceGuids",
+      "TraceMessage"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-sysinfo-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetSystemTimeAsFileTime",
+      "GetSystemTime",
+      "GetTickCount64"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-synch-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "InitializeCriticalSection",
+      "ReleaseSRWLockExclusive",
+      "InitializeCriticalSectionEx",
+      "WaitForSingleObject",
+      "InitializeCriticalSectionAndSpinCount",
+      "AcquireSRWLockExclusive",
+      "ResetEvent",
+      "LeaveCriticalSection",
+      "SetEvent",
+      "EnterCriticalSection",
+      "DeleteCriticalSection",
+      "WaitForSingleObjectEx",
+      "CreateEventW"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-errorhandling-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "SetUnhandledExceptionFilter",
+      "GetLastError",
+      "RaiseException",
+      "UnhandledExceptionFilter"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-handle-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "CloseHandle"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-psm-appnotify-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "RegisterAppStateChangeNotification",
+      "UnregisterAppStateChangeNotification"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-com-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "CoUninitialize",
+      "CoTaskMemAlloc",
+      "PropVariantClear",
+      "CoInitializeEx",
+      "CoCreateGuid",
+      "CoTaskMemFree",
+      "CoCreateInstance"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processthreads-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "ResumeThread",
+      "GetCurrentProcessId",
+      "CreateThread",
+      "TerminateProcess",
+      "GetCurrentProcess",
+      "SetThreadPriority",
+      "GetCurrentThreadId"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "WS2_32.dll",
+     "kind": "import",
+     "functions": [
+      "htonl",
+      "htons",
+      "ntohs",
+      "ntohl"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-profile-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "QueryPerformanceCounter",
+      "QueryPerformanceFrequency"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-synch-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "Sleep"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-libraryloader-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "LoadLibraryExA",
+      "LoadLibraryExW",
+      "GetProcAddress",
+      "DisableThreadLibraryCalls",
+      "GetModuleHandleW",
+      "FreeLibrary",
+      "GetModuleHandleExW"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-debug-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "IsDebuggerPresent",
+      "OutputDebugStringW"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-eventing-provider-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "EventWriteTransfer",
+      "EventRegister",
+      "EventUnregister",
+      "EventSetInformation"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetProcessHeap",
+      "HeapAlloc",
+      "HeapFree"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-interlocked-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "InitializeSListHead"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-rtlsupport-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "RtlLookupFunctionEntry",
+      "RtlVirtualUnwind",
+      "RtlCaptureContext"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processthreads-l1-1-1.dll",
+     "kind": "import",
+     "functions": [
+      "IsProcessorFeaturePresent"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "msvcp_win.dll",
+     "kind": "import",
+     "functions": [
+      "?_Xout_of_range@std@@YAXPEBD@Z",
+      "?_XGetLastError@std@@YAXXZ",
+      "?__ExceptionPtrToBool@@YA_NPEBX@Z",
+      "?__ExceptionPtrDestroy@@YAXPEAX@Z",
+      "?__ExceptionPtrCurrentException@@YAXPEAX@Z",
+      "?__ExceptionPtrRethrow@@YAXPEBX@Z",
+      "?_Unlock@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@UEAAXXZ",
+      "?setbuf@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAPEAV12@PEA_W_J@Z",
+      "?_Xbad_function_call@std@@YAXXZ",
+      "?_Lock@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@UEAAXXZ",
+      "?xsputn@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAA_JPEB_W_J@Z",
+      "?xsgetn@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAA_JPEA_W_J@Z",
+      "?gbump@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAAXH@Z",
+      "?sputc@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@QEAAG_W@Z",
+      "?_Pninc@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAAPEA_WXZ",
+      "??6?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV01@_K@Z",
+      "??0?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAA@PEAV?$basic_streambuf@_WU?$char_traits@_W@std@@@1@_N@Z",
+      "??0?$basic_ios@_WU?$char_traits@_W@std@@@std@@IEAA@XZ",
+      "?setstate@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEAAXH_N@Z",
+      "?flush@?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV12@XZ",
+      "?_Osfx@?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAXXZ",
+      "??0?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAA@XZ",
+      "?sputn@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@QEAA_JPEB_W_J@Z",
+      "?_Syserror_map@std@@YAPEBDH@Z",
+      "?_Winerror_map@std@@YAHH@Z",
+      "?_Winerror_message@std@@YAKKPEADK@Z",
+      "?uncaught_exception@std@@YA_NXZ",
+      "?_Execute_once@std@@YAHAEAUonce_flag@1@P6AHPEAX1PEAPEAX@Z1@Z",
+      "?_Xlength_error@std@@YAXPEBD@Z",
+      "?__ExceptionPtrCopy@@YAXPEAXPEBX@Z",
+      "?__ExceptionPtrCreate@@YAXPEAX@Z",
+      "?__ExceptionPtrAssign@@YAXPEAXPEBX@Z",
+      "??1?$basic_ostream@_WU?$char_traits@_W@std@@@std@@UEAA@XZ",
+      "?imbue@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAXAEBVlocale@2@@Z",
+      "?sync@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAHXZ",
+      "??1?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@UEAA@XZ",
+      "?uflow@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAGXZ",
+      "?showmanyc@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAA_JXZ",
+      "??1?$basic_ios@_WU?$char_traits@_W@std@@@std@@UEAA@XZ"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processtopology-obsolete-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "SetThreadAffinityMask"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "WINHTTP.dll",
+     "kind": "import",
+     "functions": [
+      "WinHttpWebSocketQueryCloseStatus",
+      "WinHttpWebSocketCompleteUpgrade",
+      "WinHttpAddRequestHeaders",
+      "WinHttpWebSocketReceive",
+      "WinHttpWebSocketSend",
+      "WinHttpCrackUrl",
+      "WinHttpCreateUrl",
+      "WinHttpSetOption",
+      "WinHttpSetStatusCallback",
+      "WinHttpCloseHandle",
+      "WinHttpSendRequest",
+      "WinHttpSetTimeouts",
+      "WinHttpQueryHeaders",
+      "WinHttpReceiveResponse",
+      "WinHttpReadData",
+      "WinHttpOpen",
+      "WinHttpConnect",
+      "WinHttpOpenRequest",
+      "WinHttpWebSocketClose"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "WideCharToMultiByte",
+      "MultiByteToWideChar"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-timezone-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "SystemTimeToFileTime"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-math-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "sqrtf"
+     ],
+     "pc": [
+      1
+     ]
+    }
+   ],
+   "MSVCP140.dll": [
+    {
+     "module": "VCRUNTIME140.dll",
+     "kind": "import",
+     "functions": [
+      "__C_specific_handler",
+      "__current_exception_context",
+      "memcmp",
+      "__uncaught_exceptions",
+      "__uncaught_exception",
+      "memchr",
+      "memmove",
+      "__std_terminate",
+      "_purecall",
+      "memset",
+      "memcpy",
+      "__CxxFrameHandler3",
+      "_CxxThrowException",
+      "__AdjustPointer",
+      "__current_exception",
+      "__std_exception_destroy",
+      "__std_type_info_destroy_list",
+      "__std_exception_copy"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "free",
+      "_callnewh",
+      "realloc",
+      "calloc",
+      "malloc"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_execute_onexit_table",
+      "_register_onexit_function",
+      "abort",
+      "_seh_filter_dll",
+      "_initterm_e",
+      "_configure_narrow_argv",
+      "_initialize_narrow_environment",
+      "_endthreadex",
+      "_beginthreadex",
+      "_set_new_handler",
+      "_crt_atexit",
+      "_initialize_onexit_table",
+      "_initterm",
+      "_invalid_parameter_noinfo_noreturn",
+      "_errno",
+      "terminate",
+      "_cexit"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "iswspace",
+      "iswxdigit",
+      "isupper",
+      "wcscpy_s",
+      "wcsnlen",
+      "isspace",
+      "iswdigit",
+      "isdigit",
+      "__strncnt",
+      "_wcsdup",
+      "strcspn",
+      "tolower",
+      "islower",
+      "isalnum",
+      "isxdigit",
+      "iswalnum"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-locale-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "___lc_collate_cp_func",
+      "setlocale",
+      "___lc_locale_name_func",
+      "__pctype_func",
+      "___mb_cur_max_func",
+      "localeconv",
+      "___lc_codepage_func",
+      "_lock_locales",
+      "_unlock_locales"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "__stdio_common_vsprintf_s",
+      "fputs",
+      "fgetwc",
+      "fseek",
+      "_fsopen",
+      "_wfsopen",
+      "fputwc",
+      "ungetwc",
+      "fclose",
+      "fflush",
+      "fgetc",
+      "fgetpos",
+      "fputc",
+      "__acrt_iob_func",
+      "fread",
+      "_get_stream_buffer_pointers",
+      "fsetpos",
+      "_fseeki64",
+      "fwrite",
+      "setvbuf",
+      "ungetc"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_wrmdir",
+      "_unlock_file",
+      "_wrename",
+      "_lock_file",
+      "_wchdir",
+      "_wremove"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-time-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_W_Getdays",
+      "_Getmonths",
+      "_W_Gettnames",
+      "_Wcsftime",
+      "_Strftime",
+      "_W_Getmonths",
+      "_Gettnames",
+      "_Getdays"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-environment-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_wgetcwd"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-math-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "ldexp",
+      "frexp",
+      "powf",
+      "pow",
+      "log",
+      "logf"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-convert-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "strtod",
+      "strtof",
+      "btowc"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-utility-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "rand_s"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "KERNEL32.dll",
+     "kind": "import",
+     "functions": [
+      "IsProcessorFeaturePresent",
+      "RaiseException",
+      "MultiByteToWideChar",
+      "GetCPInfo",
+      "WideCharToMultiByte",
+      "CompareStringW",
+      "LCMapStringW",
+      "GetLocaleInfoW",
+      "CreateDirectoryW",
+      "CreateFileW",
+      "FindClose",
+      "FindFirstFileExW",
+      "FindNextFileW",
+      "GetDiskFreeSpaceExW",
+      "GetFileAttributesExW",
+      "GetFileInformationByHandle",
+      "SetEndOfFile",
+      "SetFileAttributesW",
+      "LoadLibraryExA",
+      "FreeLibrary",
+      "VirtualQuery",
+      "VirtualProtect",
+      "GetSystemInfo",
+      "InitializeSListHead",
+      "GetCurrentProcessId",
+      "IsDebuggerPresent",
+      "TerminateProcess",
+      "GetCurrentProcess",
+      "SetUnhandledExceptionFilter",
+      "UnhandledExceptionFilter",
+      "RtlVirtualUnwind",
+      "RtlLookupFunctionEntry",
+      "RtlCaptureContext",
+      "GetProcAddress",
+      "GetModuleHandleW",
+      "GetTickCount",
+      "GetSystemTimeAsFileTime",
+      "CreateEventW",
+      "InitializeCriticalSectionAndSpinCount",
+      "SetLastError",
+      "RtlPcToFileHeader",
+      "RtlCaptureStackBackTrace",
+      "GetStringTypeW",
+      "QueryPerformanceFrequency",
+      "QueryPerformanceCounter",
+      "GetModuleHandleExW",
+      "QueueUserWorkItem",
+      "DeleteCriticalSection",
+      "TryEnterCriticalSection",
+      "LeaveCriticalSection",
+      "EnterCriticalSection",
+      "GetNativeSystemInfo",
+      "GetExitCodeThread",
+      "GetCurrentThreadId",
+      "SwitchToThread",
+      "Sleep",
+      "WaitForSingleObjectEx",
+      "FormatMessageW",
+      "DecodePointer",
+      "EncodePointer",
+      "CreateHardLinkW",
+      "CopyFileW",
+      "GetLastError",
+      "CloseHandle",
+      "AreFileApisANSI",
+      "GetTempPathW",
+      "SetFileTime",
+      "SetFilePointerEx"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "CONCRT140.dll",
+     "kind": "delay",
+     "functions": [
+      "??0_Condition_variable@details@Concurrency@@QEAA@XZ",
+      "?try_lock_for@critical_section@Concurrency@@QEAA_NI@Z",
+      "??1_Condition_variable@details@Concurrency@@QEAA@XZ",
+      "?wait@_Condition_variable@details@Concurrency@@QEAAXAEAVcritical_section@3@@Z",
+      "?wait_for@_Condition_variable@details@Concurrency@@QEAA_NAEAVcritical_section@3@I@Z",
+      "?notify_one@_Condition_variable@details@Concurrency@@QEAAXXZ",
+      "?notify_all@_Condition_variable@details@Concurrency@@QEAAXXZ",
+      "??0critical_section@Concurrency@@QEAA@XZ",
+      "??1critical_section@Concurrency@@QEAA@XZ",
+      "?lock@critical_section@Concurrency@@QEAAXXZ",
+      "?try_lock@critical_section@Concurrency@@QEAA_NXZ",
+      "?unlock@critical_section@Concurrency@@QEAAXXZ"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    }
+   ],
+   "VCRUNTIME140.dll": [
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "terminate",
+      "abort"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "calloc",
+      "malloc",
+      "free"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "strcpy_s",
+      "wcsncmp"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "__stdio_common_vsprintf_s"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-convert-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "atol"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "KERNEL32.dll",
+     "kind": "import",
+     "functions": [
+      "GetLastError",
+      "IsProcessorFeaturePresent",
+      "TerminateProcess",
+      "GetCurrentProcess",
+      "SetUnhandledExceptionFilter",
+      "UnhandledExceptionFilter",
+      "RtlVirtualUnwind",
+      "RtlCaptureContext",
+      "GetSystemTimeAsFileTime",
+      "GetCurrentThreadId",
+      "GetCurrentProcessId",
+      "QueryPerformanceCounter",
+      "RtlLookupFunctionEntry",
+      "GetModuleHandleW",
+      "GetModuleFileNameW",
+      "RtlUnwindEx",
+      "RtlUnwind",
+      "EncodePointer",
+      "RaiseException",
+      "RtlPcToFileHeader",
+      "InterlockedPushEntrySList",
+      "InterlockedFlushSList",
+      "EnterCriticalSection",
+      "LeaveCriticalSection",
+      "DeleteCriticalSection",
+      "GetProcAddress",
+      "SetLastError",
+      "InitializeCriticalSectionAndSpinCount",
+      "TlsAlloc",
+      "TlsGetValue",
+      "TlsSetValue",
+      "TlsFree",
+      "FreeLibrary",
+      "LoadLibraryExW"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    }
+   ],
+   "VCRUNTIME140_1.dll": [
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "terminate",
+      "abort"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "malloc",
+      "calloc",
+      "free"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "strcpy_s",
+      "wcsncmp"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140.dll",
+     "kind": "import",
+     "functions": [
+      "__processing_throw",
+      "__C_specific_handler",
+      "memmove",
+      "__current_exception"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "KERNEL32.dll",
+     "kind": "import",
+     "functions": [
+      "IsProcessorFeaturePresent",
+      "TerminateProcess",
+      "GetCurrentProcess",
+      "SetUnhandledExceptionFilter",
+      "UnhandledExceptionFilter",
+      "RtlVirtualUnwind",
+      "RtlCaptureContext",
+      "GetSystemTimeAsFileTime",
+      "GetCurrentThreadId",
+      "GetCurrentProcessId",
+      "QueryPerformanceCounter",
+      "RtlUnwindEx",
+      "RtlLookupFunctionEntry",
+      "LoadLibraryExW",
+      "GetProcAddress",
+      "FreeLibrary",
+      "TlsFree",
+      "TlsSetValue",
+      "TlsGetValue",
+      "EncodePointer",
+      "RaiseException",
+      "RtlPcToFileHeader",
+      "InitializeCriticalSectionAndSpinCount",
+      "DeleteCriticalSection",
+      "GetLastError",
+      "SetLastError",
+      "TlsAlloc"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    }
+   ]
+  },
+  "os_build": "10.0.19041.3948"
+ },
+ "XDefiant": {
+  "exe": "Rogue_scarlett_rtx.exe",
+  "binaries": {
+   "bink2scarlett.dll": [
+    {
+     "module": "VCRUNTIME140.dll",
+     "kind": "import",
+     "functions": [
+      "memcpy",
+      "memmove",
+      "memset",
+      "__C_specific_handler",
+      "__std_type_info_destroy_list"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_initialize_narrow_environment",
+      "_configure_narrow_argv",
+      "_execute_onexit_table",
+      "_cexit",
+      "_seh_filter_dll",
+      "_initterm_e",
+      "_initterm",
+      "_initialize_onexit_table"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "xmem.dll",
+     "kind": "import",
+     "functions": [
+      "XMemFree",
+      "XMemAlloc"
+     ],
+     "pc": [
+      0,
+      0
+     ]
+    },
+    {
+     "module": "api-ms-win-core-file-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "SetFilePointerEx",
+      "ReadFile"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-file-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "CreateFile2"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-handle-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "CloseHandle"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-profile-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "QueryPerformanceCounter",
+      "QueryPerformanceFrequency"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-synch-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "InitializeConditionVariable",
+      "WakeConditionVariable",
+      "WakeAllConditionVariable",
+      "Sleep",
+      "SleepConditionVariableCS"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-com-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "PropVariantClear",
+      "CoTaskMemFree",
+      "CoCreateInstance"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "XAudio2_9.dll",
+     "kind": "import",
+     "functions": [
+      "#1"
+     ],
+     "pc": [
+      2
+     ]
+    },
+    {
+     "module": "api-ms-win-core-errorhandling-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "SetUnhandledExceptionFilter",
+      "GetLastError",
+      "RaiseException",
+      "UnhandledExceptionFilter"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-errorhandling-l1-1-1.dll",
+     "kind": "import",
+     "functions": [
+      "AddVectoredExceptionHandler",
+      "RemoveVectoredExceptionHandler"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-synch-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "DeleteCriticalSection",
+      "InitializeCriticalSection",
+      "EnterCriticalSection",
+      "LeaveCriticalSection",
+      "WaitForSingleObject"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processthreads-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetCurrentProcess",
+      "GetCurrentProcessId",
+      "TerminateProcess",
+      "ResumeThread",
+      "GetThreadPriority",
+      "CreateThread",
+      "GetCurrentThread",
+      "GetCurrentThreadId",
+      "SetThreadPriority"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processthreads-l1-1-1.dll",
+     "kind": "import",
+     "functions": [
+      "IsProcessorFeaturePresent",
+      "SetThreadIdealProcessorEx"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processtopology-obsolete-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "SetThreadAffinityMask"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-sysinfo-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetSystemTimeAsFileTime"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-rtlsupport-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "RtlLookupFunctionEntry",
+      "RtlVirtualUnwind",
+      "RtlCaptureContext"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-interlocked-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "InitializeSListHead"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-debug-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "IsDebuggerPresent"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-registry-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "RegCloseKey",
+      "RegQueryValueExW"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-registry-l2-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "RegOpenKeyW"
+     ],
+     "pc": [
+      1
+     ]
+    }
+   ],
+   "clang_rt.asan_dynamic-x86_64.dll": [
+    {
+     "module": "KERNEL32.dll",
+     "kind": "import",
+     "functions": [
+      "GetSystemInfo",
+      "VirtualAlloc",
+      "VirtualProtect",
+      "VirtualFree",
+      "VirtualQuery",
+      "GetModuleHandleA",
+      "GetStdHandle",
+      "CreateFileA",
+      "GetFileAttributesA",
+      "ReadFile",
+      "SetFilePointer",
+      "WriteFile",
+      "CloseHandle",
+      "QueryPerformanceCounter",
+      "QueryPerformanceFrequency",
+      "ReleaseSRWLockExclusive",
+      "AcquireSRWLockExclusive",
+      "Sleep",
+      "GetCurrentProcess",
+      "TerminateProcess",
+      "GetCurrentThreadId",
+      "GetProcessId",
+      "GetNativeSystemInfo",
+      "GetModuleFileNameW",
+      "GetLastError",
+      "WideCharToMultiByte",
+      "K32EnumProcessModules",
+      "K32GetModuleInformation",
+      "K32GetProcessMemoryInfo",
+      "SetHandleInformation",
+      "CreatePipe",
+      "CreateProcessA",
+      "LoadLibraryA",
+      "RtlCaptureStackBackTrace",
+      "GetCurrentThread",
+      "InitOnceExecuteOnce",
+      "GetProcessHeap",
+      "GlobalUnlock",
+      "LocalUnlock",
+      "SetLastError",
+      "RaiseException",
+      "SetUnhandledExceptionFilter",
+      "AddVectoredExceptionHandler",
+      "GetProcessHeaps",
+      "HeapLock",
+      "HeapUnlock",
+      "HeapWalk",
+      "GetModuleHandleExW",
+      "GetSystemTimeAsFileTime",
+      "OutputDebugStringA",
+      "DebugBreak",
+      "IsDebuggerPresent",
+      "GetProcAddress",
+      "GetEnvironmentVariableA",
+      "DisableThreadLibraryCalls",
+      "GetCurrentProcessId",
+      "GetModuleHandleW",
+      "IsProcessorFeaturePresent",
+      "GetStartupInfoW",
+      "UnhandledExceptionFilter",
+      "RtlVirtualUnwind",
+      "RtlLookupFunctionEntry",
+      "RtlCaptureContext",
+      "InitializeSListHead"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "ADVAPI32.dll",
+     "kind": "import",
+     "functions": [
+      "EventSetInformation",
+      "EventUnregister",
+      "EventRegister",
+      "EventWriteTransfer"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "MSVCP140.dll",
+     "kind": "import",
+     "functions": [
+      "?_Xout_of_range@std@@YAXPEBD@Z",
+      "?_Xlength_error@std@@YAXPEBD@Z"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140.dll",
+     "kind": "import",
+     "functions": [
+      "__std_type_info_name",
+      "__current_exception_context",
+      "__C_specific_handler",
+      "memmove",
+      "__current_exception",
+      "__std_type_info_destroy_list",
+      "memset",
+      "wcsrchr",
+      "__std_terminate",
+      "__std_exception_copy",
+      "__std_exception_destroy",
+      "_CxxThrowException",
+      "memcpy"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140_1.dll",
+     "kind": "import",
+     "functions": [
+      "__CxxFrameHandler4"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_stricmp",
+      "wcscat_s"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_cexit",
+      "_crt_at_quick_exit",
+      "_initialize_narrow_environment",
+      "_execute_onexit_table",
+      "terminate",
+      "_configure_narrow_argv",
+      "_seh_filter_dll",
+      "_crt_atexit",
+      "_errno",
+      "_register_onexit_function",
+      "_initterm_e",
+      "_initialize_onexit_table",
+      "_invalid_parameter_noinfo_noreturn",
+      "_initterm",
+      "abort"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-utility-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "qsort"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "__stdio_common_vsprintf_s"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-environment-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "getenv"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-math-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "ceilf"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_callnewh"
+     ],
+     "pc": [
+      1
+     ]
+    }
+   ],
+   "concrt140.dll": [
+    {
+     "module": "MSVCP140.dll",
+     "kind": "import",
+     "functions": [
+      "?_Xbad_function_call@std@@YAXXZ",
+      "?GetCurrentThreadId@platform@details@Concurrency@@YAJXZ",
+      "_Mtx_init_in_situ",
+      "_Mtx_destroy_in_situ",
+      "_Mtx_lock",
+      "_Mtx_unlock",
+      "_Cnd_init_in_situ",
+      "_Cnd_destroy_in_situ",
+      "_Cnd_wait",
+      "_Cnd_broadcast",
+      "?_Throw_C_error@std@@YAXH@Z",
+      "?_Xbad_alloc@std@@YAXXZ",
+      "?_Xlength_error@std@@YAXPEBD@Z",
+      "?_Xout_of_range@std@@YAXPEBD@Z",
+      "?__ExceptionPtrDestroy@@YAXPEAX@Z",
+      "?__ExceptionPtrCreate@@YAXPEAX@Z",
+      "?__ExceptionPtrCopy@@YAXPEAXPEBX@Z",
+      "?__ExceptionPtrCurrentException@@YAXPEAX@Z",
+      "?__ExceptionPtrRethrow@@YAXPEBX@Z"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140_1.dll",
+     "kind": "import",
+     "functions": [
+      "__CxxFrameHandler4"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140.dll",
+     "kind": "import",
+     "functions": [
+      "_purecall",
+      "__std_terminate",
+      "__std_exception_copy",
+      "__std_exception_destroy",
+      "_CxxThrowException",
+      "memset",
+      "__uncaught_exception",
+      "memcpy",
+      "__C_specific_handler",
+      "__RTDynamicCast",
+      "__std_type_info_destroy_list",
+      "__current_exception_context",
+      "__current_exception"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_invalid_parameter_noinfo_noreturn",
+      "_initterm_e",
+      "_initterm",
+      "_cexit",
+      "terminate",
+      "_seh_filter_dll",
+      "_configure_narrow_argv",
+      "_initialize_narrow_environment",
+      "_initialize_onexit_table",
+      "_register_onexit_function",
+      "_execute_onexit_table",
+      "_crt_atexit"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "free",
+      "malloc",
+      "_callnewh"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-math-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "exp",
+      "sqrt"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "wcsncpy_s"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "__stdio_common_vfwprintf",
+      "__stdio_common_vswprintf_s",
+      "__acrt_iob_func",
+      "fflush"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "KERNEL32.dll",
+     "kind": "import",
+     "functions": [
+      "GetCurrentProcess",
+      "DisableThreadLibraryCalls",
+      "GetSystemTimeAsFileTime",
+      "GetCurrentProcessId",
+      "QueryPerformanceCounter",
+      "IsDebuggerPresent",
+      "IsProcessorFeaturePresent",
+      "TerminateProcess",
+      "SetUnhandledExceptionFilter",
+      "UnhandledExceptionFilter",
+      "RtlVirtualUnwind",
+      "RtlLookupFunctionEntry",
+      "RtlCaptureContext",
+      "GetModuleHandleA",
+      "GetModuleFileNameW",
+      "FreeLibraryAndExitThread",
+      "FreeLibrary",
+      "CloseThreadpoolWait",
+      "SetThreadpoolWait",
+      "CreateThreadpoolWait",
+      "CloseThreadpoolTimer",
+      "WaitForThreadpoolTimerCallbacks",
+      "CreateThreadpoolTimer",
+      "FreeLibraryWhenCallbackReturns",
+      "GetThreadTimes",
+      "EncodePointer",
+      "OutputDebugStringW",
+      "LoadLibraryW",
+      "LoadLibraryExW",
+      "SetLastError",
+      "SetThreadpoolTimer",
+      "UnregisterWaitEx",
+      "CreateSemaphoreExW",
+      "ReleaseSemaphore",
+      "InitializeSListHead",
+      "SetProcessAffinityMask",
+      "VirtualFree",
+      "VirtualProtect",
+      "VirtualAlloc",
+      "GetVersionExW",
+      "GetCurrentProcessorNumber",
+      "FlushProcessWriteBuffers",
+      "DeleteCriticalSection",
+      "TryEnterCriticalSection",
+      "LeaveCriticalSection",
+      "EnterCriticalSection",
+      "UnregisterWait",
+      "RegisterWaitForSingleObject",
+      "SetThreadAffinityMask",
+      "GetProcessAffinityMask",
+      "GetNumaHighestNodeNumber",
+      "GetProcAddress",
+      "GetModuleHandleW",
+      "DeleteTimerQueueTimer",
+      "ChangeTimerQueueTimer",
+      "CreateTimerQueueTimer",
+      "GetLogicalProcessorInformation",
+      "GetTickCount64",
+      "TlsFree",
+      "TlsSetValue",
+      "InterlockedPopEntrySList",
+      "InterlockedPushEntrySList",
+      "InterlockedFlushSList",
+      "QueryDepthSList",
+      "CreateTimerQueue",
+      "GetCurrentThread",
+      "CloseHandle",
+      "DuplicateHandle",
+      "GetLastError",
+      "SetEvent",
+      "WaitForSingleObjectEx",
+      "TlsAlloc",
+      "GetCurrentThreadId",
+      "InitializeCriticalSectionEx",
+      "CreateEventExW",
+      "Sleep",
+      "SignalObjectAndWait",
+      "SwitchToThread",
+      "CreateThread",
+      "SetThreadPriority",
+      "GetThreadPriority",
+      "TlsGetValue"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    }
+   ],
+   "msvcp140.dll": [
+    {
+     "module": "VCRUNTIME140.dll",
+     "kind": "import",
+     "functions": [
+      "__current_exception_context",
+      "__C_specific_handler",
+      "memcmp",
+      "__uncaught_exceptions",
+      "__uncaught_exception",
+      "memchr",
+      "memmove",
+      "__std_terminate",
+      "_purecall",
+      "memset",
+      "memcpy",
+      "_CxxThrowException",
+      "__AdjustPointer",
+      "__current_exception",
+      "__std_exception_destroy",
+      "__std_type_info_destroy_list",
+      "__std_exception_copy"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140_1.dll",
+     "kind": "import",
+     "functions": [
+      "__CxxFrameHandler4"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_callnewh",
+      "realloc",
+      "calloc",
+      "free",
+      "malloc"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_seh_filter_dll",
+      "_configure_narrow_argv",
+      "abort",
+      "_initterm_e",
+      "_initialize_narrow_environment",
+      "_execute_onexit_table",
+      "_endthreadex",
+      "_beginthreadex",
+      "terminate",
+      "_set_new_handler",
+      "_invalid_parameter_noinfo_noreturn",
+      "_register_onexit_function",
+      "_initialize_onexit_table",
+      "_initterm",
+      "_crt_atexit",
+      "_cexit",
+      "_errno"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "isdigit",
+      "isspace",
+      "isxdigit",
+      "iswxdigit",
+      "__strncnt",
+      "wcsnlen",
+      "iswspace",
+      "isupper",
+      "wcscpy_s",
+      "iswalnum",
+      "iswdigit",
+      "isalnum",
+      "islower",
+      "_wcsdup",
+      "tolower",
+      "strcspn"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-locale-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_lock_locales",
+      "__pctype_func",
+      "___lc_locale_name_func",
+      "setlocale",
+      "___lc_codepage_func",
+      "___mb_cur_max_func",
+      "___lc_collate_cp_func",
+      "_unlock_locales",
+      "localeconv"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "fputs",
+      "fgetwc",
+      "fseek",
+      "_fsopen",
+      "_wfsopen",
+      "fputwc",
+      "ungetwc",
+      "__stdio_common_vsprintf_s",
+      "__acrt_iob_func",
+      "_get_stream_buffer_pointers",
+      "fclose",
+      "fflush",
+      "fgetc",
+      "fgetpos",
+      "fputc",
+      "fread",
+      "fsetpos",
+      "_fseeki64",
+      "fwrite",
+      "setvbuf",
+      "ungetc"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_unlock_file",
+      "_lock_file",
+      "_wrmdir",
+      "_wrename",
+      "_wchdir",
+      "_wremove"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-time-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_W_Getmonths",
+      "_W_Getdays",
+      "_Gettnames",
+      "_Getmonths",
+      "_W_Gettnames",
+      "_Wcsftime",
+      "_Getdays",
+      "_Strftime"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-environment-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_wgetcwd"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-math-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "pow",
+      "powf",
+      "ldexp",
+      "frexp",
+      "logf",
+      "log"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-convert-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "btowc",
+      "strtod",
+      "strtof"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-utility-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "rand_s"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "KERNEL32.dll",
+     "kind": "import",
+     "functions": [
+      "SubmitThreadpoolWork",
+      "RaiseException",
+      "CompareStringEx",
+      "MultiByteToWideChar",
+      "GetCPInfo",
+      "InitializeSListHead",
+      "WideCharToMultiByte",
+      "LCMapStringEx",
+      "GetLocaleInfoEx",
+      "ReleaseSRWLockExclusive",
+      "AcquireSRWLockExclusive",
+      "CreateDirectoryW",
+      "CreateFileW",
+      "FindClose",
+      "FindFirstFileExW",
+      "FindNextFileW",
+      "GetDiskFreeSpaceExW",
+      "GetFileAttributesExW",
+      "GetCurrentProcessId",
+      "TerminateProcess",
+      "GetCurrentProcess",
+      "SetUnhandledExceptionFilter",
+      "UnhandledExceptionFilter",
+      "IsDebuggerPresent",
+      "RtlVirtualUnwind",
+      "RtlLookupFunctionEntry",
+      "RtlCaptureContext",
+      "GetFileInformationByHandleEx",
+      "GetProcAddress",
+      "GetModuleHandleW",
+      "CloseThreadpoolWait",
+      "SetThreadpoolWait",
+      "CreateThreadpoolWait",
+      "CloseThreadpoolTimer",
+      "WaitForThreadpoolTimerCallbacks",
+      "SetThreadpoolTimer",
+      "CreateThreadpoolTimer",
+      "GetTickCount64",
+      "GetSystemTimeAsFileTime",
+      "GetCurrentProcessorNumber",
+      "FlushProcessWriteBuffers",
+      "CreateSemaphoreExW",
+      "CreateEventExW",
+      "SetFileInformationByHandle",
+      "InitOnceExecuteOnce",
+      "GetStringTypeW",
+      "QueryPerformanceFrequency",
+      "QueryPerformanceCounter",
+      "GetModuleHandleExW",
+      "CloseThreadpoolWork",
+      "RtlPcToFileHeader",
+      "CreateThreadpoolWork",
+      "FreeLibraryWhenCallbackReturns",
+      "IsProcessorFeaturePresent",
+      "RtlCaptureStackBackTrace",
+      "DeleteCriticalSection",
+      "TryEnterCriticalSection",
+      "InitializeCriticalSectionEx",
+      "LeaveCriticalSection",
+      "EnterCriticalSection",
+      "InitializeSRWLock",
+      "GetNativeSystemInfo",
+      "GetExitCodeThread",
+      "GetCurrentThreadId",
+      "SwitchToThread",
+      "Sleep",
+      "WaitForSingleObjectEx",
+      "SleepConditionVariableSRW",
+      "SleepConditionVariableCS",
+      "WakeAllConditionVariable",
+      "WakeConditionVariable",
+      "InitializeConditionVariable",
+      "FormatMessageA",
+      "LocalFree",
+      "DecodePointer",
+      "EncodePointer",
+      "CreateSymbolicLinkW",
+      "CreateHardLinkW",
+      "CopyFileW",
+      "GetLastError",
+      "CloseHandle",
+      "AreFileApisANSI",
+      "GetTempPathW",
+      "SetFileTime",
+      "SetFilePointerEx",
+      "SetFileAttributesW",
+      "SetEndOfFile",
+      "GetFileInformationByHandle"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    }
+   ],
+   "msvcp140_1.dll": [
+    {
+     "module": "MSVCP140.dll",
+     "kind": "import",
+     "functions": [
+      "?_Xbad_alloc@std@@YAXXZ"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140.dll",
+     "kind": "import",
+     "functions": [
+      "__std_exception_copy",
+      "__std_exception_destroy",
+      "_CxxThrowException",
+      "__std_type_info_destroy_list",
+      "__C_specific_handler",
+      "memset"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "malloc",
+      "free",
+      "_callnewh",
+      "_aligned_free",
+      "_aligned_malloc"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_initterm",
+      "_cexit",
+      "_initialize_onexit_table",
+      "_initialize_narrow_environment",
+      "_configure_narrow_argv",
+      "_seh_filter_dll",
+      "_initterm_e",
+      "_execute_onexit_table"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "KERNEL32.dll",
+     "kind": "import",
+     "functions": [
+      "RtlLookupFunctionEntry",
+      "IsProcessorFeaturePresent",
+      "SetUnhandledExceptionFilter",
+      "UnhandledExceptionFilter",
+      "IsDebuggerPresent",
+      "RtlVirtualUnwind",
+      "DisableThreadLibraryCalls",
+      "RtlCaptureContext",
+      "InitializeSListHead",
+      "GetSystemTimeAsFileTime",
+      "GetCurrentThreadId",
+      "GetCurrentProcessId",
+      "QueryPerformanceCounter"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    }
+   ],
+   "msvcp140_2.dll": [
+    {
+     "module": "MSVCP140.dll",
+     "kind": "import",
+     "functions": [
+      "?widen@?$ctype@D@std@@QEBAPEBDPEBD0PEAD@Z",
+      "?_Getcat@?$ctype@D@std@@SA_KPEAPEBVfacet@locale@2@PEBV42@@Z",
+      "?clear@ios_base@std@@QEAAXH_N@Z",
+      "?getloc@ios_base@std@@QEBA?AVlocale@2@XZ",
+      "??1ios_base@std@@UEAA@XZ",
+      "?_Addstd@ios_base@std@@SAXPEAV12@@Z",
+      "?widen@?$ctype@D@std@@QEBADD@Z",
+      "?_Init@ios_base@std@@IEAAXXZ",
+      "?setprecision@std@@YA?AU?$_Smanip@_J@1@_J@Z",
+      "?_Decref@facet@locale@std@@UEAAPEAV_Facet_base@3@XZ",
+      "?_Incref@facet@locale@std@@UEAAXXZ",
+      "?id@?$ctype@D@std@@2V0locale@2@A",
+      "?id@?$numpunct@D@std@@2V0locale@2@A",
+      "?_Getgloballocale@locale@std@@CAPEAV_Locimp@12@XZ",
+      "?_Init@locale@std@@CAPEAV_Locimp@12@_N@Z",
+      "??1facet@locale@std@@MEAA@XZ",
+      "??0facet@locale@std@@IEAA@_K@Z",
+      "??Bid@locale@std@@QEAA_KXZ",
+      "?c_str@?$_Yarn@D@std@@QEBAPEBDXZ",
+      "?_Gettrue@_Locinfo@std@@QEBAPEBDXZ",
+      "?_Getfalse@_Locinfo@std@@QEBAPEBDXZ",
+      "?_Getcvt@_Locinfo@std@@QEBA?AU_Cvtvec@@XZ",
+      "??1_Locinfo@std@@QEAA@XZ",
+      "??0_Locinfo@std@@QEAA@PEBD@Z",
+      "?uncaught_exceptions@std@@YAHXZ",
+      "?_Xout_of_range@std@@YAXPEBD@Z",
+      "?_Xlength_error@std@@YAXPEBD@Z",
+      "?_Xbad_alloc@std@@YAXXZ",
+      "??1_Lockit@std@@QEAA@XZ",
+      "??0ios_base@std@@IEAA@XZ",
+      "??0_Lockit@std@@QEAA@H@Z"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140.dll",
+     "kind": "import",
+     "functions": [
+      "memchr",
+      "memcmp",
+      "memcpy",
+      "memmove",
+      "memset",
+      "__C_specific_handler",
+      "__std_type_info_destroy_list",
+      "__std_exception_destroy",
+      "__std_exception_copy",
+      "__std_terminate",
+      "_purecall",
+      "_CxxThrowException"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140_1.dll",
+     "kind": "import",
+     "functions": [
+      "__CxxFrameHandler4"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_cexit",
+      "_crt_atexit",
+      "_register_onexit_function",
+      "_initialize_onexit_table",
+      "_initialize_narrow_environment",
+      "_configure_narrow_argv",
+      "_seh_filter_dll",
+      "_initterm_e",
+      "_errno",
+      "_execute_onexit_table",
+      "_initterm",
+      "_invalid_parameter_noinfo_noreturn"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-math-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "sqrtf",
+      "tan",
+      "sin",
+      "pow",
+      "log",
+      "expm1",
+      "sqrt",
+      "ldexp",
+      "log1p",
+      "fmod",
+      "floor",
+      "cos",
+      "exp",
+      "frexp",
+      "cosh",
+      "sinh",
+      "atan",
+      "ceil"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "calloc",
+      "_callnewh",
+      "malloc",
+      "free"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "strcspn"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "__stdio_common_vsprintf_s"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-locale-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "localeconv"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "KERNEL32.dll",
+     "kind": "import",
+     "functions": [
+      "DisableThreadLibraryCalls",
+      "RtlCaptureContext",
+      "RtlLookupFunctionEntry",
+      "RtlVirtualUnwind",
+      "UnhandledExceptionFilter",
+      "SetUnhandledExceptionFilter",
+      "GetCurrentProcess",
+      "TerminateProcess",
+      "IsProcessorFeaturePresent",
+      "QueryPerformanceCounter",
+      "GetCurrentProcessId",
+      "GetCurrentThreadId",
+      "GetSystemTimeAsFileTime",
+      "InitializeSListHead",
+      "IsDebuggerPresent"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    }
+   ],
+   "Rogue_scarlett_rtx.exe": [
+    {
+     "module": "AcpHal.dll",
+     "kind": "import",
+     "functions": [
+      "ApuAlloc",
+      "ApuFree",
+      "ApuMapVirtualAddress",
+      "AcpHalCreate",
+      "AcpHalAllocateShapeContexts",
+      "AcpHalReleaseShapeContexts",
+      "ApuMapApuAddress",
+      "ApuIsVirtualAddressValid",
+      "ApuCreateHeap"
+     ],
+     "pc": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "module": "Bink2Scarlett.dll",
+     "kind": "import",
+     "functions": [
+      "BinkSetSpeakerVolumes",
+      "BinkShouldSkip",
+      "BinkSetOSFileCallbacks",
+      "BinkSetWillLoop",
+      "BinkGetTrackID",
+      "BinkGetRealtime",
+      "BinkSetFileOffset",
+      "BinkSetSoundTrack",
+      "BinkSetFrameRate",
+      "BinkFreeGlobals",
+      "BinkSetMemory",
+      "BinkSetVolume",
+      "BinkOpen",
+      "BinkGetFrameBuffersInfo",
+      "BinkRegisterFrameBuffers",
+      "BinkDoFramePlane",
+      "BinkGetKeyFrame",
+      "BinkGoto",
+      "BinkPause",
+      "BinkClose",
+      "BinkWait",
+      "BinkNextFrame",
+      "BinkSetSoundSystem"
+     ],
+     "pc": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "module": "chad.dll",
+     "kind": "import",
+     "functions": [
+      "XDspActivate",
+      "XDspSubmitCommand",
+      "XDspConnect",
+      "XDspDeactivate",
+      "XDspDisconnect"
+     ],
+     "pc": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "module": "WS2_32.dll",
+     "kind": "import",
+     "functions": [
+      "socket",
+      "shutdown",
+      "setsockopt",
+      "sendto",
+      "WSAGetLastError",
+      "WSAIoctl",
+      "send",
+      "select",
+      "recvfrom",
+      "gethostname",
+      "ntohl",
+      "listen",
+      "inet_addr",
+      "getsockopt",
+      "getsockname",
+      "getnameinfo",
+      "ioctlsocket",
+      "connect",
+      "closesocket",
+      "inet_pton",
+      "getaddrinfo",
+      "recv",
+      "freeaddrinfo",
+      "WSASetLastError",
+      "inet_ntoa",
+      "WSAStartup",
+      "gethostbyname",
+      "bind",
+      "accept",
+      "WSAAddressToStringA",
+      "ntohs",
+      "htons",
+      "WSACleanup",
+      "__WSAFDIsSet",
+      "htonl",
+      "inet_ntop"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "xapu.dll",
+     "kind": "import",
+     "functions": [
+      "XApuGetResultCount",
+      "XApuConnect",
+      "XApuDequeueResult",
+      "XApuDisconnect",
+      "XApuEnqueueCommand"
+     ],
+     "pc": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "module": "XCurl.dll",
+     "kind": "import",
+     "functions": [
+      "xcurl_global_resume",
+      "curl_easy_strerror",
+      "curl_global_cleanup",
+      "curl_multi_poll",
+      "curl_multi_info_read",
+      "xcurl_global_suspend",
+      "curl_multi_remove_handle",
+      "curl_multi_add_handle",
+      "curl_multi_init",
+      "curl_multi_cleanup",
+      "curl_slist_append",
+      "curl_slist_free_all",
+      "curl_multi_perform",
+      "curl_easy_init",
+      "curl_easy_setopt",
+      "curl_global_init",
+      "curl_easy_perform",
+      "curl_easy_cleanup",
+      "curl_easy_getinfo"
+     ],
+     "pc": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "module": "xg_xs.dll",
+     "kind": "import",
+     "functions": [
+      "XGCreateTextureComputerFromDescriptor"
+     ],
+     "pc": [
+      0
+     ]
+    },
+    {
+     "module": "api-ms-win-core-debug-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "OutputDebugStringA",
+      "IsDebuggerPresent"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-handle-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "CloseHandle"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-errorhandling-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "SetLastError",
+      "SetUnhandledExceptionFilter",
+      "RaiseException",
+      "GetLastError"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-profile-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "QueryPerformanceCounter",
+      "QueryPerformanceFrequency"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-synch-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "CreateEventW",
+      "InitializeCriticalSectionAndSpinCount",
+      "SetCriticalSectionSpinCount",
+      "InitializeCriticalSectionEx",
+      "ReleaseSemaphore",
+      "WaitForSingleObjectEx",
+      "CreateEventExW",
+      "CreateSemaphoreExW",
+      "WaitForSingleObject",
+      "InitializeSRWLock",
+      "WaitForMultipleObjectsEx",
+      "ReleaseSRWLockShared",
+      "AcquireSRWLockExclusive",
+      "AcquireSRWLockShared",
+      "TryAcquireSRWLockExclusive",
+      "TryAcquireSRWLockShared",
+      "InitializeCriticalSection",
+      "CreateEventA",
+      "SleepEx",
+      "EnterCriticalSection",
+      "LeaveCriticalSection",
+      "TryEnterCriticalSection",
+      "DeleteCriticalSection",
+      "SetEvent",
+      "ReleaseSRWLockExclusive",
+      "ResetEvent"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-synch-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "WakeAllConditionVariable",
+      "Sleep",
+      "SleepConditionVariableCS",
+      "InitializeConditionVariable"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-interlocked-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "InterlockedPopEntrySList",
+      "InterlockedPushEntrySList",
+      "InitializeSListHead"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processthreads-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "ExitProcess",
+      "GetThreadPriority",
+      "SwitchToThread",
+      "TlsFree",
+      "GetCurrentProcess",
+      "ResumeThread",
+      "SetThreadPriority",
+      "GetCurrentThreadId",
+      "GetCurrentThread",
+      "CreateThread",
+      "TlsGetValue",
+      "TlsAlloc",
+      "TlsSetValue",
+      "GetCurrentProcessId",
+      "TerminateProcess"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processthreads-l1-1-1.dll",
+     "kind": "import",
+     "functions": [
+      "SetThreadIdealProcessorEx",
+      "GetThreadIdealProcessorEx"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-sysinfo-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetSystemTime",
+      "GetTickCount",
+      "GetTickCount64",
+      "GetSystemTimeAsFileTime",
+      "GetLocalTime",
+      "GetSystemInfo"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "MultiByteToWideChar",
+      "WideCharToMultiByte"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processenvironment-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetStdHandle",
+      "GetCommandLineA",
+      "GetCommandLineW"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-localization-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "FormatMessageA",
+      "GetGeoInfoW",
+      "GetLocaleInfoEx",
+      "GetUserDefaultLocaleName",
+      "GetUserGeoID",
+      "ResolveLocaleName"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-file-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "FlushFileBuffers",
+      "GetFileAttributesA",
+      "FindNextFileA",
+      "FindFirstFileW",
+      "FindFirstFileExA",
+      "FindClose",
+      "GetFileAttributesExA",
+      "GetFileType",
+      "SetEndOfFile",
+      "SetFileAttributesA",
+      "SetFilePointerEx",
+      "WriteFile",
+      "ReadFile",
+      "DeleteFileA",
+      "DeleteFileW",
+      "CreateFileA",
+      "CreateDirectoryA",
+      "SetFileAttributesW",
+      "RemoveDirectoryW",
+      "GetFullPathNameW",
+      "GetFileSize",
+      "GetFileAttributesW",
+      "FindNextFileW",
+      "FindFirstFileExW",
+      "CreateDirectoryW"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processtopology-obsolete-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetProcessAffinityMask",
+      "SetThreadAffinityMask",
+      "SetProcessAffinityMask"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-file-l2-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetFileInformationByHandleEx",
+      "MoveFileExW"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-rtlsupport-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "RtlCaptureStackBackTrace",
+      "RtlVirtualUnwind",
+      "RtlLookupFunctionEntry",
+      "RtlCaptureContext"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-io-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetOverlappedResult"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-libraryloader-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetModuleFileNameW",
+      "GetModuleFileNameA",
+      "GetProcAddress",
+      "GetModuleHandleW",
+      "LoadLibraryExW",
+      "FreeLibrary",
+      "GetModuleHandleA",
+      "GetModuleHandleExW"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-libraryloader-l1-2-1.dll",
+     "kind": "import",
+     "functions": [
+      "LoadLibraryA",
+      "LoadLibraryW"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-timezone-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "SystemTimeToFileTime",
+      "FileTimeToSystemTime"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-psapi-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "K32GetModuleInformation",
+      "K32EnumProcessModules",
+      "K32EnumProcessModulesEx"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-windowserrorreporting-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "WerUnregisterFile",
+      "WerRegisterFile"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "GameInput.dll",
+     "kind": "import",
+     "functions": [
+      "#1"
+     ],
+     "pc": [
+      2
+     ]
+    },
+    {
+     "module": "api-ms-win-core-memory-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "VirtualFree",
+      "VirtualAlloc"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "ext-ms-win-rtcore-ntuser-message-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "TranslateMessage",
+      "PeekMessageW",
+      "DispatchMessageW"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "ext-ms-win-rtcore-ntuser-window-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "ShowWindow",
+      "DestroyWindow",
+      "DefWindowProcW"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "ext-ms-win-rtcore-ntuser-window-ansi-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "CreateWindowExA",
+      "RegisterClassExA",
+      "GetWindowLongPtrA",
+      "SetWindowLongPtrA"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-com-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "CoTaskMemFree",
+      "StringFromGUID2",
+      "CoCreateGuid",
+      "CoInitializeEx",
+      "CoUninitialize",
+      "CoTaskMemAlloc",
+      "CoCreateInstance",
+      "PropVariantClear"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-psm-appnotify-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "UnregisterAppStateChangeNotification",
+      "RegisterAppStateChangeNotification"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-psm-appnotify-l1-1-1.dll",
+     "kind": "import",
+     "functions": [
+      "RegisterAppConstrainedChangeNotification",
+      "UnregisterAppConstrainedChangeNotification"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "Windows.Media.MediaControl.DLL",
+     "kind": "import",
+     "functions": [
+      "CreateRenderAudioStateMonitorForCategoryAndDeviceRole"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-file-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "CreateFile2"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-errorhandling-l1-1-1.dll",
+     "kind": "import",
+     "functions": [
+      "AddVectoredExceptionHandler",
+      "RemoveVectoredExceptionHandler"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-synch-l1-2-1.dll",
+     "kind": "import",
+     "functions": [
+      "CreateSemaphoreW"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-fibers-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "FlsSetValue",
+      "FlsFree",
+      "FlsAlloc"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-sysinfo-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetNativeSystemInfo"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-datetime-l1-1-1.dll",
+     "kind": "import",
+     "functions": [
+      "GetTimeFormatEx",
+      "GetDateFormatEx"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "HeapAlloc",
+      "GetProcessHeap",
+      "HeapFree"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-fibers-l2-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "ConvertFiberToThread",
+      "ConvertThreadToFiber",
+      "CreateFiber",
+      "DeleteFiber",
+      "SwitchToFiber"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "bcrypt.dll",
+     "kind": "import",
+     "functions": [
+      "BCryptGenRandom"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-kernel32-legacy-l1-1-1.dll",
+     "kind": "import",
+     "functions": [
+      "SetDllDirectoryW"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-kernel32-legacy-l1-1-5.dll",
+     "kind": "import",
+     "functions": [
+      "GetDllDirectoryW"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "WINHTTP.dll",
+     "kind": "import",
+     "functions": [
+      "WinHttpSendRequest",
+      "WinHttpAddRequestHeaders",
+      "WinHttpOpenRequest",
+      "WinHttpSetOption",
+      "WinHttpSetTimeouts",
+      "WinHttpWriteData",
+      "WinHttpReadData",
+      "WinHttpConnect",
+      "WinHttpQueryOption",
+      "WinHttpCloseHandle",
+      "WinHttpOpen",
+      "WinHttpCrackUrl",
+      "WinHttpQueryDataAvailable",
+      "WinHttpSetStatusCallback",
+      "WinHttpQueryHeaders",
+      "WinHttpWebSocketCompleteUpgrade",
+      "WinHttpWebSocketSend",
+      "WinHttpWebSocketReceive",
+      "WinHttpWebSocketClose",
+      "WinHttpWebSocketQueryCloseStatus",
+      "WinHttpReceiveResponse"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "xmem.dll",
+     "kind": "import",
+     "functions": [
+      "XMemAlloc",
+      "XMemFree",
+      "XMemGetWorkingSetStatistics",
+      "XMemVirtualAlloc"
+     ],
+     "pc": [
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "module": "MSVCP140.dll",
+     "kind": "import",
+     "functions": [
+      "?_Throw_Cpp_error@std@@YAXH@Z",
+      "_Cnd_signal",
+      "_Cnd_timedwait",
+      "_Cnd_destroy_in_situ",
+      "_Cnd_init_in_situ",
+      "_Mtx_current_owns",
+      "_Thrd_id",
+      "?_Xinvalid_argument@std@@YAXPEBD@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@N@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@_J@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@_N@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@PEBX@Z",
+      "?_Fiopen@std@@YAPEAU_iobuf@@PEBDHH@Z",
+      "?seekg@?$basic_istream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@V?$fpos@U_Mbstatet@@@2@@Z",
+      "?tellp@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA?AV?$fpos@U_Mbstatet@@@2@XZ",
+      "?write@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@PEBD_J@Z",
+      "??5?$basic_istream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@AEAH@Z",
+      "_Mtx_trylock",
+      "?imbue@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEAA?AVlocale@2@AEBV32@@Z",
+      "?sbumpc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAAHXZ",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@H@Z",
+      "?id@?$codecvt@DDU_Mbstatet@@@std@@2V0locale@2@A",
+      "?xsputn@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAA_JPEB_W_J@Z",
+      "?xsgetn@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAA_JPEA_W_J@Z",
+      "?uflow@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAGXZ",
+      "?sync@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAHXZ",
+      "?showmanyc@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAA_JXZ",
+      "?setbuf@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAPEAV12@PEA_W_J@Z",
+      "?imbue@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@MEAAXAEBVlocale@2@@Z",
+      "?_Unlock@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@UEAAXXZ",
+      "?_Lock@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@UEAAXXZ",
+      "?clear@?$basic_ios@DU?$char_traits@D@std@@@std@@QEAAXH_N@Z",
+      "??0?$basic_iostream@_WU?$char_traits@_W@std@@@std@@QEAA@PEAV?$basic_streambuf@_WU?$char_traits@_W@std@@@1@@Z",
+      "?tellg@?$basic_istream@DU?$char_traits@D@std@@@std@@QEAA?AV?$fpos@U_Mbstatet@@@2@XZ",
+      "??1?$basic_istream@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "??0?$basic_istream@DU?$char_traits@D@std@@@std@@QEAA@PEAV?$basic_streambuf@DU?$char_traits@D@std@@@1@_N@Z",
+      "?flush@?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV12@XZ",
+      "?_Osfx@?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAXXZ",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@_K@Z",
+      "??0?$basic_ios@_WU?$char_traits@_W@std@@@std@@IEAA@XZ",
+      "?setstate@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEAAXH_N@Z",
+      "??1?$basic_ios@_WU?$char_traits@_W@std@@@std@@UEAA@XZ",
+      "?imbue@?$basic_ios@DU?$char_traits@D@std@@@std@@QEAA?AVlocale@2@AEBV32@@Z",
+      "?_Pninc@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAAPEA_WXZ",
+      "?sputn@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@QEAA_JPEB_W_J@Z",
+      "?sputc@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@QEAAG_W@Z",
+      "??1?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@UEAA@XZ",
+      "??0?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@IEAA@XZ",
+      "?_Init@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAXXZ",
+      "?getloc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEBA?AVlocale@2@XZ",
+      "?_Getcat@?$codecvt@DDU_Mbstatet@@@std@@SA_KPEAPEBVfacet@locale@2@PEBV42@@Z",
+      "?unshift@?$codecvt@DDU_Mbstatet@@@std@@QEBAHAEAU_Mbstatet@@PEAD1AEAPEAD@Z",
+      "?out@?$codecvt@DDU_Mbstatet@@@std@@QEBAHAEAU_Mbstatet@@PEBD1AEAPEBDPEAD3AEAPEAD@Z",
+      "?in@?$codecvt@DDU_Mbstatet@@@std@@QEBAHAEAU_Mbstatet@@PEBD1AEAPEBDPEAD3AEAPEAD@Z",
+      "?always_noconv@codecvt_base@std@@QEBA_NXZ",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@P6AAEAVios_base@1@AEAV21@@Z@Z",
+      "?_Winerror_map@std@@YAHH@Z",
+      "?_Syserror_map@std@@YAPEBDH@Z",
+      "_Xtime_get_ticks",
+      "??1?$basic_iostream@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "??0?$basic_iostream@DU?$char_traits@D@std@@@std@@QEAA@PEAV?$basic_streambuf@DU?$char_traits@D@std@@@1@@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@J@Z",
+      "?xsputn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JPEBD_J@Z",
+      "?xsgetn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JPEAD_J@Z",
+      "?uflow@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAHXZ",
+      "?sync@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAHXZ",
+      "?showmanyc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JXZ",
+      "?setbuf@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAPEAV12@PEAD_J@Z",
+      "?imbue@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAAXAEBVlocale@2@@Z",
+      "?_Unlock@?$basic_streambuf@DU?$char_traits@D@std@@@std@@UEAAXXZ",
+      "?_Lock@?$basic_streambuf@DU?$char_traits@D@std@@@std@@UEAAXXZ",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@I@Z",
+      "??1?$basic_ostream@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "??0?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@PEAV?$basic_streambuf@DU?$char_traits@D@std@@@1@_N@Z",
+      "??0?$basic_ios@DU?$char_traits@D@std@@@std@@IEAA@XZ",
+      "??1?$basic_ios@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "?_Pninc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAAPEADXZ",
+      "?sputn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAA_JPEBD_J@Z",
+      "??1?$basic_streambuf@DU?$char_traits@D@std@@@std@@UEAA@XZ",
+      "??0?$basic_streambuf@DU?$char_traits@D@std@@@std@@IEAA@XZ",
+      "?read@?$basic_istream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@PEAD_J@Z",
+      "?_Ipfx@?$basic_istream@DU?$char_traits@D@std@@@std@@QEAA_N_N@Z",
+      "?flush@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@XZ",
+      "?_Osfx@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAXXZ",
+      "?setstate@?$basic_ios@DU?$char_traits@D@std@@@std@@QEAAXH_N@Z",
+      "?sputc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAAHD@Z",
+      "?uncaught_exception@std@@YA_NXZ",
+      "?_Throw_C_error@std@@YAXH@Z",
+      "_Mtx_unlock",
+      "_Mtx_lock",
+      "_Mtx_destroy_in_situ",
+      "_Mtx_init_in_situ",
+      "?set_new_handler@std@@YAP6AXXZP6AXXZ@Z",
+      "?_Xout_of_range@std@@YAXPEBD@Z",
+      "?uncaught_exceptions@std@@YAHXZ",
+      "?id@?$collate@D@std@@2V0locale@2@A",
+      "?id@?$ctype@D@std@@2V0locale@2@A",
+      "?_Incref@facet@locale@std@@UEAAXXZ",
+      "?_Decref@facet@locale@std@@UEAAPEAV_Facet_base@3@XZ",
+      "?_Xregex_error@std@@YAXW4error_type@regex_constants@1@@Z",
+      "?_Getcat@?$ctype@D@std@@SA_KPEAPEBVfacet@locale@2@PEBV42@@Z",
+      "?tolower@?$ctype@D@std@@QEBAPEBDPEADPEBD@Z",
+      "?tolower@?$ctype@D@std@@QEBADD@Z",
+      "?_Getgloballocale@locale@std@@CAPEAV_Locimp@12@XZ",
+      "?_Init@locale@std@@CAPEAV_Locimp@12@_N@Z",
+      "??1facet@locale@std@@MEAA@XZ",
+      "??0facet@locale@std@@IEAA@_K@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@G@Z",
+      "??Bid@locale@std@@QEAA_KXZ",
+      "?_Getcoll@_Locinfo@std@@QEBA?AU_Collvec@@XZ",
+      "??1_Locinfo@std@@QEAA@XZ",
+      "??0_Locinfo@std@@QEAA@PEBD@Z",
+      "_Strxfrm",
+      "_Strcoll",
+      "?_Xbad_alloc@std@@YAXXZ",
+      "??1_Lockit@std@@QEAA@XZ",
+      "??0_Lockit@std@@QEAA@H@Z",
+      "?_Raise_handler@std@@3P6AXAEBVexception@stdext@@@ZEA",
+      "?_Xlength_error@std@@YAXPEBD@Z",
+      "_Query_perf_frequency",
+      "_Query_perf_counter",
+      "?_Random_device@std@@YAIXZ",
+      "?_Xbad_function_call@std@@YAXXZ",
+      "_Thrd_yield",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@K@Z",
+      "??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@M@Z",
+      "?seekp@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@_JH@Z",
+      "?classic@locale@std@@SAAEBV12@XZ",
+      "??1?$basic_iostream@_WU?$char_traits@_W@std@@@std@@UEAA@XZ",
+      "??6?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV01@G@Z"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "d3d12_xs.dll",
+     "kind": "import",
+     "functions": [
+      "D3D12ConfigureVirtualMemoryX",
+      "D3D12SerializeVersionedRootSignature",
+      "D3D12XboxCreateDevice"
+     ],
+     "pc": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "module": "ADVAPI32.dll",
+     "kind": "import",
+     "functions": [
+      "RegQueryValueExW",
+      "CryptReleaseContext",
+      "CryptGenRandom",
+      "RegCloseKey",
+      "RegOpenKeyW",
+      "CryptAcquireContextA"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "KERNEL32.DLL",
+     "kind": "import",
+     "functions": [
+      "SleepConditionVariableSRW",
+      "UnhandledExceptionFilter",
+      "IsProcessorFeaturePresent",
+      "LoadLibraryExA",
+      "__C_specific_handler",
+      "LocalFree",
+      "GetStartupInfoW"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140.dll",
+     "kind": "import",
+     "functions": [
+      "__std_type_info_compare",
+      "wcsstr",
+      "__std_exception_copy",
+      "longjmp",
+      "__std_exception_destroy",
+      "__RTDynamicCast",
+      "strstr",
+      "strrchr",
+      "_CxxThrowException",
+      "__std_terminate",
+      "wcsrchr",
+      "__std_type_info_name",
+      "set_unexpected",
+      "__CxxFrameHandler3",
+      "strchr",
+      "memset",
+      "memmove",
+      "memcpy",
+      "memcmp",
+      "memchr",
+      "_purecall",
+      "__intrinsic_setjmp",
+      "_set_purecall_handler",
+      "__current_exception",
+      "__current_exception_context",
+      "__RTtypeid"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140_1.dll",
+     "kind": "import",
+     "functions": [
+      "__CxxFrameHandler4"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-convert-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "wcstombs",
+      "wcstombs_s",
+      "atol",
+      "_strtod_l",
+      "mbstowcs",
+      "_strtoui64",
+      "_atoi64",
+      "_strtoui64_l",
+      "strtol",
+      "_wtoi",
+      "_strtoi64_l",
+      "atoi",
+      "strtoull",
+      "strtod",
+      "strtof",
+      "atof",
+      "strtoul"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "tolower",
+      "strlen",
+      "strncpy_s",
+      "toupper",
+      "strtok_s",
+      "_strdup",
+      "_stricmp",
+      "strncmp",
+      "_strnicmp",
+      "isspace",
+      "isdigit",
+      "strncpy",
+      "isalpha",
+      "isalnum",
+      "strcspn",
+      "strcpy_s",
+      "strncat_s",
+      "strspn",
+      "wcsncat_s",
+      "wcsncpy",
+      "isxdigit",
+      "isgraph",
+      "wcsncpy_s",
+      "strnlen",
+      "wcstok_s",
+      "strcmp"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_set_app_type",
+      "exit",
+      "_exit",
+      "__p__pgmptr",
+      "_seh_filter_exe",
+      "_beginthreadex",
+      "_clearfp",
+      "_cexit",
+      "terminate",
+      "_crt_atexit",
+      "_configure_wide_argv",
+      "_register_onexit_function",
+      "_initialize_onexit_table",
+      "_controlfp_s",
+      "_endthreadex",
+      "_set_new_handler",
+      "signal",
+      "set_terminate",
+      "_initialize_wide_environment",
+      "_set_invalid_parameter_handler",
+      "_set_abort_behavior",
+      "_invalid_parameter_noinfo",
+      "_get_wide_winmain_command_line",
+      "_register_thread_local_exe_atexit_callback",
+      "_c_exit",
+      "raise",
+      "_errno",
+      "_invalid_parameter_noinfo_noreturn",
+      "_invoke_watson",
+      "_initterm",
+      "_initterm_e",
+      "strerror_s"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_aligned_malloc",
+      "realloc",
+      "malloc",
+      "_aligned_realloc",
+      "_set_new_mode",
+      "free",
+      "_aligned_free"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_wfopen",
+      "_close",
+      "feof",
+      "fgetpos",
+      "_fileno",
+      "fsetpos",
+      "_filelengthi64",
+      "_setmode",
+      "ferror",
+      "__stdio_common_vswprintf_s",
+      "__stdio_common_vsprintf_s",
+      "_read",
+      "_write",
+      "__p__commode",
+      "_sopen_dispatch",
+      "fopen_s",
+      "fread",
+      "fwrite",
+      "fflush",
+      "_set_fmode",
+      "ftell",
+      "__stdio_common_vsscanf",
+      "__stdio_common_vsnprintf_s",
+      "fseek",
+      "__stdio_common_vsprintf",
+      "__stdio_common_vswprintf",
+      "__stdio_common_vfprintf",
+      "fopen",
+      "fgets",
+      "fclose",
+      "__acrt_iob_func",
+      "__stdio_common_vsnwprintf_s",
+      "ungetc",
+      "setvbuf",
+      "_fseeki64",
+      "fputc",
+      "fgetc",
+      "_get_stream_buffer_pointers"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_lock_file",
+      "_stat64i32",
+      "rename",
+      "remove",
+      "_splitpath_s",
+      "_unlock_file",
+      "_mkdir"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-time-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "clock",
+      "strftime",
+      "_mktime64",
+      "_gmtime64_s",
+      "_difftime64",
+      "asctime",
+      "_localtime64_s",
+      "_gmtime64",
+      "_localtime64",
+      "_time64"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-utility-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "rand",
+      "srand",
+      "qsort",
+      "abs"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-math-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "sqrt",
+      "sqrtf",
+      "_dclass",
+      "exp2f",
+      "tan",
+      "cos",
+      "fmin",
+      "sin",
+      "exp",
+      "floor",
+      "pow",
+      "_finite",
+      "log10",
+      "_fdtest",
+      "modff",
+      "__setusermatherr",
+      "tanhf",
+      "_fdclass",
+      "frexp",
+      "log2f",
+      "roundf",
+      "truncf",
+      "atanf",
+      "ceilf",
+      "cosf",
+      "expf",
+      "floorf",
+      "powf",
+      "sinf",
+      "tanf",
+      "acosf",
+      "asinf",
+      "atan2f",
+      "fmodf",
+      "log10f",
+      "logf",
+      "atan",
+      "acos",
+      "atan2",
+      "modf",
+      "log"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-locale-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_configthreadlocale",
+      "_create_locale"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-environment-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "getenv"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-heap-l2-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GlobalFree"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "CRYPT32.dll",
+     "kind": "import",
+     "functions": [
+      "CertFindChainInStore",
+      "CertFreeCertificateChain",
+      "CertOpenSystemStoreW",
+      "CertCloseStore"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    }
+   ],
+   "vccorlib140.dll": [
+    {
+     "module": "KERNEL32.dll",
+     "kind": "import",
+     "functions": [
+      "RaiseException",
+      "ReleaseSRWLockExclusive",
+      "AcquireSRWLockExclusive",
+      "ReleaseSRWLockShared",
+      "AcquireSRWLockShared",
+      "FormatMessageW",
+      "GetProcAddress",
+      "LoadLibraryExW",
+      "HeapFree",
+      "EnterCriticalSection",
+      "LeaveCriticalSection",
+      "InitializeCriticalSectionEx",
+      "GetLastError",
+      "OutputDebugStringW",
+      "HeapAlloc",
+      "DeleteCriticalSection",
+      "GetProcessHeap",
+      "CreateEventExW",
+      "WaitForMultipleObjectsEx",
+      "SetEvent",
+      "CloseHandle",
+      "DecodePointer",
+      "InitializeSRWLock",
+      "TryAcquireSRWLockShared",
+      "RtlCaptureContext",
+      "RtlLookupFunctionEntry",
+      "RtlVirtualUnwind",
+      "UnhandledExceptionFilter",
+      "SetUnhandledExceptionFilter",
+      "GetCurrentProcess",
+      "TerminateProcess",
+      "IsProcessorFeaturePresent",
+      "IsDebuggerPresent",
+      "QueryPerformanceCounter",
+      "GetCurrentProcessId",
+      "GetCurrentThreadId",
+      "GetSystemTimeAsFileTime",
+      "DisableThreadLibraryCalls",
+      "InitializeSListHead"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140_1.dll",
+     "kind": "import",
+     "functions": [
+      "__CxxFrameHandler4"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140.dll",
+     "kind": "import",
+     "functions": [
+      "memset",
+      "_CxxThrowException",
+      "__C_specific_handler",
+      "memmove",
+      "__std_type_info_destroy_list",
+      "_purecall",
+      "__current_exception_context",
+      "__current_exception",
+      "_SetWinRTOutOfMemoryExceptionCallback",
+      "__GetPlatformExceptionInfo",
+      "__std_exception_copy",
+      "__std_exception_destroy",
+      "__std_terminate",
+      "memcpy"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "__acrt_iob_func",
+      "__stdio_common_vfprintf",
+      "__stdio_common_vswprintf_s"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_invoke_watson",
+      "__p___wargv",
+      "__p___argc",
+      "_invalid_parameter_noinfo_noreturn",
+      "terminate",
+      "_seh_filter_dll",
+      "_configure_narrow_argv",
+      "_initialize_narrow_environment",
+      "_initialize_onexit_table",
+      "_configure_wide_argv",
+      "_register_onexit_function",
+      "_execute_onexit_table",
+      "_initterm_e",
+      "_initterm",
+      "_cexit",
+      "_crt_atexit"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_aligned_offset_malloc",
+      "_aligned_free",
+      "free",
+      "_callnewh",
+      "malloc"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "wcscpy_s"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "MSVCP140.dll",
+     "kind": "import",
+     "functions": [
+      "?_Xlength_error@std@@YAXPEBD@Z"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "ole32.dll",
+     "kind": "import",
+     "functions": [
+      "CoTaskMemAlloc",
+      "CoGetApartmentType",
+      "CoMarshalInterThreadInterfaceInStream",
+      "CoAddRefServerProcess",
+      "CoGetContextToken",
+      "CoGetInterfaceAndReleaseStream",
+      "CoCreateFreeThreadedMarshaler",
+      "CoTaskMemFree",
+      "CoReleaseServerProcess",
+      "CoGetObjectContext"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "OLEAUT32.dll",
+     "kind": "import",
+     "functions": [
+      "SysAllocStringLen",
+      "SysFreeString"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-winrt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "WindowsGetStringLen",
+      "WindowsGetStringRawBuffer",
+      "WindowsCreateStringReference",
+      "WindowsDeleteString",
+      "WindowsCompareStringOrdinal",
+      "WindowsIsStringEmpty",
+      "WindowsDuplicateString",
+      "WindowsStringHasEmbeddedNull",
+      "WindowsCreateString"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-winrt-error-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "SetRestrictedErrorInfo",
+      "RoOriginateError",
+      "GetRestrictedErrorInfo",
+      "RoTransformError"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-winrt-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "RoRegisterForApartmentShutdown",
+      "RoGetActivationFactory",
+      "RoUnregisterForApartmentShutdown",
+      "RoGetApartmentIdentifier",
+      "RoInitialize",
+      "RoUninitialize",
+      "RoRevokeActivationFactories",
+      "RoRegisterActivationFactories"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-math-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "ceilf"
+     ],
+     "pc": [
+      1
+     ]
+    }
+   ],
+   "vcruntime140.dll": [
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "terminate",
+      "abort"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "calloc",
+      "malloc",
+      "free"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "strcpy_s",
+      "strncmp",
+      "wcsncmp"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "__stdio_common_vsprintf_s"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-convert-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "atol"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "KERNEL32.dll",
+     "kind": "import",
+     "functions": [
+      "SetLastError",
+      "IsProcessorFeaturePresent",
+      "TerminateProcess",
+      "GetCurrentProcess",
+      "SetUnhandledExceptionFilter",
+      "UnhandledExceptionFilter",
+      "RtlVirtualUnwind",
+      "RtlCaptureContext",
+      "GetSystemTimeAsFileTime",
+      "GetCurrentThreadId",
+      "GetCurrentProcessId",
+      "QueryPerformanceCounter",
+      "RtlLookupFunctionEntry",
+      "RtlUnwindEx",
+      "GetModuleHandleW",
+      "RtlUnwind",
+      "EncodePointer",
+      "RaiseException",
+      "RtlPcToFileHeader",
+      "InterlockedPushEntrySList",
+      "InterlockedFlushSList",
+      "EnterCriticalSection",
+      "LeaveCriticalSection",
+      "DeleteCriticalSection",
+      "GetLastError",
+      "LoadLibraryExW",
+      "InitializeCriticalSectionAndSpinCount",
+      "TlsAlloc",
+      "TlsGetValue",
+      "TlsSetValue",
+      "TlsFree",
+      "FreeLibrary",
+      "GetProcAddress",
+      "GetModuleFileNameW"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    }
+   ],
+   "vcruntime140_1.dll": [
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "terminate",
+      "abort"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "malloc",
+      "calloc",
+      "free"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "strcpy_s",
+      "wcsncmp"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "VCRUNTIME140.dll",
+     "kind": "import",
+     "functions": [
+      "__processing_throw",
+      "__C_specific_handler",
+      "memmove",
+      "__current_exception"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "KERNEL32.dll",
+     "kind": "import",
+     "functions": [
+      "IsProcessorFeaturePresent",
+      "TerminateProcess",
+      "GetCurrentProcess",
+      "SetUnhandledExceptionFilter",
+      "UnhandledExceptionFilter",
+      "RtlVirtualUnwind",
+      "RtlCaptureContext",
+      "GetSystemTimeAsFileTime",
+      "GetCurrentThreadId",
+      "GetCurrentProcessId",
+      "QueryPerformanceCounter",
+      "RtlUnwindEx",
+      "RtlLookupFunctionEntry",
+      "LoadLibraryExW",
+      "GetProcAddress",
+      "FreeLibrary",
+      "TlsFree",
+      "TlsSetValue",
+      "TlsGetValue",
+      "EncodePointer",
+      "RaiseException",
+      "RtlPcToFileHeader",
+      "InitializeCriticalSectionAndSpinCount",
+      "DeleteCriticalSection",
+      "GetLastError",
+      "SetLastError",
+      "TlsAlloc"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    }
+   ],
+   "xcurl.dll": [
+    {
+     "module": "msvcp_win.dll",
+     "kind": "import",
+     "functions": [
+      "?_Xlength_error@std@@YAXPEBD@Z"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "strcmp",
+      "strncmp",
+      "memset",
+      "strspn",
+      "strcspn",
+      "wcsncmp"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_initterm_e",
+      "_initterm"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-crt-private-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "_o__configure_narrow_argv",
+      "_o__crt_atexit",
+      "_o__errno",
+      "_o__execute_onexit_table",
+      "_o__initialize_narrow_environment",
+      "_o__initialize_onexit_table",
+      "_o__invalid_parameter_noinfo",
+      "_o__invalid_parameter_noinfo_noreturn",
+      "_o__register_onexit_function",
+      "_o__seh_filter_dll",
+      "_o__stricmp",
+      "memmove",
+      "_o__cexit",
+      "_o_atoi",
+      "_o_fwrite",
+      "_o_strcpy_s",
+      "_o_strtol",
+      "_o_strtoul",
+      "_o_tolower",
+      "__C_specific_handler",
+      "_o___stdio_common_vswprintf",
+      "_o___stdio_common_vsscanf",
+      "_o___stdio_common_vsprintf_s",
+      "_o___stdio_common_vsprintf",
+      "_o___std_type_info_destroy_list",
+      "_o___std_exception_destroy",
+      "_o___std_exception_copy",
+      "strrchr",
+      "strchr",
+      "wcsstr",
+      "wcschr",
+      "strstr",
+      "__std_terminate",
+      "__CxxFrameHandler3",
+      "_CxxThrowException",
+      "memchr",
+      "memcpy"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-eventing-classicprovider-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "UnregisterTraceGuids",
+      "GetTraceLoggerHandle",
+      "GetTraceEnableLevel",
+      "GetTraceEnableFlags",
+      "RegisterTraceGuidsW",
+      "TraceMessage"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-libraryloader-l1-2-0.dll",
+     "kind": "import",
+     "functions": [
+      "LoadLibraryExA",
+      "GetProcAddress",
+      "DisableThreadLibraryCalls",
+      "FreeLibrary"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-synch-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "InitializeCriticalSectionEx",
+      "ReleaseMutex",
+      "WaitForSingleObject",
+      "ResetEvent",
+      "AcquireSRWLockExclusive",
+      "CreateMutexW",
+      "SetEvent",
+      "CreateEventW",
+      "ReleaseSRWLockExclusive",
+      "DeleteCriticalSection",
+      "LeaveCriticalSection",
+      "EnterCriticalSection"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-sysinfo-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetSystemTimeAsFileTime",
+      "GetTickCount",
+      "GetTickCount64"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-com-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "CoCreateGuid"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-eventing-provider-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "EventRegister",
+      "EventWriteTransfer",
+      "EventSetInformation",
+      "EventUnregister"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-heap-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "HeapReAlloc",
+      "HeapFree",
+      "GetProcessHeap",
+      "HeapAlloc"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-profile-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "QueryPerformanceFrequency",
+      "QueryPerformanceCounter"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-debug-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "OutputDebugStringA",
+      "IsDebuggerPresent"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-handle-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "CloseHandle"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-errorhandling-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetLastError",
+      "UnhandledExceptionFilter",
+      "SetUnhandledExceptionFilter"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "WINHTTP.dll",
+     "kind": "import",
+     "functions": [
+      "WinHttpOpenRequest",
+      "WinHttpWriteData",
+      "WinHttpReceiveResponse",
+      "WinHttpSetTimeouts",
+      "WinHttpQueryDataAvailable",
+      "WinHttpConnect",
+      "WinHttpSendRequest",
+      "WinHttpOpen",
+      "WinHttpSetOption",
+      "WinHttpAddRequestHeaders",
+      "WinHttpSetStatusCallback",
+      "WinHttpCloseHandle",
+      "WinHttpCrackUrl",
+      "WinHttpReadData",
+      "WinHttpQueryHeaders"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "CRYPT32.dll",
+     "kind": "import",
+     "functions": [
+      "CertFreeCertificateContext",
+      "CertCloseStore",
+      "CertFindCertificateInStore",
+      "CryptStringToBinaryW",
+      "CertOpenStore"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-psm-appnotify-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "UnregisterAppStateChangeNotification",
+      "RegisterAppStateChangeNotification"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-synch-l1-2-1.dll",
+     "kind": "import",
+     "functions": [
+      "WaitForMultipleObjects"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-string-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "WideCharToMultiByte",
+      "MultiByteToWideChar"
+     ],
+     "pc": [
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-rtlsupport-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "RtlVirtualUnwind",
+      "RtlLookupFunctionEntry",
+      "RtlCaptureContext"
+     ],
+     "pc": [
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processthreads-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "GetCurrentThreadId",
+      "GetCurrentProcessId",
+      "TerminateProcess",
+      "GetCurrentProcess"
+     ],
+     "pc": [
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-processthreads-l1-1-1.dll",
+     "kind": "import",
+     "functions": [
+      "IsProcessorFeaturePresent"
+     ],
+     "pc": [
+      1
+     ]
+    },
+    {
+     "module": "api-ms-win-core-interlocked-l1-1-0.dll",
+     "kind": "import",
+     "functions": [
+      "InitializeSListHead"
+     ],
+     "pc": [
+      1
+     ]
+    }
+   ]
+  },
+  "os_build": "10.0.22000.4429"
+ }
+}

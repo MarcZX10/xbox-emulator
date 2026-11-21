@@ -1,0 +1,112 @@
+{
+  "updated": "2026-11-21",
+  "upstream": {"repo": "drycheetah84/TomBox", "commit": "7e8064f"},
+  "milestones": {"done": 14, "total": 19},
+  "shaders": {"translated": 105506, "total": 105506},
+  "shader_compile": {
+    "lobby_frame": {"done": 139, "total": 139, "source": "TomBox docs/DEVELOPMENT_LOG.md:894"},
+    "fixtures": {"done": 25, "total": 25, "source": "TomBox docs/DEVELOPMENT_LOG.md:672"},
+    "full_sweep": {"done": null, "total": 105506, "source": "TomBox docs/DEVELOPMENT_LOG.md:706 (in progress, no final count published)"}
+  },
+  "import_overrides": {
+    "AcpHal.dll": "partial",
+    "MFPlat.DLL": "partial",
+    "MFReadWrite.dll": "partial",
+    "XAudio2_9.dll": "partial",
+    "GameInput.dll": "partial",
+    "GameChat2.dll": "none",
+    "XMemGetWorkingSetStatistics": "partial",
+    "XMemTransferMemory": "partial",
+    "D3D12XboxSetProcessDebugFlags": "partial"
+  },
+  "d3d12x": {
+    "Device": {"total": 160, "done": "0-43,44,48,55,60-62,73,78-81", "partial": "45-47,49-54,56-59,63-72,74-77,82-90"},
+    "CommandList": {"total": 128, "done": "0-26,32-52,59,67,68,83", "partial": ""}
+  },
+  "stages": {
+    "Vertex": "done", "Pixel": "done", "Compute": "done", "Geometry": "done",
+    "Hull": "done", "Domain": "done", "Mesh": "none", "Amplification": "none"
+  },
+  "titles_upstream": ["Fortnite", "Grand Theft Auto VI"],
+  "titles_analysed": [
+    {"name": "Fortnite", "build": "2.0.1461.7919", "exe": "FortniteClient-XSX-Shipping.exe", "exe_size": 157572608,
+     "binaries": "input/extracted/Mount/FortniteGame/Binaries/XSX", "xvd": "input/extracted/EmbeddedXvd/Windows",
+     "run_evidence": true, "unverified_binaries": ["GameChat2.dll"], "unverified_modules": ["GameChat2.dll", "CONCRT140.dll"]},
+    {"name": "XDefiant", "exe": "Rogue_scarlett_rtx.exe", "exe_size": 97231360,
+     "binaries": "input/xdefiant/Mount", "xvd": "input/xdefiant/EmbeddedXvd/Windows",
+     "run_evidence": false, "unverified_binaries": [], "unverified_modules": []}
+  ],
+  "verified_milestones": [
+    {"name": "Boots (process starts, GDK runtime services up)", "evidence": "%TEMP%\\tombox\\run.txt:1-4"},
+    {"name": "First frames (PresentX into the title window)", "evidence": "%TEMP%\\tombox\\tombox_compat.log:14540"},
+    {"name": "Window clamped to the primary monitor", "evidence": "%TEMP%\\tombox\\tombox_compat.log:12987"},
+    {"name": "Login complete (HandleLoginRequestComplete Result=2)", "evidence": "%TEMP%\\tombox\\run.txt:5962"},
+    {"name": "Hotfix check UpdateSuccess", "evidence": "%TEMP%\\tombox\\run.txt:3401,6094"},
+    {"name": "Game-mode select (UI.State.Startup.SubgameSelect)", "evidence": "%TEMP%\\tombox\\run.txt:6249"},
+    {"name": "Battle Royale lobby (UI.State.Athena.Frontend)", "evidence": "%TEMP%\\tombox\\run.txt:6496"}
+  ],
+  "open_milestones": ["3D scene correct", "Keyboard / controller input", "Audio", "Gameplay", "A second title running"],
+  "emulator": {
+    "d3d12_xs.dll": {"file": "crates/compat/d3d12_xs/src/lib.rs", "functions": {
+      "D3D12XboxCreateDevice": "implemented", "IID_ID3D12Device": "implemented",
+      "D3D12CreateDevice": "forwarded", "D3D12SerializeRootSignature": "forwarded",
+      "D3D12SerializeVersionedRootSignature": "forwarded", "D3D12XboxSetProcessDebugFlags": "stub"}},
+    "xmem.dll": {"file": "crates/compat/xmem/src/lib.rs", "functions": {
+      "XMemAlloc": "implemented", "XMemAllocDefault": "implemented", "XMemFree": "implemented",
+      "XMemFreeDefault": "implemented", "XMemVirtualAlloc": "implemented",
+      "XMemAllocatePhysicalPages": "implemented", "XMemFreePhysicalPages": "implemented",
+      "XMemMapPhysicalPages": "implemented", "XMemTransferMemory": "stub",
+      "XMemGetWorkingSetStatistics": "stub"}},
+    "acphal.dll": {"file": "crates/compat/acphal/src/lib.rs", "functions": {
+      "ApuCreateHeap": "implemented", "ApuAlloc": "implemented", "ApuHeapGetState": "implemented",
+      "ApuFree": "stub", "AcpHalCreate": "stub", "AcpHalAllocateShapeContexts": "stub"}},
+    "xcrdapi.dll": {"file": "crates/compat/xcrdapi/src/lib.rs", "functions": {"DStorageGetFactory": "forwarded"}},
+    "dxcompiler_xs.dll": {"file": "crates/compat/dxcompiler_xs/src/lib.rs", "functions": {"DxcCreateInstance": "stub"}},
+    "xg_xs.dll": {"file": "crates/compat/xg_xs/src/lib.rs", "functions": {"XGCreateTextureComputer": "stub"}},
+    "mfplat.dll": {"file": "crates/compat/mfplat/src/lib.rs", "functions": {
+      "MFStartup": "forwarded", "MFShutdown": "forwarded", "MFCreateMediaType": "forwarded",
+      "MFCreateSample": "forwarded", "MFCreateMemoryBuffer": "forwarded",
+      "MFCreateAlignedMemoryBuffer": "forwarded", "MFCreateAttributes": "forwarded",
+      "MFCreateAsyncResult": "forwarded", "MFInvokeCallback": "forwarded", "MFCreateFile": "forwarded",
+      "MFCreateDXGIDeviceManager": "forwarded", "MFCreateWaveFormatExFromMFMediaType": "forwarded",
+      "MFCreateSourceResolver": "forwarded", "MFPutWorkItem2": "forwarded", "MFllMulDiv": "forwarded",
+      "MFResetDXGIDeviceManagerX": "stub"}}
+  },
+  "notes": {
+    "ApuFree": "no-op free (bump allocator)",
+    "AcpHalCreate": "returns an inert IAcpHal (no SHAPE DSP)",
+    "AcpHalAllocateShapeContexts": "inert",
+    "D3D12XboxSetProcessDebugFlags": "logs, returns S_OK",
+    "XMemTransferMemory": "E_NOTIMPL",
+    "XMemGetWorkingSetStatistics": "E_NOTIMPL",
+    "DxcCreateInstance": "E_NOTIMPL",
+    "XGCreateTextureComputer": "E_NOTIMPL",
+    "MFResetDXGIDeviceManagerX": "E_NOTIMPL",
+    "DStorageGetFactory": "PC DirectStorage (dstorage.dll) with Xbox->PC IID and request translation",
+    "D3D12XboxCreateDevice": "real PC D3D12 device wrapped with the Xbox vtable layout"
+  },
+  "hooked": {
+    "file": "crates/compat/compat-common/src/net_guard.rs",
+    "ws2_32.dll": ["getaddrinfo", "GetAddrInfoW", "GetAddrInfoExW", "GetAddrInfoExA", "gethostbyname", "connect", "WSAConnect", "WSAConnectByNameW", "WSAConnectByNameA", "sendto", "WSASendTo"],
+    "winhttp.dll": ["WinHttpConnect", "WinHttpOpenRequest", "WinHttpOpen", "WinHttpSetOption", "WinHttpQueryOption", "WinHttpSendRequest", "WinHttpSetStatusCallback", "WinHttpReceiveResponse", "WinHttpQueryDataAvailable", "WinHttpReadData", "WinHttpQueryHeaders"]
+  },
+  "gdk_linked": {
+    "GDK XUser (title-linked)": {"file": "crates/compat/compat-common/src/gdk_user.rs", "functions": [
+      "XUserAddAsync", "XUserAddResult", "XUserCheckPrivilege", "XUserCloseHandle", "XUserCompare",
+      "XUserDuplicateHandle", "XUserFindForDevice", "XUserFindUserById", "XUserFindUserByLocalId",
+      "XUserGetGamertag", "XUserGetId", "XUserGetLocalId", "XUserGetMaxUsers", "XUserGetState",
+      "XUserGetTokenAndSignatureAsync", "XUserGetTokenAndSignatureResult", "XUserGetTokenAndSignatureResultSize",
+      "XUserGetTokenAndSignatureUtf16Async", "XUserGetTokenAndSignatureUtf16Result", "XUserGetTokenAndSignatureUtf16ResultSize",
+      "XUserRegisterForChangeEvent", "XUserRegisterForDeviceAssociationChanged", "XUserResolveIssueWithUiAsync",
+      "XUserResolveIssueWithUiResult", "XUserResolvePrivilegeWithUiAsync", "XUserResolvePrivilegeWithUiResult",
+      "XUserUnregisterForChangeEvent", "XUserUnregisterForDeviceAssociationChanged"]},
+    "GDK XStore (title-linked)": {"file": "crates/compat/compat-common/src/gdk_store.rs", "functions": [
+      "XStoreCloseContextHandle", "XStoreCloseProductsQueryHandle", "XStoreCreateContext", "XStoreEnumerateProductsQuery",
+      "XStoreProductsQueryHasMorePages", "XStoreProductsQueryNextPageAsync", "XStoreProductsQueryNextPageResult",
+      "XStoreQueryAssociatedProductsAsync", "XStoreQueryAssociatedProductsResult", "XStoreQueryConsumableBalanceRemainingAsync",
+      "XStoreQueryConsumableBalanceRemainingResult", "XStoreQueryEntitledProductsAsync", "XStoreQueryEntitledProductsResult",
+      "XStoreQueryGameAndDlcPackageUpdatesAsync", "XStoreQueryGameAndDlcPackageUpdatesResult",
+      "XStoreQueryGameAndDlcPackageUpdatesResultCount", "XStoreQueryProductsAsync", "XStoreQueryProductsResult",
+      "XStoreShowPurchaseUIAsync", "XStoreShowPurchaseUIResult", "XStoreShowRedeemTokenUIAsync", "XStoreShowRedeemTokenUIResult"]}
+  }
+}
