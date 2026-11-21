@@ -2,7 +2,7 @@
 
 What the emulator is still missing, per title, and who is on it. Updated every time a run finds a gap. Game dumps are complete and untouched; every entry here is an emulator gap.
 
-Last update: 2026-11-21 (runs 23-27, first Terraria and Trackmania boots).
+Last update: 2026-11-21 (run 33: backdrop diag, 45 FPS lobby).
 
 ---
 
@@ -12,7 +12,16 @@ Last update: 2026-11-21 (runs 23-27, first Terraria and Trackmania boots).
 - **Seen:** run 22-27. The scenery around the character never reaches the GPU. The character, floor and stage discs draw.
 - **Cause found:** Fortnite culls far objects with GPU occlusion queries. It nests a dummy outer query around the per-object queries. Xbox allows that; PC D3D12 allows one active occlusion query per command list.
 - **Done:** `query_x.rs` un-nests them. Run 27 confirmed the nesting: 245 un-nested queries.
-- **Still missing:** every sampled query result is still 0, so everything still reads as occluded. Next: the occlusion-box draw (VS `f89dddcf70078d07`), depth state, and the resolve offsets.
+- **Still missing:** every sampled query result is still 0, so everything still reads as occluded.
+- **Run 33 diag:** the occlusion boxes (VS `f89dddcf70078d07`) reach clipping (CPrimitives 10-12 of 12), but PSInvocations is 0 and no samples pass. The viewport and scissor are full screen. Suspects: depth-bounds or depth/stencil state in the PSO translation, or sample mask 0. The box PSO is not registered in the diag, so its creation path is not hooked.
+
+### 🟨 Lobby hologram character / slow login
+- **Seen:** the character shows as a cyan hologram, which means default profile/loadout data. Login→lobby takes about 29 s after the splash screen (QueryProfile 8.6 s).
+- **Missing:** a full athena profile loadout in the in-process services, and connection reuse.
+
+### 🟨 Performance
+- **Run 33 lobby:** 45.2 FPS average (the console runs it at 60), with 1-2.5 s hitches. Frontend LoadMap takes 24.5 s.
+- **Missing:** console frame pacing (SetFrameIntervalX / ScheduleFrameEventX), title core affinity, and hitch sources.
 - **After that:** the older build drew the backdrop black (PS `31dd3b33133e9ca3`). Its material constant buffers (cb1/cb2) are bound as root CBVs, and the trace does not capture those yet.
 
 ### 🟨 Flashing rectangle (bloom inf)
