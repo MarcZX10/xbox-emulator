@@ -94,32 +94,35 @@ Last update: 2026-11-21 (run 33: backdrop diag, 45 FPS lobby).
   - `xg_x` is now the real GCN XG model. Tile modes, depth/stencil validation and texture layouts are byte-identical to the console `xg_x.dll` on about 1700 random cases. Before this, texture sizes came out as 0.
 - **Missing:**
   - After `XGCreateTexture2DComputer` (2048x2048 fmt 65 mode 13), the log has no `PresentX`.
-  - The cause is unknown. It may be a fence or frame-event wait, or the upload path for Xbox One placed textures (`upload.rs` uses `xg_xs`, which Terraria does not load).
+  - The cause is unknown. Frame events are not it: `SetFrameIntervalX` / `ScheduleFrameEventX` (types 0 and 2) arrive and the frame clock runs. It may be a fence wait (DMA/copy queue), or the upload path for Xbox One placed textures (`upload.rs` uses `xg_xs`, which Terraria does not load).
+  - One run in two crashed after 6 s: an AV in ntdll on a networking/PlayFab Party thread, after a C++ exception.
 - **Dump:** complete. All 19 layout file groups are present.
 
 ---
 
 ## Trackmania (Xbox One, `d3d12_x`)
 
-### 🟥 Device removed after the D3D12 device is created
-- **Fixed (GDK layer):**
-  - The game reads its packs from the console drive `G:\`; those calls are now redirected to the title folder, and the packs install.
-  - The device type now reports Series X for Xbox One titles, which fixed the crash at `GbxGame+0x800950`.
-  - The `twinapi.appcore` AV at teardown and the null TaskQueue error are gone.
+### 🟨 Presents frames (60 fps at start, 34 fps average over 40 s); shaders not translated yet
+- **Fixed:**
+  - Packs on `G:\` and the Series device type (GDK layer).
+  - `Close 0x80070057` is gone. The cause was a ResourceBarrier `RENDER_TARGET -> 0x4000c0`.
+    - On Xbox the extra bit 0x400000 is combined with the shader-resource states. On PC that bit is `RAYTRACING_ACCELERATION_STRUCTURE`, which is valid only on its own.
+    - `xone_barrier.rs` now strips the bit when it is combined with other states.
+    - The device is no longer removed, and PresentX shows frames in the title window.
+  - The bad command was found with `TOMBOX_CMDLIST_SPY=1` (`cmd_spy.rs`). It logs the last commands of a list, decodes their barriers, and prints them when Close fails.
 - **Missing:**
-  - Xbox One (GCN/Durango) shader translation: 42 lines of `shader_xlat FAIL … magic=[…]`.
-    - The container is DXBC with these chunks: `SFI0 ISG1 OSG1 PSV0 RTS0 STAT [ILDN] HASH DXIL`.
-    - The `DXIL` part holds `XDAT` with a zlib stream. That stream inflates to a Durango blob, not `FSSM`.
-    - Blob header:
-      - `u64 size-8`, `u64 hash`, `u32 hash2`, `u32`.
-      - `5,3,6`.
-      - `u64 code_start = 0x240`.
-      - `u64 code_end`.
-    - The bytes in `[0x240, code_end)` are GCN (CI / gfx7) ISA ending in `s_endpgm` (0xBF810000).
-    - Not started: a GCN decoder module in `tombox-xshader`. GCN encodings differ from RDNA2: SMRD instead of SMEM, VOP3 prefix 0x34, and different MUBUF/MIMG opcodes.
-  - A valid command list: `Close FAILED 0x80070057` → device removed (`CreateCommittedResource 0x887a0005`) → AV at `GbxGame+0x894c3b`.
-    - `TOMBOX_D3D12_DEBUG=1` cannot name the failing command: `D3D12GetDebugInterface` returns 0x887a002d because `d3d12SDKLayers.dll` is not on this PC (it is not in System32 and not in `third_party`).
-    - Next: get the layers from the Agility SDK package, or log the commands recorded into the failing list.
+  - 42 Xbox One (GCN/Durango) shaders.
+    - `tombox-xshader/src/gcn.rs` parses the Durango blob and re-encodes gfx7 ISA as RDNA2 words.
+      - 122/123 dumped shaders lower with no unknown opcodes.
+      - The remaining one uses `s_getpc` (PC-relative code), which is not relocated yet.
+    - HLSL translation: 0/123. The Durango user-SGPR binding model is not decoded yet.
+      - Example: the CB pointer is in `s[3:4]` and a 32-bit table pointer in `s5`, while the RDNA2 path expects root tables at s8/s4.
+      - The mapping is in the blob header and the tail after `code_end`.
+    - The code range starts with a 10-dword prefix and has data after `s_endpgm`; the program start must come from the metadata.
+    - MIMG `dim` is taken from the DA bit (2D or 2D array) until it can come from the resource info.
+  - D3D12 debug layer: `d3d12SDKLayers.dll` (Agility 1.620.2) cannot be enabled.
+    - `SetSDKVersion` needs Developer Mode.
+    - `CreateDeviceFactory(620)` works, and the device is created through it, but the factory reports the SDK layers as not installed.
 - **Dump:** complete. All 53 layout file groups are present, including `Packs\*.pak`.
 
 ---
