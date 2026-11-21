@@ -56,12 +56,14 @@ Last update: 2026-11-21 (runs 23-27, first Terraria and Trackmania boots).
 
 ## Trackmania (Xbox One, `d3d12_x`)
 
-### 🟥 Init fails after 5 s
-- **Reached:** the GDK services, XCurl, and UbiServices (emulated, no Ubisoft traffic).
-- **Missing:** the XPackage answers the game needs for its resource packs. The log shows `InstallGameResourcePacks failed` and then `CGbxApp::TheApp->Init() failed`.
-- **Also missing:**
-  - The default process task queue. The log shows `XERROR HR:80070006 Handle null (TaskQueue)`.
-  - A Windows app-model call that needs package identity. It causes an access violation in `twinapi.appcore.dll` during teardown.
+### 🟥 Device removed after the D3D12 device is created
+- **Fixed (GDK layer):**
+  - The game reads its packs from the console drive `G:\`; those calls are now redirected to the title folder, and the packs install.
+  - The device type now reports Series X for Xbox One titles, which fixed the crash at `GbxGame+0x800950`.
+  - The `twinapi.appcore` AV at teardown and the null TaskQueue error are gone.
+- **Missing:**
+  - Xbox One (GCN/Durango) shader translation: 42 lines of `shader_xlat FAIL … magic=[…]`, because Xbox One shader containers differ from Series ones.
+  - A valid command list: `Close FAILED 0x80070057` → device removed → AV at `GbxGame+0x894c3b`.
 - **Dump:** complete. All 53 layout file groups are present, including `Packs\*.pak`.
 
 ---
