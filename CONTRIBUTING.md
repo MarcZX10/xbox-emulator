@@ -26,7 +26,7 @@ Contributions are welcome. The most useful thing you can add right now is covera
 
 - **Never commit game or console files.** No dumps, no console DLLs, no extracted assets, shaders or data, and no binaries of any kind (`.exe`, `.dll`, `.pdb`, ...). Pull requests containing them will be closed.
 - **No fake success.** Don't return S_OK, or accept and ignore a call, when the console would do something. If something genuinely can't be done on PC, leave the row `missing` and explain why in its note.
-- **No network access at runtime.** The emulator is offline. Online features are emulated in-process as private sessions only.
+- **No network access at runtime.** The runtime is offline. Online features are answered in-process as private sessions only.
 - **No decryption, key extraction or DRM circumvention.** The project only runs already-decrypted dumps.
 - **Credit your sources.** If you used open-source code, it must have a compatible licence. Record it in the crate's `THIRD_PARTY` file.
 

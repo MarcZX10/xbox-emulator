@@ -12,7 +12,7 @@ Commands (all title-agnostic):
   load  --title T --bin-dir DIR --dll REL --xvd EMBEDDEDXVD --scratch DIR --out F
         [--expect-from REL]... [--search REL]... [--stage FILE]... [--pinvoke-prefix P --pinvoke-from FILE...] [--timeout S]
         Copies REL and its title-shipped dependency closure into a scratch dir (the dump is only read), stages a host
-        VC++ 14.x redist DLL when the title does not ship one, stages --stage emulator DLLs, then runs a child process
+        VC++ 14.x redist DLL when the title does not ship one, stages --stage runtime DLLs, then runs a child process
         that LoadLibraryExW's the copy and checks every row: import rows compare the loader-bound IAT slot against
         LoadLibraryExW+GetProcAddress, delay rows are resolved with ResolveDelayLoadedAPI on the module's own delay
         descriptor, --expect-from rows are GetProcAddress'd on the loaded module, dynamic rows are the
@@ -21,7 +21,7 @@ Commands (all title-agnostic):
         _Condition_variable semantics) and the result is in result.concrt_selftest.
   scan  --title T --bin-dir DIR --xvd EMBEDDEDXVD [--stage-dir DIR]... --out F
         Every import and delay row of every exe/dll under DIR, resolved against the title-shipped module, a staged
-        emulator DLL, or the PC System32 module; no title module is loaded.
+        runtime DLL, or the PC System32 module; no title module is loaded.
   token --token NAME --root DIR... --out F      exact module-name search (ASCII and UTF-16, identifier boundaries)
   sites --dll FILE --out F                      dynamic load sites only
 
@@ -36,7 +36,7 @@ Findings from the 2026-11-21 run (coverage.json: Fortnite 233/233 unverified row
   AudioHALWrapper.dll has no PC system module. GameChat2 loads it with LoadLibraryExW(L"AudioHALWrapper.dll",0,0)
   at rva 0x47188 (Opus, 16 names) and 0x4a5fc (Silk, 14 names). All 30 names are exported by the console
   AudioHALWrapper.dll, and the console DLL has 2 more that GameChat2 never resolves: SilkGetMaximumDecoderBufferSizes
-  and SilkGetMaximumEncoderBufferSizes. With the emulator AudioHALWrapper.dll staged (run_chatprobe.ps1 picks the
+  and SilkGetMaximumEncoderBufferSizes. With the runtime AudioHALWrapper.dll staged (run_chatprobe.ps1 picks the
   newest target*\release\AudioHALWrapper.dll; the crate belongs to the audio group), all 30 resolve at the console
   ordinals. A NULL module handle becomes HRESULT_FROM_WIN32(GetLastError()); every direct GetProcAddress result is
   NULL-checked; four Silk names go through helper 0x4ac10, whose HRESULT the caller tests with js
