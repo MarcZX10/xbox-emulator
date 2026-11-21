@@ -2,6 +2,21 @@
 
 Console and title libraries found while mapping the Xbox Series system surface. Every dump stays read-only.
 
+## 2026-11-21 — Xbox One GameCore driver variants provided (d3d12_x, xg_x, dxcompiler_x, XFrontPanelDisplay)
+
+The `missing` rows logged below for Terraria and Trackmania are now provided by four new emulator crates. Their export names and ordinals match the console DLLs in both dumps exactly (d3d12_x 54 exports, xg_x 21, dxcompiler_x 2, XFrontPanelDisplay 8), checked by unit tests against the dumps and against the built DLLs. Each crate carries an `exports.txt` (ordinal, name, status, note) that `tools/progress/sync.py` now reads into `data/emulator_exports.json`, and `gen.py` credits from it.
+
+| module | what the emulator does | status |
+|---|---|---|
+| `d3d12_x.dll` | `D3D12XboxCreateDevice`: NULL parameter block -> E_INVALIDARG as on console, then forwarded to the emulator's `d3d12_xs.dll` (must sit next to `d3d12_x.dll`; without it the host PC device is returned unwrapped). Root-signature, deserializer, `D3D12CreateDevice` and `D3D12GetDebugInterface` forward to host `d3d12.dll`; `D3D10CreateBlob` to `d3dcompiler_47.dll` | forwarded |
+| `d3d12_x.dll` | `D3DMapEsramMemory`: flags 1/3 only (else E_FAIL), VA 64 KiB aligned, page indices < 512; commits NumPages x 64 KiB of ordinary memory at the caller's VA. `D3D12XboxSet/GetProcessDebugFlags` keep `flags & 0x81f00001` like the console. 31 `IID_*` data exports with the console GUIDs | implemented |
+| `xg_x.dll` | texture computers and `XGComputeTexture2DLayout` return E_NOTIMPL (same stance as `xg_xs`, no faked layouts); `XGComputeOptimalTileMode` / `...DepthStencilTileModes` answer LINEAR_GENERAL (0x1f) | stub |
+| `dxcompiler_x.dll` | forwards to a `dxcompiler.dll` on the search path; stock Windows has none, so E_NOTIMPL | stub |
+| `XFrontPanelDisplay.dll` | `XFrontPanelIsSupported` false (retail behaviour), `GetScreenDimensions` 64 x 256 as on console; the rest accepted as no-ops | implemented 2, stub 6 |
+| `AcpHal.dll` | `AcpHalReleaseShapeContexts`, `ApuIsVirtualAddressValid`, `ApuMapVirtualAddress` were added by the audio work; now credited | implemented |
+
+Result: Terraria 3,485 / 3,496 (99.69%), Trackmania 1,573 / 1,579 (99.62%), XDefiant 1,597 / 1,612 (AcpHal credit). Neither Xbox One title has a `missing` import left; the remaining gaps are stubs (Terraria 11, Trackmania 6). The XG texture computers and `DxcCreateInstance` are the ones most likely to stop a real run. Xbox One D3D12.x vtable findings are in `LIBRARY_MAP.md` (Headline numbers section).
+
 ## 2026-11-21 — Trackmania (Nadeo GBX engine, Xbox One GameCore) dump added
 
 - Package `Ubisoft.TrackmaniaNext` 1.6.2.0 (TitleId `700107ED`, StoreId `9N01MR5LF53S`). `GameData/ApplicationBuildId` is `2024-04-30_c8c94a9ed_s1389bfd3_d028b741f_XB1`.
