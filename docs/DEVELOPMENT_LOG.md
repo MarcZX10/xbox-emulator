@@ -4,6 +4,23 @@ Reverse chronological. Each entry: what was done, evidence, blockers, next actio
 
 ---
 
+## 2026-11-21 — past "Checking for updates": login complete, game-mode select
+
+- Backend body logging showed the client requests `grant_type=client_credentials&token_type=eg1`;
+  the local backend now issues `eg1~<JWT>` tokens with real `exp`/`iat`.
+- Still stalled. WinHTTP tracing (ReceiveResponse / QueryHeaders / ReadData) showed zero reads:
+  the server answered every request but the title never consumed a response. Cause: the
+  emulator's `WinHttpOpen` hook cleared `0x30000000` (WINHTTP_FLAG_SECURE_DEFAULTS), which
+  includes WINHTTP_FLAG_ASYNC (`0x10000000`), so the session ran synchronously and the
+  title's completion callbacks never fired. Fix: clear only the secure-defaults bit, keep ASYNC.
+- Run 15 (log evidence): 59 ReceiveResponse / 620 ReadData calls; `HandleLoginRequestComplete
+  [Result=2]`; `CheckComplete UpdateSuccess`; `UI State changing from [UI.State.Startup.Login]
+  to [UI.State.Startup.SubgameSelect]`. 43 distinct backend endpoints called (6 answered 404).
+- Next: in-process service emulation inside the emulator (replacing the stand-in Node server)
+  and getting from game-mode select into the Battle Royale lobby without mouse input.
+
+---
+
 ## 2026-11-21 — local backend, stuck at "Checking for updates"
 
 - Offline, login fails (`Unable to join the Fortnite login queue`). Added a local-backend mode
