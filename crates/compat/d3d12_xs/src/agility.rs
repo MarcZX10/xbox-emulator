@@ -54,6 +54,10 @@ unsafe fn make_factory(cfg: *mut c_void, version: u32, cdir: &[u8]) -> i32 {
     hr
 }
 
+pub fn factory() -> *mut c_void {
+    FACTORY.load(Ordering::Acquire) as *mut c_void
+}
+
 pub fn create_device(adapter: *mut c_void, level: u32, riid: *const c_void, pp: *mut *mut c_void) -> Option<i32> {
     let factory = FACTORY.load(Ordering::Acquire) as *mut c_void;
     if factory.is_null() {

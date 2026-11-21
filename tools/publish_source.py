@@ -1,7 +1,9 @@
 import os, re, shutil, sys
 
 SRC = r"D:\xbox-pc-port\emulator"
-DST = r"D:\xbox-pc-port\source"
+DST = r"D:\xbox-pc-port"
+MANAGED = ["crates", os.path.join("tools", "dev"), os.path.join("tools", "qa"), os.path.join("tools", "verify"),
+           os.path.join("tools", "snap_window.ps1")]
 
 TOP_FILES = {"Cargo.toml", "Cargo.lock", "stage_compat.ps1", "run_fortnite.ps1", "run_xdefiant.ps1", "run_xone.ps1"}
 TOP_DIRS = {"crates", "tools"}
@@ -19,6 +21,8 @@ def wanted(rel):
         return parts[0] in TOP_FILES
     if parts[0] not in TOP_DIRS:
         return False
+    if parts[0] == "tools" and len(parts) > 2 and parts[1] == "progress":
+        return False
     for p in parts[:-1]:
         if p in SKIP_DIRS or p.startswith("target"):
             return False
@@ -30,8 +34,12 @@ def wanted(rel):
 
 
 def main():
-    if os.path.isdir(DST):
-        shutil.rmtree(DST)
+    for m in MANAGED + sorted(TOP_FILES):
+        p = os.path.join(DST, m)
+        if os.path.isdir(p):
+            shutil.rmtree(p)
+        elif os.path.isfile(p):
+            os.remove(p)
     copied, blocked = 0, []
     for root, dirs, files in os.walk(SRC):
         rel_root = os.path.relpath(root, SRC)

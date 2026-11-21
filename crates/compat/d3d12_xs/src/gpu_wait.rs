@@ -663,6 +663,8 @@ mod tests {
 
     #[test]
     fn condition_fences_are_pooled_with_rising_values() {
+        let _pool = COND_POOL_TEST.lock().unwrap_or_else(|e| e.into_inner());
+        COND_FREE.lock().unwrap_or_else(|e| e.into_inner()).clear();
         let mut made = 0;
         let a = cond_take(9001, || { made += 1; 0xf00 }).unwrap();
         assert_eq!(a, (0xf00, 1));
@@ -715,6 +717,7 @@ mod tests {
         assert_eq!(s, vec![Step::Exec { index: 0 }, Step::SignalCond { id: 2 }, Step::SignalAddr { addr: 0x800, seq: 1 }]);
         let s = plan_with(&mut b, &[&[Op::Wait { addr: 0x900, func: FUNC_EQUAL, value: 1, mask: u64::MAX }][..]], &classify);
         assert_eq!(s, vec![Step::Unresolved { addr: 0x900, func: FUNC_EQUAL, value: 1, mask: u64::MAX }, Step::Exec { index: 0 }]);
+        let _pool = COND_POOL_TEST.lock().unwrap_or_else(|e| e.into_inner());
         assert!(!cond_live(77_001));
         cond_take(77_001, || 0xabc).unwrap();
         assert!(cond_live(77_001));

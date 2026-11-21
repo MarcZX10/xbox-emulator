@@ -32,9 +32,10 @@ unsafe fn release(obj: *mut c_void) {
 }
 
 pub fn enable_before_create() -> bool {
-    if !requested() {
-        return false;
-    }
+    requested() && enable_now()
+}
+
+fn enable_now() -> bool {
     let mut settings: *mut c_void = core::ptr::null_mut();
     let factory = crate::agility::factory();
     let (hr, via) = unsafe {
@@ -67,9 +68,10 @@ pub fn enable_before_create() -> bool {
 }
 
 pub fn watch(device: *mut c_void) -> bool {
-    if !requested() || device.is_null() {
-        return false;
-    }
+    requested() && !device.is_null() && arm(device)
+}
+
+fn arm(device: *mut c_void) -> bool {
     unsafe {
         let qi: unsafe extern "system" fn(*mut c_void, *const Guid, *mut *mut c_void) -> i32 = core::mem::transmute(slot(device, 0));
         let mut dred: *mut c_void = core::ptr::null_mut();
@@ -103,6 +105,8 @@ pub fn watch(device: *mut c_void) -> bool {
         });
         if spawned.is_err() {
             record(M, "dred", "removal watch thread could not start");
+            release(fence);
+            release(dred);
             return false;
         }
     }
@@ -332,19 +336,15 @@ mod tests {
 
     #[test]
     fn host_runtime_accepts_dred_settings_and_a_warp_device_arms_the_watch() {
-        std::env::set_var("TOMBOX_DRED", "1");
-        assert!(enable_before_create());
+        assert!(enable_now());
         let create = crate::host_proc(b"D3D12CreateDevice\0");
         assert_ne!(create, 0);
         let create: unsafe extern "system" fn(*mut c_void, u32, *const c_void, *mut *mut c_void) -> i32 = unsafe { core::mem::transmute(create) };
         let mut dev: *mut c_void = core::ptr::null_mut();
         let hr = unsafe { create(core::ptr::null_mut(), 0xb000, crate::IID_ID3D12Device.as_ptr() as *const c_void, &mut dev) };
-        std::env::remove_var("TOMBOX_DRED");
         if hr < 0 || dev.is_null() {
             return;
         }
-        std::env::set_var("TOMBOX_DRED", "1");
-        assert!(watch(dev));
-        std::env::remove_var("TOMBOX_DRED");
+        assert!(arm(dev));
     }
 }

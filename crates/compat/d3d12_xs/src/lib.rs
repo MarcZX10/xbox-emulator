@@ -79,6 +79,7 @@ mod mesh_pso;
 mod console_slots_mesh;
 mod global_bind;
 mod kmd10;
+mod dred;
 pub mod rs_xbox;
 #[cfg(test)]
 mod rs_xbox_tests;
@@ -189,6 +190,7 @@ pub extern "system" fn D3D12XboxCreateDevice(
     agility::select();
     enable_experimental_shader_models();
     maybe_enable_debug_layer(_params);
+    dred::enable_before_create();
     let p = host_proc(b"D3D12CreateDevice\0");
     if p == 0 {
         record(M, "D3D12XboxCreateDevice", "host D3D12CreateDevice missing -> E_FAIL");
@@ -202,6 +204,7 @@ pub extern "system" fn D3D12XboxCreateDevice(
     if hr == S_OK && !pp_device.is_null() {
         let real = unsafe { *pp_device };
         if !real.is_null() {
+            dred::watch(real);
             let wrapped = device_wrap::wrap_device(real);
             unsafe { *pp_device = wrapped };
             record(M, "D3D12XboxCreateDevice", &format!("host device {real:p} wrapped as {wrapped:p} (hr={hr:#010x})"));
