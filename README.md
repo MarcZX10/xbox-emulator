@@ -6,22 +6,14 @@ Uses legally obtained, already-decrypted dumps. The runtime does no key extracti
 
 ## Status
 
-![milestones](https://img.shields.io/badge/milestones-4%2F9-orange)
-![compat DLLs built](https://img.shields.io/badge/compat_DLLs-6%2F6-brightgreen)
-![Fortnite](https://img.shields.io/badge/Fortnite-staged-blue)
-![last update](https://img.shields.io/badge/updated-2026--11--21-lightgrey)
+[![overall](docs/img/badge-overall.svg)](docs/img/progress.svg)
+[![milestones](docs/img/badge-milestones.svg)](#milestones)
+[![titles examined](docs/img/badge-titles.svg)](#tested-titles)
+[![updated](docs/img/badge-updated.svg)](docs/DEVELOPMENT_LOG.md)
 
-### Progress map
+[![progress map](docs/img/progress.svg)](docs/img/progress.svg)
 
-<sub>🟩 done · 🟨 partial · ⬜ not started</sub>
-
-| | | |
-|---|---|---|
-| 🟩 TomBox cloned | 🟩 Baseline build | 🟩 Static-CRT compat DLLs |
-| 🟩 `mdbg.exe` tracer | 🟩 Launch wrapper | ⬜ Dump extracted |
-| ⬜ First boot verified | ⬜ 3D scene correct | 🟨 Input (mouse only) |
-| ⬜ Keyboard input | ⬜ Controller | ⬜ Audio |
-| ⬜ Gameplay | | |
+<sub>One square per item: green = done, amber = partial, grey = not done. Sections: toolchain, dump pipeline, boot sequence, features, and a mirror of upstream TomBox's reported progress. Regenerate with `py tools/progress/gen.py` after editing `tools/progress/data.json`.</sub>
 
 ### Milestones
 
@@ -37,7 +29,7 @@ Uses legally obtained, already-decrypted dumps. The runtime does no key extracti
 | 8 | Audio | not started |
 | 9 | Playable gameplay | not started |
 
-## Tested titles
+### Tested titles
 
 | Title | Build | Result |
 |---|---|---|
@@ -48,3 +40,13 @@ Uses legally obtained, already-decrypted dumps. The runtime does no key extracti
 - [STATUS.md](STATUS.md) — current snapshot
 - [docs/DEVELOPMENT_LOG.md](docs/DEVELOPMENT_LOG.md) — chronological log
 - [docs/BLOCKERS.md](docs/BLOCKERS.md) — standing walls
+
+## Updating progress
+
+Edit `tools/progress/data.json`, then:
+
+```
+py tools/progress/gen.py
+```
+
+That regenerates `docs/img/progress.svg` and all four badge SVGs. Commit and push.

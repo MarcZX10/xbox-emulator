@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 690" width="1000" height="690">
+<rect x="0" y="0" width="1000" height="690" fill="#0d1117"/>
+<text x="4.00" y="21.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Toolchain: 11/12 done, 0 partial</text>
+<g><title>compat DLLs: 6/6</title>
+<rect x="1.00" y="31.00" width="83.00" height="108.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="84.00" y="31.00" width="83.00" height="108.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="167.00" y="31.00" width="83.00" height="108.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="250.00" y="31.00" width="83.00" height="108.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="333.00" y="31.00" width="83.00" height="108.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="416.00" y="31.00" width="83.00" height="108.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="0.00" y="30.00" width="500.00" height="110.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="5.00" y="46.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">compat DLLs</text>
+</g>
+<g><title>host deps: 3/4</title>
+<rect x="501.00" y="31.00" width="82.83" height="108.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="583.83" y="31.00" width="82.83" height="108.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="666.67" y="31.00" width="82.83" height="108.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="749.50" y="31.00" width="82.83" height="108.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="500.00" y="30.00" width="333.33" height="110.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="505.00" y="46.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">host deps</text>
+</g>
+<g><title>mdbg tracer: 1/1</title>
+<rect x="834.33" y="31.00" width="81.33" height="108.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="833.33" y="30.00" width="83.33" height="110.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="838.33" y="46.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">mdbg tracer</text>
+</g>
+<g><title>launch wrapper: 1/1</title>
+<rect x="917.67" y="31.00" width="81.33" height="108.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="916.67" y="30.00" width="83.33" height="110.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="921.67" y="46.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">launch wrap</text>
+</g>
+<text x="4.00" y="171.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Dump pipeline (Fortnite XSX 2.0.1461.7919): 0/10 done, 1 partial</text>
+<g><title>stage DLLs: 0/7</title>
+<rect x="1.00" y="181.00" width="99.71" height="108.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="100.71" y="181.00" width="99.71" height="108.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="200.43" y="181.00" width="99.71" height="108.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="300.14" y="181.00" width="99.71" height="108.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="399.86" y="181.00" width="99.71" height="108.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="499.57" y="181.00" width="99.71" height="108.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="599.29" y="181.00" width="99.71" height="108.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="0.00" y="180.00" width="700.00" height="110.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="5.00" y="196.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">stage DLLs</text>
+</g>
+<g><title>download: 0/1</title>
+<rect x="701.00" y="181.00" width="98.00" height="108.00" fill="#d29922" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="700.00" y="180.00" width="100.00" height="110.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="705.00" y="196.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">download</text>
+</g>
+<g><title>extract: 0/1</title>
+<rect x="801.00" y="181.00" width="98.00" height="108.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="800.00" y="180.00" width="100.00" height="110.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="805.00" y="196.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">extract</text>
+</g>
+<g><title>mount: 0/1</title>
+<rect x="901.00" y="181.00" width="98.00" height="108.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="900.00" y="180.00" width="100.00" height="110.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="905.00" y="196.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">mount</text>
+</g>
+<text x="4.00" y="321.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Boot: 0/8 done, 0 partial</text>
+<g><title>process: 0/3</title>
+<rect x="1.00" y="331.00" width="124.33" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="125.33" y="331.00" width="124.33" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="249.67" y="331.00" width="124.33" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="0.00" y="330.00" width="375.00" height="90.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="5.00" y="346.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">process</text>
+</g>
+<g><title>render: 0/3</title>
+<rect x="376.00" y="331.00" width="124.33" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="500.33" y="331.00" width="124.33" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="624.67" y="331.00" width="124.33" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="375.00" y="330.00" width="375.00" height="90.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="380.00" y="346.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">render</text>
+</g>
+<g><title>shaders: 0/2</title>
+<rect x="751.00" y="331.00" width="124.00" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="875.00" y="331.00" width="124.00" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="750.00" y="330.00" width="250.00" height="90.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="755.00" y="346.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">shaders</text>
+</g>
+<text x="4.00" y="451.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Features: 0/8 done, 3 partial</text>
+<g><title>input: 0/3</title>
+<rect x="1.00" y="461.00" width="124.33" height="88.00" fill="#d29922" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="125.33" y="461.00" width="124.33" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="249.67" y="461.00" width="124.33" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="0.00" y="460.00" width="375.00" height="90.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="5.00" y="476.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">input</text>
+</g>
+<g><title>audio: 0/2</title>
+<rect x="376.00" y="461.00" width="124.00" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="500.00" y="461.00" width="124.00" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="375.00" y="460.00" width="250.00" height="90.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="380.00" y="476.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">audio</text>
+</g>
+<g><title>scene: 0/2</title>
+<rect x="626.00" y="461.00" width="124.00" height="88.00" fill="#d29922" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="750.00" y="461.00" width="124.00" height="88.00" fill="#d29922" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="625.00" y="460.00" width="250.00" height="90.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="630.00" y="476.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">scene</text>
+</g>
+<g><title>gameplay: 0/1</title>
+<rect x="876.00" y="461.00" width="123.00" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="875.00" y="460.00" width="125.00" height="90.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="880.00" y="476.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">gameplay</text>
+</g>
+<text x="4.00" y="581.00" font-family="sans-serif" font-size="16" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">Upstream TomBox (mirror, 2026-11-20): 7/11 done, 2 partial</text>
+<g><title>shader stages: 6/8</title>
+<rect x="1.00" y="591.00" width="90.66" height="88.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="91.66" y="591.00" width="90.66" height="88.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="182.32" y="591.00" width="90.66" height="88.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="272.98" y="591.00" width="90.66" height="88.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="363.64" y="591.00" width="90.66" height="88.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="454.30" y="591.00" width="90.66" height="88.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="544.95" y="591.00" width="90.66" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="635.61" y="591.00" width="90.66" height="88.00" fill="#6e7681" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="0.00" y="590.00" width="727.27" height="90.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="5.00" y="606.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">shader stages</text>
+</g>
+<g><title>system functions: 1/1</title>
+<rect x="728.27" y="591.00" width="88.91" height="88.00" fill="#2ea043" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="727.27" y="590.00" width="90.91" height="90.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="732.27" y="606.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">system funct</text>
+</g>
+<g><title>D3D12.x methods: 0/1</title>
+<rect x="819.18" y="591.00" width="88.91" height="88.00" fill="#d29922" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="818.18" y="590.00" width="90.91" height="90.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="823.18" y="606.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">D3D12.x meth</text>
+</g>
+<g><title>RDNA2 instructions: 0/1</title>
+<rect x="910.09" y="591.00" width="88.91" height="88.00" fill="#d29922" stroke="#0d1117" stroke-width="0.5"/>
+<rect x="909.09" y="590.00" width="90.91" height="90.00" fill="none" stroke="#0d1117" stroke-width="2"/>
+<text x="914.09" y="606.00" font-family="sans-serif" font-size="12" fill="#ffffff" stroke="#0d1117" stroke-width="3" paint-order="stroke">RDNA2 instru</text>
+</g>
+</svg>
