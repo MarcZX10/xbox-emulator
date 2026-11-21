@@ -7,14 +7,14 @@
    "pct": 94.93
   },
   "d3d12x_methods": {
-   "done": 107,
+   "done": 113,
    "total": 288,
-   "pct": 37.15
+   "pct": 39.24
   },
   "rdna2_instructions": {
    "done": 272,
-   "total": 419,
-   "pct": 64.92
+   "total": 494,
+   "pct": 55.06
   },
   "shaders_translated": {
    "done": 105506,
@@ -46,14 +46,14 @@
  },
  "extra": {
   "console_exports": {
-   "done": 20936,
+   "done": 20960,
    "total": 23489,
-   "pct": 89.13
+   "pct": 89.23
   },
   "xbox_only_exports": {
-   "done": 67,
+   "done": 91,
    "total": 1824,
-   "pct": 3.67
+   "pct": 4.99
   },
   "shader_compile_lobby_frame": {
    "done": 139,
@@ -76,14 +76,14 @@
    "pct": 58.33
   },
   "title_imports_Fortnite": {
-   "done": 1331,
+   "done": 1332,
    "total": 1574,
-   "pct": 84.56
+   "pct": 84.63
   },
   "title_imports_XDefiant": {
-   "done": 1592,
+   "done": 1594,
    "total": 1612,
-   "pct": 98.76
+   "pct": 98.88
   },
   "title_imports_Terraria": {
    "done": 3476,
@@ -91,9 +91,9 @@
    "pct": 99.43
   },
   "title_imports_Trackmania": {
-   "done": 1567,
+   "done": 1568,
    "total": 1579,
-   "pct": 99.24
+   "pct": 99.3
   }
  },
  "title_import_status": {
@@ -101,15 +101,15 @@
    "pc": 926,
    "hooked": 27,
    "forwarded": 19,
-   "stub": 10,
-   "implemented": 17,
+   "stub": 9,
+   "implemented": 18,
    "title": 342,
    "unverified": 233
   },
   "XDefiant": {
-   "implemented": 8,
-   "stub": 4,
-   "missing": 16,
+   "implemented": 10,
+   "stub": 3,
+   "missing": 15,
    "title": 342,
    "pc": 1216,
    "hooked": 25,
@@ -128,8 +128,8 @@
    "title": 241,
    "pc": 1284,
    "hooked": 36,
-   "missing": 11,
-   "implemented": 6,
+   "missing": 10,
+   "implemented": 7,
    "stub": 1
   }
  },

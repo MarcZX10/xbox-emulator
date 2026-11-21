@@ -343,7 +343,7 @@ def library_map(summary, libs):
     w("")
     w("Shader compile: all 139 shaders of the lobby frame compile with DXC (TomBox `docs/DEVELOPMENT_LOG.md:894`); 25/25 fixtures compile (`:672`). The full-library compile sweep (`:706`) has no published final count, so no compile badge is shown.")
     w("")
-    w("Direct3D 12.x: 160 / 128 are the table sizes the wrappers allocate (`d3d12_xs/src/device_wrap.rs`, `cmdlist_wrap.rs`), not documented interface sizes. Device: done = forwarded PC slots 0-43 plus intercepted Xbox slots 44, 48, 55, 60-62, 73, 78-81; partial = logging S_OK stubs 45-90. CommandList: done = 0-26, 32-52 (PC methods shifted by 4), 59, 67, 68, 83; 27-31 are Xbox-inserted stubs and 53-127 log-and-ignore probes, counted as not done.")
+    w("Direct3D 12.x: 160 / 128 are the table sizes the wrappers allocate (`d3d12_xs/src/device_wrap.rs`, `cmdlist_wrap.rs`), not documented interface sizes. Device: done = forwarded PC slots 0-43 plus intercepted Xbox slots 44, 48, 52 (SetDebugFlags_X, documented no-op), 55, 56/57 and 66/67 (graphics/compute PSO serialize/deserialize, emulator TBPS format only), 60-62, 73, 78-81, 87 (OpenExistingHeapFromAddress via ID3D12Device3); partial = logging S_OK stubs in 45-90, including 74 (RegisterPagePoolX, bookkeeping only). CommandList: done = 0-26, 32-52 (PC methods shifted by 4), 59, 67, 68, 83; 27-31 are Xbox-inserted stubs and 53-127 log-and-ignore probes, counted as not done.")
     w("")
     counts = {}
     for title, t in ti.items():

@@ -22,26 +22,26 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 | Metric | Done | Total | % |
 |---|---|---|---|
 | system_functions | 637 | 671 | 94.93 |
-| d3d12x_methods | 107 | 288 | 37.15 |
-| rdna2_instructions | 272 | 419 | 64.92 |
+| d3d12x_methods | 113 | 288 | 39.24 |
+| rdna2_instructions | 272 | 494 | 55.06 |
 | shaders_translated | 105506 | 105506 | 100.0 |
 | shader_stages | 6 | 8 | 75.0 |
 | milestones | 14 | 19 | 73.68 |
 | titles_examined | 5 | - | - |
-| console_exports | 20936 | 23489 | 89.13 |
-| xbox_only_exports | 67 | 1824 | 3.67 |
+| console_exports | 20960 | 23489 | 89.23 |
+| xbox_only_exports | 91 | 1824 | 4.99 |
 | shader_compile_lobby_frame | 139 | 139 | 100.0 |
 | shader_compile_fixtures | 25 | 25 | 100.0 |
 | shader_compile_full_sweep | not published | 105506 | - |
 | milestones_verified_this_machine | 7 | 12 | 58.33 |
-| title_imports_Fortnite | 1331 | 1574 | 84.56 |
-| title_imports_XDefiant | 1592 | 1612 | 98.76 |
+| title_imports_Fortnite | 1332 | 1574 | 84.63 |
+| title_imports_XDefiant | 1594 | 1612 | 98.88 |
 | title_imports_Terraria | 3476 | 3496 | 99.43 |
-| title_imports_Trackmania | 1567 | 1579 | 99.24 |
+| title_imports_Trackmania | 1568 | 1579 | 99.3 |
 
 Shader compile: all 139 shaders of the lobby frame compile with DXC (TomBox `docs/DEVELOPMENT_LOG.md:894`); 25/25 fixtures compile (`:672`). The full-library compile sweep (`:706`) has no published final count, so no compile badge is shown.
 
-Direct3D 12.x: 160 / 128 are the table sizes the wrappers allocate (`d3d12_xs/src/device_wrap.rs`, `cmdlist_wrap.rs`), not documented interface sizes. Device: done = forwarded PC slots 0-43 plus intercepted Xbox slots 44, 48, 55, 60-62, 73, 78-81; partial = logging S_OK stubs 45-90. CommandList: done = 0-26, 32-52 (PC methods shifted by 4), 59, 67, 68, 83; 27-31 are Xbox-inserted stubs and 53-127 log-and-ignore probes, counted as not done.
+Direct3D 12.x: 160 / 128 are the table sizes the wrappers allocate (`d3d12_xs/src/device_wrap.rs`, `cmdlist_wrap.rs`), not documented interface sizes. Device: done = forwarded PC slots 0-43 plus intercepted Xbox slots 44, 48, 52 (SetDebugFlags_X, documented no-op), 55, 56/57 and 66/67 (graphics/compute PSO serialize/deserialize, emulator TBPS format only), 60-62, 73, 78-81, 87 (OpenExistingHeapFromAddress via ID3D12Device3); partial = logging S_OK stubs in 45-90, including 74 (RegisterPagePoolX, bookkeeping only). CommandList: done = 0-26, 32-52 (PC methods shifted by 4), 59, 67, 68, 83; 27-31 are Xbox-inserted stubs and 53-127 log-and-ignore probes, counted as not done.
 
 ## Fortnite imports (2.0.1461.7919)
 
@@ -531,11 +531,11 @@ Every static import of the EXE and its statically loaded DLLs resolved at load: 
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `XMemFreePhysicalPages` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
-| `XMemGetWorkingSetStatistics` | stub | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (E_NOTIMPL) |
-| `XMemTransferMemory` | stub | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (E_NOTIMPL) |
+| `XMemFreePhysicalPages` | stub | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (no-op, returns TRUE (synthetic PFNs)) |
+| `XMemGetWorkingSetStatistics` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
+| `XMemTransferMemory` | stub | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (no-op, returns TRUE for directions 0-2 (single partition on PC)) |
 | `XMemMapPhysicalPages` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
-| `XMemAllocatePhysicalPages` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
+| `XMemAllocatePhysicalPages` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (counter PFNs; map commits VA, unmap decommits; no aliasing of a PFN across VAs) |
 | `XMemFree` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
 | `XMemVirtualAlloc` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
 | `XMemFreeDefault` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
@@ -1450,11 +1450,11 @@ Every static import of the EXE and its statically loaded DLLs resolved at load: 
 
 </details>
 
-<details><summary><b>xmem.dll</b>: 4 functions; implemented 3, stub 1</summary>
+<details><summary><b>xmem.dll</b>: 4 functions; implemented 4</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `XMemGetWorkingSetStatistics` | stub | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (E_NOTIMPL) |
+| `XMemGetWorkingSetStatistics` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
 | `XMemVirtualAlloc` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
 | `XMemAllocDefault` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
 | `XMemFreeDefault` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
@@ -2634,9 +2634,9 @@ Every static import of the EXE and its statically loaded DLLs resolved at load: 
 
 </details>
 
-Fortnite import totals (6 binaries): implemented 17, forwarded 19, hooked 27, pc 926, title 342, stub 10, unverified 233.
+Fortnite import totals (6 binaries): implemented 18, forwarded 19, hooked 27, pc 926, title 342, stub 9, unverified 233.
 
-<details><summary><b>Fortnite: imports not covered</b> (243; status not in implemented / forwarded / hooked / pc / title)</summary>
+<details><summary><b>Fortnite: imports not covered</b> (242; status not in implemented / forwarded / hooked / pc / title)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
@@ -2647,8 +2647,7 @@ Fortnite import totals (6 binaries): implemented 17, forwarded 19, hooked 27, pc
 | FortniteClient-XSX-Shipping.exe | dxcompiler_xs.dll | `DxcCreateInstance` | stub | only Fortnite |
 | FortniteClient-XSX-Shipping.exe | MFPlat.DLL | `MFResetDXGIDeviceManagerX` | stub | only Fortnite |
 | FortniteClient-XSX-Shipping.exe | xg_xs.dll | `XGCreateTextureComputer` | stub | only Fortnite |
-| FortniteClient-XSX-Shipping.exe | xmem.dll | `XMemGetWorkingSetStatistics` | stub | Terraria, Trackmania, XDefiant |
-| EOSSDK-XboxOneGDK-Shipping.dll | xmem.dll | `XMemGetWorkingSetStatistics` | stub | Terraria, Trackmania, XDefiant |
+| FortniteClient-XSX-Shipping.exe | xmem.dll | `XMemFreePhysicalPages` | stub | Terraria, Trackmania |
 | FortniteClient-XSX-Shipping.exe | xmem.dll | `XMemTransferMemory` | stub | only Fortnite |
 | GameChat2.dll | api-ms-win-core-com-l1-1-0.dll | `CoCreateGuid` | unverified | Terraria, Trackmania, XDefiant |
 | GameChat2.dll | api-ms-win-core-com-l1-1-0.dll | `CoCreateInstance` | unverified | Terraria, Trackmania, XDefiant |
@@ -3545,13 +3544,13 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 </details>
 
-<details><summary><b>xmem.dll</b>: 4 functions; implemented 3, stub 1</summary>
+<details><summary><b>xmem.dll</b>: 4 functions; implemented 4</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
 | `XMemAlloc` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
 | `XMemFree` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
-| `XMemGetWorkingSetStatistics` | stub | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (E_NOTIMPL) |
+| `XMemGetWorkingSetStatistics` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
 | `XMemVirtualAlloc` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
 
 </details>
@@ -3693,11 +3692,11 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 </details>
 
-<details><summary><b>d3d12_xs.dll</b>: 3 functions; implemented 1, forwarded 1, missing 1</summary>
+<details><summary><b>d3d12_xs.dll</b>: 3 functions; implemented 2, forwarded 1</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `D3D12ConfigureVirtualMemoryX` | missing | [crates/compat/d3d12_xs/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_xs/src/lib.rs) (not exported by the emulator's d3d12_xs.dll) |
+| `D3D12ConfigureVirtualMemoryX` | implemented | [crates/compat/d3d12_xs/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_xs/src/lib.rs) (matches console; kernel ioctl skipped, outputs 0) |
 | `D3D12SerializeVersionedRootSignature` | forwarded | [crates/compat/d3d12_xs/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_xs/src/lib.rs) |
 | `D3D12XboxCreateDevice` | implemented | [crates/compat/d3d12_xs/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/d3d12_xs/src/lib.rs) (real PC D3D12 device wrapped with the Xbox vtable layout) |
 
@@ -5870,16 +5869,15 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 </details>
 
-XDefiant import totals (11 binaries): implemented 8, forwarded 1, hooked 25, pc 1216, title 342, stub 4, missing 16.
+XDefiant import totals (11 binaries): implemented 10, forwarded 1, hooked 25, pc 1216, title 342, stub 3, missing 15.
 
-<details><summary><b>XDefiant: imports not covered</b> (20; status not in implemented / forwarded / hooked / pc / title)</summary>
+<details><summary><b>XDefiant: imports not covered</b> (18; status not in implemented / forwarded / hooked / pc / title)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
 | Rogue_scarlett_rtx.exe | AcpHal.dll | `AcpHalAllocateShapeContexts` | stub | Fortnite, Terraria |
 | Rogue_scarlett_rtx.exe | AcpHal.dll | `AcpHalCreate` | stub | Fortnite, Terraria |
 | Rogue_scarlett_rtx.exe | AcpHal.dll | `ApuFree` | stub | Fortnite, Terraria |
-| Rogue_scarlett_rtx.exe | xmem.dll | `XMemGetWorkingSetStatistics` | stub | Fortnite, Terraria, Trackmania |
 | Rogue_scarlett_rtx.exe | AcpHal.dll | `AcpHalReleaseShapeContexts` | missing | Terraria |
 | Rogue_scarlett_rtx.exe | AcpHal.dll | `ApuIsVirtualAddressValid` | missing | Terraria |
 | Rogue_scarlett_rtx.exe | AcpHal.dll | `ApuMapApuAddress` | missing | only XDefiant |
@@ -5889,7 +5887,6 @@ XDefiant import totals (11 binaries): implemented 8, forwarded 1, hooked 25, pc 
 | Rogue_scarlett_rtx.exe | chad.dll | `XDspDeactivate` | missing | only XDefiant |
 | Rogue_scarlett_rtx.exe | chad.dll | `XDspDisconnect` | missing | only XDefiant |
 | Rogue_scarlett_rtx.exe | chad.dll | `XDspSubmitCommand` | missing | only XDefiant |
-| Rogue_scarlett_rtx.exe | d3d12_xs.dll | `D3D12ConfigureVirtualMemoryX` | missing | only XDefiant |
 | Rogue_scarlett_rtx.exe | xapu.dll | `XApuConnect` | missing | only XDefiant |
 | Rogue_scarlett_rtx.exe | xapu.dll | `XApuDequeueResult` | missing | only XDefiant |
 | Rogue_scarlett_rtx.exe | xapu.dll | `XApuDisconnect` | missing | only XDefiant |
@@ -6061,10 +6058,10 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `XMemAllocatePhysicalPages` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
-| `XMemGetWorkingSetStatistics` | stub | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (E_NOTIMPL) |
+| `XMemAllocatePhysicalPages` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (counter PFNs; map commits VA, unmap decommits; no aliasing of a PFN across VAs) |
+| `XMemGetWorkingSetStatistics` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
 | `XMemVirtualAlloc` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
-| `XMemFreePhysicalPages` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
+| `XMemFreePhysicalPages` | stub | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (no-op, returns TRUE (synthetic PFNs)) |
 | `XMemMapPhysicalPages` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
 
 </details>
@@ -12439,7 +12436,7 @@ Terraria import totals (26 binaries): implemented 5, forwarded 7, hooked 74, pc 
 | Terraria.exe | AcpHal.dll | `AcpHalAllocateShapeContexts` | stub | Fortnite, XDefiant |
 | Terraria.exe | AcpHal.dll | `AcpHalCreate` | stub | Fortnite, XDefiant |
 | Terraria.exe | AcpHal.dll | `ApuFree` | stub | Fortnite, XDefiant |
-| Terraria.exe | xmem.dll | `XMemGetWorkingSetStatistics` | stub | Fortnite, Trackmania, XDefiant |
+| Terraria.exe | xmem.dll | `XMemFreePhysicalPages` | stub | Fortnite, Trackmania |
 | Terraria.exe | AcpHal.dll | `AcpHalReleaseShapeContexts` | missing | XDefiant |
 | Terraria.exe | AcpHal.dll | `ApuIsVirtualAddressValid` | missing | XDefiant |
 | Terraria.exe | AcpHal.dll | `ApuMapVirtualAddress` | missing | XDefiant |
@@ -13417,17 +13414,17 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 </details>
 
-<details><summary><b>xmem.dll</b>: 8 functions; implemented 6, stub 1, missing 1</summary>
+<details><summary><b>xmem.dll</b>: 8 functions; implemented 7, stub 1</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
 | `XMemFree` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
-| `XMemAllocatePhysicalPages` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
+| `XMemAllocatePhysicalPages` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (counter PFNs; map commits VA, unmap decommits; no aliasing of a PFN across VAs) |
 | `XMemVirtualAlloc` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
-| `XMemGetWin32HeapStatistics` | missing | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (not exported by the emulator's xmem.dll) |
-| `XMemGetWorkingSetStatistics` | stub | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (E_NOTIMPL) |
+| `XMemGetWin32HeapStatistics` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
+| `XMemGetWorkingSetStatistics` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
 | `XMemAlloc` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
-| `XMemFreePhysicalPages` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
+| `XMemFreePhysicalPages` | stub | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) (no-op, returns TRUE (synthetic PFNs)) |
 | `XMemMapPhysicalPages` | implemented | [crates/compat/xmem/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xmem/src/lib.rs) |
 
 </details>
@@ -15670,13 +15667,13 @@ Static analysis only: this title has not been run. `pc` = a PC System32 DLL expo
 
 </details>
 
-Trackmania import totals (7 binaries): implemented 6, hooked 36, pc 1284, title 241, stub 1, missing 11.
+Trackmania import totals (7 binaries): implemented 7, hooked 36, pc 1284, title 241, stub 1, missing 10.
 
-<details><summary><b>Trackmania: imports not covered</b> (12; status not in implemented / forwarded / hooked / pc / title)</summary>
+<details><summary><b>Trackmania: imports not covered</b> (11; status not in implemented / forwarded / hooked / pc / title)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
-| GbxGame.exe | xmem.dll | `XMemGetWorkingSetStatistics` | stub | Fortnite, Terraria, XDefiant |
+| GbxGame.exe | xmem.dll | `XMemFreePhysicalPages` | stub | Fortnite, Terraria |
 | GbxGame.exe | d3d12_x.dll | `D3D12GetDebugInterface` | missing | only Trackmania |
 | GbxGame.exe | d3d12_x.dll | `D3D12SerializeRootSignature` | missing | Terraria |
 | GbxGame.exe | d3d12_x.dll | `D3D12SerializeVersionedRootSignature` | missing | only Trackmania |
@@ -15687,7 +15684,6 @@ Trackmania import totals (7 binaries): implemented 6, hooked 36, pc 1284, title 
 | GbxGame.exe | xg_x.dll | `XGComputeOptimalTileMode` | missing | Terraria |
 | GbxGame.exe | xg_x.dll | `XGComputeTexture2DLayout` | missing | only Trackmania |
 | GbxGame.exe | xg_x.dll | `XGCreateTextureComputer` | missing | Terraria |
-| GbxGame.exe | xmem.dll | `XMemGetWin32HeapStatistics` | missing | only Trackmania |
 
 </details>
 
@@ -15734,7 +15730,7 @@ Every export of every DLL in each title's EmbeddedXvd `Windows\System32` and `Sy
 | csrsrv.dll | System32 | yes | 32 | 0 | 0 | 0 | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | CSystemEventsBrokerClient.dll | System32 | yes | 6 | 0 | 0 | 0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | d3d12_x.dll | System32 | no | 54 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 54 | 0 | 0 | 4 | 5 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| d3d12_xs.dll | System32 | no | 55 | 2 | 3 | 0 | 0 | 0 | 1 | 0 | 49 | 6 | 3 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| d3d12_xs.dll | System32 | no | 55 | 5 | 3 | 0 | 0 | 0 | 2 | 0 | 45 | 6 | 3 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | d3dcompiler_47.dll | System32 | yes | 29 | 0 | 0 | 0 | 29 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 9.31.960.18248; XDefiant 9.31.960.18248; Terraria 9.31.960.18248; Trackmania 9.31.960.18248 |
 | dab.dll | System32 | yes | 7 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | dabapi.dll | System32 | yes | 4 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -15940,7 +15936,7 @@ Every export of every DLL in each title's EmbeddedXvd `Windows\System32` and `Sy
 | xgs12_i.dll | System32 | no | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 17 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xhit.dll | System32 | no | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xhit_s.dll | System32 | no | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| xmem.dll | System32 | no | 36 | 8 | 0 | 0 | 0 | 0 | 2 | 0 | 26 | 10 | 4 | 5 | 8 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| xmem.dll | System32 | no | 36 | 29 | 0 | 0 | 0 | 0 | 7 | 0 | 0 | 10 | 4 | 5 | 8 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xmllite.dll | System32 | yes | 6 | 0 | 0 | 0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xpal.dll | System32 | no | 52 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 52 | 0 | 0 | 0 | 0 | XDefiant None; Terraria None; Trackmania None |
 | xtfbaseservices.dll | System32 | no | 60 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -16108,9 +16104,9 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 | Function | Present in | Status |
 |---|---|---|
-| `D3D12XboxUnloadDriverModule` | XDefiant, Terraria, Trackmania | missing |
-| `D3D12ZeroMemoryX` | XDefiant, Terraria, Trackmania | missing |
-| `GetFrameBufferPreserveMemorySizeBytes` | XDefiant, Terraria, Trackmania | missing |
+| `D3D12XboxUnloadDriverModule` | XDefiant, Terraria, Trackmania | implemented |
+| `D3D12ZeroMemoryX` | XDefiant, Terraria, Trackmania | stub |
+| `GetFrameBufferPreserveMemorySizeBytes` | XDefiant, Terraria, Trackmania | implemented |
 
 </details>
 
@@ -17129,14 +17125,14 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 | Function | Present in | Status |
 |---|---|---|
-| `XMemGetWin32HeapName` | XDefiant, Terraria, Trackmania | missing |
-| `XMemGetWriteWatch` | XDefiant, Terraria, Trackmania | missing |
-| `XMemHistoryData` | XDefiant, Terraria, Trackmania | missing |
-| `XMemRegisterGraphicsMemoryConfiguration` | XDefiant, Terraria, Trackmania | missing |
-| `XMemResetWriteWatch` | XDefiant, Terraria, Trackmania | missing |
-| `XMemResumeWriteWatch` | XDefiant, Terraria, Trackmania | missing |
-| `XMemSetWin32HeapName` | XDefiant, Terraria, Trackmania | missing |
-| `XMemSetWinHttpHooks` | XDefiant, Terraria, Trackmania | missing |
+| `XMemGetWin32HeapName` | XDefiant, Terraria, Trackmania | implemented |
+| `XMemGetWriteWatch` | XDefiant, Terraria, Trackmania | implemented |
+| `XMemHistoryData` | XDefiant, Terraria, Trackmania | implemented |
+| `XMemRegisterGraphicsMemoryConfiguration` | XDefiant, Terraria, Trackmania | implemented |
+| `XMemResetWriteWatch` | XDefiant, Terraria, Trackmania | implemented |
+| `XMemResumeWriteWatch` | XDefiant, Terraria, Trackmania | implemented |
+| `XMemSetWin32HeapName` | XDefiant, Terraria, Trackmania | implemented |
+| `XMemSetWinHttpHooks` | XDefiant, Terraria, Trackmania | stub |
 
 </details>
 
@@ -17541,32 +17537,32 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 </details>
 
-<details><summary><b>d3d12_xs.dll</b>: 55 exports, 5 covered</summary>
+<details><summary><b>d3d12_xs.dll</b>: 55 exports, 8 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
+| `D3D12ConfigureVirtualMemoryX` | implemented | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12XboxCreateDevice` | implemented | Fortnite, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12XboxUnloadDriverModule` | implemented |  | XDefiant, Terraria, Trackmania |
+| `GetFrameBufferPreserveMemorySizeBytes` | implemented |  | XDefiant, Terraria, Trackmania |
 | `IID_ID3D12Device` | implemented | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12CreateDevice` | forwarded | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12SerializeRootSignature` | forwarded | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12SerializeVersionedRootSignature` | forwarded | Fortnite, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12XboxSetProcessDebugFlags` | stub | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
+| `D3D12ZeroMemoryX` | stub |  | XDefiant, Terraria, Trackmania |
 | `D3D10CreateBlob` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12ConfigureVirtualMemoryX` | missing | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12CreateRootSignatureDeserializer` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12CreateVersionedRootSignatureDeserializer` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12GetDebugInterface` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12UploadCustomMicrocodeX` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12XboxEnableMemoryProfiling` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `D3D12XboxGetProcessDebugFlags` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `D3D12XboxUnloadDriverModule` | missing |  | XDefiant, Terraria, Trackmania |
-| `D3D12ZeroMemoryX` | missing |  | XDefiant, Terraria, Trackmania |
 | `D3DFlushEntireCpuCache` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `DXGIXGetFrameStatistics` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `DXGIXPresentArray` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `DXGIXSetFrameNotification` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `DXGIXSetVLineNotification` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `GetFrameBufferPreserveMemorySizeBytes` | missing |  | XDefiant, Terraria, Trackmania |
 | `IID_ID3D12CommandAllocator` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `IID_ID3D12CommandList` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `IID_ID3D12CommandQueue` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
@@ -19386,46 +19382,46 @@ Newer console OS builds add exports; each is its own item in the map and stays `
 
 </details>
 
-<details><summary><b>xmem.dll</b>: 36 exports, 8 covered</summary>
+<details><summary><b>xmem.dll</b>: 36 exports, 29 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
 | `XMemAlloc` | implemented | Fortnite, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `XMemAllocatePhysicalPages` | implemented | Fortnite, Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
 | `XMemAllocDefault` | implemented | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemCreateWin32Heap` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemDumpMemoryStats` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `XMemFree` | implemented | Fortnite, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
 | `XMemFreeDefault` | implemented | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemFreePhysicalPages` | implemented | Fortnite, Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemGetAllocationHysteresis` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemGetAllocationStatistics` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemGetFreePageStatistics` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemGetPhysicalMemoryLayout` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemGetTitleHeap` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemGetWin32HeapName` | implemented |  | XDefiant, Terraria, Trackmania |
+| `XMemGetWin32HeapStatistics` | implemented | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemGetWorkingSetStatistics` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemGetWriteWatch` | implemented |  | XDefiant, Terraria, Trackmania |
+| `XMemHistoryData` | implemented |  | XDefiant, Terraria, Trackmania |
+| `XMemMakeTag` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
 | `XMemMapPhysicalPages` | implemented | Fortnite, Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemMapPhysicalPagesScatter` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemRegisterGraphicsMemoryConfiguration` | implemented |  | XDefiant, Terraria, Trackmania |
+| `XMemResetWriteWatch` | implemented |  | XDefiant, Terraria, Trackmania |
+| `XMemResumeWriteWatch` | implemented |  | XDefiant, Terraria, Trackmania |
+| `XMemSetAllocationHooks` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemSetAllocationHysteresis` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemSetOption` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemSetWin32HeapName` | implemented |  | XDefiant, Terraria, Trackmania |
 | `XMemVirtualAlloc` | implemented | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemGetWorkingSetStatistics` | stub | Fortnite, Terraria, Trackmania, XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemVirtualQuery` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemFreePhysicalPages` | stub | Fortnite, Terraria, Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemGetPartitionHandleAndId` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemIsToolsMemAvailable` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemPreallocateFreeSpace` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemSetWin32HeapTrackingHooks` | stub |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XMemSetWinHttpHooks` | stub |  | XDefiant, Terraria, Trackmania |
 | `XMemTransferMemory` | stub | Fortnite | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemCreateWin32Heap` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemDumpMemoryStats` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemGetAllocationHysteresis` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemGetAllocationStatistics` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemGetFreePageStatistics` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemGetPartitionHandleAndId` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemGetPhysicalMemoryLayout` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemGetTitleHeap` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemGetWin32HeapName` | missing |  | XDefiant, Terraria, Trackmania |
-| `XMemGetWin32HeapStatistics` | missing | Trackmania | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemGetWriteWatch` | missing |  | XDefiant, Terraria, Trackmania |
-| `XMemHistoryData` | missing |  | XDefiant, Terraria, Trackmania |
-| `XMemIsToolsMemAvailable` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemMakeTag` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemMapPhysicalPagesScatter` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemPreallocateFreeSpace` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemRegisterGraphicsMemoryConfiguration` | missing |  | XDefiant, Terraria, Trackmania |
-| `XMemResetWriteWatch` | missing |  | XDefiant, Terraria, Trackmania |
-| `XMemResumeWriteWatch` | missing |  | XDefiant, Terraria, Trackmania |
-| `XMemSetAllocationHooks` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemSetAllocationHysteresis` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemSetOption` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemSetWin32HeapName` | missing |  | XDefiant, Terraria, Trackmania |
-| `XMemSetWin32HeapTrackingHooks` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
-| `XMemSetWinHttpHooks` | missing |  | XDefiant, Terraria, Trackmania |
-| `XMemVirtualQuery` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
 
 </details>
 
