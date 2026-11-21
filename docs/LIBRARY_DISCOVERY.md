@@ -2,6 +2,44 @@
 
 Console and title libraries found while mapping the Xbox Series system surface. Every dump stays read-only.
 
+## 2026-11-21 — Past libraries finished (workflow integration): dxcompiler_xs, mfplat console-only, AudioHALWrapper, XCRDAPI, OS host, GameChat2 / CONCRT140 load probe
+
+Only items a separate verifier confirmed against the console DLLs, the SDK host or the title binaries are credited. Emulator sources are in TomBox `crates/compat/*`.
+
+- **dxcompiler_xs.dll**: the console export table is 1 `CreateXdxrCompiler2(IMalloc*, REFCLSID, REFIID, void**)`, 2 `CreateXdxrCompiler(REFCLSID, REFIID, void**)`, 3 `DxcCreateInstance`, 4 `DxcCreateInstance2`. Ordinal 3 is ordinal 4 with a NULL malloc (`xor ecx,ecx` tail-jump), and ordinal 2 tail-calls ordinal 1. On the console, ordinal 1 returns E_POINTER for a null ppv, REGDB_E_CLASSNOTREG for any CLSID other than XdxrCompiler, and otherwise builds XdxrCompilerImpl.
+  - The emulator exports 3/4 at the console ordinals. They forward to a host `dxcompiler.dll`, found through env, `tombox.cfg`, the EXE dir, its own dir, the Windows SDK, then the search path. A native IDxcUtils/IDxcLibrary is the fallback.
+  - Xbox-only classes are refused with E_NOINTERFACE: DxcXboxContainer {B3D47A7F-0970-414A-900B-BB140101EC66}, DxcXboxShaderStats {EC07AED8-07D5-4B40-9458-C3EB2A80C01A}, DxcXboxBackendDebugInfo {439EE57D-768C-4A3F-AB56-EDEDC26C293F}, DxcXboxRegPressure {ED5F5B28-9F1B-4580-AB5C-4DCDA20F0C7C} and XdxrCompiler {16BB3C85-006D-4B72-9E10-63CD97DF57F0}.
+  - Fortnite has one call site, at 0x141634a34: `DxcCreateInstance(CLSID_DxcLibrary, IID_IDxcUtils, &0x148f5cd08)` in the PSO disk-cache init. It then uses only `CreateBlob` (vtable +0x30) and `Release`, so it never compiles HLSL. XDefiant does not import the DLL.
+  - Credited: 2 rows, forwarded.
+  - Known gaps in the native fallback, which only matter with no host DXC: SetMalloc returns S_OK where the host returns E_NOTIMPL, BOM handling in LoadFile and GetBlobAsUtf8/16 differs from the host, and CreateBlobFromBlob inherits the parent's encoding.
+- **mfplat.dll console-only exports** (decompiled from console mfplat).
+  - Implemented: `MFResetDXGIDeviceManagerX` (hr=0 in Fortnite runs 22, 23 and 26), `LFGetGlobalPool` (NULL, as on the console) and `MFJoinIoPort` (`MFJoinWorkQueue(5, h, &cookie)`).
+  - Forwarded: `MFCreateDXGISurfaceBufferX`, to PC `MFCreateDXGISurfaceBuffer`.
+  - Stub: `MFGetPlatform` (NULL), `MFBlockThread`, `MFUnblockThread` and `MFGetPrivateWorkqueues`. These have the console's argument and started-state checks, but PC has no equivalent work-queue manager behind them.
+  - The proxy now forwards every PC mfplat export by PE forwarder.
+- **AudioHALWrapper.dll** (new crate `audiohalwrapper`): all 32 console exports, at console ordinals 1-32.
+  - Slot counts match the console: Opus decoder 15 and encoder 3, SILK decoder 7 and encoder 2. So do the limits (0x5E0, 0x2D00, 0x2F0, bitrate 1..510000), the 0-7 slot state machine and the HRESULT remaps.
+  - The codec is loaded at run time from `opus.dll` (libopus, BSD-3, a runtime dependency; nothing is vendored) or from the Skype SILK SDK DLL. Neither ships, so every Create returns 0x8007007E and the titles use their own software codecs, as on a console with no audio coprocessor.
+  - Credited: 32 implemented. The library moves from "not targeted" to targeted, because the emulator now provides it (70 -> 69 libraries).
+- **xcrdapi.dll**: console vtables measured. IDStorageFactoryX has 11 slots (6 SetCpuAffinity, 7 SetDebugFlags, 8 SetStagingBufferSize), IDStorageFileX 8, IDStorageQueueX 14 and IDStorageStatusArrayX 6. These are not layout-compatible with PC DirectStorage.
+  - The console has no GDeflate. Format 1 is zlib; BCPack is the only other format.
+  - `DStorageGetFactory` moves from forwarded to implemented. It returns its own console-layout objects and no longer uses PC dstorage.dll.
+  - Known gaps: a zlib stream that ends early still reports S_OK, and there is no ring backpressure.
+- **OS host** (compat-common `os_host`): IAT hooks for kernel32legacy `GetProcessAffinityMask`, `SetProcessAffinityMask` and `SetDllDirectoryW`, and minappmodelx `Register/UnregisterAppStateChangeNotification` and `Register/UnregisterAppConstrainedChangeNotification`. These follow the console disassembly. `oshost.json` turns these 7 twin rows from `pc` to `hooked`, with no count change.
+  - `SetThreadAffinityMask` is hooked but not credited as hooked, because its returned previous mask is host-shaped after host-shaped input.
+- **GameChat2.dll / CONCRT140.dll**: `crates/tombox-probe` loads a staged copy of Fortnite's GameChat2.dll 2008.4 and checks every row. 207/207 imports bind with IAT equal to GetProcAddress, and all 14 EXE delay imports resolve.
+  - Fortnite ships no concrt140. MSVCP140's 12 CONCRT140 delay imports resolve against a staged host VC++ redist `concrt140.dll`, and a ConcRT self-test passes.
+  - `chatprobe.json` records this load probe. It removes both modules from Fortnite's unverified lists (233 rows -> 0) and flips the GameChat2 delay import to done (system functions +1).
+  - This is load and resolve evidence only. The functional two-peer `chatprobe.py` run above still fails at mute/RemoveUser without the Xbox Live privacy service. That script now merges its module entry into the existing file instead of overwriting it.
+- **Not credited, because unverified or not yet wired in**:
+  - `dxcompiler_x.dll` stub -> forwarded (the Xbox One agent's crate was not verified).
+  - `mnem.rs` instruction-table changes (the shader agent's work is in progress).
+  - `gameinput_ext`: it builds and its tests pass, but nothing calls `ensure()` or `attach()`, so it is dead code at run time.
+  - `media.json`: no run with the MF tracer yet.
+  - Both data files were kept at their previous committed contents.
+- **Build note**: `xmem` did not compile during this integration (6 E0432/E0433 errors: missing `crate::hooks`, `crate::phys`, from the memory agent's in-progress edit). It was excluded from the release build and test run.
+- **References**: upstream [drycheetah84/TomBox](https://github.com/drycheetah84/TomBox) and [Freminet/ScarlettX](https://github.com/Freminet/ScarlettX). The GitHub API reports no license for either repository. No code from either was reused; every item above was re-implemented from the console binaries.
+
 ## 2026-11-21 — System functions: SetProcessDebugFlags credited; MF and GameChat2 evidence tooling
 
 - `d3d12_xs.dll!D3D12XboxSetProcessDebugFlags` now has the console semantics (console `d3d12_xs.dll` +0x1280): it stores `flags & 0x81f00001` and returns S_OK, and `D3D12XboxGetProcessDebugFlags` returns that value. `D3D12XboxCreateDevice` overwrites the global with the unmasked `D3D12XBOX_CREATE_DEVICE_PARAMETERS`+4 and uses it to pick the console UMD: bit 0 without bit 31 selects `xgs12_d.dll` (debug), bit 20 selects `xgs12_i.dll` (instrumented), anything else selects `xgs12.dll`. On PC the debug UMD maps to the D3D12 debug layer, enabled once and before the first device. The instrumented UMD has no PC counterpart, and no bit maps to GPU-based validation. Fortnite passes its adapter field +0x910 just before creating the device (run 23 compat log line 48). Unit and device-level tests are in emulator `crates/compat/d3d12_xs`. This PC has no `d3d12SDKLayers.dll`, so the request reaches `D3D12GetDebugInterface`, but turning the layer on is unproven here. Credited: system functions 638 -> 639.

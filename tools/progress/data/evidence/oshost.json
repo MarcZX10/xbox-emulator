@@ -1,0 +1,17 @@
+{
+ "file": "crates/compat/compat-common/src/os_host/mod.rs",
+ "source": "os_host IAT hooks (affinity.rs, dlldir.rs, plm.rs), verifier-confirmed against console kernel32legacy / minappmodelx disassembly; SetThreadAffinityMask left out (verifier rejected its previous-mask return for host-shaped input)",
+ "hooks": {
+  "kernel32legacy.dll": [
+   "GetProcessAffinityMask",
+   "SetProcessAffinityMask",
+   "SetDllDirectoryW"
+  ],
+  "minappmodelx.dll": [
+   "RegisterAppStateChangeNotification",
+   "UnregisterAppStateChangeNotification",
+   "RegisterAppConstrainedChangeNotification",
+   "UnregisterAppConstrainedChangeNotification"
+  ]
+ }
+}

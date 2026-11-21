@@ -228,9 +228,16 @@ def main():
                "AudioHALWrapper.dll under net_guard deny, data frames relayed (A->B %d, B->A %d); Fortnite's ChatManagerInitialize "
                "arguments (1.0, relationship 9, restrictive, STT automatic, no manipulation) and 24 kbps bitrate; passed: %s"
                % (relayed["A"], relayed["B"], ", ".join(sorted({s["step"] for s in steps if s.get("ok") is True}))))
-        json.dump({"title": "Fortnite", "source": src,
-                   "modules": {"GameChat2.dll": {"loaded": True, "resolved": res["resolved"], "unresolved": []}}},
-                  open(a.out, "w", encoding="utf-8"), indent=1)
+        doc = json.load(open(a.out, encoding="utf-8")) if os.path.isfile(a.out) else {}
+        doc["title"] = doc.get("title", "Fortnite")
+        sources = doc.get("sources", {})
+        if "source" in doc and "GameChat2.dll" not in sources:
+            sources["other_modules"] = doc["source"]
+        sources["GameChat2.dll"] = src
+        doc["sources"] = sources
+        doc["source"] = "; ".join("%s: %s" % kv for kv in sources.items())
+        doc.setdefault("modules", {})["GameChat2.dll"] = {"loaded": True, "resolved": res["resolved"], "unresolved": []}
+        json.dump(doc, open(a.out, "w", encoding="utf-8"), indent=1)
         print("wrote", a.out)
     else:
         print("probe did not pass; chatprobe.json not written")

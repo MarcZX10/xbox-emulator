@@ -2,9 +2,9 @@
  "updated": "2026-11-21",
  "headline": {
   "system_functions": {
-   "done": 639,
+   "done": 640,
    "total": 671,
-   "pct": 95.23
+   "pct": 95.38
   },
   "d3d12x_methods": {
    "done": 113,
@@ -46,9 +46,9 @@
  },
  "extra": {
   "console_exports": {
-   "done": 182,
+   "done": 219,
    "total": 1901,
-   "pct": 9.57
+   "pct": 11.52
   },
   "shader_compile_lobby_frame": {
    "done": 139,
@@ -71,9 +71,9 @@
    "pct": 58.33
   },
   "title_imports_Fortnite": {
-   "done": 24,
+   "done": 25,
    "total": 31,
-   "pct": 77.42
+   "pct": 80.65
   },
   "title_imports_XDefiant": {
    "done": 14,
@@ -91,38 +91,37 @@
    "pct": 66.67
   },
   "console_exports_targeted": {
-   "done": 182,
-   "total": 1009,
-   "pct": 18.04
+   "done": 219,
+   "total": 1041,
+   "pct": 21.04
   },
   "console_exports_not_targeted": {
    "done": null,
-   "total": 892,
+   "total": 860,
    "pct": null,
-   "libraries": 70
+   "libraries": 69
   }
  },
  "all_including_pc": {
   "note": "previous definition, kept for history: every export of every console OS DLL and every title import, PC-provided ones included",
   "console_exports": {
-   "done": 21051,
+   "done": 21088,
    "total": 23489,
-   "pct": 89.62
+   "pct": 89.78
   },
   "xbox_only_exports": {
-   "done": 181,
+   "done": 215,
    "total": 1824,
-   "pct": 9.92
+   "pct": 11.79
   },
   "title_import_status": {
    "Fortnite": {
-    "pc": 926,
-    "hooked": 27,
+    "pc": 1136,
+    "hooked": 36,
     "forwarded": 19,
-    "implemented": 20,
-    "stub": 7,
-    "title": 342,
-    "unverified": 233
+    "implemented": 21,
+    "stub": 6,
+    "title": 356
    },
    "XDefiant": {
     "implemented": 13,
@@ -151,9 +150,9 @@
    }
   },
   "title_imports_Fortnite": {
-   "done": 1334,
+   "done": 1568,
    "total": 1574,
-   "pct": 84.75
+   "pct": 99.62
   },
   "title_imports_XDefiant": {
    "done": 1597,
@@ -173,8 +172,8 @@
  },
  "title_import_status": {
   "Fortnite": {
-   "implemented": 20,
-   "stub": 7,
+   "implemented": 21,
+   "stub": 6,
    "forwarded": 4
   },
   "XDefiant": {

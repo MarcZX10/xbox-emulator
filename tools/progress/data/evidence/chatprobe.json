@@ -1,0 +1,46 @@
+{
+ "title": "Fortnite",
+ "source": "tombox-probe load (crates/tombox-probe, tools/verify/run_chatprobe.ps1): title module staged outside the dump, LoadLibraryExW in a child process, every delay import resolved via ResolveDelayLoadedAPI / GetProcAddress; CONCRT140 resolved against a staged host VC++ 14.x redist concrt140.dll because Fortnite ships none; this is a load probe, not a game run",
+ "modules": {
+  "GameChat2.dll": {
+   "loaded": true,
+   "resolved": [
+    "ChatManagerAddLocalUser",
+    "ChatManagerAddRemoteUser",
+    "ChatManagerCleanup",
+    "ChatManagerFinishProcessingDataFrames",
+    "ChatManagerInitialize",
+    "ChatManagerProcessIncomingPacket",
+    "ChatManagerRemoveUser",
+    "ChatManagerSetAudioEncodingBitrate",
+    "ChatManagerStartProcessingDataFrames",
+    "ChatUserGetIsLocal",
+    "ChatUserGetRemoteUserMuted",
+    "ChatUserSetMicrophoneMuted",
+    "ChatUserSetRemoteUserMuted",
+    "GameChatFailFastWithInform"
+   ],
+   "unresolved": [],
+   "evidence": "tools/verify/evidence/fortnite_gamechat2_load.json"
+  },
+  "CONCRT140.dll": {
+   "loaded": true,
+   "resolved": [
+    "??0_Condition_variable@details@Concurrency@@QEAA@XZ",
+    "??0critical_section@Concurrency@@QEAA@XZ",
+    "??1_Condition_variable@details@Concurrency@@QEAA@XZ",
+    "??1critical_section@Concurrency@@QEAA@XZ",
+    "?lock@critical_section@Concurrency@@QEAAXXZ",
+    "?notify_all@_Condition_variable@details@Concurrency@@QEAAXXZ",
+    "?notify_one@_Condition_variable@details@Concurrency@@QEAAXXZ",
+    "?try_lock@critical_section@Concurrency@@QEAA_NXZ",
+    "?try_lock_for@critical_section@Concurrency@@QEAA_NI@Z",
+    "?unlock@critical_section@Concurrency@@QEAAXXZ",
+    "?wait@_Condition_variable@details@Concurrency@@QEAAXAEAVcritical_section@3@@Z",
+    "?wait_for@_Condition_variable@details@Concurrency@@QEAA_NAEAVcritical_section@3@I@Z"
+   ],
+   "unresolved": [],
+   "evidence": "tools/verify/evidence/fortnite_msvcp140_load.json"
+  }
+ }
+}
