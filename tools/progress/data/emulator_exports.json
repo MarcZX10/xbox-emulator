@@ -1,4 +1,17 @@
 {
+ "chad.dll": {
+  "file": "crates/compat/chad/src/lib.rs",
+  "functions": {
+   "XDspConnect": "implemented",
+   "XDspDisconnect": "implemented",
+   "XDspActivate": "implemented",
+   "XDspSubmitCommand": "implemented",
+   "XDspDeactivate": "implemented"
+  },
+  "notes": {
+   "XDspActivate": "type 1 convolution (XDefiant) on host; types 2 and 3 return E_NOTIMPL, no title uses them"
+  }
+ },
  "d3d12_x.dll": {
   "file": "crates/compat/d3d12_x/src/lib.rs",
   "functions": {
@@ -82,6 +95,25 @@
   "notes": {
    "DxcCreateInstance": "official DXC 1.9.2609 (Microsoft-signed dxcompiler.dll + dxil.dll): next to dxcompiler_x, TOMBOX_DXC_DIR, or emulator third_party/dxc; compiles SM 6.0 HLSL to signed DXIL",
    "DxcCreateInstance2": "as DxcCreateInstance"
+  }
+ },
+ "xapu.dll": {
+  "file": "crates/compat/xapu/src/lib.rs",
+  "functions": {
+   "XApuConnect": "implemented",
+   "XApuDisconnect": "implemented",
+   "XApuEnqueueCommand": "implemented",
+   "XApuDequeueResult": "implemented",
+   "XApuGetResultCount": "implemented",
+   "XApuGetUtilization": "implemented"
+  },
+  "notes": {
+   "XApuConnect": "processType 2 (Opus) on host; types 1 and 3 return E_NOTIMPL, no title uses them",
+   "XApuDisconnect": "waits for in-flight host decodes, then frees",
+   "XApuEnqueueCommand": "async like the console submit ring: commands go to a host worker pool, per-stream order kept",
+   "XApuDequeueResult": "results commit in submission order, result event signalled on commit",
+   "XApuGetResultCount": "counts committed results",
+   "XApuGetUtilization": "500-stream pool shared across connections"
   }
  },
  "xfrontpaneldisplay.dll": {

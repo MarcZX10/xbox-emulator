@@ -31,16 +31,16 @@ Upstream's metric set (same definitions as upstream `tools/progress/gen.py`, For
 | shader_stages | 6 | 8 | 75.0 |
 | milestones | 14 | 19 | 73.68 |
 | titles_examined | 5 | - | - |
-| console_exports | 482 | 2141 | 22.51 |
+| console_exports | 493 | 2141 | 23.03 |
 | shader_compile_lobby_frame | 139 | 139 | 100.0 |
 | shader_compile_fixtures | 25 | 25 | 100.0 |
 | shader_compile_full_sweep | not published | 105506 | - |
 | milestones_verified_this_machine | 7 | 12 | 58.33 |
 | title_imports_Fortnite | 28 | 31 | 90.32 |
-| title_imports_XDefiant | 18 | 29 | 62.07 |
+| title_imports_XDefiant | 28 | 29 | 96.55 |
 | title_imports_Terraria | 24 | 25 | 96.0 |
 | title_imports_Trackmania | 17 | 18 | 94.44 |
-| console_exports_targeted | 482 | 1281 | 37.63 |
+| console_exports_targeted | 493 | 1281 | 38.49 |
 | console_exports_not_targeted | not published | 860 | - |
 
 Shader compile: all 139 shaders of the lobby frame compile with DXC (TomBox `docs/DEVELOPMENT_LOG.md:894`); 25/25 fixtures compile (`:672`). The full-library compile sweep (`:706`) has no published final count, so no compile badge is shown.
@@ -191,27 +191,27 @@ Listed: imports from Xbox console libraries only. Not listed: 1241 imports a PC 
 
 </details>
 
-<details><summary><b>chad.dll</b>: 5 functions; missing 5</summary>
+<details><summary><b>chad.dll</b>: 5 functions; implemented 5</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `XDspActivate` | missing | no emulator export, no PC export named XDspActivate in chad.dll |
-| `XDspSubmitCommand` | missing | no emulator export, no PC export named XDspSubmitCommand in chad.dll |
-| `XDspConnect` | missing | no emulator export, no PC export named XDspConnect in chad.dll |
-| `XDspDeactivate` | missing | no emulator export, no PC export named XDspDeactivate in chad.dll |
-| `XDspDisconnect` | missing | no emulator export, no PC export named XDspDisconnect in chad.dll |
+| `XDspActivate` | implemented | [crates/compat/chad/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/chad/src/lib.rs) (type 1 convolution (XDefiant) on host; types 2 and 3 return E_NOTIMPL, no title uses them) |
+| `XDspSubmitCommand` | implemented | [crates/compat/chad/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/chad/src/lib.rs) |
+| `XDspConnect` | implemented | [crates/compat/chad/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/chad/src/lib.rs) |
+| `XDspDeactivate` | implemented | [crates/compat/chad/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/chad/src/lib.rs) |
+| `XDspDisconnect` | implemented | [crates/compat/chad/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/chad/src/lib.rs) |
 
 </details>
 
-<details><summary><b>xapu.dll</b>: 5 functions; missing 5</summary>
+<details><summary><b>xapu.dll</b>: 5 functions; implemented 5</summary>
 
 | Function | Status | Implemented in / evidence |
 |---|---|---|
-| `XApuGetResultCount` | missing | no emulator export, no PC export named XApuGetResultCount in xapu.dll |
-| `XApuConnect` | missing | no emulator export, no PC export named XApuConnect in xapu.dll |
-| `XApuDequeueResult` | missing | no emulator export, no PC export named XApuDequeueResult in xapu.dll |
-| `XApuDisconnect` | missing | no emulator export, no PC export named XApuDisconnect in xapu.dll |
-| `XApuEnqueueCommand` | missing | no emulator export, no PC export named XApuEnqueueCommand in xapu.dll |
+| `XApuGetResultCount` | implemented | [crates/compat/xapu/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xapu/src/lib.rs) (counts committed results) |
+| `XApuConnect` | implemented | [crates/compat/xapu/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xapu/src/lib.rs) (processType 2 (Opus) on host; types 1 and 3 return E_NOTIMPL, no title uses them) |
+| `XApuDequeueResult` | implemented | [crates/compat/xapu/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xapu/src/lib.rs) (results commit in submission order, result event signalled on commit) |
+| `XApuDisconnect` | implemented | [crates/compat/xapu/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xapu/src/lib.rs) (waits for in-flight host decodes, then frees) |
+| `XApuEnqueueCommand` | implemented | [crates/compat/xapu/src/lib.rs](https://github.com/drycheetah84/TomBox/blob/master/crates/compat/xapu/src/lib.rs) (async like the console submit ring: commands go to a host worker pool, per-stream order kept) |
 
 </details>
 
@@ -255,22 +255,12 @@ Listed: imports from Xbox console libraries only. Not listed: 1241 imports a PC 
 
 </details>
 
-XDefiant console-library import totals (11 binaries): implemented 17, forwarded 1, missing 11.
+XDefiant console-library import totals (11 binaries): implemented 27, forwarded 1, missing 1.
 
-<details><summary><b>XDefiant: imports not covered</b> (11; status not implemented / forwarded / hooked / pc / title)</summary>
+<details><summary><b>XDefiant: imports not covered</b> (1; status not implemented / forwarded / hooked / pc / title)</summary>
 
 | Binary | Module | Function | Status | Also imported by |
 |---|---|---|---|---|
-| Rogue_scarlett_rtx.exe | chad.dll | `XDspActivate` | missing | only XDefiant |
-| Rogue_scarlett_rtx.exe | chad.dll | `XDspConnect` | missing | only XDefiant |
-| Rogue_scarlett_rtx.exe | chad.dll | `XDspDeactivate` | missing | only XDefiant |
-| Rogue_scarlett_rtx.exe | chad.dll | `XDspDisconnect` | missing | only XDefiant |
-| Rogue_scarlett_rtx.exe | chad.dll | `XDspSubmitCommand` | missing | only XDefiant |
-| Rogue_scarlett_rtx.exe | xapu.dll | `XApuConnect` | missing | only XDefiant |
-| Rogue_scarlett_rtx.exe | xapu.dll | `XApuDequeueResult` | missing | only XDefiant |
-| Rogue_scarlett_rtx.exe | xapu.dll | `XApuDisconnect` | missing | only XDefiant |
-| Rogue_scarlett_rtx.exe | xapu.dll | `XApuEnqueueCommand` | missing | only XDefiant |
-| Rogue_scarlett_rtx.exe | xapu.dll | `XApuGetResultCount` | missing | only XDefiant |
 | Rogue_scarlett_rtx.exe | xg_xs.dll | `XGCreateTextureComputerFromDescriptor` | missing | only XDefiant |
 
 </details>
@@ -438,7 +428,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | advapi32legacy.dll | System32 | no | 207 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 206 | 1 | 1 | 1 | 1 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | AudioHALWrapper.dll | System32 | no | 32 | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | bootshsvc.dll | System32 | no | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| chad.dll | System32 | no | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 7 | 0 | 5 | 0 | 0 | XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| chad.dll | System32 | no | 7 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 5 | 0 | 0 | XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | ConIoSrv.dll | System32 | no | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | ConnectedStorageService.ProxyStub.dll | System32 | no | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | d3d12_x.dll | System32 | no | 54 | 34 | 8 | 0 | 0 | 0 | 12 | 0 | 0 | 0 | 0 | 4 | 5 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -511,7 +501,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 | wdbase.dll | System32 | no | 29 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 29 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | WerXboxGc.dll | System32 | no | 19 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 19 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | wldp.dll | System32 | yes | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 13 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
-| xapu.dll | System32 | no | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 0 | 5 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
+| xapu.dll | System32 | no | 6 | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xbsc_xs.dll | System32 | no | 41 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 41 | 0 | 0 | 0 | 0 | Fortnite 2020.11015.12200.10000; XDefiant 2206.2209.12105.11142; Terraria 2206.2209.12105.11142; Trackmania 2210.2210.12006.15549 |
 | xbthunk.dll | System32 | no | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 11 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
 | xbtp.dll | System32 | no | 133 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 133 | 0 | 0 | 0 | 0 | Fortnite 10.0.19041.3948; XDefiant 10.0.22000.4429; Terraria 10.0.22000.4429; Trackmania 10.0.22621.1852 |
@@ -545,7 +535,7 @@ Console-related exports of the DLLs in each title's EmbeddedXvd `Windows\System3
 
 ### Not targeted (no analysed title references them)
 
-The console-library total above (2141 exports in 109 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 40 libraries (1281 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 69 below (860 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (2064 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 40 targeted libraries alone: 482/1281.
+The console-library total above (2141 exports in 109 libraries) keeps every console-only export in the denominator, including devkit, tools and OS service DLLs that no analysed title imports. 40 libraries (1281 exports) are imported by at least one title, directly or through API-set host attribution, or are emulator-provided; the 69 below (860 exports) are not targeted: no title EXE or shipped DLL imports any of their exports and the emulator does not provide them. They stay `missing` in the headline instead of being dropped from it, so the percentage is not inflated; a library moves out of this list as soon as a title imports it or an emulator crate exports it. The earlier Xbox-only figure (2064 exports) counted only DLLs with no same-named PC DLL and is kept in `summary.json` under `all_including_pc`. Coverage inside the 40 targeted libraries alone: 493/1281.
 
 | Library | Folder | Same-named PC DLL | Console-only exports | Present in |
 |---|---|---|---|---|
@@ -1349,16 +1339,16 @@ No PC DLL is named advapi32legacy.dll; its PC twin is advapi32.dll. Exports an a
 
 </details>
 
-<details><summary><b>chad.dll</b>: 7 console-only exports, 0 covered</summary>
+<details><summary><b>chad.dll</b>: 7 console-only exports, 5 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
-| `XDspActivate` | missing | XDefiant | XDefiant, Terraria, Trackmania |
-| `XDspConnect` | missing | XDefiant | XDefiant, Terraria, Trackmania |
+| `XDspActivate` | implemented | XDefiant | XDefiant, Terraria, Trackmania |
+| `XDspConnect` | implemented | XDefiant | XDefiant, Terraria, Trackmania |
+| `XDspDeactivate` | implemented | XDefiant | XDefiant, Terraria, Trackmania |
+| `XDspDisconnect` | implemented | XDefiant | XDefiant, Terraria, Trackmania |
+| `XDspSubmitCommand` | implemented | XDefiant | XDefiant, Terraria, Trackmania |
 | `XDspConnectWithMaximumStreamLimit` | missing |  | Trackmania |
-| `XDspDeactivate` | missing | XDefiant | XDefiant, Terraria, Trackmania |
-| `XDspDisconnect` | missing | XDefiant | XDefiant, Terraria, Trackmania |
-| `XDspSubmitCommand` | missing | XDefiant | XDefiant, Terraria, Trackmania |
 | `XDspSubmitCommandWithEnvelope` | missing |  | Trackmania |
 
 </details>
@@ -3058,16 +3048,16 @@ No PC DLL is named minuserx.dll; its PC twin is user32.dll. Exports an analysed 
 
 </details>
 
-<details><summary><b>xapu.dll</b>: 6 console-only exports, 0 covered</summary>
+<details><summary><b>xapu.dll</b>: 6 console-only exports, 6 covered</summary>
 
 | Function | Status | Imported by | Present in |
 |---|---|---|---|
-| `XApuConnect` | missing | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `XApuDequeueResult` | missing | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `XApuDisconnect` | missing | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `XApuEnqueueCommand` | missing | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `XApuGetResultCount` | missing | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
-| `XApuGetUtilization` | missing |  | Fortnite, XDefiant, Terraria, Trackmania |
+| `XApuConnect` | implemented | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+| `XApuDequeueResult` | implemented | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+| `XApuDisconnect` | implemented | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+| `XApuEnqueueCommand` | implemented | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+| `XApuGetResultCount` | implemented | XDefiant | Fortnite, XDefiant, Terraria, Trackmania |
+| `XApuGetUtilization` | implemented |  | Fortnite, XDefiant, Terraria, Trackmania |
 
 </details>
 
